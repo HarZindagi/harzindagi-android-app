@@ -1,6 +1,5 @@
 package com.ipal.itu.harzindagi.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,38 +8,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.ipal.itu.harzindagi.R;
 
 public class HomeActivity extends AppCompatActivity {
 
-    Button evaccsButton;
-    Button harZindagiButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        evaccsButton = (Button) findViewById(R.id.homeActivityEVACCSButton);
-        evaccsButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "EVACCS Button Clicked!", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-            }
-        });
-
-        harZindagiButton = (Button) findViewById(R.id.homeActivityHarZindagiButton);
-        harZindagiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Har Zindagi Button Clicked!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                startActivity(new Intent(HomeActivity.this , DashboardActivity.class));
             }
         });
     }
