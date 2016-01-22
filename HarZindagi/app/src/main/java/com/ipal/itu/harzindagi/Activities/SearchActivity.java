@@ -8,20 +8,40 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.ipal.itu.harzindagi.R;
 
 public class SearchActivity extends AppCompatActivity {
 
+    EditText cellPhone;
+    EditText cnic;
+    EditText childName;
+    EditText guardianName;
+    Button searchButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        cellPhone = (EditText) findViewById(R.id.searchActivityCellPhone);
+        String CellPhone = cellPhone.getText().toString();
+
+        cnic = (EditText) findViewById(R.id.searchActivityCNIC);
+        String CNIC = cnic.getText().toString();
+
+        childName = (EditText) findViewById(R.id.searchActivityChildName);
+        String ChildName = childName.getText().toString();
+
+        guardianName = (EditText) findViewById(R.id.searchActivityGuardianName);
+        String GuardianName = guardianName.getText().toString();
+
+        searchButton = (Button) findViewById(R.id.searchActivitySearchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

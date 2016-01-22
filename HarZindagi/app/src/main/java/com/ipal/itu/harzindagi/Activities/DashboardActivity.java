@@ -1,5 +1,6 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,6 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Search Child", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity(new Intent( DashboardActivity.this , SearchActivity.class ));
             }
         });
 

@@ -5,5 +5,7 @@
 
     <string name="unionCouncil">Union Council Sargodha - UC 213</string>
     <string name="loginValidation">Please enter correct User Credentials</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="selectModule">Select your desired Module</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="title_activity_search">Lost Card</string>
 </resources>
