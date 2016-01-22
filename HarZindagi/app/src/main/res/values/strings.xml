@@ -2,4 +2,8 @@
     <string name="app_name">Har Zindagi</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">SplashActivity</string>
+
+    <string name="unionCouncil">Union Council Sargodha - UC 213</string>
+    <string name="loginValidation">Please enter correct User Credentials</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
 </resources>
