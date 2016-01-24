@@ -76,8 +76,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         boy = (Button) findViewById(R.id.registerChildSexMale);
         boy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Gender = true;
                 boy.setBackgroundResource(R.drawable.roundbutton);
                 boy.setTextColor(getResources().getColor(R.color.white));
@@ -89,13 +88,13 @@ public class RegisterChildActivity extends AppCompatActivity {
         girl = (Button) findViewById(R.id.registerChildSexFemale);
         girl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Gender = false;
                 girl.setBackgroundResource(R.drawable.roundbutton);
                 girl.setTextColor(getResources().getColor(R.color.white));
                 boy.setBackgroundResource(R.drawable.registerbuttonborder);
-                boy.setTextColor(getResources().getColor(R.color.colorPrimary));;
+                boy.setTextColor(getResources().getColor(R.color.colorPrimary));
+                ;
             }
         });
 
@@ -136,7 +135,8 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     private void updateLabel()
     {
-        DateFormat sdf = DateFormat.getDateInstance();
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         DOB.setText(DateOfBirth = sdf.format(myCalendar.getTime()));
     }
 }
