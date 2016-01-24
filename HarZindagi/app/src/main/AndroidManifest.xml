@@ -42,7 +42,11 @@
         <activity
             android:name=".Activities.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
+        </activity>
         <activity
             android:name=".Activities.ChildrenListActivity"
             android:label="@string/title_activity_children_list"

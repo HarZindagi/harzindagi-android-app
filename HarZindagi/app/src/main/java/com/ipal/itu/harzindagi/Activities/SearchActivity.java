@@ -31,6 +31,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         childID = (EditText) findViewById(R.id.searchActivityChildID);
         ChildID = childID.getText().toString();
@@ -53,8 +54,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
-                //if( validate() )
+        
                     startActivity(new Intent(SearchActivity.this , ChildrenListActivity.class)
                                 .putExtra("ChildID" , ChildID)
                                 .putExtra("CellPhone", CellPhone)
@@ -85,15 +85,5 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private boolean validate()
-    {
-        if( ChildID == "" ) return false;
-        if( CellPhone == "") return false;
-        if( CNIC == "") return false;
-        if( ChildName == "") return false;
-        if( GuardianName == "") return false;
-        return true;
     }
 }
