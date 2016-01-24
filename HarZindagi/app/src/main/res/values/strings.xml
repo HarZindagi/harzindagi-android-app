@@ -8,4 +8,6 @@
     <string name="selectModule">Select your desired Module</string>
     <string name="title_activity_dashboard">Dashboard</string>
     <string name="title_activity_search">Lost Card</string>
+    <string name="title_activity_children_list">Results</string>
+    <string name="title_activity_register_child">Register Child</string>
 </resources>

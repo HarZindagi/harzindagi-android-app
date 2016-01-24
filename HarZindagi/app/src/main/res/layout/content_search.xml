@@ -34,13 +34,29 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:ems="10"
+        android:id="@+id/searchActivityChildID"
+        android:layout_gravity="center_horizontal"
+        android:hint="Child ID"
+        android:background="@android:color/transparent"
+        android:layout_weight=".15"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:inputType="phone"
         android:ems="10"
         android:id="@+id/searchActivityCellPhone"
         android:layout_gravity="center_horizontal"
         android:hint="Cell Phone #"
         android:background="@android:color/transparent"
-        android:layout_weight=".16"
+        android:layout_weight=".15"
         android:paddingLeft="16dp" />
 
     <View
@@ -57,7 +73,7 @@
         android:layout_gravity="center_horizontal"
         android:hint="CNIC#"
         android:background="@android:color/transparent"
-        android:layout_weight=".16"
+        android:layout_weight=".15"
         android:paddingLeft="16dp" />
 
     <View
@@ -73,7 +89,7 @@
         android:hint="Child Name"
         android:inputType="textPersonName"
         android:background="@android:color/transparent"
-        android:layout_weight=".16"
+        android:layout_weight=".15"
         android:paddingLeft="16dp" />
 
     <View
@@ -90,7 +106,7 @@
         android:layout_gravity="center_horizontal"
         android:hint="Guardian Name"
         android:background="@android:color/transparent"
-        android:layout_weight=".16"
+        android:layout_weight=".15"
         android:paddingLeft="16dp" />
 
     <Button

@@ -1,14 +1,20 @@
 package com.ipal.itu.harzindagi.Application;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Configuration;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 
 /**
  * Created by Ali on 1/14/2016.
  */
-public class HarZindagiApp extends  com.activeandroid.app.Application{
+public class HarZindagiApp extends  android.app.Application
+{
     @Override
     public void onCreate() {
         super.onCreate();
+        Configuration.Builder configurationBuilder = new Configuration.Builder(this);
+        configurationBuilder.addModelClass(ChildInfo.class);
+        ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
     }
 }

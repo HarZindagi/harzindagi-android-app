@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.ipal.itu.harzindagi.R;
 
-public class ChildListActivity extends AppCompatActivity {
+public class AllChildrenInUCActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -31,6 +31,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Register Child", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity(new Intent(DashboardActivity.this, RegisterChildActivity.class));
             }
         });
 

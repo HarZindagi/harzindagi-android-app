@@ -9,8 +9,8 @@ import com.activeandroid.annotation.Table;
  */
 @Table(name = "Transaction")
 public class Transaction extends Model{
-    @Column(name = "CID")
-    public int CID;
+    @Column(name = "ChildID")
+    public int childID;
     @Column(name = "VID")
     public int VID;
     @Column(name = "VisitNumb")

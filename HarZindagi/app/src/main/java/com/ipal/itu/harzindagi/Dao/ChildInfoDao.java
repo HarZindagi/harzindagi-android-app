@@ -12,12 +12,8 @@ import java.util.List;
  */
 public class ChildInfoDao {
 
-    public  void save(String name,String fatherName,String CNIC,String phoneNum){
-        ChildInfo item = new ChildInfo();
-        item.name = name;
-        item.fatherName = fatherName;
-        item.cnic = CNIC;
-        item.phoneNum = phoneNum;
+    public  void save(String childID , String name,String fatherName,String dob ,String CNIC,String phoneNum , String address){
+        ChildInfo item = new ChildInfo(childID , name ,fatherName, dob ,CNIC ,phoneNum ,address);
         item.save();
 
     }
@@ -32,7 +28,7 @@ public class ChildInfoDao {
             for (int i = 0; i < items.size(); i++) {
 
                 Transaction item =new Transaction();
-                item.CID = items.get(i).CID;
+                item.childID = items.get(i).childID;
                 item.date = items.get(i).date;
                 item.nextDate = items.get(i).nextDate;
                 item.VacID = items.get(i).VacID;
@@ -49,10 +45,10 @@ public class ChildInfoDao {
         ChildInfo item = new ChildInfo();
         item.delete(ChildInfo.class, CID);
     }
-    public static List<ChildInfo> getAll(ChildInfo childInfo) {
+    public static List<ChildInfo> getAll() {
         return new Select()
                 .from(ChildInfo.class)
-                .where("ChildInfo = ?", childInfo.getId())
+                //.where("ChildInfo = ?", childInfo.getId())
                 .orderBy("Name ASC")
                 .execute();
     }
