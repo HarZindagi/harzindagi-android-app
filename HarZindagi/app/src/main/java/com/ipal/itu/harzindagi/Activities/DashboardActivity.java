@@ -60,6 +60,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "All Children in UC", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity(new Intent(DashboardActivity.this, VaccinationActivity.class));
             }
         });
     }

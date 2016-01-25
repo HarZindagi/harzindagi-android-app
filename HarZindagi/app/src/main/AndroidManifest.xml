@@ -66,6 +66,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
         </activity>
+        <activity
+            android:name=".Activities.VaccinationActivity"
+            android:label="Vaccination"
+            android:parentActivityName=".Activities.DashboardActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
+        </activity>
     </application>
 
 </manifest>
