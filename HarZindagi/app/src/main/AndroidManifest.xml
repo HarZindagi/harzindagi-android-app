@@ -60,6 +60,7 @@
             android:name=".Activities.RegisterChildActivity"
             android:label="@string/title_activity_register_child"
             android:parentActivityName=".Activities.DashboardActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
