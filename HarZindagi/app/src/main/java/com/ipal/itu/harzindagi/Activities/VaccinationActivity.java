@@ -26,7 +26,6 @@ public class VaccinationActivity extends AppCompatActivity {
     private View fifthTab;
     private View sixthTab;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this);
-        mViewPager.setPagingEnabled(false);
+        mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(viewPagerAdapter);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
