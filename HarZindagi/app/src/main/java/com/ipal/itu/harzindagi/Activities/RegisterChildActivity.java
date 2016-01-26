@@ -1,6 +1,8 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +21,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class RegisterChildActivity extends AppCompatActivity {
+    private static final int CAMERA_REQUEST = 1888;
 
     EditText ucNumber;
     EditText epiCenterName;
@@ -129,6 +132,12 @@ public class RegisterChildActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Picture Taken", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+
+
             }
         });
     }
@@ -138,5 +147,16 @@ public class RegisterChildActivity extends AppCompatActivity {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         DOB.setText(DateOfBirth = sdf.format(myCalendar.getTime()));
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            //imageView.setImageBitmap(photo);
+
+
+
+
+        }
     }
 }

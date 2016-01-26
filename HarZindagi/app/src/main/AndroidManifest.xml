@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ipal.itu.harzindagi">
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.camera"></uses-feature>
 
     <application
         android:allowBackup="true"
@@ -42,7 +44,7 @@
         <activity
             android:name=".Activities.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
@@ -60,8 +62,8 @@
             android:name=".Activities.RegisterChildActivity"
             android:label="@string/title_activity_register_child"
             android:parentActivityName=".Activities.DashboardActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
@@ -70,12 +72,15 @@
             android:name=".Activities.VaccinationActivity"
             android:label="Vaccination"
             android:parentActivityName=".Activities.DashboardActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
         </activity>
+        <activity android:name=".Activities.EvacsEPI" />
+        <activity android:name=".Activities.Act" />
+        <activity android:name=".Activities.Card_Scan"></activity>
     </application>
 
 </manifest>

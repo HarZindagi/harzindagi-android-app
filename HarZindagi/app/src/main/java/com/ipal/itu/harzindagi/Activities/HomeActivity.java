@@ -29,6 +29,9 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "EVACCS Button Clicked!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                Intent intent=new Intent(HomeActivity.this,EvacsEPI.class);
+                startActivity(intent);
             }
         });
 

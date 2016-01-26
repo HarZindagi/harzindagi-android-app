@@ -41,6 +41,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Scan Child", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity(new Intent(DashboardActivity.this,Card_Scan.class));
             }
         });
 
@@ -64,5 +65,4 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
     }
-
 }
