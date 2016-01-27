@@ -10,17 +10,40 @@ import java.util.List;
  * Created by Ali on 1/13/2016.
  */
 @Table(name = "ChildInfo")
-public class ChildInfo  extends Model{
+public class ChildInfo  extends Model
+{
+    @Column(name = "ChildID")
+    public String  childID;
     @Column(name = "Name")
     public String  name;
     @Column(name = "FatherName")
     public String  fatherName;
     @Column(name = "DOB")
     public String  dob;
-    @Column(name = "NIC")
+    @Column(name = "CNIC")
     public String  cnic;
-    @Column(name = "PhoneNum")
-    public String  phoneNum;
+    @Column(name = "PhoneNumber")
+    public String  phoneNumber;
+    @Column(name = "Address")
+    public String  address;
+
+    public ChildInfo()
+    {
+        super();
+    }
+
+    public ChildInfo( String ChildID , String Name , String FatherName , String DOB , String CNIC , String PhoneNumber , String Address )
+    {
+        //super();
+
+        this.childID = ChildID;
+        this.name = Name;
+        this.fatherName = FatherName;
+        this.dob = DOB;
+        this.cnic = CNIC;
+        this.phoneNumber = PhoneNumber;
+        this.address = Address;
+    }
 
     public List<Transaction> transactions() {
         return getMany(Transaction.class, "ChildInfo");

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:isScrollContainer="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="16dp"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ipal.itu.harzindagi.Activities.RegisterChildActivity"
+    tools:showIn="@layout/activity_register_child"
+    android:weightSum="1">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildUCNumber"
+        android:layout_gravity="center_horizontal"
+        android:hint="UC #"
+        android:background="@android:color/transparent"
+        android:layout_weight=".10"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildEPICenterName"
+        android:layout_gravity="center_horizontal"
+        android:hint="EPI Center Name"
+        android:background="@android:color/transparent"
+        android:layout_weight=".10"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildName"
+        android:layout_gravity="center_horizontal"
+        android:hint="Child Name"
+        android:background="@android:color/transparent"
+        android:layout_weight=".10"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight=".1">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/registerbuttonborder"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Larka"
+            android:id="@+id/registerChildSexMale" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/registerbuttonborder"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="Larki"
+            android:focusable="false"
+            android:id="@+id/registerChildSexFemale" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildDOB"
+        android:layout_gravity="center_horizontal"
+        android:hint="DOB"
+        android:layout_weight=".10"
+        android:background="@android:color/transparent"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildGuardianName"
+        android:layout_gravity="center_horizontal"
+        android:hint="Guardian Name"
+        android:background="@android:color/transparent"
+        android:layout_weight=".10"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildMotherName"
+        android:layout_gravity="center_horizontal"
+        android:hint="Mother Name"
+        android:background="@android:color/transparent"
+        android:layout_weight=".10"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildGuardianCNIC"
+        android:layout_gravity="center_horizontal"
+        android:hint="Guardian CNIC #"
+        android:background="@android:color/transparent"
+        android:layout_weight=".10"
+        android:paddingLeft="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerChildGuardianMobileNumber"
+        android:layout_gravity="center_horizontal"
+        android:hint="Guardian Contact #"
+        android:inputType="phone"
+        android:background="@android:color/transparent"
+        android:layout_weight=".10"
+        android:paddingLeft="16dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundbutton"
+        android:layout_weight=".05"
+        android:textColor="@color/white"
+        android:text="Tasweer Khenchiyay"
+        android:id="@+id/registerChildTakePicture" />
+
+
+</LinearLayout>

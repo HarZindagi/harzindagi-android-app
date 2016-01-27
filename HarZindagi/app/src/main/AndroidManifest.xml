@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ipal.itu.harzindagi">
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.camera"></uses-feature>
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -10,6 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity
             android:name=".Activities.LoginActivity"
             android:label="@string/app_name"
@@ -19,18 +22,17 @@
             </intent-filter>
         </activity>
 
+=======
+>>>>>>> 79addccd8377d4a2451f645b119bd3d9f9aeb6da
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="HZDb.db" />
+            android:value="HarZindagiDatabase.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="1" />
+            android:value="3" />
         <meta-data
             android:name="AA_MODELS"
             android:value="com.ipal.itu.harzindagi.Entity.ChildInfo" />
-        <meta-data
-            android:name="AB_MODELS"
-            android:value="com.ipal.itu.harzindagi.Entity.Transaction" />
 
         <activity
             android:name=".Activities.SplashActivity"
@@ -42,6 +44,57 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.DashboardActivity"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.ChildrenListActivity"
+            android:label="@string/title_activity_children_list"
+            android:parentActivityName=".Activities.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ipal.itu.harzindagi.Activities.SearchActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.RegisterChildActivity"
+            android:label="@string/title_activity_register_child"
+            android:parentActivityName=".Activities.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.VaccinationActivity"
+            android:label="Vaccination"
+            android:parentActivityName=".Activities.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
+        </activity>
+        <activity android:name=".Activities.EvacsEPI" />
+        <activity android:name=".Activities.Act" />
+        <activity android:name=".Activities.Card_Scan"></activity>
     </application>
 
 </manifest>

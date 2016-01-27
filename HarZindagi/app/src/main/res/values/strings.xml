@@ -3,8 +3,21 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">SplashActivity</string>
 
+<<<<<<< HEAD
 
 
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
+=======
+    <string name="unionCouncil">Union Council Sargodha - UC 213</string>
+    <string name="loginValidation">Please enter correct User Credentials</string>
+    <string name="selectModule">Select your desired Module</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="title_activity_search">Lost Card</string>
+    <string name="title_activity_children_list">Results</string>
+    <string name="title_activity_register_child">Register Child</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+>>>>>>> 79addccd8377d4a2451f645b119bd3d9f9aeb6da
 </resources>
