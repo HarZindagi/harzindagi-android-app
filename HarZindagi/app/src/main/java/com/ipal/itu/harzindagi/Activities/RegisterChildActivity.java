@@ -44,6 +44,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     String GuardianName;
     String GuardianCNIC;
     String GuardianMobileNumber;
+    private static final int CALENDAR_CODE = 100;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -55,11 +56,9 @@ public class RegisterChildActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener()
-        {
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth)
-            {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -102,15 +101,15 @@ public class RegisterChildActivity extends AppCompatActivity {
         });
 
         DOB = (EditText) findViewById(R.id.registerChildDOB);
-        DOB.setOnClickListener(new View.OnClickListener()
-        {
+        DOB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                new DatePickerDialog( RegisterChildActivity.this ,
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterChildActivity.this, CalenderActivity.class);
+                startActivityForResult(intent, CALENDAR_CODE);
+               /* new DatePickerDialog(RegisterChildActivity.this,
                         date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH))
-                        .show();
+                        .show();*/
             }
         });
 
@@ -133,17 +132,15 @@ public class RegisterChildActivity extends AppCompatActivity {
                 Snackbar.make(view, "Picture Taken", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 
             }
         });
     }
 
-    private void updateLabel()
-    {
+    private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         DOB.setText(DateOfBirth = sdf.format(myCalendar.getTime()));
@@ -153,10 +150,12 @@ public class RegisterChildActivity extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             //imageView.setImageBitmap(photo);
-
-
-
-
+        }
+        if (requestCode == CALENDAR_CODE && resultCode == 100) {
+            String year = data.getStringExtra("year");
+            String month = data.getStringExtra("month");
+            String day = data.getStringExtra("day");
+            DOB.setText("" + day + "-" + month + "-" + year);
         }
     }
 }
