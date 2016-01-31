@@ -26,6 +26,7 @@ public class VaccinationActivity extends AppCompatActivity {
     private View fifthTab;
     private View sixthTab;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
