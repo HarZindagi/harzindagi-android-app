@@ -28,8 +28,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:weightSum="6"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp">
+        android:layout_marginTop="5dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -117,10 +116,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/content_vaccination"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <include layout="@layout/content_vaccination" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -130,8 +126,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_gravity="bottom"
-        android:gravity="bottom"
-        android:layout_marginBottom="5dp">
+        android:gravity="bottom">
 
         <Button
             android:text="Tasweer Khenchein"
@@ -149,5 +144,6 @@
             android:layout_marginTop="4dp" />
 
     </LinearLayout>
+
 
 </LinearLayout>

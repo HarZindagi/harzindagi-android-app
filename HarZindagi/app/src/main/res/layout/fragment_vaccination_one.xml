@@ -5,9 +5,144 @@
     tools:context="com.ipal.itu.harzindagi.Fragments.VaccinationOneFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/back_color"
+            android:padding="@dimen/standard_padding"
+            android:paddingLeft="16dp"
+            android:paddingTop="55dp"
+            android:paddingBottom="55dp"
+
+            >
+
+
+
+
+            <TextView
+                android:id="@+id/bcg_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:paddingLeft="10dp"
+                android:text="BCG"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#4d4d4d"
+                android:textSize="17dp" />
+
+
+
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/BCG_chk"
+                android:paddingRight="10dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/back_color"
+            android:padding="@dimen/standard_padding"
+            android:paddingLeft="16dp"
+            android:paddingTop="55dp"
+            android:paddingBottom="55dp"
+            >
+
+
+
+            <TextView
+                android:id="@+id/OPV0_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:paddingLeft="10dp"
+                android:text="OPV-0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#4d4d4d"
+                android:textSize="17dp" />
+
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/OPV0_chk"
+                android:paddingRight="10dp"
+                />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/back_color"
+            android:padding="@dimen/standard_padding"
+            android:paddingLeft="16dp"
+            android:paddingTop="100dp"
+            android:paddingBottom="100dp"
+            >
+
+
+            <TextView
+                android:id="@+id/Hepatitis_B_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:paddingLeft="10dp"
+                android:text="Hepatitis-B"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#4d4d4d"
+                android:textSize="17dp" />
+
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:paddingRight="10dp"
+                android:id="@+id/Hepatitis_B_chk"
+                />
+
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:id="@+id/v1_sp1"
+            android:visibility="invisible"
+            android:background="@android:color/darker_gray"/>
+
+        <Button
+            android:id="@+id/btn_v1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/Button_Theme_color"
+            android:textColor="@color/white"
+            android:text="Tasweer Khenchain"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            />
+
+
+    </LinearLayout>
 
 </FrameLayout>
