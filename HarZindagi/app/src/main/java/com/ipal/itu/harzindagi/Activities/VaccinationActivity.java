@@ -6,9 +6,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ipal.itu.harzindagi.Adapters.CustomViewPager;
 import com.ipal.itu.harzindagi.Adapters.ViewPagerAdapter;
@@ -26,6 +29,13 @@ public class VaccinationActivity extends AppCompatActivity {
     private View fifthTab;
     private View sixthTab;
 
+    private ImageView firstTabTickMark;
+    private ImageView secondTabTickMark;
+    private ImageView thirdTabTickMark;
+    private ImageView fourthTabTickMark;
+    private ImageView fifthTabTickMark;
+    public ImageView sixthTabTickMark;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,13 @@ public class VaccinationActivity extends AppCompatActivity {
         fifthTab =  findViewById(R.id.vaccinationActivityFifthTab);
         sixthTab = findViewById(R.id.vaccinationActivitySixthTab);
 
+        firstTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFirstTabTick);
+        secondTabTickMark = (ImageView) findViewById(R.id.vaccinationActivitySecondTabTick);
+        thirdTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityThirdTabTick);
+        fourthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFourthTabTick);
+        fifthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFifthTabTick);
+        sixthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivitySixthTabTick);
+
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this);
         mViewPager.setPagingEnabled(true);
@@ -55,18 +72,23 @@ public class VaccinationActivity extends AppCompatActivity {
                         break;
                     case 2:
                         secondTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        firstTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         thirdTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        secondTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 4:
                         fourthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        thirdTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 5:
                         fifthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        fourthTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 6:
                         sixthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        fifthTabTickMark.setVisibility(View.VISIBLE);
                         break;
                 }
             }
