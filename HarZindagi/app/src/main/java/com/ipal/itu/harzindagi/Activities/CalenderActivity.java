@@ -141,6 +141,7 @@ public class CalenderActivity extends Activity {
                 checkAndFinishActivity();
                 break;
             case R.id.apr:
+                showDays();
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.apr);
@@ -155,6 +156,7 @@ public class CalenderActivity extends Activity {
                 checkAndFinishActivity();
                 break;
             case R.id.jun:
+                showDays();
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.jun);
@@ -176,6 +178,7 @@ public class CalenderActivity extends Activity {
                 checkAndFinishActivity();
                 break;
             case R.id.sep:
+                showDays();
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.sep);
@@ -190,6 +193,7 @@ public class CalenderActivity extends Activity {
                 checkAndFinishActivity();
                 break;
             case R.id.nov:
+                showDays();
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.nov);
