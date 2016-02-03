@@ -10,35 +10,43 @@ import java.util.List;
  * Created by Ali on 1/13/2016.
  */
 @Table(name = "ChildInfo")
-public class ChildInfo  extends Model
-{
+public class ChildInfo extends Model {
+    @Column(name = "UCNumber")
+    public String UCNumber;
+    @Column(name = "EPICenterName")
+    public String EPICenterName;
     @Column(name = "ChildID")
-    public String  childID;
+    public String ChildID;
     @Column(name = "Name")
-    public String  name;
+    public String name;
+    @Column(name = "Gender")
+    public String gender;
     @Column(name = "FatherName")
-    public String  fatherName;
+    public String fatherName;
+    @Column(name = "MotherName")
+    public String motherName;
     @Column(name = "DOB")
-    public String  dob;
+    public String dob;
     @Column(name = "CNIC")
-    public String  cnic;
+    public String cnic;
     @Column(name = "PhoneNumber")
-    public String  phoneNumber;
+    public String phoneNumber;
     @Column(name = "Address")
-    public String  address;
+    public String address;
 
-    public ChildInfo()
-    {
+    public ChildInfo() {
         super();
     }
 
-    public ChildInfo( String ChildID , String Name , String FatherName , String DOB , String CNIC , String PhoneNumber , String Address )
-    {
-        //super();
+    public void setChildInfo(String UCNumber, String EPICenterName, String ChildID, String Name, String gender, String FatherName, String motherName, String DOB, String CNIC, String PhoneNumber, String Address) {
 
-        this.childID = ChildID;
+        this.UCNumber = UCNumber;
+        this.EPICenterName = EPICenterName;
+        this.ChildID = ChildID;
         this.name = Name;
+        this.gender = gender;
         this.fatherName = FatherName;
+        this.motherName = motherName;
         this.dob = DOB;
         this.cnic = CNIC;
         this.phoneNumber = PhoneNumber;
@@ -46,6 +54,6 @@ public class ChildInfo  extends Model
     }
 
     public List<Transaction> transactions() {
-        return getMany(Transaction.class, "ChildInfo");
+        return getMany(Transaction.class, "ChildID");
     }
 }

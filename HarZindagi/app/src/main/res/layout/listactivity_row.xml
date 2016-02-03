@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:weightSum="1">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:layout_weight=".35">
+        android:layout_weight=".35"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:text="Child Name: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Child Name: "
                 android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/listActivityRowChildName"
-                android:text="Amjad Islam Amjad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Amjad Islam Amjad"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:text="Guardian Name: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Guardian Name: "
                 android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/listActivityRowGuardianName"
-                android:text="Ikram Islam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Ikram Islam"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:text="Address: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Address: "
                 android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/listActivityRowAddress"
-                android:text="House No. 1486/2-C, Nagi Road Lahore Cantt, Lahore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="House No. 1486/2-C, Nagi Road Lahore Cantt, Lahore"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -78,13 +78,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingRight="16dp"
-        android:layout_weight=".65">
+        android:layout_weight=".65"
+        android:paddingRight="16dp">
 
         <ImageView
+            android:id="@+id/listActivityRowImage"
             android:layout_width="120dp"
             android:layout_height="80dp"
-            android:id="@+id/listActivityRowImage"
             android:src="@drawable/ic_launcher" />
     </LinearLayout>
 

@@ -1,10 +1,12 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,9 +15,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.R;
 
-import java.text.DateFormat;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -37,14 +43,18 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     String UCNumber;
     String EPICenterName;
-    String ChildName;
+    String ChildName, childID;
     String DateOfBirth;
-    Boolean Gender;     //true for male, false for female
+    Boolean isFolderExists;
     String MotherName;
     String GuardianName;
     String GuardianCNIC;
     String GuardianMobileNumber;
+    String Gender;
     private static final int CALENDAR_CODE = 100;
+    String app_name;
+    FileOutputStream fo;
+    Uri imageUri;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -55,6 +65,14 @@ public class RegisterChildActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        app_name = getResources().getString(R.string.app_name);
+        File appFolder = new File("/sdcard/" + app_name);
+        isFolderExists = appFolder.exists();
+        if (!isFolderExists) {
+
+            appFolder.mkdir();
+        }
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -67,19 +85,18 @@ public class RegisterChildActivity extends AppCompatActivity {
         };
 
         ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
-        UCNumber = ucNumber.getText().toString();
+
 
         epiCenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
-        EPICenterName = epiCenterName.getText().toString();
 
         childName = (EditText) findViewById(R.id.registerChildName);
-        ChildName = childName.getText().toString();
+
 
         boy = (Button) findViewById(R.id.registerChildSexMale);
         boy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gender = true;
+                Gender = "larka";
                 boy.setBackgroundResource(R.drawable.roundbutton);
                 boy.setTextColor(getResources().getColor(R.color.white));
                 girl.setBackgroundResource(R.drawable.registerbuttonborder);
@@ -91,7 +108,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         girl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gender = false;
+                Gender = "larki";
                 girl.setBackgroundResource(R.drawable.roundbutton);
                 girl.setTextColor(getResources().getColor(R.color.white));
                 boy.setBackgroundResource(R.drawable.registerbuttonborder);
@@ -114,16 +131,16 @@ public class RegisterChildActivity extends AppCompatActivity {
         });
 
         motherName = (EditText) findViewById(R.id.registerChildMotherName);
-        MotherName = motherName.getText().toString();
+
 
         guardianName = (EditText) findViewById(R.id.registerChildGuardianName);
-        GuardianName = guardianName.getText().toString();
+
 
         guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
-        GuardianCNIC = guardianCNIC.getText().toString();
+
 
         guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
-        GuardianMobileNumber = guardianMobileNumber.getText().toString();
+
 
         childPicture = (Button) findViewById(R.id.registerChildTakePicture);
         childPicture.setOnClickListener(new View.OnClickListener() {
@@ -131,8 +148,12 @@ public class RegisterChildActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Picture Taken", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                imageUri = getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 
@@ -148,7 +169,22 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Bitmap photo, resizedImage;
+            readEditTexts();
+            childID = ChildName + UCNumber;
+            try {
+                photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                resizedImage = getResizedBitmap(photo,256);
+                saveBitmap(resizedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ChildInfoDao childInfoDao = new ChildInfoDao();
+            DateOfBirth = DOB.getText().toString();
+            childInfoDao.save(UCNumber, EPICenterName, childID, ChildName, Gender, GuardianName, MotherName, DateOfBirth, GuardianCNIC, GuardianMobileNumber, "home");
+            Intent intent = new Intent(RegisterChildActivity.this, RegisteredChildActivity.class);
+            intent.putExtra("ID",childID);
+            startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
@@ -156,6 +192,52 @@ public class RegisterChildActivity extends AppCompatActivity {
             String month = data.getStringExtra("month");
             String day = data.getStringExtra("day");
             DOB.setText("" + day + "-" + month + "-" + year);
+        }
+    }
+
+    public void readEditTexts() {
+        UCNumber = ucNumber.getText().toString();
+        EPICenterName = epiCenterName.getText().toString();
+        ChildName = childName.getText().toString();
+        MotherName = motherName.getText().toString();
+        GuardianName = guardianName.getText().toString();
+        GuardianCNIC = guardianCNIC.getText().toString();
+        GuardianMobileNumber = guardianMobileNumber.getText().toString();
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    public void saveBitmap(Bitmap bitmap) {
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+//Create a new file in sdcard folder.
+        File f = new File("/sdcard/" + app_name + "/" + childID + ".jpg");
+        try {
+            try {
+                f.createNewFile();
+                fo = new FileOutputStream(f);
+                fo.write(bytes.toByteArray()); //write the bytes in file
+            } finally {
+                fo.close(); // remember close the FileOutput
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -3,22 +3,25 @@
     package="com.ipal.itu.harzindagi">
 
     <uses-permission android:name="android.permission.NFC" />
-    <uses-feature android:name="android.hardware.camera"></uses-feature>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
+        android:name=".Application.HarZindagiApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="AA_DB_NAME"
+            android:name="HarZindagiDatabase"
             android:value="HarZindagiDatabase.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="3" />
+            android:value="1" />
         <meta-data
-            android:name="AA_MODELS"
+            android:name="ChildInfoDao"
             android:value="com.ipal.itu.harzindagi.Entity.ChildInfo" />
 
         <activity
@@ -86,6 +89,10 @@
         <activity
             android:name=".Activities.CalenderActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".Activities.RegisteredChildActivity"
+            android:label="Registered Child"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
