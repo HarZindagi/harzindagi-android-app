@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -156,7 +157,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
-                startActivity(cameraIntent);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
     }
@@ -168,25 +169,29 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       /* if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
             Bitmap photo, resizedImage;
             readEditTexts();
             childID = ChildName + UCNumber;
-            try {
+            String path = data.getStringExtra("path");
+            photo = BitmapFactory.decodeFile(path);
+            resizedImage = getResizedBitmap(photo, 256);
+            saveBitmap(resizedImage);
+           /* try {
                 photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                resizedImage = getResizedBitmap(photo,256);
+                resizedImage = getResizedBitmap(photo, 256);
                 saveBitmap(resizedImage);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             ChildInfoDao childInfoDao = new ChildInfoDao();
             DateOfBirth = DOB.getText().toString();
             childInfoDao.save(UCNumber, EPICenterName, childID, ChildName, Gender, GuardianName, MotherName, DateOfBirth, GuardianCNIC, GuardianMobileNumber, "home");
             Intent intent = new Intent(RegisterChildActivity.this, RegisteredChildActivity.class);
-            intent.putExtra("ID",childID);
+            intent.putExtra("ID", childID);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
-        }*/
+        }
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
             String year = data.getStringExtra("year");
             String month = data.getStringExtra("month");

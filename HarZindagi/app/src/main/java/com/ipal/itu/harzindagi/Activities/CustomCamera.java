@@ -1,6 +1,7 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -29,7 +30,8 @@ import java.util.Date;
 public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     private Camera mCamera;
     SurfaceHolder surfaceHolder;
-
+    File mediaFile;
+    String Path,app_name;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
+        app_name = getResources().getString(R.string.app_name);
 
         ImageView captureButton = (ImageView) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(new View.OnClickListener() {
@@ -81,26 +84,26 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            FinishActivity();
         }
     };
 
-    private static File getOutputMediaFile() {
-        File mediaStorageDir = new File(
+    private File getOutputMediaFile() {
+        File mediaStorageDirPath = new File(
                 Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "MyCameraApp");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath());
+        /*if (!mediaStorageDirPath.exists()) {
+            if (!mediaStorageDirPath.mkdirs()) {
                 Log.d("MyCameraApp", "failed to create directory");
                 return null;
             }
         }
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
-        File mediaFile;
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                + "IMG_" + timeStamp + ".jpg");
+                .format(new Date());*/
+        Path = "/sdcard/" + app_name + "/"
+                + "IMG_Temp" + ".jpg";
+        mediaFile = new File(Path);
 
         return mediaFile;
     }
@@ -132,5 +135,12 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         mCamera.stopPreview();
         mCamera.setPreviewCallback(null);
         mCamera.release();
+    }
+
+    public void FinishActivity() {
+        Intent i = new Intent();
+        i.putExtra("path", Path);
+        setResult(1888, i);
+        finish();
     }
 }
