@@ -146,7 +146,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         childPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Picture Taken", Snackbar.LENGTH_LONG)
+               /* Snackbar.make(view, "Picture Taken", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.TITLE, "New Picture");
@@ -154,9 +154,9 @@ public class RegisterChildActivity extends AppCompatActivity {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
-
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
+                Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
+                startActivity(cameraIntent);
             }
         });
     }
@@ -168,7 +168,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+       /* if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo, resizedImage;
             readEditTexts();
             childID = ChildName + UCNumber;
@@ -186,7 +186,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             intent.putExtra("ID",childID);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
-        }
+        }*/
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
             String year = data.getStringExtra("year");
             String month = data.getStringExtra("month");
