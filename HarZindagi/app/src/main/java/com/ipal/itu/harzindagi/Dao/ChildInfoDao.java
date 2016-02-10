@@ -12,16 +12,16 @@ import java.util.List;
  */
 public class ChildInfoDao {
 
-    public void save(String UCNumber, String EPICenterName, String childID, String name, String gender, String fatherName, String motherName, String dob, String CNIC, String phoneNum, String address) {
+    public void save(String childID, String dob, String gender, String name, String fatherName, String motherName, String CNIC, String phoneNum, String UCNumber, String EPICenterName) {
         ChildInfo item = new ChildInfo();
-        item.setChildInfo(UCNumber, EPICenterName, childID, name, gender, fatherName, motherName, dob, CNIC, phoneNum, address);
+        item.setChildInfo(childID, dob, gender, name, fatherName, motherName, CNIC, phoneNum, UCNumber, EPICenterName);
         item.save();
 
     }
 
     public void save(ChildInfo info) {
         ChildInfo item = new ChildInfo();
-        item.setChildInfo(info.UCNumber, info.EPICenterName, info.ChildID, info.name, info.gender, info.fatherName, info.motherName, info.dob, info.cnic, info.phoneNumber, info.address);
+        item.setChildInfo(info.UCNumber, info.EPICenterName, info.ChildID, info.name, info.gender, info.fatherName, info.motherName, info.dob, info.cnic, info.phoneNumber);
         item.save();
     }
 

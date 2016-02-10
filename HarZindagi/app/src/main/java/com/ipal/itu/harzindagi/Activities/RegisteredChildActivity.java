@@ -44,6 +44,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
     TextView guardianMobileNumber;
     ImageView childPic;
     String app_name;
+    Button NFC_Write;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,15 @@ public class RegisteredChildActivity extends AppCompatActivity {
         guardianCNIC = (TextView) findViewById(R.id.ChildGuardianCNIC);
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
         childPic = (ImageView) findViewById(R.id.ChildPic);
+        NFC_Write= (Button) findViewById(R.id.NFCWrite);
+        NFC_Write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                startActivity(new Intent(RegisteredChildActivity.this, Card_Scan.class));
+            }
+        });
 
         Bundle bundle = getIntent().getExtras();
         String childID = bundle.getString("ID");

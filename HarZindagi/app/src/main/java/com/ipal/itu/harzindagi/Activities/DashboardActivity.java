@@ -59,9 +59,11 @@ public class DashboardActivity extends AppCompatActivity {
         allChildrenInUCButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "All Children in UC", Snackbar.LENGTH_LONG)
+               /* Snackbar.make(view, "All Children in UC", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                startActivity(new Intent(DashboardActivity.this, VaccinationActivity.class));
+                startActivity(new Intent(DashboardActivity.this, VaccinationActivity.class));*/
+                Intent intent = new Intent(DashboardActivity.this, ChildrenListActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -30,8 +30,7 @@ import java.util.Locale;
 public class RegisterChildActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
 
-    EditText ucNumber;
-    EditText epiCenterName;
+    EditText CenterName;
     EditText childName;
     Button boy;
     Button girl;
@@ -55,7 +54,6 @@ public class RegisterChildActivity extends AppCompatActivity {
     private static final int CALENDAR_CODE = 100;
     String app_name;
     FileOutputStream fo;
-    Uri imageUri;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -85,12 +83,12 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         };
 
-        ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
-
-
-        epiCenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
-
         childName = (EditText) findViewById(R.id.registerChildName);
+        DOB = (EditText) findViewById(R.id.registerChildDOB);
+
+       // ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
+
+        CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
 
 
         boy = (Button) findViewById(R.id.registerChildSexMale);
@@ -118,7 +116,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         });
 
-        DOB = (EditText) findViewById(R.id.registerChildDOB);
+
         DOB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,9 +184,9 @@ public class RegisterChildActivity extends AppCompatActivity {
             }*/
             ChildInfoDao childInfoDao = new ChildInfoDao();
             DateOfBirth = DOB.getText().toString();
-            childInfoDao.save(UCNumber, EPICenterName, childID, ChildName, Gender, GuardianName, MotherName, DateOfBirth, GuardianCNIC, GuardianMobileNumber, "home");
+            childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
             Intent intent = new Intent(RegisterChildActivity.this, RegisteredChildActivity.class);
-            intent.putExtra("ID", childID);
+            intent.putExtra("ID",childID);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
@@ -201,8 +199,8 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     public void readEditTexts() {
-        UCNumber = ucNumber.getText().toString();
-        EPICenterName = epiCenterName.getText().toString();
+        UCNumber ="213";
+        EPICenterName = CenterName.getText().toString();
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();
         GuardianName = guardianName.getText().toString();
@@ -229,9 +227,9 @@ public class RegisterChildActivity extends AppCompatActivity {
     public void saveBitmap(Bitmap bitmap) {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
 
-//Create a new file in sdcard folder.
+        //Create a new file in sdcard folder.
         File f = new File("/sdcard/" + app_name + "/" + childID + ".jpg");
         try {
             try {

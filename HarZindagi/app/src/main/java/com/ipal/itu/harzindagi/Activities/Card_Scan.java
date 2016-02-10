@@ -13,7 +13,9 @@ import android.nfc.Tag;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +43,18 @@ public class Card_Scan extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardscan);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       toolbar.setTitle("Scan Card");
-        ctx=this;
+        toolbar.setTitle("Scan Card");
+        ctx = this;
 
-        imgV= (ImageView)findViewById(R.id.scan_image_view);
+        imgV = (ImageView) findViewById(R.id.scan_image_view);
+        imgV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "All Children in UC", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                startActivity(new Intent(Card_Scan.this, VaccinationActivity.class));
+            }
+        });
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -56,31 +66,28 @@ public class Card_Scan extends Activity {
         }
 
 
-
         mPendingIntent = PendingIntent.getActivity(this, 1,
-                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_UPDATE_CURRENT);
+                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_UPDATE_CURRENT);
 
         // set an intent filter for all MIME data
         IntentFilter ndefIntent = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         try {
             ndefIntent.addDataType("*/*");
-            mIntentFilters = new IntentFilter[] { ndefIntent };
+            mIntentFilters = new IntentFilter[]{ndefIntent};
         } catch (Exception e) {
 
             Toast.makeText(ctx, "adding ndefintent", Toast.LENGTH_LONG).show();
         }
 
-        mNFCTechLists = new String[][] { new String[] { NfcF.class.getName() } };
+        mNFCTechLists = new String[][]{new String[]{NfcF.class.getName()}};
 
 
     }
 
 
-
-
     @Override
     public void onNewIntent(Intent intent) {
-        String s="";
+        String s = "";
         String action = intent.getAction();
         //if (mWriteMode && NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())
         // Tag mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
@@ -89,21 +96,21 @@ public class Card_Scan extends Activity {
         if (data != null) {
             try {
                 for (int i = 0; i < data.length; i++) {
-                    NdefRecord[] recs = ((NdefMessage)data[i]).getRecords();
+                    NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();
                     for (int j = 0; j < recs.length; j++) {
                         if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
                                 Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
                             byte[] payload = recs[j].getPayload();
-                            String textEncoding =((payload[0] & 0200)==0) ? "UTF-8":"UTF-16";
+                            String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
 
                             int langCodeLen = payload[0] & 0077;
-                            s= new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
+                            s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
                                     textEncoding);
-                            if(s.equals("0")) {
+                            if (s.equals("0")) {
                                 // Intent myintent = new Intent(this, RegisterChild.class);
                                 //myintent.pu
                                 // startActivityForResult(myintent, 0);
-                            }else{
+                            } else {
 //                                mTextView.setText(s);
                                 parseintent(s);
                                 Toast.makeText(ctx, "parseintent S", Toast.LENGTH_LONG).show();
@@ -119,15 +126,12 @@ public class Card_Scan extends Activity {
         }
 
 
-
-
         Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
 
         String Arry[] = s.split("#");
 
 
     }
-
 
 
     @Override
@@ -139,13 +143,13 @@ public class Card_Scan extends Activity {
     }
 
 
-
-    public void parseintent(String s){
+    public void parseintent(String s) {
         imgV.setBackgroundColor(Color.GREEN);
         Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
 
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -153,16 +157,6 @@ public class Card_Scan extends Activity {
         if (mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

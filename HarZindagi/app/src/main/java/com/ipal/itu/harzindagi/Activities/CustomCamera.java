@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -21,8 +23,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Wahab on 2/3/2016.
@@ -31,7 +31,14 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     private Camera mCamera;
     SurfaceHolder surfaceHolder;
     File mediaFile;
-    String Path,app_name;
+    String Path, app_name;
+    DisplayMetrics metrics;
+    int Height, Width;
+    Bitmap camera_bitmap;
+    Canvas camera_canvas;
+    Paint p;
+    ImageView CropImageView, captureButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +48,29 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
 
-        ImageView captureButton = (ImageView) findViewById(R.id.button_capture);
+
+        p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        p.setStrokeWidth(3);
+        p.setColor(Color.WHITE);
+        p.setStrokeCap(Paint.Cap.ROUND);
+        p.setStyle(Paint.Style.STROKE);
+        p.setDither(true);
+
+        //get the screen height and width
+        metrics = getResources().getDisplayMetrics();
+
+        Height = metrics.heightPixels;
+        Width = metrics.widthPixels;
+
+        captureButton = (ImageView) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCamera.takePicture(null, null, mPicture);
             }
         });
+        CropImageView = (ImageView) findViewById(R.id.CropImageView);
+
     }
 
     private void getCameraInstance() {
@@ -66,10 +89,11 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             Bitmap realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
-            Bitmap bMapRotate = Bitmap.createBitmap(realImage, 0, 0, realImage.getWidth(), realImage.getHeight(), matrix, true);
+            Bitmap BmpRotate = Bitmap.createBitmap(realImage, 0, 0, realImage.getWidth(), realImage.getHeight(), matrix, true);
+            Bitmap cropped_bitmap = cropBitmap(BmpRotate);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bMapRotate.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+            cropped_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+             byte[] byteArray = stream.toByteArray();
 
             File pictureFile = getOutputMediaFile();
             if (pictureFile == null) {
@@ -84,23 +108,11 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            FinishActivity();
+            finishActivity();
         }
     };
 
     private File getOutputMediaFile() {
-        File mediaStorageDirPath = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath());
-        /*if (!mediaStorageDirPath.exists()) {
-            if (!mediaStorageDirPath.mkdirs()) {
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());*/
         Path = "/sdcard/" + app_name + "/"
                 + "IMG_Temp" + ".jpg";
         mediaFile = new File(Path);
@@ -112,10 +124,12 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         try {
             getCameraInstance();
+            drawSquare();
+            CropImageView.setImageBitmap(camera_bitmap);
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
         } catch (IOException e) {
-            // left blank for now
+            e.printStackTrace();
         }
     }
 
@@ -126,7 +140,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
         } catch (Exception e) {
-            // intentionally left blank for a test
+            e.printStackTrace();
         }
     }
 
@@ -137,10 +151,41 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         mCamera.release();
     }
 
-    public void FinishActivity() {
+    public void finishActivity() {
         Intent i = new Intent();
         i.putExtra("path", Path);
         setResult(1888, i);
         finish();
+    }
+
+    public void drawSquare() {
+
+        if (Height > Width) {
+            camera_bitmap = Bitmap.createBitmap(Width, Width, Bitmap.Config.ARGB_8888);
+        } else {
+            camera_bitmap = Bitmap.createBitmap(Height, Height, Bitmap.Config.ARGB_8888);
+        }
+        camera_canvas = new Canvas(camera_bitmap);
+        camera_canvas.drawRect(0, 0, camera_bitmap.getWidth(), camera_bitmap.getHeight(), p);
+    }
+
+    public Bitmap cropBitmap(Bitmap bmp) {
+        Bitmap cropBmp;
+        if (bmp.getWidth() >= bmp.getHeight()) {
+
+            cropBmp = Bitmap.createBitmap(
+                    bmp,
+                    bmp.getWidth() / 2 - bmp.getHeight() / 2,
+                    0,
+                    bmp.getHeight(),
+                    bmp.getHeight()
+            );
+
+        } else {
+
+            cropBmp = Bitmap.createBitmap(bmp, 0, (bmp.getHeight() - bmp.getWidth()) / 2, bmp.getWidth(), bmp.getWidth()
+            );
+        }
+        return cropBmp;
     }
 }

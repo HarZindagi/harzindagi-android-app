@@ -31,26 +31,23 @@ public class ChildInfo extends Model {
     public String cnic;
     @Column(name = "PhoneNumber")
     public String phoneNumber;
-    @Column(name = "Address")
-    public String address;
 
     public ChildInfo() {
         super();
     }
 
-    public void setChildInfo(String UCNumber, String EPICenterName, String ChildID, String Name, String gender, String FatherName, String motherName, String DOB, String CNIC, String PhoneNumber, String Address) {
+    public void setChildInfo(String childID, String dob, String gender, String name, String fatherName, String motherName, String CNIC, String phoneNum, String UCNumber, String EPICenterName) {
 
         this.UCNumber = UCNumber;
         this.EPICenterName = EPICenterName;
-        this.ChildID = ChildID;
-        this.name = Name;
+        this.ChildID = childID;
+        this.name = name;
         this.gender = gender;
-        this.fatherName = FatherName;
+        this.fatherName = fatherName;
         this.motherName = motherName;
-        this.dob = DOB;
+        this.dob = dob;
         this.cnic = CNIC;
-        this.phoneNumber = PhoneNumber;
-        this.address = Address;
+        this.phoneNumber = phoneNum;
     }
 
     public List<Transaction> transactions() {
