@@ -38,7 +38,11 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/customdrawablecheckbox"
+
                 android:text=""
+
+                android:gravity="center|center_vertical"
                 android:id="@+id/Measles_chk"
                 android:paddingRight="10dp"
                 />

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Har Zindagi</string>
+     <string name="app_name">Har Zindagi</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">SplashActivity</string>
 
@@ -7,10 +7,10 @@
 
 
     <string name="action_share">Share</string>
-    <string name="action_reply">Reply</string>
+        <string name="action_reply">Reply</string>
 
-    <string name="unionCouncil">Union Council Sargodha - UC 213</string>
-    <string name="loginValidation">Please enter correct User Credentials</string>
+    <string name="unionCouncil">UC-213 Sargodha: یونین کونسل</string>
+    <string name="loginValidation"> براہ مہربانی درست یوزر کا نام اور پاسورڈ کا انتخاب کریں۔</string>
     <string name="selectModule">Select your desired Module</string>
     <string name="title_activity_dashboard">Dashboard</string>
     <string name="title_activity_search">Lost Card</string>

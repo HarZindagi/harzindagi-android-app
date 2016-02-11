@@ -198,7 +198,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mahfooz Karain"
+                android:text=" محفوظ کریں"
                 android:id="@+id/Mahfooz_Karain"
                 android:textSize="20dp"
                 android:layout_below="@+id/bx_Measles2"

@@ -17,105 +17,249 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/textview_height_2"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter any of the Following Information:"
+        android:text=" مندرجہ ذیل معلومات فراہم کریں۔"
         android:id="@+id/textView"
         android:textAlignment="center"
         android:layout_weight=".08"
         android:gravity="center_vertical"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+
+        android:textSize="25dp"
+        android:textStyle="bold"
+        />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/colorAccent" />
 
-    <EditText
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:id="@+id/searchActivityChildID"
-        android:layout_gravity="center_horizontal"
-        android:hint="Child ID"
-        android:background="@android:color/transparent"
-        android:layout_weight=".15"
-        android:paddingLeft="16dp" />
+        android:layout_height="@dimen/textview_height_2"
+
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchActivityChildID"
+            android:layout_gravity="center_horizontal"
+            android:hint=""
+            android:background="@android:color/transparent"
+
+            android:singleLine="true"
+
+            android:layout_toLeftOf="@+id/searchActivityChildID_TV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+
+            android:layout_weight=".10"
+            android:gravity="left|center"
+            android:paddingLeft="16dp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="بچے کی ID"
+            android:layout_alignParentRight="true"
+            android:id="@+id/searchActivityChildID_TV"
+            android:textSize="25dp"
+            android:gravity="right|center"
+            android:layout_gravity="right|center_horizontal"
+            />
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/colorAccent" />
 
-    <EditText
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:inputType="phone"
-        android:ems="10"
-        android:id="@+id/searchActivityCellPhone"
-        android:layout_gravity="center_horizontal"
-        android:hint="Cell Phone #"
-        android:background="@android:color/transparent"
-        android:layout_weight=".15"
-        android:paddingLeft="16dp" />
+        android:layout_height="@dimen/textview_height_2"
+
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchActivityCellPhone"
+            android:layout_gravity="center_horizontal"
+            android:hint=""
+            android:inputType="phone"
+            android:background="@android:color/transparent"
+            android:singleLine="true"
+
+            android:layout_toLeftOf="@+id/searchActivityCellPhone_TV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+
+            android:layout_weight=".10"
+            android:paddingLeft="16dp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="موبائل نمبر"
+            android:layout_alignParentRight="true"
+            android:id="@+id/searchActivityCellPhone_TV"
+
+            android:textSize="25dp"
+            android:gravity="right|center"
+            android:layout_gravity="right|center_horizontal"
+            />
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/colorAccent" />
 
-    <EditText
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/searchActivityCNIC"
-        android:layout_gravity="center_horizontal"
-        android:hint="CNIC#"
-        android:background="@android:color/transparent"
-        android:layout_weight=".15"
-        android:paddingLeft="16dp" />
+        android:layout_height="@dimen/textview_height_2"
+
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchActivityCNIC"
+            android:layout_gravity="center_horizontal"
+            android:hint=""
+            android:background="@android:color/transparent"
+            android:singleLine="true"
+
+            android:layout_toLeftOf="@+id/searchActivityCNIC_TV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:layout_weight=".10"
+            android:paddingLeft="16dp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="شناختی کارڈ نمبر"
+            android:layout_alignParentRight="true"
+            android:id="@+id/searchActivityCNIC_TV"
+
+            android:textSize="25dp"
+            android:gravity="right|center"
+            android:layout_gravity="right|center_horizontal"
+            />
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/textview_height_2"
+
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchActivityChildName"
+            android:layout_gravity="center_horizontal"
+            android:hint=""
+            android:inputType="phone"
+            android:background="@android:color/transparent"
+            android:singleLine="true"
+
+            android:layout_toLeftOf="@+id/searchActivityChildName_TV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+
+            android:layout_weight=".10"
+            android:paddingLeft="16dp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="بچے کا نام"
+            android:layout_alignParentRight="true"
+            android:id="@+id/searchActivityChildName_TV"
+
+            android:textSize="25dp"
+            android:gravity="right|center"
+            android:layout_gravity="right|center_horizontal"
+            />
+
+    </RelativeLayout>
+
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/colorAccent" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:id="@+id/searchActivityChildName"
-        android:hint="Child Name"
-        android:inputType="textPersonName"
-        android:background="@android:color/transparent"
-        android:layout_weight=".15"
-        android:paddingLeft="16dp" />
 
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent" />
+        android:layout_height="@dimen/textview_height_2"
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/searchActivityGuardianName"
-        android:layout_gravity="center_horizontal"
-        android:hint="Guardian Name"
-        android:background="@android:color/transparent"
-        android:layout_weight=".15"
-        android:paddingLeft="16dp" />
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchActivityGuardianName"
+            android:layout_gravity="center_horizontal"
+            android:hint=""
+            android:background="@android:color/transparent"
+
+            android:singleLine="true"
+
+            android:layout_toLeftOf="@+id/searchActivityGuardianName_TV"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+
+            android:layout_weight=".10"
+            android:paddingLeft="16dp" />
+
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="سرپرست کا نام"
+            android:layout_alignParentRight="true"
+            android:id="@+id/searchActivityGuardianName_TV"
+            android:textSize="25dp"
+            android:gravity="right|center"
+            android:layout_gravity="right|center_horizontal"
+            />
+
+
+    </RelativeLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search Karein"
+        android:text="تلاش کریں"
         android:id="@+id/searchActivitySearchButton"
         android:background="@drawable/roundbutton"
         android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="30dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginTop="25dp" />
 

@@ -43,7 +43,11 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/customdrawablecheckbox"
+
                 android:text=""
+
+                android:gravity="center|center_vertical"
                 android:id="@+id/BCG_chk"
                 android:paddingRight="10dp"
                 />
@@ -77,7 +81,11 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/customdrawablecheckbox"
+
                 android:text=""
+
+                android:gravity="center|center_vertical"
                 android:id="@+id/OPV0_chk"
                 android:paddingRight="10dp"
                 />
@@ -113,7 +121,11 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/customdrawablecheckbox"
+
                 android:text=""
+
+                android:gravity="center|center_vertical"
                 android:paddingRight="10dp"
                 android:id="@+id/Hepatitis_B_chk"
                 />

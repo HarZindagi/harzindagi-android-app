@@ -37,8 +37,7 @@
         android:id="@+id/loginActivityUserName"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:hint="Username" />
-
+        android:hint="یوزر کا نام" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,7 +45,7 @@
         android:ems="10"
         android:id="@+id/loginActivityPassword"
         android:layout_gravity="center_horizontal"
-        android:hint="Password" />
+        android:hint="پاس ورڈ" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,9 +67,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/loginActivityForgetButton"
-            android:text="Forget"
+            android:text="پاسورڈ بھولنے کی صورت میں "
             android:layout_weight="1"
+
+
             android:layout_marginRight="10dp"
+
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:background="@drawable/roundbutton" />
 
@@ -78,9 +81,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/loginActivityCheckInButton"
-            android:text="Check In"
+            android:text="چیک ان"
+
+
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:background="@drawable/roundbutton" />
 

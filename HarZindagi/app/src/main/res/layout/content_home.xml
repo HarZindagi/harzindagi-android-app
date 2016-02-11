@@ -32,10 +32,12 @@
         android:id="@+id/homeActivityHarZindagiButton"
         android:layout_weight="1"
         android:background="@drawable/roundbutton"
-        android:text="Har Zindagi"
+        android:text="ہر زندگی"
         android:textColor="@color/white"
         android:layout_marginTop="20dp"
-        android:textSize="22sp" />
+        android:textSize="35dp"
+        android:textStyle="bold"
+        />
 
 
 </LinearLayout>
