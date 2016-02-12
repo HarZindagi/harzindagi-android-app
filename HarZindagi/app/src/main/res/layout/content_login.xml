@@ -4,91 +4,149 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.LoginActivity"
-    tools:showIn="@layout/activity_login"
-    android:gravity="center">
+    tools:showIn="@layout/activity_login">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
-        android:text="Hello World!"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_launcher" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/loginActivityUnionCouncil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="right"
+            android:text="@string/unionCouncil"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/UnionCouncil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:text="UC-213 Sargodha"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/userNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:text="یوزر کا نام"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/loginActivityUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:singleLine="true"
+            android:nextFocusDown="@+id/pasNameTV"
+            android:layout_toLeftOf="@+id/userNameTV"
+            android:hint="Your Name here"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/pasNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:text="پاس ورڈ"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/loginActivityPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:layout_toLeftOf="@+id/pasNameTV"
+            android:hint="Your Password here"
+
+            />
+    </RelativeLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginActivityUnionCouncil"
-        android:text="@string/unionCouncil"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginActivityUserName"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:hint="یوزر کا نام" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/loginActivityPassword"
-        android:layout_gravity="center_horizontal"
-        android:hint="پاس ورڈ" />
-
-    <TextView
+        android:id="@+id/loginActivityValidationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loginActivityValidationText"
-        android:text="@string/loginValidation"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
+        android:text="@string/loginValidation"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_red_dark"
         android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/loginActivityForgetButton"
-            android:text="پاسورڈ بھولنے کی صورت میں "
-            android:layout_weight="1"
-
-
-            android:layout_marginRight="10dp"
-
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:background="@drawable/roundbutton" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/loginActivityCheckInButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:background="@drawable/roundbutton"
             android:text="چیک ان"
-
-
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:background="@drawable/roundbutton" />
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/loginActivityForgetButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/roundbutton"
+            android:padding="5dp"
+            android:text="پاسورڈ بھولنے کی صورت میں "
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
 </LinearLayout>

@@ -50,8 +50,8 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setStrokeWidth(3);
-        p.setColor(Color.WHITE);
+        p.setStrokeWidth(10);
+        p.setColor(Color.GREEN);
         p.setStrokeCap(Paint.Cap.ROUND);
         p.setStyle(Paint.Style.STROKE);
         p.setDither(true);
@@ -166,6 +166,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             camera_bitmap = Bitmap.createBitmap(Height, Height, Bitmap.Config.ARGB_8888);
         }
         camera_canvas = new Canvas(camera_bitmap);
+       // camera_canvas.drawARGB(128,100,100,100);
         camera_canvas.drawRect(0, 0, camera_bitmap.getWidth(), camera_bitmap.getHeight(), p);
     }
 

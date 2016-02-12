@@ -9,7 +9,7 @@
     <string name="action_share">Share</string>
         <string name="action_reply">Reply</string>
 
-    <string name="unionCouncil">UC-213 Sargodha: یونین کونسل</string>
+    <string name="unionCouncil"> یونین کونسل</string>
     <string name="loginValidation"> براہ مہربانی درست یوزر کا نام اور پاسورڈ کا انتخاب کریں۔</string>
     <string name="selectModule">Select your desired Module</string>
     <string name="title_activity_dashboard">Dashboard</string>

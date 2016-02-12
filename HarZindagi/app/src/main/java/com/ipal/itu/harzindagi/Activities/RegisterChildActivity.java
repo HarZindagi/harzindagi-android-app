@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.R;
@@ -34,7 +35,8 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText childName;
     Button boy;
     Button girl;
-    EditText DOB;
+    View DOB;
+    TextView DOBText;
     EditText motherName;
     EditText guardianName;
     EditText guardianCNIC;
@@ -84,7 +86,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         };
 
         childName = (EditText) findViewById(R.id.registerChildName);
-        DOB = (EditText) findViewById(R.id.registerChildDOB);
+        DOB = (View) findViewById(R.id.registerChildDOB);
+        DOBText =  (TextView) findViewById(R.id.registerChildDOBText);
 
        // ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
 
@@ -163,7 +166,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        DOB.setText(DateOfBirth = sdf.format(myCalendar.getTime()));
+        DOBText.setText(DateOfBirth = sdf.format(myCalendar.getTime()));
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -183,7 +186,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 e.printStackTrace();
             }*/
             ChildInfoDao childInfoDao = new ChildInfoDao();
-            DateOfBirth = DOB.getText().toString();
+            DateOfBirth = DOBText.getText().toString();
             childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
             Intent intent = new Intent(RegisterChildActivity.this, RegisteredChildActivity.class);
             intent.putExtra("ID",childID);
@@ -194,7 +197,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             String year = data.getStringExtra("year");
             String month = data.getStringExtra("month");
             String day = data.getStringExtra("day");
-            DOB.setText("" + day + "-" + month + "-" + year);
+            DOBText.setText("" + day + "-" + month + "-" + year);
         }
     }
 
