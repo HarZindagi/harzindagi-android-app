@@ -3,16 +3,20 @@
     package="com.ipal.itu.harzindagi">
 
     <uses-permission android:name="android.permission.NFC" />
+
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".Application.HarZindagiApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -40,8 +44,13 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Activities.ForgetActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Activities.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Activities.DashboardActivity"
             android:label="@string/title_activity_dashboard"
@@ -85,16 +94,17 @@
         </activity>
         <activity android:name=".Activities.EvacsEPI" />
         <activity android:name=".Activities.Act" />
-        <activity android:name=".Activities.Card_Scan"></activity>
-
+        <activity android:name=".Activities.Card_Scan" />
         <activity
             android:name=".Activities.CalenderActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
         <activity
             android:name=".Activities.RegisteredChildActivity"
             android:label="Registered Child"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.CustomCamera" />
+        <activity android:name=".Activities.CustomCameraKidstation" />
     </application>
 
 </manifest>

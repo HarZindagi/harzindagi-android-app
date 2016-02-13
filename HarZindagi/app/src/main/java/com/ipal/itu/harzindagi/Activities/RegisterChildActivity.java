@@ -171,6 +171,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
+            CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
             readEditTexts();
             childID = ChildName + UCNumber;
