@@ -29,7 +29,7 @@ import java.io.IOException;
 /**
  * Created by Wahab on 2/3/2016.
  */
-public class CustomCamera extends Activity implements SurfaceHolder.Callback {
+public class CustomCameraKidstation extends Activity implements SurfaceHolder.Callback {
     private Camera mCamera;
     SurfaceHolder surfaceHolder;
     File mediaFile;
@@ -42,12 +42,12 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     ImageView CropImageView, captureButton;
 
     Context ctx;
-    public static ProgressDialog progress;
+   public static ProgressDialog progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.custom_camera_layout);
+        setContentView(R.layout.custom_camera_kidstation_layout);
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
@@ -68,7 +68,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         Height = metrics.heightPixels;
         Width = metrics.widthPixels;
 
-        captureButton = (ImageView) findViewById(R.id.button_capture);
+        captureButton = (ImageView) findViewById(R.id.button_capture_station);
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +81,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             }
         });
 
-        CropImageView = (ImageView) findViewById(R.id.CropImageView);
+        CropImageView = (ImageView) findViewById(R.id.CropImageView_station);
 
     }
 
@@ -120,6 +120,8 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
             finishActivity();
         }
     };
@@ -166,7 +168,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     public void finishActivity() {
         Intent i = new Intent();
         i.putExtra("path", Path);
-        setResult(1888, i);
+        setResult(1887, i);
 
         finish();
     }

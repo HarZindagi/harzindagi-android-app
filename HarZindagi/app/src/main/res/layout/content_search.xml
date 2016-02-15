@@ -25,228 +25,207 @@
         android:layout_weight=".08"
         android:gravity="center_vertical"
         android:textColor="@color/black"
-
-        android:textSize="25dp"
+        android:textSize="24dp"
         android:textStyle="bold"
         />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="5dp"
         android:background="@color/colorAccent" />
 
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/textview_height_2"
+        android:layout_marginTop="10dp"
+        android:layout_height="@dimen/textview_height"
 
         >
+
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/searchActivityChildID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:layout_gravity="center_horizontal"
-            android:hint=""
-            android:background="@android:color/transparent"
-
-            android:singleLine="true"
-
+            android:layout_marginRight="5dp"
+            android:inputType="textCapWords"
             android:layout_toLeftOf="@+id/searchActivityChildID_TV"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="5dp"
 
             android:layout_weight=".10"
-            android:gravity="left|center"
-            android:paddingLeft="16dp" />
+
+            android:hint=""
+
+            android:paddingLeft="16dp"
+            android:singleLine="true" />
+
 
         <TextView
 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="بچے کی ID"
-            android:layout_alignParentRight="true"
             android:id="@+id/searchActivityChildID_TV"
-            android:textSize="25dp"
-            android:gravity="right|center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:layout_gravity="right|center_horizontal"
-            />
+            android:textColor="@android:color/black"
+            android:gravity="right|center"
+            android:text="بچے کی ID"
+            android:textSize="20dp" />
+
 
     </RelativeLayout>
 
-    <View
+
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/textview_height_2"
-
-        >
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/searchActivityCellPhone"
-            android:layout_gravity="center_horizontal"
-            android:hint=""
-            android:inputType="phone"
-            android:background="@android:color/transparent"
-            android:singleLine="true"
-
-            android:layout_toLeftOf="@+id/searchActivityCellPhone_TV"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="5dp"
-
-            android:layout_weight=".10"
-            android:paddingLeft="16dp" />
 
         <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="موبائل نمبر"
-            android:layout_alignParentRight="true"
+            android:textColor="@android:color/black"
             android:id="@+id/searchActivityCellPhone_TV"
-
-            android:textSize="25dp"
-            android:gravity="right|center"
-            android:layout_gravity="right|center_horizontal"
-            />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent" />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/textview_height_2"
-
-        >
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/searchActivityCNIC"
-            android:layout_gravity="center_horizontal"
-            android:hint=""
-            android:background="@android:color/transparent"
-            android:singleLine="true"
-
-            android:layout_toLeftOf="@+id/searchActivityCNIC_TV"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="5dp"
-            android:layout_weight=".10"
-            android:paddingLeft="16dp" />
-
-        <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="شناختی کارڈ نمبر"
             android:layout_alignParentRight="true"
-            android:id="@+id/searchActivityCNIC_TV"
-
-            android:textSize="25dp"
-            android:gravity="right|center"
             android:layout_gravity="right|center_horizontal"
-            />
-
-    </RelativeLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/textview_height_2"
-
-        >
+            android:gravity="right|center"
+            android:text="رپرست کا موبائل نمبر"
+            android:textSize="20dp" />
 
         <EditText
+            android:id="@+id/searchActivityCellPhone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/searchActivityChildName"
+
             android:layout_gravity="center_horizontal"
-            android:hint=""
+            android:layout_marginRight="5dp"
+            android:hint="03##-#######"
             android:inputType="phone"
-            android:background="@android:color/transparent"
-            android:singleLine="true"
+            android:paddingLeft="16dp"
+            android:singleLine="true" />
+    </LinearLayout>
 
-            android:layout_toLeftOf="@+id/searchActivityChildName_TV"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="5dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-            android:layout_weight=".10"
-            android:paddingLeft="16dp" />
 
         <TextView
 
+            android:id="@+id/searchActivityCNIC_TV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+
+            android:layout_gravity="right|center_horizontal"
+            android:textColor="@android:color/black"
+            android:gravity="right|center"
+            android:text="سرپرست کا شناختی کارڈ کا نمبر"
+            android:textSize="20dp" />
+
+
+        <EditText
+            android:id="@+id/searchActivityCNIC"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="5dp"
+            android:layout_weight=".10"
+
+            android:hint="#####-########-#"
+            android:inputType="number"
+            android:paddingLeft="16dp"
+            android:singleLine="true" />
+    </LinearLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/textview_height"
+
+        >
+
+        <EditText
+            android:id="@+id/searchActivityChildName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="5dp"
+            android:inputType="textCapWords"
+            android:layout_toLeftOf="@+id/searchActivityChildName_TV"
+
+            android:layout_weight=".10"
+
+            android:gravity="left|center"
+
+            android:hint=""
+            android:paddingLeft="16dp"
+            android:singleLine="true" />
+
+        <TextView
+            android:textColor="@android:color/black"
+            android:id="@+id/searchActivityChildName_TV"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="بچے کا نام"
             android:layout_alignParentRight="true"
-            android:id="@+id/searchActivityChildName_TV"
-
-            android:textSize="25dp"
-            android:gravity="right|center"
             android:layout_gravity="right|center_horizontal"
-            />
+            android:gravity="right|center"
+            android:text="بچے کا نام"
+            android:textSize="20dp" />
 
     </RelativeLayout>
 
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent" />
+
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/textview_height_2"
+        android:layout_height="@dimen/textview_height"
 
         >
 
         <EditText
+            android:id="@+id/searchActivityGuardianName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/searchActivityGuardianName"
-            android:layout_gravity="center_horizontal"
-            android:hint=""
-            android:background="@android:color/transparent"
-
-            android:singleLine="true"
-
-            android:layout_toLeftOf="@+id/searchActivityGuardianName_TV"
             android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginRight="5dp"
+            android:inputType="textCapWords"
+            android:layout_toLeftOf="@+id/searchActivityGuardianName_TV"
 
             android:layout_weight=".10"
-            android:paddingLeft="16dp" />
 
+            android:hint=""
+
+            android:paddingLeft="16dp"
+            android:singleLine="true" />
 
 
         <TextView
 
+            android:id="@+id/searchActivityGuardianName_TV"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="سرپرست کا نام"
             android:layout_alignParentRight="true"
-            android:id="@+id/searchActivityGuardianName_TV"
-            android:textSize="25dp"
-            android:gravity="right|center"
             android:layout_gravity="right|center_horizontal"
-            />
+            android:textColor="@android:color/black"
+            android:gravity="right|center"
+            android:text="سرپرست کا نام"
+            android:textSize="20dp" />
 
 
     </RelativeLayout>
