@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Table(name = "ChildInfo")
 public class ChildInfo extends Model {
-    @Column(name = "UCNumber")
+    @Column(name = "UCNumber" )
     public String UCNumber;
     @Column(name = "EPICenterName")
     public String EPICenterName;
