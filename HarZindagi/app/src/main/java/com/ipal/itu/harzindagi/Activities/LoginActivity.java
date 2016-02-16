@@ -11,11 +11,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.UserInfoDao;
+import com.ipal.itu.harzindagi.Entity.UserInfo;
 import com.ipal.itu.harzindagi.R;
 
 import java.io.ByteArrayOutputStream;
@@ -24,16 +34,21 @@ import java.io.FileOutputStream;
 
 public class LoginActivity extends AppCompatActivity {
 
+    String response = "{\"userinfo\":[{\"UCNumber\":\"78 Lahore\",\"Username\":\"Asif\",\"Password\":\"Asif120\"}]}";
     EditText userName;
     EditText password;
     String UserName;
-    String Password;
-    TextView unionCouncil;
+    String Password, app_name;
+    TextView unionCouncil,EngUC;
     TextView validator;
     Button forgetButton;
     Button checkInButton;
+    Boolean isFolderExists;
     FileOutputStream fo;
+    String rec_response;
+    public JSONObj obj;
     private static final int CAMERA_REQUEST = 1887;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,38 +56,85 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        userName = ( EditText ) findViewById(R.id.loginActivityUserName);
+        app_name = getResources().getString(R.string.app_name);
+        File appFolder = new File("/sdcard/" + app_name);
+        isFolderExists = appFolder.exists();
+        if (!isFolderExists) {
+
+            appFolder.mkdir();
+        }
+
+        userName = (EditText) findViewById(R.id.loginActivityUserName);
         UserName = userName.getText().toString();
 
-        password = ( EditText ) findViewById(R.id.loginActivityPassword);
+        password = (EditText) findViewById(R.id.loginActivityPassword);
         Password = password.getText().toString();
 
         //TODO: get location in SplashActivity ans pass on to LoginActivity to set this TextView
-        unionCouncil = ( TextView ) findViewById(R.id.loginActivityUnionCouncil);
+        unionCouncil = (TextView) findViewById(R.id.loginActivityUnionCouncil);
 
-        validator = ( TextView ) findViewById(R.id.loginActivityValidationText);
+        EngUC = (TextView) findViewById(R.id.UnionCouncil);
+
+        validator = (TextView) findViewById(R.id.loginActivityValidationText);
         validator.setText(R.string.loginValidation);
 
-        forgetButton = ( Button ) findViewById(R.id.loginActivityForgetButton);
+        forgetButton = (Button) findViewById(R.id.loginActivityForgetButton);
         forgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, R.string.loginValidation , Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view, R.string.loginValidation, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
 
             }
         });
 
-        checkInButton = ( Button ) findViewById(R.id.loginActivityCheckInButton);
+        checkInButton = (Button) findViewById(R.id.loginActivityCheckInButton);
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password , Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+        parseResponse();
+
+        // Instantiate the RequestQueue.
+        /*RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://centsolapps.com/wallpapers/wallpaper_a/wallpapera.php";
+
+// Request a string response from the provided URL.
+        TokenRequest stringRequest = new TokenRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        rec_response = response;
+                        parseResponse();
+                        //  text.setText("" + rec_response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "That didn't work!",
+                        Toast.LENGTH_LONG).show();
+            }
+
+
+        });
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);*/
+    }
+
+    public void parseResponse() {
+        Gson gson = new Gson();
+        obj = gson.fromJson(response, JSONObj.class);
+        UserInfoDao userInfoDao = new UserInfoDao();
+        userInfoDao.save(obj.userinfo.get(0).UCNumber, obj.userinfo.get(0).Username, obj.userinfo.get(0).Password);
+        EngUC.setText("UC-" + obj.userinfo.get(0).UCNumber);
+        userName.setText(""+  obj.userinfo.get(0).Username);
+        password.setText(""+  obj.userinfo.get(0).Password);
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
@@ -127,14 +189,13 @@ public class LoginActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }*/
-             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
 
     }
-
 
 
     @Override
