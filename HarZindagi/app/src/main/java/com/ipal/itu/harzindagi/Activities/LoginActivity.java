@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import com.loopj.android.http.*;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.R;
 
@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     Button checkInButton;
     FileOutputStream fo;
     private static final int CAMERA_REQUEST = 1887;
+    private static AsyncHttpClient client = new AsyncHttpClient();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
