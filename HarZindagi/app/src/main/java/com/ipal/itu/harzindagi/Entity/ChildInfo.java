@@ -24,6 +24,10 @@ public class ChildInfo extends Model {
     @Column(name = "kid_name")
     public String kid_name;
 
+    @Column(name = "gender")
+    public int gender;
+
+
     @Column(name = "date_of_birth")
     public String date_of_birth;
 
@@ -71,26 +75,6 @@ public class ChildInfo extends Model {
     @Column(name = "next_due_date")
     public long next_due_date;
 
-    @Column(name = "UCNumber")
-    public String UCNumber;
-    @Column(name = "EPICenterName")
-    public String EPICenterName;
-    @Column(name = "ChildID")
-    public String ChildID;
-    @Column(name = "Name")
-    public String name;
-    @Column(name = "Gender")
-    public int gender;
-    @Column(name = "FatherName")
-    public String fatherName;
-    @Column(name = "MotherName")
-    public String motherName;
-    @Column(name = "DOB")
-    public String dob;
-    @Column(name = "CNIC")
-    public String cnic;
-    @Column(name = "PhoneNumber")
-    public String phoneNumber;
 
 
     public ChildInfo() {
