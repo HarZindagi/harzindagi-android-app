@@ -54,14 +54,9 @@ public class RegisterChildActivity extends AppCompatActivity {
     String GuardianName;
     String GuardianCNIC;
     String GuardianMobileNumber;
-<<<<<<< HEAD
-
     int Gender;
-=======
-    String Gender,app_name;
->>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
+    String app_name;
     private static final int CALENDAR_CODE = 100;
-
     FileOutputStream fo;
 
     Calendar myCalendar = Calendar.getInstance();
@@ -88,9 +83,9 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         childName = (EditText) findViewById(R.id.registerChildName);
         DOB = (View) findViewById(R.id.registerChildDOB);
-        DOBText =  (TextView) findViewById(R.id.registerChildDOBText);
+        DOBText = (TextView) findViewById(R.id.registerChildDOBText);
 
-       ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
+        ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
 
         CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
 
@@ -159,8 +154,8 @@ public class RegisterChildActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
-                cameraIntent.putExtra("filename",ucNumber.getText().toString());
-                startActivityForResult(cameraIntent,CAMERA_REQUEST);
+                cameraIntent.putExtra("filename", ucNumber.getText().toString());
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
     }
@@ -177,7 +172,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             Bitmap photo, resizedImage;
             readEditTexts();
             childID = ChildName + UCNumber;
-            Fpath=data.getStringExtra("fpath");
+            Fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
@@ -190,23 +185,23 @@ public class RegisterChildActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }*/
-           // ChildInfoDao childInfoDao = new ChildInfoDao();
+            // ChildInfoDao childInfoDao = new ChildInfoDao();
 
-           // childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
+            // childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
 
 
             DateOfBirth = DOBText.getText().toString();
             Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
-            intent.putExtra("ID",childID);
-            intent.putExtra("Name",ChildName);
-            intent.putExtra("Gender",Gender);
+            intent.putExtra("ID", childID);
+            intent.putExtra("Name", ChildName);
+            intent.putExtra("Gender", Gender);
             intent.putExtra("DOB", DateOfBirth);
-            intent.putExtra("mName",MotherName);
-            intent.putExtra("gName",GuardianName);
-            intent.putExtra("cnic",GuardianCNIC);
-            intent.putExtra("pnum",GuardianMobileNumber);
-            intent.putExtra("img",Fpath);
-            intent.putExtra("EPIname",EPICenterName);
+            intent.putExtra("mName", MotherName);
+            intent.putExtra("gName", GuardianName);
+            intent.putExtra("cnic", GuardianCNIC);
+            intent.putExtra("pnum", GuardianMobileNumber);
+            intent.putExtra("img", Fpath);
+            intent.putExtra("EPIname", EPICenterName);
 
 
             startActivity(intent);
@@ -220,12 +215,10 @@ public class RegisterChildActivity extends AppCompatActivity {
         }
 
 
-
-
     }
 
     public void readEditTexts() {
-        UCNumber ="213";
+        UCNumber = "213";
         EPICenterName = CenterName.getText().toString();
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();

@@ -1,6 +1,5 @@
 package com.ipal.itu.harzindagi.Activities;
 
-<<<<<<< HEAD
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,11 +10,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-=======
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
->>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
+
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -65,12 +64,11 @@ public class RegisteredChildActivity extends AppCompatActivity {
         guardianCNIC = (TextView) findViewById(R.id.ChildGuardianCNIC);
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
         childPic = (ImageView) findViewById(R.id.ChildPic);
-<<<<<<< HEAD
 
 
        Bundle bundle = getIntent().getExtras();
         String childID = bundle.getString("childid");
-=======
+
         NFC_Write= (Button) findViewById(R.id.NFCWrite);
         NFC_Write.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +79,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
             }
         });
 
-        Bundle bundle = getIntent().getExtras();
-        String childID = bundle.getString("ID");
->>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
+
+
         List<ChildInfo> data = ChildInfoDao.getChild(childID);
         ucNumber.setText("" +  "203");
         epiCenterName.setText("" +  bundle.getString("EPIname"));
