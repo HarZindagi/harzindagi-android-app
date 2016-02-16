@@ -2,9 +2,13 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -45,7 +49,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
     ImageView childPic;
     String app_name;
     Button NFC_Write;
-
+    double longitude;
+    double latitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,31 +69,33 @@ public class RegisteredChildActivity extends AppCompatActivity {
         guardianCNIC = (TextView) findViewById(R.id.ChildGuardianCNIC);
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
         childPic = (ImageView) findViewById(R.id.ChildPic);
-       /* NFC_Write= (Button) findViewById(R.id.NFCWrite);
-        NFC_Write.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                startActivity(new Intent(RegisteredChildActivity.this, Card_Scan.class));
-            }
-        });*/
 
-        Bundle bundle = getIntent().getExtras();
-        String childID = bundle.getString("ID");
+
+       Bundle bundle = getIntent().getExtras();
+        String childID = bundle.getString("childid");
         List<ChildInfo> data = ChildInfoDao.getChild(childID);
-        ucNumber.setText("" + data.get(0).UCNumber);
-        epiCenterName.setText("" + data.get(0).EPICenterName);
-        childName.setText("" + data.get(0).name);
-        Gender.setText(""+ data.get(0).gender);
-        DOB.setText("" + data.get(0).dob);
-        motherName.setText("" + data.get(0).motherName);
-        guardianName.setText("" + data.get(0).fatherName);
-        guardianCNIC.setText("" + data.get(0).cnic);
-        guardianMobileNumber.setText("" + data.get(0).phoneNumber);
+        ucNumber.setText("" +  "203");
+        epiCenterName.setText("" +  bundle.getString("EPIname"));
+        childName.setText("" +data.get(0).kid_name);
+
+
+        Gender.setText("Female");
+        if(data.get(0).gender==1)
+        Gender.setText("Male");
+
+
+        DOB.setText(data.get(0).date_of_birth);
+        motherName.setText(data.get(0).mother_name);
+        guardianName.setText(data.get(0).guardian_name);
+        guardianCNIC.setText(data.get(0).guardian_cnic);
+        guardianMobileNumber.setText(data.get(0).phone_number);
         app_name = getResources().getString(R.string.app_name);
-        String imagePath = "/sdcard/" + app_name + "/" + data.get(0).ChildID + ".jpg";
+        String imagePath = "/sdcard/" + app_name + "/" +data.get(0).image_name+ ".jpg";
         Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
         childPic.setImageBitmap(bmp_read);
+
+
     }
+
+
 }

@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView validator;
     Button forgetButton;
     Button checkInButton;
+    String app_name;
+    Boolean isFolderExists;
     FileOutputStream fo;
     private static final int CAMERA_REQUEST = 1887;
     @Override
@@ -40,6 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        app_name = getResources().getString(R.string.app_name);
+        File appFolder = new File("/sdcard/" + app_name);
+        isFolderExists = appFolder.exists();
+        if (!isFolderExists) {
+
+            appFolder.mkdir();
+        }
+
+
 
         userName = ( EditText ) findViewById(R.id.loginActivityUserName);
         UserName = userName.getText().toString();
@@ -69,7 +82,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password , Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+               // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+
+                  Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });

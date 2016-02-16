@@ -39,6 +39,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     Bitmap camera_bitmap;
     Canvas camera_canvas;
     Paint p;
+    String fpath;
     ImageView CropImageView, captureButton;
 
     Context ctx;
@@ -54,6 +55,8 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         app_name = getResources().getString(R.string.app_name);
 
         ctx=this;
+
+        fpath= this.getIntent().getStringExtra("filename");
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setStrokeWidth(10);
@@ -126,7 +129,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
     private File getOutputMediaFile() {
         Path = "/sdcard/" + app_name + "/"
-                + "IMG_Temp" + ".jpg";
+                + fpath + "_a.jpg";
         mediaFile = new File(Path);
 
         return mediaFile;
@@ -165,6 +168,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
     public void finishActivity() {
         Intent i = new Intent();
+        i.putExtra("fpath", fpath+"_a");
         i.putExtra("path", Path);
         setResult(1888, i);
 
