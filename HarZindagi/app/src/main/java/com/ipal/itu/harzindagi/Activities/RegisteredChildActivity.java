@@ -1,5 +1,6 @@
 package com.ipal.itu.harzindagi.Activities;
 
+<<<<<<< HEAD
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,15 +11,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+=======
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+>>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,14 +29,7 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class RegisteredChildActivity extends AppCompatActivity {
 
@@ -69,10 +65,25 @@ public class RegisteredChildActivity extends AppCompatActivity {
         guardianCNIC = (TextView) findViewById(R.id.ChildGuardianCNIC);
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
         childPic = (ImageView) findViewById(R.id.ChildPic);
+<<<<<<< HEAD
 
 
        Bundle bundle = getIntent().getExtras();
         String childID = bundle.getString("childid");
+=======
+        NFC_Write= (Button) findViewById(R.id.NFCWrite);
+        NFC_Write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                startActivity(new Intent(RegisteredChildActivity.this, Card_Scan.class));
+            }
+        });
+
+        Bundle bundle = getIntent().getExtras();
+        String childID = bundle.getString("ID");
+>>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
         List<ChildInfo> data = ChildInfoDao.getChild(childID);
         ucNumber.setText("" +  "203");
         epiCenterName.setText("" +  bundle.getString("EPIname"));

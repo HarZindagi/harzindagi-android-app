@@ -11,6 +11,7 @@ import java.util.List;
  */
 @Table(name = "ChildInfo")
 public class ChildInfo extends Model {
+<<<<<<< HEAD
 
 
     @Column(name="_id",index = true,unique = true)
@@ -82,6 +83,28 @@ public class ChildInfo extends Model {
     public long next_due_date;
 
 
+=======
+    @Column(name = "UCNumber" )
+    public String UCNumber;
+    @Column(name = "EPICenterName")
+    public String EPICenterName;
+    @Column(name = "ChildID")
+    public String ChildID;
+    @Column(name = "Name")
+    public String name;
+    @Column(name = "Gender")
+    public String gender;
+    @Column(name = "FatherName")
+    public String fatherName;
+    @Column(name = "MotherName")
+    public String motherName;
+    @Column(name = "DOB")
+    public String dob;
+    @Column(name = "CNIC")
+    public String cnic;
+    @Column(name = "PhoneNumber")
+    public String phoneNumber;
+>>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
 
     public ChildInfo() {
         super();

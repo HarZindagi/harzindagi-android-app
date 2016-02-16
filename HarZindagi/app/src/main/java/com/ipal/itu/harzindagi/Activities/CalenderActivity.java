@@ -17,6 +17,9 @@ public class CalenderActivity extends Activity {
 
     TextView yearText = null, monthText = null, dayText = null, currentYear, previousYear, lastYear;
     Calendar myCalendar = Calendar.getInstance();
+int [] daysIds = {R.id.one,R.id.two,R.id.three,R.id.four,R.id.five,R.id.six,R.id.seven,R.id.eight,R.id.nine,R.id.ten,R.id.eleven,R.id.twelve,R.id.thirteen,R.id.fourteen,R.id.fifteen,
+        R.id.sixteen,R.id.seventeen,R.id.nineteen,R.id.eighteen,R.id.twenty,R.id.thirtyone,R.id.twentytwo,R.id.twentythree,R.id.twentyfour,R.id.twentyfive,R.id.twentysix,R.id.twentyseven,R.id.twentyeight,R.id.twentynine,R.id.thirty,R.id.thirtyone};
+    int [] monthIds = {R.id.jan,R.id.feb,R.id.mar,R.id.apr,R.id.may,R.id.jun,R.id.jul,R.id.aug,R.id.sep,R.id.oct,R.id.nov,R.id.dec};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,40 @@ public class CalenderActivity extends Activity {
 
         lastYear = (TextView) findViewById(R.id.lastYear);
         lastYear.setText("" + (year - 2));
+        findViewById(R.id.lastYear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yearClickListener(v);
+            }
+        });
+        findViewById(R.id.previousYear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yearClickListener(v);
+            }
+        });
+        findViewById(R.id.currentYear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yearClickListener(v);
+            }
+        });
+        for (int i = 0; i < daysIds.length; i++) {
+            findViewById(daysIds[i]).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dayClickListener(v);
+                }
+            });
+        }
+        for (int i = 0; i < monthIds.length; i++) {
+            findViewById(monthIds[i]).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    monthClickListener(v);
+                }
+            });
+        }
     }
 
 

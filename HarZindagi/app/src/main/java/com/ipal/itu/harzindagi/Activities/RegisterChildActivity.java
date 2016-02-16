@@ -50,15 +50,18 @@ public class RegisterChildActivity extends AppCompatActivity {
     String EPICenterName;
     String ChildName, childID;
     String DateOfBirth;
-    Boolean isFolderExists;
     String MotherName;
     String GuardianName;
     String GuardianCNIC;
     String GuardianMobileNumber;
+<<<<<<< HEAD
 
     int Gender;
+=======
+    String Gender,app_name;
+>>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
     private static final int CALENDAR_CODE = 100;
-    String app_name;
+
     FileOutputStream fo;
 
     Calendar myCalendar = Calendar.getInstance();
@@ -71,14 +74,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         app_name = getResources().getString(R.string.app_name);
-        File appFolder = new File("/sdcard/" + app_name);
-        isFolderExists = appFolder.exists();
-        if (!isFolderExists) {
-
-            appFolder.mkdir();
-        }
-
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
