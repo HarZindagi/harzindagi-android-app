@@ -15,18 +15,21 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.loopj.android.http.*;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.UserInfoDao;
 import com.ipal.itu.harzindagi.Entity.UserInfo;
 import com.ipal.itu.harzindagi.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -35,7 +38,7 @@ import java.io.FileOutputStream;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1887;
-    private static AsyncHttpClient client = new AsyncHttpClient();
+
     public JSONObj obj;
     String response = "{\"userinfo\":[{\"UCNumber\":\"78 Lahore\",\"Username\":\"Asif\",\"Password\":\"Asif120\"}]}";
     EditText userName;
@@ -103,11 +106,34 @@ public class LoginActivity extends AppCompatActivity {
         parseResponse();
 
         // Instantiate the RequestQueue.
-        /*RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://centsolapps.com/wallpapers/wallpaper_a/wallpapera.php";
+       RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://103.226.216.170:3000/get_device_info.json";
+        JSONObject device = new JSONObject();
+        JSONObject imi = new JSONObject();
+        try {
+            imi.put("imei_number","12345678");
+            device.put("device", imi.toString());
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,url,obj.toString(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println(response);
+                        Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_LONG).show();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
 // Request a string response from the provided URL.
-        TokenRequest stringRequest = new TokenRequest(Request.Method.GET, url,
+     /*   TokenRequest stringRequest = new TokenRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -124,9 +150,9 @@ public class LoginActivity extends AppCompatActivity {
             }
 
 
-        });
+        });*/
 // Add the request to the RequestQueue.
-        queue.add(stringRequest);*/
+        queue.add(jsObjRequest);
     }
 
     public void parseResponse() {

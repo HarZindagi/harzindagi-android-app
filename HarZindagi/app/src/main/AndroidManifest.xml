@@ -28,6 +28,10 @@
         <meta-data
             android:name="ChildInfoDao"
             android:value="com.ipal.itu.harzindagi.Entity.ChildInfo" />
+        <meta-data
+            android:name="UserInfo"
+            android:value="com.ipal.itu.harzindagi.Entity.UserInfo" />
+
 
         <activity
             android:name=".Activities.SplashActivity"

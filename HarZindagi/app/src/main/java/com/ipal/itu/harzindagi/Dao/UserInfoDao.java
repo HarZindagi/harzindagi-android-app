@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created by Ali on 1/14/2016.
  */
+
 public class UserInfoDao {
 
     public void save(String UCNumber, String Username, String Password) {
