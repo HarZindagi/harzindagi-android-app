@@ -60,7 +60,7 @@ public class UserInfoDao {
     public static List<UserInfo> getChild(String id) {
         return new Select()
                 .from(UserInfo.class)
-                .where("Username = ?", id)
+                .where("GUserInfo = ?", id)
                 .orderBy("Name ASC")
                 .execute();
     }

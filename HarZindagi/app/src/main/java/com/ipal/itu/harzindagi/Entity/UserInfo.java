@@ -13,7 +13,7 @@ import java.util.List;
 public class UserInfo extends Model {
     @Column(name = "UCNumber")
     public String UCNumber;
-    @Column(name = "Username")
+    @Column(name = "GUserInfo")
     public String Username;
     @Column(name = "Password")
     public String Password;
