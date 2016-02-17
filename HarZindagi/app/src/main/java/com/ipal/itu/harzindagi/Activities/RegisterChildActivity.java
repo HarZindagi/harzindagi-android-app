@@ -203,7 +203,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             intent.putExtra("img", Fpath);
             intent.putExtra("EPIname", EPICenterName);
 
-
+            this.finish();
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
@@ -249,7 +249,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
 
         //Create a new file in sdcard folder.
-        File f = new File("/sdcard/" + app_name + "/" + childID + ".jpg");
+        File f = new File("/sdcard/" + app_name + "/" + Fpath + ".jpg");
         try {
             try {
                 f.createNewFile();

@@ -13,7 +13,7 @@ import java.util.List;
 public class ChildInfo extends Model {
 
 
-    @Column(name = "_id", index = true, unique = true)
+    @Column(name = "_id")
     public int id;
 
 
@@ -103,7 +103,4 @@ public class ChildInfo extends Model {
 
     }
 
-    public List<Transaction> transactions() {
-        return getMany(Transaction.class, "epi_number");
-    }
 }

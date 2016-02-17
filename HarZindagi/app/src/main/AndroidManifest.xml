@@ -28,7 +28,7 @@
             android:name="AA_DB_VERSION"
             android:value="1" />
         <meta-data
-            android:name="ChildInfoDao"
+            android:name="ChildInfo"
             android:value="com.ipal.itu.harzindagi.Entity.ChildInfo" />
         <meta-data
             android:name="UserInfo"

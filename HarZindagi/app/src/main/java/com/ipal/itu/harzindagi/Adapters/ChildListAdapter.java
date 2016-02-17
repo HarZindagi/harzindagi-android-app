@@ -49,6 +49,8 @@ public class ChildListAdapter extends BaseAdapter {
         return position;
     }
 
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -61,11 +63,13 @@ public class ChildListAdapter extends BaseAdapter {
         TextView address = (TextView) convertView.findViewById(R.id.listActivityRowAddress);
         ImageView pic = (ImageView) convertView.findViewById(R.id.listActivityRowImage);
 
-        //childName.setText(data.get(position).name);
-        //guardianName.setText(data.get(position).fatherName);
-        //String imagePath = "/sdcard/" + app_name + "/" + data.get(position).ChildID + ".jpg";
-      //  Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
-      //  pic.setImageBitmap(bmp_read);
+        childName.setText(data.get(position).kid_name);
+        guardianName.setText(data.get(position).guardian_name);
+        String imagePath = "/sdcard/" + app_name + "/" + data.get(position).image_name + ".jpg";
+       Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
+       pic.setImageBitmap(bmp_read);
+
+
 
         return convertView;
     }

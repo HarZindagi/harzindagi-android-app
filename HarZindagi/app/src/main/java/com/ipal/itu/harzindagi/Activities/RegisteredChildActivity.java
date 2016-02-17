@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
@@ -75,33 +76,41 @@ public class RegisteredChildActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                startActivity(new Intent(RegisteredChildActivity.this, Card_Scan.class));
+                startActivity(new Intent(RegisteredChildActivity.this, VaccinationActivity.class));
             }
         });
 
 
 
         List<ChildInfo> data = ChildInfoDao.getChild(childID);
-        ucNumber.setText("" +  "203");
-        epiCenterName.setText("" +  bundle.getString("EPIname"));
-        childName.setText("" +data.get(0).kid_name);
+
+        if(data!=null) {
+            ucNumber.setText("" + "203");
+            epiCenterName.setText("" + bundle.getString("EPIname"));
+            childName.setText("" + data.get(0).kid_name);
 
 
-        Gender.setText("Female");
-        if(data.get(0).gender==1)
-        Gender.setText("Male");
+            Gender.setText("Female");
+            if (data.get(0).gender == 1)
+                Gender.setText("Male");
 
 
-        DOB.setText(data.get(0).date_of_birth);
-        motherName.setText(data.get(0).mother_name);
-        guardianName.setText(data.get(0).guardian_name);
-        guardianCNIC.setText(data.get(0).guardian_cnic);
-        guardianMobileNumber.setText(data.get(0).phone_number);
-        app_name = getResources().getString(R.string.app_name);
-        String imagePath = "/sdcard/" + app_name + "/" +data.get(0).image_name+ ".jpg";
-        Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
-        childPic.setImageBitmap(bmp_read);
+            DOB.setText(data.get(0).date_of_birth);
+            motherName.setText(data.get(0).mother_name);
+            guardianName.setText(data.get(0).guardian_name);
+            guardianCNIC.setText(data.get(0).guardian_cnic);
+            guardianMobileNumber.setText(data.get(0).phone_number);
+            app_name = getResources().getString(R.string.app_name);
+            String imagePath = "/sdcard/" + app_name + "/" + data.get(0).image_name + ".jpg";
+            Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
+            childPic.setImageBitmap(bmp_read);
+        }
+        else
+        {
 
+            Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
+
+        }
 
     }
 

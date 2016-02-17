@@ -140,41 +140,23 @@ public class CardScanWrite extends Activity {
     {
 
         int loop_check=0;
-        // making string for NFC storage
-
-
-        //nfc try catch
-     /*   try {
-            if (mytag == null) {
-                Toast.makeText(this, "Please Bring phone near to a tag", Toast.LENGTH_LONG).show();
-            } else {
-
-
-                write(card_data+push_NFC, mytag);
-
-                return 1;
-            }
-        } catch (IOException e) {
-
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        } catch (FormatException e) {
-            Toast.makeText(this, "Error3", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }// nfc try catch end
-*/
-
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
-        Intent myintent = new Intent(this, RegisteredChildActivity.class);
 
-        myintent.putExtra("childid", Child_id);
-        myintent.putExtra("EPIname",bundle.getString("EPIname"));
         Long tsLong = System.currentTimeMillis()/1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
         childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", "abc", bundle.getString("img"),card_data, true, false);
 
-        ctx.finish();
+        for(int i=0;i<1000;i++)
+        {
+
+            for(int z=i;z<10000;z++)
+            {}
+        }
+        Intent myintent = new Intent(this, RegisteredChildActivity.class);
+
+        myintent.putExtra("childid", Child_id);
+        myintent.putExtra("EPIname", bundle.getString("EPIname"));
 
 
         startActivity(myintent);
@@ -213,11 +195,16 @@ public class CardScanWrite extends Activity {
                                 // startActivityForResult(myintent, 0);
                             } else {
 //                                mTextView.setText(s);
-                                    btn.setVisibility(View.VISIBLE);
+                                btn.setText("WAIT");
+                                btn.setVisibility(View.VISIBLE);
                                 String Arry[] = s.split("#");
                                 card_data=Arry[0]+"#"+Arry[1];
                                 try {
                                     write(card_data+push_NFC, mytag);
+                                    btn.setText("NEXT");
+                                    btn.setVisibility(View.VISIBLE);
+
+
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (FormatException e) {

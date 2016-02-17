@@ -25,10 +25,10 @@ public class ChildInfoDao {
         item.save();
     }
 
-    public List<Transaction> getTransactions() {
+  /*  public List<Transaction> getTransactions() {
         ChildInfo item = new ChildInfo();
         return item.transactions();
-    }
+    }*/
 
     public void bulkInsert(List<Transaction> items) {
         ActiveAndroid.beginTransaction();
@@ -58,7 +58,7 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                         //.where("ChildInfo = ?", childInfo.getId())
-                .orderBy("Name ASC")
+                .orderBy("kid_name ASC")
                 .execute();
     }
 

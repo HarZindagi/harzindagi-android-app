@@ -49,10 +49,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView validator;
     Button forgetButton;
     Button checkInButton;
-<<<<<<< HEAD
-    String app_name;
-=======
->>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
+
+
+
     Boolean isFolderExists;
     FileOutputStream fo;
     String rec_response;
@@ -64,10 +63,6 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
         app_name = getResources().getString(R.string.app_name);
         File appFolder = new File("/sdcard/" + app_name);
         isFolderExists = appFolder.exists();
@@ -76,13 +71,10 @@ public class LoginActivity extends AppCompatActivity {
             appFolder.mkdir();
         }
 
-<<<<<<< HEAD
 
 
         userName = ( EditText ) findViewById(R.id.loginActivityUserName);
-=======
-        userName = (EditText) findViewById(R.id.loginActivityUserName);
->>>>>>> 8e2a8e99b25397952f3dd247a9744bcc9945e7b2
+
         UserName = userName.getText().toString();
 
         password = (EditText) findViewById(R.id.loginActivityPassword);
