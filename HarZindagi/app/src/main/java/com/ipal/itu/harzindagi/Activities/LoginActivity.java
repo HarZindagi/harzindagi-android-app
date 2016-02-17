@@ -117,8 +117,8 @@ public class LoginActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
                 // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 
-                Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+               Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+              startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
             }
         });
@@ -248,10 +248,9 @@ public class LoginActivity extends AppCompatActivity {
         Token token = gson.fromJson(response.toString(), Token.class);
         Constants.setToken(this, token.auth_token);
 
-        //  Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
-        //       .setAction("Action", null).show();
-        Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+      //Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+     //  startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }
 
