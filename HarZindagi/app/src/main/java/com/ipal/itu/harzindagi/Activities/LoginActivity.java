@@ -250,8 +250,6 @@ public class LoginActivity extends AppCompatActivity {
 
         //  Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
         //       .setAction("Action", null).show();
-        Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }
 
