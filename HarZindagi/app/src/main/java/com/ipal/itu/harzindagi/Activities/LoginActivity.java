@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
     Button checkInButton;
 
 
-
     Boolean isFolderExists;
     FileOutputStream fo;
     String rec_response;
@@ -81,8 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-
-        userName = ( EditText ) findViewById(R.id.loginActivityUserName);
+        userName = (EditText) findViewById(R.id.loginActivityUserName);
 
         UserName = userName.getText().toString();
 
@@ -111,18 +109,17 @@ public class LoginActivity extends AppCompatActivity {
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
 
 
-                sendUserInfo(userName.getText().toString(),password.getText().toString());
-=======
+                sendUserInfo(userName.getText().toString(), password.getText().toString());
+
                 Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-               // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 
-                  Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+                Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
->>>>>>> 77cc154d72440b2d605698f31e9ae43a1fd70592
+
             }
         });
 
@@ -176,21 +173,22 @@ public class LoginActivity extends AppCompatActivity {
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
-    private void sendUserInfo(String userName,String password) {
+
+    private void sendUserInfo(String userName, String password) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.login ;
+        String url = Constants.login;
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Wait...");
         pDialog.show();
         JSONObject obj = null;
         try {
-            obj = new JSONObject("{\"user\":{\"username\":\""+userName+"\",\"password\":\""+password+"\"}}");
+            obj = new JSONObject("{\"user\":{\"username\":\"" + userName + "\",\"password\":\"" + password + "\"}}");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url,obj ,
+                url, obj,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -248,14 +246,15 @@ public class LoginActivity extends AppCompatActivity {
     public void parseTokenResponse(JSONObject response) {
         Gson gson = new Gson();
         Token token = gson.fromJson(response.toString(), Token.class);
-        Constants.setToken(this,token.auth_token);
+        Constants.setToken(this, token.auth_token);
 
         //  Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
         //       .setAction("Action", null).show();
-         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-         startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }
+
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
