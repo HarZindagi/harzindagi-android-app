@@ -23,6 +23,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         setContentView(R.layout.view_pager_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
@@ -51,21 +52,5 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

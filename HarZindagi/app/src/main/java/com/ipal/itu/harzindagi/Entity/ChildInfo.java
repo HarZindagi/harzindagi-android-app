@@ -20,6 +20,9 @@ public class ChildInfo extends Model {
     @Column(name = "epi_number")
     public String epi_number;
 
+    @Column(name = "epi_name")
+    public String epi_name;
+
 
     @Column(name = "kid_name")
     public String kid_name;
@@ -81,7 +84,7 @@ public class ChildInfo extends Model {
         super();
     }
 
-    public void setChildInfo(String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag) {
+    public void setChildInfo(String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location,String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag) {
 
         this.epi_number = childID;
         this.kid_name = name;
@@ -93,7 +96,7 @@ public class ChildInfo extends Model {
         this.phone_number = phoneNum;
         this.created_timestamp = createdTime;
         this.location = Location;
-
+        this.epi_name=EpiName;
         this.kids_station = kidStation;
         this.image_name = imageName;
         this.nfc_number = nfcNumber;

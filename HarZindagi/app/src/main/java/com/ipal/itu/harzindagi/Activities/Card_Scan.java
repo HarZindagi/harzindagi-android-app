@@ -113,7 +113,6 @@ public class Card_Scan extends Activity {
                             } else {
 //                                mTextView.setText(s);
                                 parseintent(s);
-                                Toast.makeText(ctx, "parseintent S", Toast.LENGTH_LONG).show();
 
                             }
 
@@ -144,7 +143,7 @@ public class Card_Scan extends Activity {
 
 
     public void parseintent(String s) {
-        imgV.setBackgroundColor(Color.GREEN);
+        //imgV.setBackgroundColor(Color.GREEN);
         Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
 
 

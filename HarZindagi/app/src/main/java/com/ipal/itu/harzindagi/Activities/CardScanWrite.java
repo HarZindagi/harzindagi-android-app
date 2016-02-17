@@ -145,14 +145,9 @@ public class CardScanWrite extends Activity {
 
         Long tsLong = System.currentTimeMillis()/1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", "abc", bundle.getString("img"),card_data, true, false);
+        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
 
-        for(int i=0;i<1000;i++)
-        {
 
-            for(int z=i;z<10000;z++)
-            {}
-        }
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
 
         myintent.putExtra("childid", Child_id);

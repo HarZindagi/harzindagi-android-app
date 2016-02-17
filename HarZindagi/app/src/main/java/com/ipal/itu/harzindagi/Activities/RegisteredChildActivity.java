@@ -86,7 +86,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
         if(data!=null) {
             ucNumber.setText("" + "203");
-            epiCenterName.setText("" + bundle.getString("EPIname"));
+            epiCenterName.setText("" + data.get(0).epi_name);
             childName.setText("" + data.get(0).kid_name);
 
 

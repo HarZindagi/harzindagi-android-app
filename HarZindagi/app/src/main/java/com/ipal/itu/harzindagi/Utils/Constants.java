@@ -14,6 +14,7 @@ public class Constants {
     public static final String login = "http://103.226.216.170:3000/login";
 
     public static final String token = "token";
+    public static final String uc = "uc";
 
     public static String getToken(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
@@ -22,5 +23,13 @@ public class Constants {
     public static void setToken(Context c,String token) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         prefs.edit().putString(Constants.token,token);
+    }
+    public static String getUC(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getString(Constants.uc, "");
+    }
+    public static void setUC(Context c,String token) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putString(Constants.uc,token);
     }
 }
