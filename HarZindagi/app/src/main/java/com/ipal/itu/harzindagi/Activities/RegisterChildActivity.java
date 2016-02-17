@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class RegisterChildActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
-
+    private static final int NFC_CODE = 112;
     EditText CenterName;
     EditText childName;
     Button boy;
@@ -41,6 +41,9 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText guardianName;
     EditText guardianCNIC;
     EditText guardianMobileNumber;
+    String Fpath;
+
+    EditText ucNumber;
     Button childPicture;
 
     String UCNumber;
@@ -51,9 +54,9 @@ public class RegisterChildActivity extends AppCompatActivity {
     String GuardianName;
     String GuardianCNIC;
     String GuardianMobileNumber;
-    String Gender,app_name;
+    int Gender;
+    String app_name;
     private static final int CALENDAR_CODE = 100;
-
     FileOutputStream fo;
 
     Calendar myCalendar = Calendar.getInstance();
@@ -80,9 +83,9 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         childName = (EditText) findViewById(R.id.registerChildName);
         DOB = (View) findViewById(R.id.registerChildDOB);
-        DOBText =  (TextView) findViewById(R.id.registerChildDOBText);
+        DOBText = (TextView) findViewById(R.id.registerChildDOBText);
 
-       // ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
+        ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
 
         CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
 
@@ -91,7 +94,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         boy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gender = "larka";
+                Gender = 1;
                 boy.setBackgroundResource(R.drawable.roundbutton);
                 boy.setTextColor(getResources().getColor(R.color.white));
                 girl.setBackgroundResource(R.drawable.registerbuttonborder);
@@ -103,7 +106,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         girl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gender = "larki";
+                Gender = 0;
                 girl.setBackgroundResource(R.drawable.roundbutton);
                 girl.setTextColor(getResources().getColor(R.color.white));
                 boy.setBackgroundResource(R.drawable.registerbuttonborder);
@@ -151,6 +154,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
+                cameraIntent.putExtra("filename", ucNumber.getText().toString());
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
@@ -168,10 +172,12 @@ public class RegisterChildActivity extends AppCompatActivity {
             Bitmap photo, resizedImage;
             readEditTexts();
             childID = ChildName + UCNumber;
+            Fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
+
            /* try {
                 photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 resizedImage = getResizedBitmap(photo, 256);
@@ -179,11 +185,25 @@ public class RegisterChildActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }*/
-            ChildInfoDao childInfoDao = new ChildInfoDao();
+            // ChildInfoDao childInfoDao = new ChildInfoDao();
+
+            // childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
+
+
             DateOfBirth = DOBText.getText().toString();
-            childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
-            Intent intent = new Intent(RegisterChildActivity.this, RegisteredChildActivity.class);
-            intent.putExtra("ID",childID);
+            Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
+            intent.putExtra("ID", childID);
+            intent.putExtra("Name", ChildName);
+            intent.putExtra("Gender", Gender);
+            intent.putExtra("DOB", DateOfBirth);
+            intent.putExtra("mName", MotherName);
+            intent.putExtra("gName", GuardianName);
+            intent.putExtra("cnic", GuardianCNIC);
+            intent.putExtra("pnum", GuardianMobileNumber);
+            intent.putExtra("img", Fpath);
+            intent.putExtra("EPIname", EPICenterName);
+
+            this.finish();
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
@@ -193,10 +213,12 @@ public class RegisterChildActivity extends AppCompatActivity {
             String day = data.getStringExtra("day");
             DOBText.setText("" + day + "-" + month + "-" + year);
         }
+
+
     }
 
     public void readEditTexts() {
-        UCNumber ="213";
+        UCNumber = "213";
         EPICenterName = CenterName.getText().toString();
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();
@@ -227,7 +249,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
 
         //Create a new file in sdcard folder.
-        File f = new File("/sdcard/" + app_name + "/" + childID + ".jpg");
+        File f = new File("/sdcard/" + app_name + "/" + Fpath + ".jpg");
         try {
             try {
                 f.createNewFile();

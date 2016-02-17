@@ -58,6 +58,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView validator;
     Button forgetButton;
     Button checkInButton;
+
+
+
     Boolean isFolderExists;
     FileOutputStream fo;
     String rec_response;
@@ -77,7 +80,10 @@ public class LoginActivity extends AppCompatActivity {
             appFolder.mkdir();
         }
 
-        userName = (EditText) findViewById(R.id.loginActivityUserName);
+
+
+        userName = ( EditText ) findViewById(R.id.loginActivityUserName);
+
         UserName = userName.getText().toString();
 
         password = (EditText) findViewById(R.id.loginActivityPassword);
@@ -105,9 +111,18 @@ public class LoginActivity extends AppCompatActivity {
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< HEAD
 
 
                 sendUserInfo(userName.getText().toString(),password.getText().toString());
+=======
+                Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+               // startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+
+                  Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+>>>>>>> 77cc154d72440b2d605698f31e9ae43a1fd70592
             }
         });
 
