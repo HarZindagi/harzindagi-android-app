@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class RegisterChildActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
-    private static final int NFC_CODE = 112;
+
     EditText CenterName;
     EditText childName;
     Button boy;

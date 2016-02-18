@@ -152,6 +152,7 @@
             android:paddingRight="15dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
+            android:onClick="Take_Vaccine_Picture"
             />
 
 
