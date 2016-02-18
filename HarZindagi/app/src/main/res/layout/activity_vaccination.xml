@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:background="#EAEAEA"
     tools:context=".Activities.LoginActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -28,7 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:weightSum="6"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -74,11 +75,11 @@
                     android:background="@drawable/vaccinationtab" />
                 <ImageView
                     android:id="@+id/vaccinationActivitySecondTabTick"
-                    android:src="@drawable/ic_action_tick"
+                    android:src="@drawable/u_fill_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="invisible" />
+                     />
 
             </FrameLayout>
 
@@ -101,11 +102,11 @@
 
                 <ImageView
                     android:id="@+id/vaccinationActivityThirdTabTick"
-                    android:src="@drawable/ic_action_tick"
+                    android:src="@drawable/u_fill_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="invisible" />
+                    />
             </FrameLayout>
         </LinearLayout>
 
@@ -125,11 +126,11 @@
                     android:background="@drawable/vaccinationtab" />
                 <ImageView
                     android:id="@+id/vaccinationActivityFourthTabTick"
-                    android:src="@drawable/ic_action_tick"
+                    android:src="@drawable/u_fill_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="invisible" />
+                     />
             </FrameLayout>
         </LinearLayout>
 
@@ -149,11 +150,11 @@
 
                 <ImageView
                     android:id="@+id/vaccinationActivityFifthTabTick"
-                    android:src="@drawable/ic_action_tick"
+                    android:src="@drawable/u_fill_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="invisible" />
+                     />
             </FrameLayout>
 
         </LinearLayout>
@@ -174,18 +175,18 @@
                     android:background="@drawable/vaccinationtab" />
                 <ImageView
                     android:id="@+id/vaccinationActivitySixthTabTick"
-                    android:src="@drawable/ic_action_tick"
+                    android:src="@drawable/u_fill_6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="invisible" />
+                     />
             </FrameLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <include layout="@layout/content_vaccination" />
+    <include  layout="@layout/content_vaccination" />
 
     <LinearLayout
         android:orientation="vertical"

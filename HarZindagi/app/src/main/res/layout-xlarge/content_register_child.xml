@@ -375,7 +375,8 @@ android:textColor="@android:color/black"
             android:layout_height="wrap_content"
             android:layout_weight=".05"
             android:background="@drawable/roundbutton"
-            android:text="Tasweer Khenchiyay"
+            android:text="تصویر کھینچنا"
+            android:textSize="25dp"
             android:textColor="@color/white" />
 
 
