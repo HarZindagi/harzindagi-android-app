@@ -47,6 +47,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
     Button NFC_Write;
     double longitude;
     double latitude;
+
+   final Context curr=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
 
        Bundle bundle = getIntent().getExtras();
-        String childID = bundle.getString("childid");
+       final String childID = bundle.getString("childid");
 
         NFC_Write= (Button) findViewById(R.id.NFCWrite);
         NFC_Write.setOnClickListener(new View.OnClickListener() {
@@ -76,13 +78,16 @@ public class RegisteredChildActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                startActivity(new Intent(RegisteredChildActivity.this, VaccinationActivity.class));
+                Intent myintent = new Intent(curr, VaccinationActivity.class);
+
+                myintent.putExtra("childid", childID);
+                startActivity(myintent);
             }
         });
 
+        ChildInfoDao childInfoDao = new ChildInfoDao();
 
-
-        List<ChildInfo> data = ChildInfoDao.getById(childID);
+        List<ChildInfo> data = childInfoDao.getById(childID);
 
         if(data!=null) {
             ucNumber.setText("" + "203");

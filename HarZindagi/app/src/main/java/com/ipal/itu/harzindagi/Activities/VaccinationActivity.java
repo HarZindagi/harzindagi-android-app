@@ -19,20 +19,26 @@ import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Adapters.CustomViewPager;
 import com.ipal.itu.harzindagi.Adapters.ViewPagerAdapter;
+import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 public class VaccinationActivity extends AppCompatActivity {
 
-    private static final int CAMERA_REQUEST = 1888;
+    public static final int CAMERA_REQUEST = 1888;
 
     String app_name="Har Zindagi";
-    String Fpath;
-
+   public String fpath;
+    public  String childID;
     FileOutputStream fo;
+    List<ChildInfo> data;
 
     private CustomViewPager mViewPager;
     private ViewPagerAdapter viewPagerAdapter;
@@ -58,6 +64,13 @@ public class VaccinationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vaccination);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Bundle bundle = getIntent().getExtras();
+         childID = bundle.getString("childid");
+        ChildInfoDao childInfoDao = new ChildInfoDao();
+
+        data = childInfoDao.getById(childID);
+        fpath=data.get(0).image_name;
 
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);
         secondTab = findViewById(R.id.vaccinationActivitySecondTab);
@@ -142,59 +155,45 @@ public class VaccinationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+public void SetVaccineInfo()
+    {
 
-    public void Take_Vaccine_Picture(View v){
 
-        Toast.makeText(this, "Clicked main", Toast.LENGTH_SHORT).show();
-
-        Intent cameraIntent = new Intent(this, CustomCamera.class);
-        cameraIntent.putExtra("filename", " 213");
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }
 
 
 
 
+    public void Take_Vaccine_Picture(View v){
+
+
+
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
+       // Toast.makeText(this, "Clicked main", Toast.LENGTH_SHORT).show();
+        if (resultCode == 1888) {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
-          //  readEditTexts();
-            //childID = ChildName + UCNumber;
-            Fpath = data.getStringExtra("fpath");
+
+            fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
             Toast.makeText(this, "Hello Its main", Toast.LENGTH_SHORT).show();
 
-           /* try {
-                photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                resizedImage = getResizedBitmap(photo, 256);
-                saveBitmap(resizedImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-            // ChildInfoDao childInfoDao = new ChildInfoDao();
 
-            // childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
 
-/*
-            DateOfBirth = DOBText.getText().toString();
-            Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
-            intent.putExtra("ID", childID);
-            intent.putExtra("Name", ChildName);
-            intent.putExtra("Gender", Gender);
-            intent.putExtra("DOB", DateOfBirth);
-            intent.putExtra("mName", MotherName);
-            intent.putExtra("gName", GuardianName);
-            intent.putExtra("cnic", GuardianCNIC);
-            intent.putExtra("pnum", GuardianMobileNumber);
-            intent.putExtra("img", Fpath);
-            intent.putExtra("EPIname", EPICenterName);
+            Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
+           intent.putExtra("childid", childID);
+             Calendar c = Calendar.getInstance();
 
+            c.add(Calendar.DATE, 40);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
+            String date_String=  sdf1.format(c.getTime());
+            intent.putExtra("next_date",date_String);
             this.finish();
             startActivity(intent);
             //imageView.setImageBitmap(photo);*/
@@ -239,7 +238,7 @@ public class VaccinationActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
 
         //Create a new file in sdcard folder.
-        File f = new File("/sdcard/" + app_name + "/" + Fpath + ".jpg");
+        File f = new File("/sdcard/" + app_name + "/" + fpath + ".jpg");
         try {
             try {
                 f.createNewFile();

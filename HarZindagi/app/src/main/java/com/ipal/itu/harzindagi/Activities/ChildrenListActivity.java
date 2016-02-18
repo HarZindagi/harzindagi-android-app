@@ -30,25 +30,23 @@ public class ChildrenListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         app_name = getResources().getString(R.string.app_name);
 
-       ChildInfoDao dao = new ChildInfoDao();
-        if( ChildInfoDao.getAll() != null ){
+        ChildInfoDao dao = new ChildInfoDao();
+       final List<ChildInfo> data = dao.getAll();
+        if (data != null) {
 
-            final List<ChildInfo> data= ChildInfoDao.getAll();
+            ListView listView = (ListView) findViewById(R.id.childrenListActivityListView);
+            ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, data, app_name);
+            listView.setAdapter(childListAdapter);
 
-        ListView listView = (ListView) findViewById(R.id.childrenListActivityListView);
-        ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, data,app_name);
-        listView.setAdapter(childListAdapter);
-
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
-                {    Intent intent=new Intent(ChildrenListActivity.this,VaccinationActivity.class);
+                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                    Intent intent = new Intent(ChildrenListActivity.this, VaccinationActivity.class);
 
-                    intent.putExtra("childID",data.get(position).epi_number);
+                    intent.putExtra("childID", data.get(position).epi_number);
                     startActivity(intent);
 
-                   }
+                }
             });
         }
     }

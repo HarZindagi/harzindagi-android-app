@@ -154,7 +154,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
-                cameraIntent.putExtra("filename", ucNumber.getText().toString());
+                cameraIntent.putExtra("filename",childName.getText().toString()+ucNumber.getText().toString());
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
@@ -167,7 +167,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
+      if(requestCode == CAMERA_REQUEST && resultCode == 1888) {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
             readEditTexts();
@@ -178,16 +178,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
 
-           /* try {
-                photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                resizedImage = getResizedBitmap(photo, 256);
-                saveBitmap(resizedImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-             ChildInfoDao childInfoDao = new ChildInfoDao();
 
-             childInfoDao.save(childID,ChildName,Gender, DateOfBirth,MotherName,GuardianName,GuardianCNIC, GuardianMobileNumber,123L,"Lahore",EPICenterName,"as","asd","asfa",true,true);
 
 
             DateOfBirth = DOBText.getText().toString();

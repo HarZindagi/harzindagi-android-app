@@ -3,10 +3,8 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -21,35 +19,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.activeandroid.query.Select;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
-import com.ipal.itu.harzindagi.Dao.UserInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.R;
-import com.ipal.itu.harzindagi.Utils.Constants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
-public class CardScanWrite extends Activity {
+public class CardScanWriteVaccine extends Activity {
 
 
     Tag mytag;
@@ -89,33 +69,14 @@ public class CardScanWrite extends Activity {
 
 
         bundle = getIntent().getExtras();
-        Child_id = bundle.getString("ID");
-
-        //   BabyInfo info = new Select().from(BabyInfo.class).where("ChildID = ?" , Child_id).executeSingle();
-/*        childName=info.childName;
-        dateOfBirth=info.childDOB;
-
-        childGender=info.childGender;
+        Child_id = bundle.getString("childid");
 
 
-        fatherName=info.fatherName;
-        fatherCNIC=info.fatherCNIC;
-        fatherMobile=info.contactNumber;
-        childAddress=info.address;
-        District=info.district;
-        Tehsil=info.tehsil;
-        NextDueDate=info.nextDueDate;
-        VisitNum=info.visitNumber;*/
+        ChildInfoDao childInfo = new ChildInfoDao();
+        List<ChildInfo> data = childInfo.getById(Child_id);
 
 
-        tsLong = System.currentTimeMillis() / 1000;
-
-        push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + longitude + "," + latitude + "#" + bundle.getString("EPIname");
-
-
-        tsLong = System.currentTimeMillis() / 1000;
-
-        push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + longitude + "," + latitude + "#" + "acd" + "#" + bundle.getString("img") + "#" + "123" + "#" + true + "#" + false;
+        push_NFC = data.get(0).epi_name + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date");
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -149,22 +110,16 @@ public class CardScanWrite extends Activity {
 
     public int Push_into_NFC() {
 
-        int loop_check = 0;
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
 
         Long tsLong = System.currentTimeMillis() / 1000;
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false);
+        // ChildInfoDao childInfoDao = new ChildInfoDao();
+        //childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
+/// @@@@@@@@@@@ CODE OF VACCINATIONS
 
+        Intent myintent = new Intent(this, DashboardActivity.class);
 
-        Intent myintent = new Intent(this, RegisteredChildActivity.class);
-
-        myintent.putExtra("childid", Child_id);
-        myintent.putExtra("EPIname", bundle.getString("EPIname"));
-        if (Constants.isOnline(this)) {
-            sendChildData(Child_id);
-        }
 
         startActivity(myintent);
         return 0;
@@ -201,7 +156,7 @@ public class CardScanWrite extends Activity {
                                 String Arry[] = s.split("#");
                                 card_data = Arry[0] + "#" + Arry[1];
                                 try {
-                                    write(card_data + push_NFC, mytag);
+                                    write(card_data + "#" + push_NFC, mytag);
                                     btn.setText("NEXT");
                                     btn.setVisibility(View.VISIBLE);
 
@@ -304,69 +259,5 @@ public class CardScanWrite extends Activity {
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
-    private void sendChildData(String childID) {
-        // Instantiate the RequestQueue.
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childInfo = childInfoDao.getById(childID);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.kids;
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Saving Child data...");
-        pDialog.show();
-        JSONObject obj = null;
-        try {
-            obj = new JSONObject();
-            JSONObject user = new JSONObject();
-            obj.put("user", user);
-            Gson gson = new Gson();
-
-            JSONObject kid = new JSONObject(gson.toJson(childInfo.get(0)));
-            obj.put("kid", kid);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, obj,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        // Log.d(TAG, response.toString());
-                        pDialog.hide();
-                        if (response.optBoolean("success")) {
-                            JSONObject json = response.optJSONObject("data");
-                            parseKidReponse(json);
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-
-        };
-
-// Add the request to the RequestQueue.
-        queue.add(jsonObjReq);
-    }
-
-    public void parseKidReponse(JSONObject response) {
-        Gson gson = new Gson();
-        // obj = gson.fromJson(response.toString(), GUserInfo.class);
-    }
 
 }
