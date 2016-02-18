@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -10,22 +11,42 @@ import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-        import android.nfc.Tag; import android.nfc.tech.Ndef;
-        import android.nfc.tech.NfcF;
-        import android.os.Bundle;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NfcF;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-        import com.activeandroid.query.Select;
+import com.activeandroid.query.Select;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.UserInfoDao;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-        import java.io.UnsupportedEncodingException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class CardScanWrite extends Activity {
@@ -34,14 +55,15 @@ public class CardScanWrite extends Activity {
     Tag mytag;
     String push_NFC;
     Activity ctx;
+    Button btn;
+    double longitude;
+    double latitude;
+    Bundle bundle;
+    Long tsLong;
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
     private IntentFilter[] mIntentFilters;
     private String[][] mNFCTechLists;
-
-
-
-
     private String childName;
     private boolean childGender = false;                                //True for Male. False for Female
     private String dateOfBirth;
@@ -52,32 +74,24 @@ public class CardScanWrite extends Activity {
     private String District;
     private String Tehsil;
     private String Child_id;
-
     private int VisitNum;
     private String NextDueDate;
-
-    private String card_data="";
-
+    private String card_data = "";
     private ImageView imgV;
-    Button btn;
-    double longitude;
-    double latitude;
-    Bundle bundle;
-    Long tsLong;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardscanwrite);
 
-        ctx=this;
-        btn=(Button)findViewById(R.id.Push_nfc_btn);
+        ctx = this;
+        btn = (Button) findViewById(R.id.Push_nfc_btn);
 
 
+        bundle = getIntent().getExtras();
+        Child_id = bundle.getString("ID");
 
-         bundle = getIntent().getExtras();
-         Child_id = bundle.getString("ID");
-
-          //   BabyInfo info = new Select().from(BabyInfo.class).where("ChildID = ?" , Child_id).executeSingle();
+        //   BabyInfo info = new Select().from(BabyInfo.class).where("ChildID = ?" , Child_id).executeSingle();
 /*        childName=info.childName;
         dateOfBirth=info.childDOB;
 
@@ -94,15 +108,12 @@ public class CardScanWrite extends Activity {
         VisitNum=info.visitNumber;*/
 
 
-     //   push_NFC= Child_id+"#"+childName+"#"+dateOfBirth+"#"+childGender+"#"+fatherName+"#"+ fatherCNIC+"#"+ fatherMobile+"#"+childAddress +"#"+District +"#"+Tehsil+"#"+VisitNum+"#"+"000@@"+"#"+NextDueDate;
+        //   push_NFC= Child_id+"#"+childName+"#"+dateOfBirth+"#"+childGender+"#"+fatherName+"#"+ fatherCNIC+"#"+ fatherMobile+"#"+childAddress +"#"+District +"#"+Tehsil+"#"+VisitNum+"#"+"000@@"+"#"+NextDueDate;
 
 
-         tsLong = System.currentTimeMillis()/1000;
+        tsLong = System.currentTimeMillis() / 1000;
 
-        push_NFC= "#"+Child_id+"#"+bundle.getString("Name")+"#"+bundle.getInt("Gender")+"#"+bundle.getString("DOB")+"#"+bundle.getString("mName")+"#"+bundle.getString("gName")+"#"+bundle.getString("cnic")+"#"+bundle.getString("pnum")+"#"+tsLong+"#"+""+longitude+","+latitude+"#"+"acd"+"#"+bundle.getString("img")+"#"+"123"+"#"+true+"#"+false;
-
-
-
+        push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + longitude + "," + latitude + "#" + "acd" + "#" + bundle.getString("img") + "#" + "123" + "#" + true + "#" + false;
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -114,13 +125,13 @@ public class CardScanWrite extends Activity {
         IntentFilter ndefIntent = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         try {
             ndefIntent.addDataType("*/*");
-            mIntentFilters = new IntentFilter[] { ndefIntent,new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED) };
+            mIntentFilters = new IntentFilter[]{ndefIntent, new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)};
         } catch (Exception e) {
 
             Toast.makeText(ctx, "adding ndefintent", Toast.LENGTH_LONG).show();
         }
 
-        mNFCTechLists = new String[][] { new String[] { NfcF.class.getName() } };
+        mNFCTechLists = new String[][]{new String[]{NfcF.class.getName()}};
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -134,41 +145,34 @@ public class CardScanWrite extends Activity {
     }
 
 
+    public int Push_into_NFC() {
 
-
-    public int Push_into_NFC()
-    {
-
-        int loop_check=0;
+        int loop_check = 0;
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
 
-        Long tsLong = System.currentTimeMillis()/1000;
+        Long tsLong = System.currentTimeMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
+        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false);
 
 
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
 
         myintent.putExtra("childid", Child_id);
         myintent.putExtra("EPIname", bundle.getString("EPIname"));
-
+        if (Constants.isOnline(this)) {
+            sendChildData(Child_id);
+        }
 
         startActivity(myintent);
         return 0;
     }
 
 
-
-
-
-
-
-
     @Override
     public void onNewIntent(Intent intent) {
         mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-         String s = "";
+        String s = "";
         String action = intent.getAction();
         Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         if (data != null) {
@@ -193,9 +197,9 @@ public class CardScanWrite extends Activity {
                                 btn.setText("WAIT");
                                 btn.setVisibility(View.VISIBLE);
                                 String Arry[] = s.split("#");
-                                card_data=Arry[0]+"#"+Arry[1];
+                                card_data = Arry[0] + "#" + Arry[1];
                                 try {
-                                    write(card_data+push_NFC, mytag);
+                                    write(card_data + push_NFC, mytag);
                                     btn.setText("NEXT");
                                     btn.setVisibility(View.VISIBLE);
 
@@ -251,7 +255,6 @@ public class CardScanWrite extends Activity {
     }
 
 
-
     // Functions onwards are for NFC ignore them
     private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
 
@@ -275,13 +278,14 @@ public class CardScanWrite extends Activity {
 
     private void write(String text, Tag tag) throws IOException, FormatException {
 
-        NdefRecord[] records = { createRecord(text) };
+        NdefRecord[] records = {createRecord(text)};
         NdefMessage message = new NdefMessage(records);
         Ndef ndef = Ndef.get(tag);
         ndef.connect();
         ndef.writeNdefMessage(message);
         ndef.close();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -289,6 +293,7 @@ public class CardScanWrite extends Activity {
         if (mNfcAdapter != null)
             mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mIntentFilters, mNFCTechLists);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -297,6 +302,69 @@ public class CardScanWrite extends Activity {
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
+    private void sendChildData(String childID) {
+        // Instantiate the RequestQueue.
+        ChildInfoDao childInfoDao = new ChildInfoDao();
+        List<ChildInfo> childInfo = childInfoDao.getById(childID);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kids;
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Saving Child data...");
+        pDialog.show();
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject();
+            JSONObject user = new JSONObject();
+            obj.put("user", user);
+            Gson gson = new Gson();
 
+            JSONObject kid = new JSONObject(gson.toJson(childInfo.get(0)));
+            obj.put("kid", kid);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, obj,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        // Log.d(TAG, response.toString());
+                        pDialog.hide();
+                        if (response.optBoolean("success")) {
+                            JSONObject json = response.optJSONObject("data");
+                            parseKidReponse(json);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseKidReponse(JSONObject response) {
+        Gson gson = new Gson();
+        // obj = gson.fromJson(response.toString(), GUserInfo.class);
+    }
 
 }
