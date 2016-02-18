@@ -17,7 +17,7 @@ public class VaccinationsDao  {
         obj.save();
 
     }
-    public static List<Vaccinations> getAll() {
+    public  List<Vaccinations> getAll() {
         return new Select()
                 .from(Vaccinations.class)
                 .orderBy("_id ASC")

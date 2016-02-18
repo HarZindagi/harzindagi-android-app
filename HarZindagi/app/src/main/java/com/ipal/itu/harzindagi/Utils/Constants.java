@@ -1,10 +1,12 @@
 package com.ipal.itu.harzindagi.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 /**
  * Created by Ali on 2/16/2016.
@@ -48,5 +50,10 @@ public class Constants {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    public static  String getIMEI(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getDeviceId();
     }
 }
