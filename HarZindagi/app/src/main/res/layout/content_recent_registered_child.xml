@@ -183,7 +183,7 @@
         android:layout_weight=".05"
         android:textSize="22dp"
         android:background="@drawable/roundbutton"
-        android:text="این ایف سی کارڈ پر لکھ"
+        android:text="ویکسی نیشن کی سکرین کو جانا"
         android:textColor="@color/white" />
 
 </LinearLayout>

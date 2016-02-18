@@ -50,11 +50,11 @@
                 </View>
                 <ImageView
                     android:id="@+id/vaccinationActivityFirstTabTick"
-                    android:src="@drawable/ic_action_tick"
+                    android:src="@drawable/fill_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="invisible" />
+                    android:visibility="visible" />
             </FrameLayout>
 
         </LinearLayout>
