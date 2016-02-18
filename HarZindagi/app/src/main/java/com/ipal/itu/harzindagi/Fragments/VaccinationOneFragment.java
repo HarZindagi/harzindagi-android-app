@@ -1,13 +1,24 @@
 package com.ipal.itu.harzindagi.Fragments;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.ipal.itu.harzindagi.Activities.CardScanWrite;
+import com.ipal.itu.harzindagi.Activities.CustomCamera;
+import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +34,6 @@ public class VaccinationOneFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
     public VaccinationOneFragment() {
         // Required empty public constructor
@@ -62,5 +72,8 @@ public class VaccinationOneFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_vaccination_one, container, false);
     }
+
+
+
 
 }
