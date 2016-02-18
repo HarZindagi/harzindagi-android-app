@@ -1,0 +1,11 @@
+diff a/HarZindagi/app/src/main/AndroidManifest.xml b/HarZindagi/app/src/main/AndroidManifest.xml	(rejected hunks)
+@@ -114,6 +114,9 @@
+             android:name=".Activities.RegisteredChildActivity"
+             android:label="Registered Child"
+             android:theme="@style/AppTheme.NoActionBar" />
++        <activity
++            android:name=".Activities.ViewPagerWithTabs"
++            android:label="Har Zindagi" />
+         <activity android:name=".Activities.CustomCamera" />
+         <activity android:name=".Activities.CustomCameraKidstation" />
+         <activity android:name=".Activities.CardScanWrite" />

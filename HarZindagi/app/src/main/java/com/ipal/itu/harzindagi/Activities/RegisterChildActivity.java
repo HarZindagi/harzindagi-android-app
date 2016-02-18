@@ -185,9 +185,9 @@ public class RegisterChildActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }*/
-            // ChildInfoDao childInfoDao = new ChildInfoDao();
+             ChildInfoDao childInfoDao = new ChildInfoDao();
 
-            // childInfoDao.save(childID, DateOfBirth, Gender, ChildName, GuardianName, MotherName, GuardianCNIC, GuardianMobileNumber, UCNumber, EPICenterName);
+             childInfoDao.save(childID,ChildName,Gender, DateOfBirth,MotherName,GuardianName,GuardianCNIC, GuardianMobileNumber,123L,"Lahore",EPICenterName,"as","asd","asfa",true,true);
 
 
             DateOfBirth = DOBText.getText().toString();

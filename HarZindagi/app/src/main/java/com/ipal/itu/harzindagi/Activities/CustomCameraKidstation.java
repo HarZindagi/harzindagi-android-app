@@ -42,7 +42,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
     ImageView CropImageView, captureButton;
 
     Context ctx;
-   public static ProgressDialog progress;
+    public static ProgressDialog progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
 
-        ctx=this;
+        ctx = this;
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setStrokeWidth(10);
@@ -73,7 +73,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
             @Override
             public void onClick(View v) {
                 mCamera.takePicture(null, null, mPicture);
-                 progress = new ProgressDialog(ctx);
+                progress = new ProgressDialog(ctx);
                 progress.setTitle("Loading");
 
                 progress.show();
@@ -105,7 +105,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
             Bitmap cropped_bitmap = cropBitmap(BmpRotate);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             cropped_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-             byte[] byteArray = stream.toByteArray();
+            byte[] byteArray = stream.toByteArray();
 
             File pictureFile = getOutputMediaFile();
             if (pictureFile == null) {
@@ -181,7 +181,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
             camera_bitmap = Bitmap.createBitmap(Height, Height, Bitmap.Config.ARGB_8888);
         }
         camera_canvas = new Canvas(camera_bitmap);
-       // camera_canvas.drawARGB(128,100,100,100);
+        // camera_canvas.drawARGB(128,100,100,100);
         camera_canvas.drawRect(0, 0, camera_bitmap.getWidth(), camera_bitmap.getHeight(), p);
     }
 
