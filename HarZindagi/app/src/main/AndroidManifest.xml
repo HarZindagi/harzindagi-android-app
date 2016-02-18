@@ -40,6 +40,15 @@
             android:name="UserInfo"
             android:value="com.ipal.itu.harzindagi.Entity.UserInfo" />
 
+        <meta-data
+            android:name="Visit"
+            android:value="com.ipal.itu.harzindagi.Entity.Visit" />
+        <meta-data
+            android:name="Vaccinations"
+            android:value="com.ipal.itu.harzindagi.Entity.Vaccinations" />
+        <meta-data
+            android:name="Injections"
+            android:value="com.ipal.itu.harzindagi.Entity.Injections" />
 
         <activity
             android:name=".Activities.SplashActivity"

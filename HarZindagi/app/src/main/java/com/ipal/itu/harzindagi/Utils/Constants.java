@@ -10,6 +10,9 @@ import android.preference.PreferenceManager;
 public class Constants {
 
     public static final String get_device_info = "http://103.226.216.170:3000/get_device_info.json";
+    public static final String visits = "http://103.226.216.170:3000/admin/visits.json";
+    public static final String injections = "http://103.226.216.170:3000/admin/injections.json";
+    public static final String vaccinations = "http://103.226.216.170:3000/admin/vaccinations.json";
 
     public static final String login = "http://103.226.216.170:3000/login";
 
@@ -22,7 +25,7 @@ public class Constants {
     }
     public static void setToken(Context c,String token) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.token,token);
+        prefs.edit().putString(Constants.token,token).commit();
     }
     public static String getUC(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
@@ -30,6 +33,6 @@ public class Constants {
     }
     public static void setUC(Context c,String token) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.uc,token);
+        prefs.edit().putString(Constants.uc,token).commit();
     }
 }
