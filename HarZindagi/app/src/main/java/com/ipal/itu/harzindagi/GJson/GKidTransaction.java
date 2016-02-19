@@ -5,6 +5,6 @@ import java.io.Serializable;
 /**
  * Created by Ali on 2/16/2016.
  */
-public class Token implements Serializable {
+public class GKidTransaction implements Serializable {
     public  String auth_token;
 }

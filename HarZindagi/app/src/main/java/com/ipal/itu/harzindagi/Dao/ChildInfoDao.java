@@ -54,7 +54,7 @@ public class ChildInfoDao {
         item.delete(ChildInfo.class, CID);
     }
 
-    public static List<ChildInfo> getAll() {
+    public  List<ChildInfo> getAll() {
         return new Select()
                 .from(ChildInfo.class)
                         //.where("ChildInfo = ?", childInfo.getId())
@@ -62,7 +62,7 @@ public class ChildInfoDao {
                 .execute();
     }
 
-    public static List<ChildInfo> getChild(String id) {
+    public  List<ChildInfo> getById(String id) {
         return new Select()
                 .from(ChildInfo.class)
                 .where("epi_number = ?", id)

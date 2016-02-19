@@ -15,8 +15,8 @@ public class Vaccinations extends Model {
     public int id;
 
 
-    @Column(name = "visit_number")   // it is the auto-increment id from Childinfo
-    public int visit_number;
+    @Column(name = "visit_id")   // it is the auto-increment id from Childinfo
+    public int visit_id;
 
     @Column(name = "injection_id")
     public int injection_id;
@@ -30,7 +30,7 @@ public class Vaccinations extends Model {
 
 
         this.id = ID;
-        this.visit_number = visitNumber;
+        this.visit_id = visitNumber;
         this.injection_id = injectionID;
 
 

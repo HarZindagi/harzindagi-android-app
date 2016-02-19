@@ -26,22 +26,37 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.ipal.itu.harzindagi.Dao.InjectionsDao;
 import com.ipal.itu.harzindagi.Dao.UserInfoDao;
+import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
+import com.ipal.itu.harzindagi.Dao.VisitsDao;
+import com.ipal.itu.harzindagi.Entity.Injections;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
+import com.ipal.itu.harzindagi.Entity.Visit;
+import com.ipal.itu.harzindagi.GJson.GInjection;
+import com.ipal.itu.harzindagi.GJson.GInjectionAry;
 import com.ipal.itu.harzindagi.GJson.GUserInfo;
+import com.ipal.itu.harzindagi.GJson.GVaccinationAry;
+import com.ipal.itu.harzindagi.GJson.GVisit;
+import com.ipal.itu.harzindagi.GJson.GVisitAry;
 import com.ipal.itu.harzindagi.GJson.Token;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -143,8 +158,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        Log.d(TAG, response.toString());
+                        //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        //Log.d(TAG, response.toString());
                         pDialog.hide();
                         if (response.optBoolean("success")) {
                             JSONObject json = response.optJSONObject("data");
@@ -186,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
         JSONObject obj = null;
         try {
             obj = new JSONObject("{\"user\":{\"username\":\"" + userName + "\",\"password\":\"" + password + "\"}}");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -195,8 +211,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        Log.d(TAG, response.toString());
+                        //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        // Log.d(TAG, response.toString());
                         pDialog.hide();
                         if (response.optBoolean("success")) {
                             JSONObject json = response.optJSONObject("data");
@@ -249,7 +265,7 @@ public class LoginActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Token token = gson.fromJson(response.toString(), Token.class);
         Constants.setToken(this, token.auth_token);
-
+        loadVisits();
         //  Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
         //       .setAction("Action", null).show();
 
@@ -336,5 +352,183 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadVisits() {
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.visits + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading GVisit");
+        pDialog.show();
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        //  Log.d(TAG, response.toString());
+                        pDialog.hide();
+                        parseVisits(response);
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseVisits(JSONArray array) {
+        Gson gson = new Gson();
+        GVisitAry gVisitAry = gson.fromJson("{\"visits\":" + array.toString() + "}", GVisitAry.class);
+        VisitsDao visitsDao = new VisitsDao();
+        ArrayList<Visit> visits = new ArrayList<>();
+        for (int i = 0; i < gVisitAry.visits.size(); i++) {
+            Visit visit = new Visit();
+            visit.id = gVisitAry.visits.get(i).id;
+            visit.visit_number = gVisitAry.visits.get(i).visit_number;
+            visit.description = gVisitAry.visits.get(i).description;
+            visits.add(visit);
+        }
+        visitsDao.bulkInsert(visits);
+        loadInjections();
+    }
+
+    public void loadInjections() {
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.injections + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        // Log.d(TAG, response.toString());
+                        parseInjections(response);
+                        pDialog.hide();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseInjections(JSONArray array) {
+        Gson gson = new Gson();
+        GInjectionAry gInjection = gson.fromJson("{\"injections\":" + array.toString() + "}", GInjectionAry.class);
+        InjectionsDao injectionsDao = new InjectionsDao();
+        ArrayList<Injections> visits = new ArrayList<>();
+        for (int i = 0; i < gInjection.injections.size(); i++) {
+            Injections injections = new Injections();
+            injections.id = gInjection.injections.get(i).id;
+            injections.name = gInjection.injections.get(i).name;
+            injections.description = gInjection.injections.get(i).description;
+            injections.is_drop = gInjection.injections.get(i).is_drop;
+            visits.add(injections);
+        }
+        injectionsDao.bulkInsert(visits);
+        loadVaccinations();
+    }
+
+    public void loadVaccinations() {
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        parseVaccinations(response);
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseVaccinations(JSONArray array) {
+        Gson gson = new Gson();
+        GVaccinationAry gInjection = gson.fromJson("{\"vaccinations\":" + array.toString() + "}", GVaccinationAry.class);
+        VaccinationsDao vaccinationsDao = new VaccinationsDao();
+        ArrayList<Vaccinations> vac = new ArrayList<>();
+        for (int i = 0; i < gInjection.vaccinations.size(); i++) {
+            Vaccinations vacs = new Vaccinations();
+            vacs.id = gInjection.vaccinations.get(i).id;
+            vacs.visit_id = gInjection.vaccinations.get(i).visit_id;
+            vacs.injection_id = gInjection.vaccinations.get(i).injection_id;
+            vac.add(vacs);
+        }
+        vaccinationsDao.bulkInsert(vac);
+
     }
 }

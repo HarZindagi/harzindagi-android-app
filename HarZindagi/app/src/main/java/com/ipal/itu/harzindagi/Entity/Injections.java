@@ -8,48 +8,36 @@ import com.activeandroid.annotation.Table;
  * Created by Ali on 1/14/2016.
  */
 @Table(name = "Injections")
-public class Injections extends Model{
+public class Injections extends Model {
 
 
-    @Column(name="_id")
+    @Column(name = "_id")
     public int id;
 
 
-
-
-
-    @Column(name="name")   // it is the auto-increment id from Childinfo
+    @Column(name = "name")   // it is the auto-increment id from Childinfo
     public String name;
 
-    @Column(name="description")
+    @Column(name = "description")
     public String description;
 
-
-
-
-
-
-
-
+    @Column(name = "is_drop")
+    public boolean is_drop;
 
     public Injections() {
         super();
     }
 
-    public void SetKidVaccinations(int ID,String Name,String Description)
-    {
+    public void SetInjections(int ID, String Name, String Description,boolean is_drop) {
 
 
-            this.id=ID;
-            this.name =Name ;
-            this.description=Description;
-
-
+        this.id = ID;
+        this.name = Name;
+        this.description = Description;
+        this.is_drop = is_drop;
 
 
     }
-
-
 
 
 }

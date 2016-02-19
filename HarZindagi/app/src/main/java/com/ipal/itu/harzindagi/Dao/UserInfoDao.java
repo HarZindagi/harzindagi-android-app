@@ -13,6 +13,22 @@ import java.util.List;
 
 public class UserInfoDao {
 
+    public static List<UserInfo> getAll() {
+        return new Select()
+                .from(UserInfo.class)
+                        //.where("ChildInfo = ?", childInfo.getId())
+                .orderBy("UCNumber ASC")
+                .execute();
+    }
+
+    public static List<UserInfo> getById(String id) {
+        return new Select()
+                .from(UserInfo.class)
+                .where("GUserInfo = ?", id)
+                .orderBy("UCNumber ASC")
+                .execute();
+    }
+
     public void save(String UCNumber, String Username, String Password) {
         UserInfo info = new UserInfo();
         info.setUserInfo(UCNumber, Username, Password);
@@ -20,48 +36,8 @@ public class UserInfoDao {
 
     }
 
-    /*public List<Transaction> getTransactions() {
-        ChildInfo item = new ChildInfo();
-        return item.transactions();
-    }*/
-
-    public void bulkInsert(List<Transaction> items) {
-        ActiveAndroid.beginTransaction();
-        try {
-            for (int i = 0; i < items.size(); i++) {
-
-                Transaction item = new Transaction();
-                item.childID = items.get(i).childID;
-                item.date = items.get(i).date;
-                item.nextDate = items.get(i).nextDate;
-                item.VacID = items.get(i).VacID;
-                item.VisitNumb = items.get(i).VisitNumb;
-                item.save();
-            }
-            ActiveAndroid.setTransactionSuccessful();
-        } finally {
-            ActiveAndroid.endTransaction();
-        }
-    }
-
     public void deleteItem(int CID) {
         UserInfo item = new UserInfo();
         item.delete(UserInfo.class, CID);
-    }
-
-    public static List<UserInfo> getAll() {
-        return new Select()
-                .from(UserInfo.class)
-                        //.where("ChildInfo = ?", childInfo.getId())
-                .orderBy("Name ASC")
-                .execute();
-    }
-
-    public static List<UserInfo> getChild(String id) {
-        return new Select()
-                .from(UserInfo.class)
-                .where("GUserInfo = ?", id)
-                .orderBy("Name ASC")
-                .execute();
     }
 }
