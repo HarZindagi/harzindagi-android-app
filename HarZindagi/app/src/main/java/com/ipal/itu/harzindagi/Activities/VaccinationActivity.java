@@ -66,7 +66,14 @@ public class VaccinationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
-         childID = bundle.getString("childid");
+        try {
+            childID = bundle.getString("childid");
+        }catch (Exception e){
+            Toast.makeText(this,"ID not found",Toast.LENGTH_LONG).show();
+            finish();
+            e.printStackTrace();
+        }
+
         ChildInfoDao childInfoDao = new ChildInfoDao();
 
         data = childInfoDao.getById( bundle.getString("childid").toString());
@@ -100,22 +107,28 @@ public class VaccinationActivity extends AppCompatActivity {
                         break;
                     case 2:
                         secondTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        firstTabTickMark.setImageResource(R.drawable.ic_action_tick);
+
                         firstTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         thirdTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        secondTabTickMark.setImageResource(R.drawable.ic_action_tick);
                         secondTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 4:
                         fourthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        thirdTabTickMark.setImageResource(R.drawable.ic_action_tick);
                         thirdTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 5:
                         fifthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        fourthTabTickMark.setImageResource(R.drawable.ic_action_tick);
                         fourthTabTickMark.setVisibility(View.VISIBLE);
                         break;
                     case 6:
                         sixthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        fifthTabTickMark.setImageResource(R.drawable.ic_action_tick);
                         fifthTabTickMark.setVisibility(View.VISIBLE);
                         break;
                 }
