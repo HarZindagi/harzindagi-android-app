@@ -69,7 +69,7 @@ public class VaccinationActivity extends AppCompatActivity {
          childID = bundle.getString("childid");
         ChildInfoDao childInfoDao = new ChildInfoDao();
 
-        data = childInfoDao.getById(childID);
+        data = childInfoDao.getById( bundle.getString("childid").toString());
         fpath=data.get(0).image_name;
 
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);
@@ -182,12 +182,19 @@ public void SetVaccineInfo()
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
-            Toast.makeText(this, "Hello Its main", Toast.LENGTH_SHORT).show();
 
 
+
+            Bundle bndl=data.getExtras();
 
             Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
            intent.putExtra("childid", childID);
+            if(bndl.size()>=3)
+            {
+                intent.putExtra("vacc_details", bndl.getString("vacc_details"));
+                intent.putExtra("visit_num", bndl.getString("visit_num"));
+
+            }
              Calendar c = Calendar.getInstance();
 
             c.add(Calendar.DATE, 40);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE

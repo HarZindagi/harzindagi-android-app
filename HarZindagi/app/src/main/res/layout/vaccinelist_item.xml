@@ -16,7 +16,7 @@
         android:text="Vacine"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#4d4d4d"
-        android:textSize="22dp" />
+        android:textSize="19dp" />
 
 
     <CheckBox

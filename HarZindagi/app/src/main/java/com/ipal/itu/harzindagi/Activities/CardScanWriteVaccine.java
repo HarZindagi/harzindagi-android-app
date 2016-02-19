@@ -29,8 +29,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -41,6 +43,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +78,7 @@ public class CardScanWriteVaccine extends Activity {
     private String NextDueDate;
     private String card_data = "";
     private ImageView imgV;
-
+    List<ChildInfo> data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +93,10 @@ public class CardScanWriteVaccine extends Activity {
 
 
         ChildInfoDao childInfo = new ChildInfoDao();
-        List<ChildInfo> data = childInfo.getById(Child_id);
+       data = childInfo.getById(Child_id);
 
 
-        push_NFC = data.get(0).epi_name + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date");
+        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date")+"#"+ bundle.getString("visit_num")+"#"+ bundle.getString("vacc_details");
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -134,6 +137,16 @@ public class CardScanWriteVaccine extends Activity {
         // ChildInfoDao childInfoDao = new ChildInfoDao();
         //childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
 /// @@@@@@@@@@@ CODE OF VACCINATIONS
+
+
+       List lst= VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"));
+
+        KidVaccinationDao kd=new KidVaccinationDao();
+        Calendar calendar = Calendar.getInstance();
+        for(int i=0;i<lst.size();i++)
+        {kd.save(data.get(0).location,data.get(0).id,(int)lst.get(i),data.get(0).image_name,calendar.getTimeInMillis());}
+
+
 
         Intent myintent = new Intent(this, DashboardActivity.class);
 

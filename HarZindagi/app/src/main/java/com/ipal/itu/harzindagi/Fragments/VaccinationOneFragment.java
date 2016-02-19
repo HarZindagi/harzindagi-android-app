@@ -88,7 +88,7 @@ public class VaccinationOneFragment extends Fragment {
         //data.add(ij);
         ListView list;
         list = (ListView) v.findViewById(R.id.list_v1);
-        VaccineAdapter adapter = new VaccineAdapter(getActivity(),R.layout.vaccinelist_item, data, "Har Zindagi");
+       final VaccineAdapter adapter = new VaccineAdapter(getActivity(),R.layout.vaccinelist_item, data, "Har Zindagi");
         list.setAdapter(adapter);
 
 
@@ -99,9 +99,12 @@ public class VaccinationOneFragment extends Fragment {
             public void onClick(View v) {
 
 
+                String det_vacs=adapter.get_vaccs_details();
 
                 Intent cameraIntent = new Intent(getActivity(), CustomCamera.class);
                 cameraIntent.putExtra("filename",((VaccinationActivity)getActivity()).fpath );
+                cameraIntent.putExtra("vacc_details",det_vacs);
+                cameraIntent.putExtra("visit_num","1");
                 startActivityForResult(cameraIntent,((VaccinationActivity)getActivity()).CAMERA_REQUEST );
             }
         });

@@ -38,7 +38,7 @@ public class InjectionsDao {
         List<Vaccinations> vc= new Select()
                 .from(Vaccinations.class)
                 .where("visit_id = ?", v_id)
-                .orderBy("visit_id ASC")
+                .orderBy("_id ASC")
                 .execute();
 
 

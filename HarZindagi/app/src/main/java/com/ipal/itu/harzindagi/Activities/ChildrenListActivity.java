@@ -45,7 +45,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                     Intent intent = new Intent(ChildrenListActivity.this, VaccinationActivity.class);
 
-                    intent.putExtra("childID", data.get(position).epi_number);
+                    intent.putExtra("childid", data.get(position).epi_number);
                     startActivity(intent);
 
                 }

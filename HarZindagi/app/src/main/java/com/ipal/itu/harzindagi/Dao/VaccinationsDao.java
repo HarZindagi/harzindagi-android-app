@@ -3,8 +3,10 @@ package com.ipal.itu.harzindagi.Dao;
         import com.activeandroid.ActiveAndroid;
         import com.activeandroid.Model;
         import com.activeandroid.query.Select;
+        import com.ipal.itu.harzindagi.Entity.Injections;
         import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
+        import java.util.ArrayList;
         import java.util.List;
 
 /**
@@ -29,6 +31,54 @@ public class VaccinationsDao  {
                 .where("visit_id = ?", id)
                 .orderBy("_id ASC")
                 .execute();
+    }
+
+    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num,String inj)
+    {
+
+        String [] injarr=inj.split(",");
+       List<Integer>arr=new ArrayList<>();
+        List<Vaccinations> vc=new Select()
+            .from(Vaccinations.class)
+            .where("visit_id = ?", v_num)
+            .orderBy("_id ASC")
+            .execute();
+        List<Injections> lij=new ArrayList<>();
+
+
+        for(int i=0;i<vc.size();i++)
+        {
+            List  <Injections> ij=new Select()
+                    .from(Injections.class)
+                    .where("_id = ?", vc.get(i).injection_id)
+                    .execute();
+
+            lij.add(ij.get(0));
+
+        }
+
+        int x=0;
+        for(int i=0;i<lij.size();i++)
+        {
+            if(injarr[0]=="1")
+            {
+                if(vc.get(i).injection_id==lij.get(i).id)
+                {
+                    arr.add(vc.get(i).id);
+
+
+                }
+
+
+            }
+
+        }
+
+
+
+
+return arr;
+
     }
     public void bulkInsert(List<Vaccinations> items) {
         ActiveAndroid.beginTransaction();

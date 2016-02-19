@@ -43,6 +43,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     ImageView CropImageView, captureButton;
 
     Context ctx;
+    Bundle bundle;
     public static ProgressDialog progress;
 
     @Override
@@ -56,6 +57,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
         ctx=this;
 
+        bundle=getIntent().getExtras();
         fpath= this.getIntent().getStringExtra("filename");
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -170,6 +172,13 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         Intent i = new Intent();
         i.putExtra("fpath", fpath);
         i.putExtra("path", Path);
+        if(bundle.size()>=3)
+        {
+                i.putExtra("vacc_details",bundle.getString("vacc_details"));
+                i.putExtra("visit_num",bundle.getString("visit_num"));
+
+
+        }
         setResult(1888, i);
 
         finish();

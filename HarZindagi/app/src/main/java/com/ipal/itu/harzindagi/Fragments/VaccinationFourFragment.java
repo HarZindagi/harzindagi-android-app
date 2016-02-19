@@ -8,10 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.ipal.itu.harzindagi.Activities.CustomCamera;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
+import com.ipal.itu.harzindagi.Adapters.VaccineAdapter;
+import com.ipal.itu.harzindagi.Dao.InjectionsDao;
+import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.R;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,16 +72,28 @@ public class VaccinationFourFragment extends Fragment {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_vaccination_four, container, false);
 
+
+        List<Injections> data= InjectionsDao.getInjectionsByVisit(4);
+        // Injections ij=new Injections();
+        //ij.SetInjections(1,"abc","aaaaaa",true);
+        //data.add(ij);
+        ListView list;
+        list = (ListView) v.findViewById(R.id.list_v4);
+      final  VaccineAdapter adapter = new VaccineAdapter(getActivity(),R.layout.vaccinelist_item, data, "Har Zindagi");
+        list.setAdapter(adapter);
+
         Button btn=(Button)v.findViewById(R.id.btn_v4);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
+                String det_vacs=adapter.get_vaccs_details();
 
                 Intent cameraIntent = new Intent(getActivity(), CustomCamera.class);
                 cameraIntent.putExtra("filename",((VaccinationActivity)getActivity()).fpath );
+                cameraIntent.putExtra("vacc_details",det_vacs);
+                cameraIntent.putExtra("visit_num","4");
                 startActivityForResult(cameraIntent,((VaccinationActivity)getActivity()).CAMERA_REQUEST );
             }
         });

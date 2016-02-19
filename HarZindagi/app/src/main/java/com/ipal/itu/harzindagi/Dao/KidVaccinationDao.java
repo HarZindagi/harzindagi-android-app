@@ -6,6 +6,7 @@ import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.Transaction;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,4 +47,6 @@ public class KidVaccinationDao {
     public  void deleteTable(){
         KidVaccinations.truncate(KidVaccinations.class);
     }
+
+
 }

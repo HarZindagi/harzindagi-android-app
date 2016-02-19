@@ -9,51 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         >
-        <LinearLayout
+        <ListView
+            android:id="@+id/list_v6"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/back_color"
-            android:padding="@dimen/standard_padding"
-            android:paddingLeft="16dp"
-            android:paddingTop="55dp"
-            android:paddingBottom="55dp"
-
-            >
-
-
-
-
-            <TextView
-                android:id="@+id/Measles2_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:paddingLeft="10dp"
-                android:text="Measles-2"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#4d4d4d"
-                android:textSize="17dp" />
-
-
-
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/customdrawablecheckbox"
-
-                android:text=""
-
-                android:gravity="center|center_vertical"
-                android:id="@+id/Measles2_chk"
-                android:paddingRight="10dp"
-                />
-
-        </LinearLayout>
-
-
+            android:divider="@null"
+            android:layout_height="wrap_content" >
+        </ListView>
         <View
             android:layout_width="fill_parent"
             android:layout_height="40dp"
