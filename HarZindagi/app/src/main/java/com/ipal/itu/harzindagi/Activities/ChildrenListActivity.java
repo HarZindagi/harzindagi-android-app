@@ -30,14 +30,11 @@ public class ChildrenListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         app_name = getResources().getString(R.string.app_name);
 
-<<<<<<< HEAD
-       ChildInfoDao dao = new ChildInfoDao();
-        if( new ChildInfoDao.getAll() != null ){
-=======
+
         ChildInfoDao dao = new ChildInfoDao();
        final List<ChildInfo> data = dao.getAll();
         if (data != null) {
->>>>>>> 9164af246c48e645266daffe30035ff9142298ef
+
 
             ListView listView = (ListView) findViewById(R.id.childrenListActivityListView);
             ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, data, app_name);
