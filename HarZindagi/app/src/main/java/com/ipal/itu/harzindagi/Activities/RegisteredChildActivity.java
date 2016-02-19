@@ -85,9 +85,9 @@ public class RegisteredChildActivity extends AppCompatActivity {
             }
         });
 
+        ChildInfoDao childInfoDao = new ChildInfoDao();
 
-
-        List<ChildInfo> data = ChildInfoDao.getById(childID);
+        List<ChildInfo> data = childInfoDao.getById(childID);
 
         if(data!=null) {
             ucNumber.setText("" + "203");

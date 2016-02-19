@@ -67,9 +67,9 @@ public class VaccinationActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
          childID = bundle.getString("childid");
+        ChildInfoDao childInfoDao = new ChildInfoDao();
 
-
-        data = ChildInfoDao.getChild(childID);
+        data = childInfoDao.getById(childID);
         fpath=data.get(0).image_name;
 
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);

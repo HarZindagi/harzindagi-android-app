@@ -35,14 +35,15 @@ public class CardScanWriteVaccine extends Activity {
     Tag mytag;
     String push_NFC;
     Activity ctx;
+    Button btn;
+    double longitude;
+    double latitude;
+    Bundle bundle;
+    Long tsLong;
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
     private IntentFilter[] mIntentFilters;
     private String[][] mNFCTechLists;
-
-
-
-
     private String childName;
     private boolean childGender = false;                                //True for Male. False for Female
     private String dateOfBirth;
@@ -53,44 +54,29 @@ public class CardScanWriteVaccine extends Activity {
     private String District;
     private String Tehsil;
     private String Child_id;
-
     private int VisitNum;
     private String NextDueDate;
-
-    private String card_data="";
-
+    private String card_data = "";
     private ImageView imgV;
-    Button btn;
-    double longitude;
-    double latitude;
-    Bundle bundle;
-    Long tsLong;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardscanwrite);
 
-        ctx=this;
-        btn=(Button)findViewById(R.id.Push_nfc_btn);
+        ctx = this;
+        btn = (Button) findViewById(R.id.Push_nfc_btn);
 
 
-
-         bundle = getIntent().getExtras();
-         Child_id = bundle.getString("childid");
-
-
-        List<ChildInfo> data = ChildInfoDao.getChild(Child_id);
+        bundle = getIntent().getExtras();
+        Child_id = bundle.getString("childid");
 
 
-
-        push_NFC=data.get(0).epi_name+"#"+data.get(0).kid_name+"#"+data.get(0).gender+"#"+data.get(0).date_of_birth+"#"+data.get(0).mother_name+"#"+data.get(0).guardian_name+"#"+data.get(0).guardian_cnic+"#"+data.get(0).phone_number+"#"+data.get(0).created_timestamp+"#"+data.get(0).location+"#"+data.get(0).epi_name+"#"+bundle.getString("next_date");
-
-
+        ChildInfoDao childInfo = new ChildInfoDao();
+        List<ChildInfo> data = childInfo.getById(Child_id);
 
 
-
-
-
+        push_NFC = data.get(0).epi_name + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date");
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -102,13 +88,13 @@ public class CardScanWriteVaccine extends Activity {
         IntentFilter ndefIntent = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         try {
             ndefIntent.addDataType("*/*");
-            mIntentFilters = new IntentFilter[] { ndefIntent,new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED) };
+            mIntentFilters = new IntentFilter[]{ndefIntent, new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)};
         } catch (Exception e) {
 
             Toast.makeText(ctx, "adding ndefintent", Toast.LENGTH_LONG).show();
         }
 
-        mNFCTechLists = new String[][] { new String[] { NfcF.class.getName() } };
+        mNFCTechLists = new String[][]{new String[]{NfcF.class.getName()}};
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -122,16 +108,13 @@ public class CardScanWriteVaccine extends Activity {
     }
 
 
-
-
-    public int Push_into_NFC()
-    {
+    public int Push_into_NFC() {
 
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
 
-        Long tsLong = System.currentTimeMillis()/1000;
-       // ChildInfoDao childInfoDao = new ChildInfoDao();
+        Long tsLong = System.currentTimeMillis() / 1000;
+        // ChildInfoDao childInfoDao = new ChildInfoDao();
         //childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
 /// @@@@@@@@@@@ CODE OF VACCINATIONS
 
@@ -143,16 +126,10 @@ public class CardScanWriteVaccine extends Activity {
     }
 
 
-
-
-
-
-
-
     @Override
     public void onNewIntent(Intent intent) {
         mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-         String s = "";
+        String s = "";
         String action = intent.getAction();
         Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         if (data != null) {
@@ -177,9 +154,9 @@ public class CardScanWriteVaccine extends Activity {
                                 btn.setText("WAIT");
                                 btn.setVisibility(View.VISIBLE);
                                 String Arry[] = s.split("#");
-                                card_data=Arry[0]+"#"+Arry[1];
+                                card_data = Arry[0] + "#" + Arry[1];
                                 try {
-                                    write(card_data+"#"+push_NFC, mytag);
+                                    write(card_data + "#" + push_NFC, mytag);
                                     btn.setText("NEXT");
                                     btn.setVisibility(View.VISIBLE);
 
@@ -235,7 +212,6 @@ public class CardScanWriteVaccine extends Activity {
     }
 
 
-
     // Functions onwards are for NFC ignore them
     private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
 
@@ -259,13 +235,14 @@ public class CardScanWriteVaccine extends Activity {
 
     private void write(String text, Tag tag) throws IOException, FormatException {
 
-        NdefRecord[] records = { createRecord(text) };
+        NdefRecord[] records = {createRecord(text)};
         NdefMessage message = new NdefMessage(records);
         Ndef ndef = Ndef.get(tag);
         ndef.connect();
         ndef.writeNdefMessage(message);
         ndef.close();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -273,6 +250,7 @@ public class CardScanWriteVaccine extends Activity {
         if (mNfcAdapter != null)
             mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mIntentFilters, mNFCTechLists);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -280,7 +258,6 @@ public class CardScanWriteVaccine extends Activity {
         if (mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
-
 
 
 }

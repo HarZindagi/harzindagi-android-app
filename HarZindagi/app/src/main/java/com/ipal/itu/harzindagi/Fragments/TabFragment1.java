@@ -33,8 +33,8 @@ public class TabFragment1 extends Fragment {
 
         ChildInfoDao dao = new ChildInfoDao();
         if( dao.getAll() != null ){
-
-            final List<ChildInfo> data= ChildInfoDao.getAll();
+            ChildInfoDao childInfo = new ChildInfoDao();
+            final List<ChildInfo> data= childInfo.getAll();
 
             ListView listView = (ListView) rootView.findViewById(R.id.tab_list);
             ChildListAdapter childListAdapter = new ChildListAdapter(getActivity(), R.layout.listactivity_row, data,app_name);
