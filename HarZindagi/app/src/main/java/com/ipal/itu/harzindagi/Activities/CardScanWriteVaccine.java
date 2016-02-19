@@ -60,6 +60,7 @@ public class CardScanWriteVaccine extends Activity {
     double latitude;
     Bundle bundle;
     Long tsLong;
+    List<ChildInfo> data;
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
     private IntentFilter[] mIntentFilters;
@@ -78,7 +79,7 @@ public class CardScanWriteVaccine extends Activity {
     private String NextDueDate;
     private String card_data = "";
     private ImageView imgV;
-    List<ChildInfo> data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +94,10 @@ public class CardScanWriteVaccine extends Activity {
 
 
         ChildInfoDao childInfo = new ChildInfoDao();
-       data = childInfo.getById(Child_id);
+        data = childInfo.getById(Child_id);
 
 
-        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date")+"#"+ bundle.getString("visit_num")+"#"+ bundle.getString("vacc_details");
+        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date") + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -139,17 +140,18 @@ public class CardScanWriteVaccine extends Activity {
 /// @@@@@@@@@@@ CODE OF VACCINATIONS
 
 
-       List lst= VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"));
+        List lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"));
 
-        KidVaccinationDao kd=new KidVaccinationDao();
+        KidVaccinationDao kd = new KidVaccinationDao();
         Calendar calendar = Calendar.getInstance();
-        for(int i=0;i<lst.size();i++)
-        {kd.save(data.get(0).location,data.get(0).id,(int)lst.get(i),data.get(0).image_name,calendar.getTimeInMillis());}
-
-
+        for (int i = 0; i < lst.size(); i++) {
+            kd.save(data.get(0).location, data.get(0).id, (int) lst.get(i), data.get(0).image_name, calendar.getTimeInMillis());
+            if(Constants.isOnline(this)) {
+                sendVaccinationsData(data.get(0).location, data.get(0).id, (int) lst.get(i), calendar.getTimeInMillis());
+            }
+        }
 
         Intent myintent = new Intent(this, DashboardActivity.class);
-
 
         startActivity(myintent);
         return 0;
@@ -288,33 +290,36 @@ public class CardScanWriteVaccine extends Activity {
         if (mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
-    private void sendVaccinationsData(int vacID) {
+
+    private void sendVaccinationsData(String Location, int KidID, int VaccinationID, long CreateTime) {
         // Instantiate the RequestQueue.
-        VaccinationsDao vaccinationsDao = new VaccinationsDao();
-        List<Vaccinations> childInfo = vaccinationsDao.getById(vacID);
+        KidVaccinationDao kidVac = new KidVaccinationDao();
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.kid_vaccinations;
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Saving Vaccination data...");
-        pDialog.show();
+       // final ProgressDialog pDialog = new ProgressDialog(this);
+      //  pDialog.setMessage("Saving Vaccination data...");
+      //  pDialog.show();
         JSONObject obj = null;
 
         try {
             obj = new JSONObject();
             JSONObject user = new JSONObject();
-            user.put("auth_token",Constants.getToken(this));
+            user.put("auth_token", Constants.getToken(this));
             obj.put("user", user);
 
             JSONObject vaccination = new JSONObject();
 
             vaccination.put("imei_number", Constants.getIMEI(this));
-            vaccination.put("location", childInfo.get(0).id);
-            vaccination.put("kid_id", childInfo.get(0).id);
-            vaccination.put("vaccination_id", childInfo.get(0).id);
-            vaccination.put("version_name", childInfo.get(0).id);
-            vaccination.put("location_source", childInfo.get(0).id);
+            vaccination.put("location", Location);
+            vaccination.put("kid_id", KidID);
+            vaccination.put("vaccination_id",VaccinationID);
+            vaccination.put("version_name", "");
+            vaccination.put("location_source","");
+            vaccination.put("vac_time",CreateTime);
 
-            obj.put("kid_vaccination",vaccination);
+
+            obj.put("kid_vaccination", vaccination);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -327,10 +332,10 @@ public class CardScanWriteVaccine extends Activity {
                     public void onResponse(JSONObject response) {
                         //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
-                        pDialog.hide();
+                       // pDialog.hide();
                         if (response.optBoolean("success")) {
-                            JSONObject json = response.optJSONObject("data");
-                            parseKidReponse(json);
+                           // JSONObject json = response.optJSONObject("data");
+                            //parseKidReponse(json);
                         }
 
                     }
@@ -338,7 +343,7 @@ public class CardScanWriteVaccine extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
+               // pDialog.hide();
             }
         }) {
 
