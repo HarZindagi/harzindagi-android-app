@@ -163,7 +163,7 @@ public class CardScanWrite extends Activity {
         myintent.putExtra("childid", Child_id);
         myintent.putExtra("EPIname", bundle.getString("EPIname"));
         if (Constants.isOnline(this)) {
-        //    sendChildData(Child_id);
+           sendChildData(Child_id);
         }
 
         startActivity(myintent);

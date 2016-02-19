@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="#EAEAEA"
-    tools:context=".Activities.LoginActivity">
+    tools:context=".Activities.VaccinationActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,200 +18,210 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:fitsSystemWindows="true"
+            android:background="#EAEAEA"
+            >
 
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:weightSum="6"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+                        <View
+                            android:id="@+id/vaccinationActivityFirstTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vaccinationtab" >
+
+                        </View>
+                        <ImageView
+                            android:id="@+id/vaccinationActivityFirstTabTick"
+                            android:src="@drawable/fill_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:visibility="visible" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <View
+                            android:id="@+id/vaccinationActivitySecondTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vaccinationtab" />
+                        <ImageView
+                            android:id="@+id/vaccinationActivitySecondTabTick"
+                            android:src="@drawable/u_fill_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <View
+                            android:id="@+id/vaccinationActivityThirdTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vaccinationtab" />
+
+                        <ImageView
+                            android:id="@+id/vaccinationActivityThirdTabTick"
+                            android:src="@drawable/u_fill_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <View
+                            android:id="@+id/vaccinationActivityFourthTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vaccinationtab" />
+                        <ImageView
+                            android:id="@+id/vaccinationActivityFourthTabTick"
+                            android:src="@drawable/u_fill_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <View
+                            android:id="@+id/vaccinationActivityFifthTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vaccinationtab" />
+
+                        <ImageView
+                            android:id="@+id/vaccinationActivityFifthTabTick"
+                            android:src="@drawable/u_fill_5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <View
+                            android:id="@+id/vaccinationActivitySixthTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vaccinationtab" />
+                        <ImageView
+                            android:id="@+id/vaccinationActivitySixthTabTick"
+                            android:src="@drawable/u_fill_6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <include  layout="@layout/content_vaccination" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_gravity="bottom"
+                android:gravity="bottom">
+
+                <Button
+                    android:text="Tasweer Khenchein"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/roundbutton"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:text="Card Par Mehfooz Karein"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/roundbutton"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:weightSum="6"
-        android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-                <View
-                    android:id="@+id/vaccinationActivityFirstTab"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/vaccinationtab" >
-
-                </View>
-                <ImageView
-                    android:id="@+id/vaccinationActivityFirstTabTick"
-                    android:src="@drawable/fill_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="visible" />
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
-                    android:id="@+id/vaccinationActivitySecondTab"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/vaccinationtab" />
-                <ImageView
-                    android:id="@+id/vaccinationActivitySecondTabTick"
-                    android:src="@drawable/u_fill_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                     />
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
-                    android:id="@+id/vaccinationActivityThirdTab"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/vaccinationtab" />
-
-                <ImageView
-                    android:id="@+id/vaccinationActivityThirdTabTick"
-                    android:src="@drawable/u_fill_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    />
-            </FrameLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
-                    android:id="@+id/vaccinationActivityFourthTab"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/vaccinationtab" />
-                <ImageView
-                    android:id="@+id/vaccinationActivityFourthTabTick"
-                    android:src="@drawable/u_fill_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                     />
-            </FrameLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
-                    android:id="@+id/vaccinationActivityFifthTab"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/vaccinationtab" />
-
-                <ImageView
-                    android:id="@+id/vaccinationActivityFifthTabTick"
-                    android:src="@drawable/u_fill_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                     />
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
-                    android:id="@+id/vaccinationActivitySixthTab"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/vaccinationtab" />
-                <ImageView
-                    android:id="@+id/vaccinationActivitySixthTabTick"
-                    android:src="@drawable/u_fill_6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                     />
-            </FrameLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <include  layout="@layout/content_vaccination" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_gravity="bottom"
-        android:gravity="bottom">
-
-        <Button
-            android:text="Tasweer Khenchein"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/roundbutton"
-            android:textColor="@color/white" />
-
-        <Button
-            android:text="Card Par Mehfooz Karein"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/roundbutton"
-            android:textColor="@color/white"
-            android:layout_marginTop="4dp" />
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
