@@ -49,6 +49,10 @@
         <meta-data
             android:name="Injections"
             android:value="com.ipal.itu.harzindagi.Entity.Injections" />
+        <meta-data
+            android:name="KidVaccinations"
+            android:value="com.ipal.itu.harzindagi.Entity.KidVaccinations" />
+
 
         <activity
             android:name=".Activities.SplashActivity"

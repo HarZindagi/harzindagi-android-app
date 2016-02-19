@@ -1,49 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-
-    android:layout_height="160dp" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingTop="55dp"
-        android:paddingBottom="55dp"
-        android:paddingRight="10dp"
-
-        >
+    android:layout_height="wrap_content"
+    android:padding="7dp">
 
 
+    <TextView
+        android:id="@+id/inj_name"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/inj_chk"
+        android:gravity="center|left"
+
+        android:text="Vacine"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#4d4d4d"
+        android:textSize="22dp" />
 
 
-        <TextView
-            android:id="@+id/inj_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="50"
-            android:paddingLeft="10dp"
-            android:text="Vacine"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#4d4d4d"
-            android:textSize="17dp" />
+    <CheckBox
+        android:id="@+id/inj_chk"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:button="@drawable/customdrawablecheckbox"
+        android:gravity="center|center_vertical"
+       
+        android:text="" />
 
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/customdrawablecheckbox"
-
-            android:text=""
-
-            android:gravity="center|center_vertical"
-            android:paddingRight="10dp"
-            android:id="@+id/inj_chk"
-            />
-
-
-
-
-    </LinearLayout>
 
 </RelativeLayout>

@@ -83,9 +83,9 @@ public class VaccinationOneFragment extends Fragment {
         // have to this dynamic in future
 
         List<Injections> data= InjectionsDao.getInjectionsByVisit(1);
-        Injections ij=new Injections();
-        ij.SetInjections(1,"abc","aaaaaa",true);
-        data.add(ij);
+       // Injections ij=new Injections();
+        //ij.SetInjections(1,"abc","aaaaaa",true);
+        //data.add(ij);
         ListView list;
         list = (ListView) v.findViewById(R.id.list_v1);
         VaccineAdapter adapter = new VaccineAdapter(getActivity(),R.layout.vaccinelist_item, data, "Har Zindagi");

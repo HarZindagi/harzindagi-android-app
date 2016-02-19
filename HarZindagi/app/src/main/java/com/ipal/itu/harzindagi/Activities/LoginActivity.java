@@ -524,8 +524,9 @@ public class LoginActivity extends AppCompatActivity {
             vacs.injection_id = gInjection.vaccinations.get(i).injection_id;
             vac.add(vacs);
         }
+        vaccinationsDao.deleteTable();
         vaccinationsDao.bulkInsert(vac);
-        List<Vaccinations> list = vaccinationsDao.getAll();
+
 
     }
 }

@@ -10,12 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         >
 
         <ListView
             android:id="@+id/list_v1"
             android:layout_width="match_parent"
+            android:divider="@null"
             android:layout_height="wrap_content" >
         </ListView>
         <View

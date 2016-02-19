@@ -1,11 +1,11 @@
 package com.ipal.itu.harzindagi.Dao;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Model;
-import com.activeandroid.query.Select;
-import com.ipal.itu.harzindagi.Entity.Vaccinations;
+        import com.activeandroid.ActiveAndroid;
+        import com.activeandroid.Model;
+        import com.activeandroid.query.Select;
+        import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
-import java.util.List;
+        import java.util.List;
 
 /**
  * Created by Ali on 2/18/2016.
@@ -46,5 +46,8 @@ public class VaccinationsDao  {
         } finally {
             ActiveAndroid.endTransaction();
         }
+    }
+    public  void deleteTable(){
+        Vaccinations.truncate(Vaccinations.class);
     }
 }
