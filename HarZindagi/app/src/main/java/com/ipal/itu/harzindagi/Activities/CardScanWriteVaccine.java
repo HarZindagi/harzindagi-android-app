@@ -5,30 +5,31 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-        import android.nfc.Tag; import android.nfc.tech.Ndef;
-        import android.nfc.tech.NfcF;
-        import android.os.Bundle;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NfcF;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-        import com.activeandroid.query.Select;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
 import java.io.IOException;
-        import java.io.UnsupportedEncodingException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.List;
 
 
-public class CardScanWrite extends Activity {
+public class CardScanWriteVaccine extends Activity {
 
 
     Tag mytag;
@@ -75,31 +76,18 @@ public class CardScanWrite extends Activity {
 
 
          bundle = getIntent().getExtras();
-         Child_id = bundle.getString("ID");
-
-          //   BabyInfo info = new Select().from(BabyInfo.class).where("ChildID = ?" , Child_id).executeSingle();
-/*        childName=info.childName;
-        dateOfBirth=info.childDOB;
-
-        childGender=info.childGender;
+         Child_id = bundle.getString("childid");
 
 
-        fatherName=info.fatherName;
-        fatherCNIC=info.fatherCNIC;
-        fatherMobile=info.contactNumber;
-        childAddress=info.address;
-        District=info.district;
-        Tehsil=info.tehsil;
-        NextDueDate=info.nextDueDate;
-        VisitNum=info.visitNumber;*/
+        List<ChildInfo> data = ChildInfoDao.getChild(Child_id);
 
 
-     //   push_NFC= Child_id+"#"+childName+"#"+dateOfBirth+"#"+childGender+"#"+fatherName+"#"+ fatherCNIC+"#"+ fatherMobile+"#"+childAddress +"#"+District +"#"+Tehsil+"#"+VisitNum+"#"+"000@@"+"#"+NextDueDate;
+
+        push_NFC=data.get(0).epi_name+"#"+data.get(0).kid_name+"#"+data.get(0).gender+"#"+data.get(0).date_of_birth+"#"+data.get(0).mother_name+"#"+data.get(0).guardian_name+"#"+data.get(0).guardian_cnic+"#"+data.get(0).phone_number+"#"+data.get(0).created_timestamp+"#"+data.get(0).location+"#"+data.get(0).epi_name+"#"+bundle.getString("next_date");
 
 
-         tsLong = System.currentTimeMillis()/1000;
 
-        push_NFC= "#"+Child_id+"#"+bundle.getString("Name")+"#"+bundle.getInt("Gender")+"#"+bundle.getString("DOB")+"#"+bundle.getString("mName")+"#"+bundle.getString("gName")+"#"+bundle.getString("cnic")+"#"+bundle.getString("pnum")+"#"+tsLong+"#"+""+longitude+","+latitude+"#"+bundle.getString("EPIname");
+
 
 
 
@@ -139,19 +127,15 @@ public class CardScanWrite extends Activity {
     public int Push_into_NFC()
     {
 
-        int loop_check=0;
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
 
         Long tsLong = System.currentTimeMillis()/1000;
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
+       // ChildInfoDao childInfoDao = new ChildInfoDao();
+        //childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
+/// @@@@@@@@@@@ CODE OF VACCINATIONS
 
-
-        Intent myintent = new Intent(this, RegisteredChildActivity.class);
-
-        myintent.putExtra("childid", Child_id);
-        myintent.putExtra("EPIname", bundle.getString("EPIname"));
+        Intent myintent = new Intent(this, DashboardActivity.class);
 
 
         startActivity(myintent);
@@ -195,7 +179,7 @@ public class CardScanWrite extends Activity {
                                 String Arry[] = s.split("#");
                                 card_data=Arry[0]+"#"+Arry[1];
                                 try {
-                                    write(card_data+push_NFC, mytag);
+                                    write(card_data+"#"+push_NFC, mytag);
                                     btn.setText("NEXT");
                                     btn.setVisibility(View.VISIBLE);
 

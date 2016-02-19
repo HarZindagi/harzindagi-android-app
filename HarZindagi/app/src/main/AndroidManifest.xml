@@ -121,6 +121,7 @@
         <activity android:name=".Activities.CustomCamera" />
         <activity android:name=".Activities.CustomCameraKidstation" />
         <activity android:name=".Activities.CardScanWrite" />
+        <activity android:name=".Activities.CardScanWriteVaccine" />
     </application>
 
 </manifest>

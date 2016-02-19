@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Activities.CardScanWrite;
@@ -70,7 +73,27 @@ public class VaccinationOneFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vaccination_one, container, false);
+        View v  = inflater.inflate(R.layout.fragment_vaccination_one, container, false);
+
+        // have to this dynamic in future
+
+
+
+
+      Button btn=(Button)v.findViewById(R.id.btn_v1);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                Intent cameraIntent = new Intent(getActivity(), CustomCamera.class);
+                cameraIntent.putExtra("filename",((VaccinationActivity)getActivity()).fpath );
+                startActivityForResult(cameraIntent,((VaccinationActivity)getActivity()).CAMERA_REQUEST );
+            }
+        });
+        return  v;
     }
 
 

@@ -112,7 +112,7 @@ public class Card_Scan extends Activity {
                                 // startActivityForResult(myintent, 0);
                             } else {
 //                                mTextView.setText(s);
-                                parseintent(s);
+
 
                             }
 
@@ -125,9 +125,15 @@ public class Card_Scan extends Activity {
         }
 
 
-        Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
+        if(s.length()>2)
+        {
 
         String Arry[] = s.split("#");
+            Intent i= new Intent(Card_Scan.this,VaccinationActivity.class);
+            i.putExtra("childid",Arry[2]);
+            startActivity(i);
+
+        }
 
 
     }

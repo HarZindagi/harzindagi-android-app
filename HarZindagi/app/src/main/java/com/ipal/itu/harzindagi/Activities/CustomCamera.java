@@ -52,7 +52,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
-        app_name = getResources().getString(R.string.app_name);
+        app_name ="Har Zindagi";
 
         ctx=this;
 
@@ -129,7 +129,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
     private File getOutputMediaFile() {
         Path = "/sdcard/" + app_name + "/"
-                + fpath + "_a.jpg";
+                + fpath + ".jpg";
         mediaFile = new File(Path);
 
         return mediaFile;
@@ -168,7 +168,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
     public void finishActivity() {
         Intent i = new Intent();
-        i.putExtra("fpath", fpath+"_a");
+        i.putExtra("fpath", fpath);
         i.putExtra("path", Path);
         setResult(1888, i);
 
