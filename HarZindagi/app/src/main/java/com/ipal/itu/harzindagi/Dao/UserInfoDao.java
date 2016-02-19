@@ -4,6 +4,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.ipal.itu.harzindagi.Entity.Transaction;
 import com.ipal.itu.harzindagi.Entity.UserInfo;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
 import java.util.List;
 
@@ -39,5 +40,8 @@ public class UserInfoDao {
     public void deleteItem(int CID) {
         UserInfo item = new UserInfo();
         item.delete(UserInfo.class, CID);
+    }
+    public  void deleteTable(){
+        UserInfo.truncate(UserInfo.class);
     }
 }

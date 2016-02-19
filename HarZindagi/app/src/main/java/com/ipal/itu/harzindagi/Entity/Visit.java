@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Entity;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.ipal.itu.harzindagi.Utils.TruncatableModel;
 
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
  * Created by Ali on 1/14/2016.
  */
 @Table(name = "Visit")
-public class Visit extends Model{
+public class Visit extends TruncatableModel {
 
 
     @Column(name = "_id")

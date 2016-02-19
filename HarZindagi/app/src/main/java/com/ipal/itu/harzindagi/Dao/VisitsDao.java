@@ -5,6 +5,7 @@ import com.activeandroid.Model;
 import com.activeandroid.query.Select;
 import com.ipal.itu.harzindagi.Entity.Transaction;
 import com.ipal.itu.harzindagi.Entity.UserInfo;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
 
 import java.util.ArrayList;
@@ -50,5 +51,8 @@ public class VisitsDao  {
         } finally {
             ActiveAndroid.endTransaction();
         }
+    }
+    public  void deleteTable(){
+        Visit.truncate(Visit.class);
     }
 }

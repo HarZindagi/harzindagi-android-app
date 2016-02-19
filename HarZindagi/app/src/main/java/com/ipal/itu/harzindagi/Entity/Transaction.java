@@ -3,12 +3,13 @@ package com.ipal.itu.harzindagi.Entity;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.ipal.itu.harzindagi.Utils.TruncatableModel;
 
 /**
  * Created by Ali on 1/14/2016.
  */
 @Table(name = "Transaction")
-public class Transaction extends Model{
+public class Transaction extends TruncatableModel {
     @Column(name = "ChildID")
     public int childID;
     @Column(name = "VID")

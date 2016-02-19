@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Entity;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.ipal.itu.harzindagi.Utils.TruncatableModel;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by Ali on 1/13/2016.
  */
 @Table(name = "UserInfo")
-public class UserInfo extends Model {
+public class UserInfo extends TruncatableModel {
     @Column(name = "UCNumber")
     public String UCNumber;
     @Column(name = "GUserInfo")
@@ -29,7 +30,5 @@ public class UserInfo extends Model {
         this.Password = Password;
     }
 
-   /* public List<Transaction> transactions() {
-        return getMany(Transaction.class, "ChildID");
-    }*/
+
 }

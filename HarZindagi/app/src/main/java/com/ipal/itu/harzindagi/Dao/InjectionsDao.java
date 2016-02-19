@@ -75,4 +75,7 @@ public class InjectionsDao {
             ActiveAndroid.endTransaction();
         }
     }
+    public  void deleteTable(){
+        Injections.truncate(Injections.class);
+    }
 }

@@ -4,6 +4,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Transaction;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
 import java.util.List;
 
@@ -68,5 +69,8 @@ public class ChildInfoDao {
                 .where("epi_number = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
+    }
+    public  void deleteTable(){
+        ChildInfo.truncate(ChildInfo.class);
     }
 }
