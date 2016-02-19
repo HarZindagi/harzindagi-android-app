@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class KidVaccinationDao {
 
-    public void save(String Location, int KidID, int VaccinationID, String Image_, long CreateTime ) {
+    public void save(String Location, int KidID, int VaccinationID, String Image_, long CreateTime,Boolean Is_Sync ) {
         KidVaccinations item = new KidVaccinations();
-        item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime);
+        item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime,Is_Sync);
         item.save();
 
     }

@@ -79,6 +79,8 @@ public class CardScanWriteVaccine extends Activity {
     private String NextDueDate;
     private String card_data = "";
     private ImageView imgV;
+    List<Integer> lst;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,14 +142,23 @@ public class CardScanWriteVaccine extends Activity {
 /// @@@@@@@@@@@ CODE OF VACCINATIONS
 
 
-        List lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"));
+       lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"));
 
-        KidVaccinationDao kd = new KidVaccinationDao();
+
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < lst.size(); i++) {
-            kd.save(data.get(0).location, data.get(0).id, (int) lst.get(i), data.get(0).image_name, calendar.getTimeInMillis());
             if(Constants.isOnline(this)) {
-                sendVaccinationsData(data.get(0).location, data.get(0).id, (int) lst.get(i), calendar.getTimeInMillis());
+
+                sendVaccinationsData(data.get(0).location, data.get(0).id,  lst.get(i), calendar.getTimeInMillis(),i);
+            }
+            else
+            {
+
+
+                KidVaccinationDao kd = new KidVaccinationDao();
+
+                kd.save(data.get(0).location, data.get(0).id, (int) lst.get(i), data.get(0).image_name, calendar.getTimeInMillis(),false);
+
             }
         }
 
@@ -291,7 +302,7 @@ public class CardScanWriteVaccine extends Activity {
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
-    private void sendVaccinationsData(String Location, int KidID, int VaccinationID, long CreateTime) {
+    private void sendVaccinationsData(String Location, int KidID, int VaccinationID, long CreateTime,final int index) {
         // Instantiate the RequestQueue.
         KidVaccinationDao kidVac = new KidVaccinationDao();
 
@@ -333,10 +344,21 @@ public class CardScanWriteVaccine extends Activity {
                         //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
                        // pDialog.hide();
+                        if(response!=null)
+                        {
+                            KidVaccinationDao kd = new KidVaccinationDao();
+                            Calendar calendar = Calendar.getInstance();
+                            kd.save(data.get(0).location, data.get(0).id, (int) lst.get(index), data.get(0).image_name, calendar.getTimeInMillis(),true);
+
+
+
+
+                        }
                         if (response.optBoolean("success")) {
                            // JSONObject json = response.optJSONObject("data");
                             //parseKidReponse(json);
                         }
+
 
                     }
                 }, new Response.ErrorListener() {

@@ -58,9 +58,9 @@ public class VaccinationsDao  {
         }
 
         int x=0;
-        for(int i=0;i<lij.size();i++)
+        for(int i=0;i<lij.size()&&i<injarr.length;i++)
         {
-            if(injarr[0]=="1")
+            if(injarr[i].equals("1"))
             {
                 if(vc.get(i).injection_id==lij.get(i).id)
                 {
@@ -71,6 +71,7 @@ public class VaccinationsDao  {
 
 
             }
+
 
         }
 
