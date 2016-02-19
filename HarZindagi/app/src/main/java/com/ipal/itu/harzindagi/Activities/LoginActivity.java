@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
     private void getUserInfo() {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.get_device_info + "?" + "device[imei_number]=" + getIMEI(this);
+        String url = Constants.get_device_info + "?" + "device[imei_number]=" + Constants.getIMEI(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.show();
@@ -245,11 +245,7 @@ public class LoginActivity extends AppCompatActivity {
         queue.add(jsonObjReq);
     }
 
-    public String getIMEI(Activity activity) {
-        TelephonyManager telephonyManager = (TelephonyManager) activity
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getDeviceId();
-    }
+
 
     public void parseUserResponse(JSONObject response) {
         Gson gson = new Gson();
@@ -428,7 +424,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONArray response) {
-                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
                         parseInjections(response);
                         pDialog.hide();
@@ -496,7 +492,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+               Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -529,6 +525,7 @@ public class LoginActivity extends AppCompatActivity {
             vac.add(vacs);
         }
         vaccinationsDao.bulkInsert(vac);
+        List<Vaccinations> list = vaccinationsDao.getAll();
 
     }
 }

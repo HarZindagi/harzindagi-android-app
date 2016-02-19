@@ -317,11 +317,27 @@ public class CardScanWrite extends Activity {
         try {
             obj = new JSONObject();
             JSONObject user = new JSONObject();
+            user.put("auth_token",Constants.getToken(this));
             obj.put("user", user);
-            Gson gson = new Gson();
 
-            JSONObject kid = new JSONObject(gson.toJson(childInfo.get(0)));
-            obj.put("kid", kid);
+            JSONObject kid = new JSONObject();
+            kid.put("id",childInfo.get(0).id);
+            kid.put("mobile_id",childInfo.get(0).id);
+            kid.put("imei_number",Constants.getIMEI(this));
+            kid.put("kid_name",childInfo.get(0).kid_name);
+            kid.put("father_name",childInfo.get(0).guardian_name);
+            kid.put("mother_name",childInfo.get(0).mother_name);
+            kid.put("father_cnic",childInfo.get(0).guardian_cnic);
+            kid.put("mother_cnic","");
+            kid.put("phone_number",childInfo.get(0).phone_number);
+            kid.put("date_of_birth",childInfo.get(0).date_of_birth);
+            kid.put("location","00000,000000");
+            kid.put("child_address","");
+            kid.put("gender",childInfo.get(0).gender);
+            kid.put("epi_number",childInfo.get(0).epi_number);
+            kid.put("itu_epi_number",childInfo.get(0).epi_number+"_itu");
+
+            obj.put("kid",kid);
 
         } catch (JSONException e) {
             e.printStackTrace();

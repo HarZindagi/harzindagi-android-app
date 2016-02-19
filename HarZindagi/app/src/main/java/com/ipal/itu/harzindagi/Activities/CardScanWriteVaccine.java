@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.FormatException;
@@ -19,14 +20,30 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CardScanWriteVaccine extends Activity {
@@ -258,6 +275,77 @@ public class CardScanWriteVaccine extends Activity {
         if (mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
+    private void sendVaccinationsData(int vacID) {
+        // Instantiate the RequestQueue.
+        VaccinationsDao vaccinationsDao = new VaccinationsDao();
+        List<Vaccinations> childInfo = vaccinationsDao.getById(vacID);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kid_vaccinations;
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Saving Vaccination data...");
+        pDialog.show();
+        JSONObject obj = null;
+
+        try {
+            obj = new JSONObject();
+            JSONObject user = new JSONObject();
+            user.put("auth_token",Constants.getToken(this));
+            obj.put("user", user);
+
+            JSONObject vaccination = new JSONObject();
+
+            vaccination.put("imei_number", Constants.getIMEI(this));
+            vaccination.put("location", childInfo.get(0).id);
+            vaccination.put("kid_id", childInfo.get(0).id);
+            vaccination.put("vaccination_id", childInfo.get(0).id);
+            vaccination.put("version_name", childInfo.get(0).id);
+            vaccination.put("location_source", childInfo.get(0).id);
+
+            obj.put("kid_vaccination",vaccination);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, obj,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        // Log.d(TAG, response.toString());
+                        pDialog.hide();
+                        if (response.optBoolean("success")) {
+                            JSONObject json = response.optJSONObject("data");
+                            parseKidReponse(json);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
 
 
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseKidReponse(JSONObject response) {
+        Gson gson = new Gson();
+        // obj = gson.fromJson(response.toString(), GUserInfo.class);
+    }
 }

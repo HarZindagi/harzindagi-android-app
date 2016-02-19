@@ -17,6 +17,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf55d8da0bcb3b90912d4d7b75eb178f0ed13c88
 
     <application
         android:name=".Application.HarZindagiApp"
