@@ -12,16 +12,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Activities.CardScanWrite;
 import com.ipal.itu.harzindagi.Activities.CustomCamera;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
+import com.ipal.itu.harzindagi.Adapters.VaccineAdapter;
+import com.ipal.itu.harzindagi.Dao.InjectionsDao;
+import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,7 +82,14 @@ public class VaccinationOneFragment extends Fragment {
 
         // have to this dynamic in future
 
-
+        List<Injections> data= InjectionsDao.getInjectionsByVisit(1);
+        Injections ij=new Injections();
+        ij.SetInjections(1,"abc","aaaaaa",true);
+        data.add(ij);
+        ListView list;
+        list = (ListView) v.findViewById(R.id.list_v1);
+        VaccineAdapter adapter = new VaccineAdapter(getActivity(),R.layout.vaccinelist_item, data, "Har Zindagi");
+        list.setAdapter(adapter);
 
 
       Button btn=(Button)v.findViewById(R.id.btn_v1);
@@ -93,6 +105,8 @@ public class VaccinationOneFragment extends Fragment {
                 startActivityForResult(cameraIntent,((VaccinationActivity)getActivity()).CAMERA_REQUEST );
             }
         });
+
+
         return  v;
     }
 

@@ -4,6 +4,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.query.Select;
 import com.ipal.itu.harzindagi.Entity.Injections;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,31 @@ public class InjectionsDao {
                 .where("_id = ?", id)
                 .orderBy("_id ASC")
                 .execute();
+    }
+    public static List<Injections> getInjectionsByVisit(int v_id)
+    {
+        List<Vaccinations> vc= new Select()
+                .from(Vaccinations.class)
+                .where("visit_id = ?", v_id)
+                .orderBy("visit_id ASC")
+                .execute();
+
+
+        List<Injections> lij=new ArrayList<>();
+
+
+        for(int i=0;i<vc.size();i++)
+        {
+          List  <Injections> ij=new Select()
+                    .from(Injections.class)
+                    .where("_id = ?", vc.get(i).injection_id)
+                    .execute();
+
+                lij.add(ij.get(0));
+
+        }
+        return lij;
+
     }
     public void bulkInsert(ArrayList<Injections> items) {
         ActiveAndroid.beginTransaction();

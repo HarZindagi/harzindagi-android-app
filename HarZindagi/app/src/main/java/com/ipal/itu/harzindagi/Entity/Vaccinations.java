@@ -4,6 +4,8 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.util.List;
+
 /**
  * Created by Ali on 1/14/2016.
  */
@@ -15,7 +17,7 @@ public class Vaccinations extends Model {
     public int id;
 
 
-    @Column(name = "visit_id")   // it is the auto-increment id from Childinfo
+    @Column(name = "visit_id")
     public int visit_id;
 
     @Column(name = "injection_id")

@@ -1,12 +1,16 @@
 package com.ipal.itu.harzindagi.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.ipal.itu.harzindagi.Activities.CustomCamera;
+import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.R;
 
 /**
@@ -60,7 +64,23 @@ public class VaccinationFiveFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vaccination_five, container, false);
+        View v= inflater.inflate(R.layout.fragment_vaccination_five, container, false);
+
+
+        Button btn=(Button)v.findViewById(R.id.btn_v5);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                Intent cameraIntent = new Intent(getActivity(), CustomCamera.class);
+                cameraIntent.putExtra("filename",((VaccinationActivity)getActivity()).fpath );
+                startActivityForResult(cameraIntent,((VaccinationActivity)getActivity()).CAMERA_REQUEST );
+            }
+        });
+    return v;
     }
 
 }
