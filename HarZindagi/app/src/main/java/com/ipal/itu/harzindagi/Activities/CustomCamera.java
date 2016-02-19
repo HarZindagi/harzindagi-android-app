@@ -13,11 +13,19 @@ import android.graphics.Paint;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
+import com.ipal.itu.harzindagi.GJson.Token;
 import com.ipal.itu.harzindagi.R;
 
 import java.io.ByteArrayOutputStream;
@@ -30,7 +38,7 @@ import java.io.IOException;
  * Created by Wahab on 2/3/2016.
  */
 public class CustomCamera extends Activity implements SurfaceHolder.Callback {
-    private Camera mCamera;
+    public static ProgressDialog progress;
     SurfaceHolder surfaceHolder;
     File mediaFile;
     String Path, app_name;
@@ -44,7 +52,30 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
     Context ctx;
     Bundle bundle;
-    public static ProgressDialog progress;
+    FaceDetector detector;
+    private Camera mCamera;
+    private SparseArray<Face> mFaces;
+    Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+
+            Bitmap realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            Bitmap bmpRotate = Bitmap.createBitmap(realImage, 0, 0, realImage.getWidth(), realImage.getHeight(), matrix, true);
+            if (detactFace(bmpRotate)) {
+                saveImage(bmpRotate, camera);
+            } else {
+                mCamera.startPreview();
+                progress.hide();
+                Toast t = Toast.makeText(getApplicationContext(), "Face Not Detected", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                t.show();
+
+            }
+
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,12 +84,12 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
-        app_name ="Har Zindagi";
+        app_name = "Har Zindagi";
 
-        ctx=this;
+        ctx = this;
 
-        bundle=getIntent().getExtras();
-        fpath= this.getIntent().getStringExtra("filename");
+        bundle = getIntent().getExtras();
+        fpath = this.getIntent().getStringExtra("filename");
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setStrokeWidth(10);
@@ -78,8 +109,8 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             @Override
             public void onClick(View v) {
                 mCamera.takePicture(null, null, mPicture);
-                 progress = new ProgressDialog(ctx);
-                progress.setTitle("Loading");
+                progress = new ProgressDialog(ctx);
+                progress.setTitle("Detecting Child Face...");
 
                 progress.show();
 
@@ -99,35 +130,78 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         }
     }
 
-    Camera.PictureCallback mPicture = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
+    public boolean detactFace(Bitmap bitmap) {
+        detector = new FaceDetector.Builder(this)
+                .setTrackingEnabled(true)
+                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+                .setMode(FaceDetector.ACCURATE_MODE)
+                .build();
 
-            Bitmap realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-            Bitmap BmpRotate = Bitmap.createBitmap(realImage, 0, 0, realImage.getWidth(), realImage.getHeight(), matrix, true);
-            Bitmap cropped_bitmap = cropBitmap(BmpRotate);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            cropped_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-             byte[] byteArray = stream.toByteArray();
-
-            File pictureFile = getOutputMediaFile();
-            if (pictureFile == null) {
-                return;
+        if (!detector.isOperational()) {
+            return true;
+        } else {
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+            mFaces = detector.detect(frame);
+            detector.release();
+            if (mFaces.size() == 0 || mFaces.size() > 1) {
+                return false;
+            } else if (mFaces.size() == 1) {
+                return true;
             }
-            try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(byteArray);
-                fos.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            finishActivity();
         }
-    };
+        return false;
+
+    }
+
+    private boolean processFaceData() {
+        float smilingProbability;
+        float leftEyeOpenProbability;
+        float rightEyeOpenProbability;
+        float eulerY;
+        float eulerZ;
+        boolean isFaceDetected = false;
+        for (int i = 0; i < mFaces.size(); i++) {
+            Face face = mFaces.valueAt(i);
+
+            smilingProbability = face.getIsSmilingProbability();
+            leftEyeOpenProbability = face.getIsLeftEyeOpenProbability();
+            rightEyeOpenProbability = face.getIsRightEyeOpenProbability();
+            eulerY = face.getEulerY();
+            eulerZ = face.getEulerZ();
+
+            //Log.e("Tuts+ Face Detection", "Smiling: " + smilingProbability);
+            //  Log.e( "Tuts+ Face Detection", "Left eye open: " + leftEyeOpenProbability );
+            // Log.e( "Tuts+ Face Detection", "Right eye open: " + rightEyeOpenProbability );
+            // Log.e( "Tuts+ Face Detection", "Euler Y: " + eulerY );
+            // Log.e( "Tuts+ Face Detection", "Euler Z: " + eulerZ );
+            isFaceDetected = true;
+            break;
+        }
+        return isFaceDetected;
+    }
+
+    private void saveImage(Bitmap image, Camera camera) {
+
+        Bitmap cropped_bitmap = cropBitmap(image);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        cropped_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        File pictureFile = getOutputMediaFile();
+        if (pictureFile == null) {
+            return;
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(pictureFile);
+            fos.write(byteArray);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finishActivity();
+    }
 
     private File getOutputMediaFile() {
         Path = "/sdcard/" + app_name + "/"
@@ -172,10 +246,9 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         Intent i = new Intent();
         i.putExtra("fpath", fpath);
         i.putExtra("path", Path);
-        if(bundle.size()>=3)
-        {
-                i.putExtra("vacc_details",bundle.getString("vacc_details"));
-                i.putExtra("visit_num",bundle.getString("visit_num"));
+        if (bundle.size() >= 3) {
+            i.putExtra("vacc_details", bundle.getString("vacc_details"));
+            i.putExtra("visit_num", bundle.getString("visit_num"));
 
 
         }
@@ -192,7 +265,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             camera_bitmap = Bitmap.createBitmap(Height, Height, Bitmap.Config.ARGB_8888);
         }
         camera_canvas = new Canvas(camera_bitmap);
-       // camera_canvas.drawARGB(128,100,100,100);
+        // camera_canvas.drawARGB(128,100,100,100);
         camera_canvas.drawRect(0, 0, camera_bitmap.getWidth(), camera_bitmap.getHeight(), p);
     }
 
