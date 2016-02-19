@@ -31,7 +31,7 @@ public class ChildrenListActivity extends AppCompatActivity {
         app_name = getResources().getString(R.string.app_name);
 
        ChildInfoDao dao = new ChildInfoDao();
-        if( ChildInfoDao.getAll() != null ){
+        if( new ChildInfoDao.getAll() != null ){
 
             final List<ChildInfo> data= ChildInfoDao.getAll();
 
