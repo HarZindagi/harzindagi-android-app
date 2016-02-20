@@ -35,6 +35,9 @@ public class KidVaccinations extends TruncatableModel {
     public long created_timestamp;
 
 
+    @Column(name = "is_sync")
+    public boolean is_sync;
+
 
 
 
@@ -42,7 +45,7 @@ public class KidVaccinations extends TruncatableModel {
         super();
     }
 
-    public void SetKidVaccinations(String Location, int KidID, int VaccinationID, String Image_, long CreateTime) {
+    public void SetKidVaccinations(String Location, int KidID, int VaccinationID, String Image_, long CreateTime,Boolean IsSync) {
 
 
         this.location = Location;
@@ -50,7 +53,7 @@ public class KidVaccinations extends TruncatableModel {
         this.vaccination_id = VaccinationID;
         this.image = Image_;
         this.created_timestamp = CreateTime;
-
+        this.is_sync=IsSync;
 
 
     }

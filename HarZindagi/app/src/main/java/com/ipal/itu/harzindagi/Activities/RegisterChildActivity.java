@@ -44,9 +44,12 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText guardianCNIC;
     EditText guardianMobileNumber;
     String Fpath;
-    EditText ucNumber;
+
+    EditText EPINumber;
     Button childPicture;
-    String UCNumber;
+
+    String epiNumber;
+
     String EPICenterName;
     String ChildName, childID;
     String DateOfBirth;
@@ -84,7 +87,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         DOB = (View) findViewById(R.id.registerChildDOB);
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
 
-        ucNumber = (EditText) findViewById(R.id.registerChildUCNumber);
+        EPINumber = (EditText) findViewById(R.id.registerChildUCNumber);
 
         CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
 
@@ -151,7 +154,9 @@ public class RegisterChildActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
-                cameraIntent.putExtra("filename", childName.getText().toString() + ucNumber.getText().toString());
+
+                cameraIntent.putExtra("filename", childName.getText().toString() + EPINumber.getText().toString());
+
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
@@ -168,7 +173,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
             readEditTexts();
-            childID = ChildName + UCNumber;
+            childID = epiNumber;
             Fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);
@@ -204,7 +209,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     public void readEditTexts() {
-        UCNumber = "213";
+        epiNumber = EPINumber.getText().toString();
         EPICenterName = CenterName.getText().toString();
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();
