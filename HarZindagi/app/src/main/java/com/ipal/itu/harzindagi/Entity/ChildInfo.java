@@ -79,6 +79,8 @@ public class ChildInfo extends TruncatableModel {
     @Column(name = "next_due_date")
     public long next_due_date;
 
+    @Column(name = "child_address")
+    public String child_address;
 
 
     public ChildInfo() {

@@ -292,7 +292,7 @@
                 android:textSize="20dp" />
 
 
-            <EditText
+            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
                 android:id="@+id/registerChildGuardianCNIC"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -300,9 +300,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="5dp"
                 android:layout_weight=".10"
-
                 android:hint="#####-########-#"
-                android:inputType="number"
+                mask:mask="#####-########-#"
+                android:inputType = "number"
+                android:numeric = "decimal"
                 android:paddingLeft="16dp"
                 android:singleLine="true" />
         </LinearLayout>
@@ -321,11 +322,11 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
-                android:text="رپرست کا موبائل نمبر"
+                android:text="سرپرست کا موبائل نمبر"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
-            <EditText
+            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
                 android:id="@+id/registerChildGuardianMobileNumber"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -333,7 +334,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="5dp"
                 android:hint="03##-#######"
-                android:inputType="phone"
+                mask:mask="####-#######"
+                android:inputType = "number"
+                android:numeric = "decimal"
                 android:paddingLeft="16dp"
                 android:singleLine="true" />
         </LinearLayout>

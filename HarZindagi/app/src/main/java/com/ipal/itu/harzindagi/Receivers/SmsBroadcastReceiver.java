@@ -1,4 +1,4 @@
-package com.ipal.itu.harzindagi.SMS;
+package com.ipal.itu.harzindagi.Receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

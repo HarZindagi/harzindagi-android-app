@@ -23,6 +23,8 @@ public class Constants {
     public static final String login = "http://103.226.216.170:3000/login";
 
     public static final String token = "token";
+    public static final String password = "password";
+    public static final String name = "name";
     public static final String uc = "uc";
 
     public static String getToken(Context c) {
@@ -40,9 +42,9 @@ public class Constants {
         return prefs.getString(Constants.uc, "");
     }
 
-    public static void setUC(Context c, String token) {
+    public static void setUC(Context c, String uc) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.uc, token).commit();
+        prefs.edit().putString(Constants.uc, uc).commit();
     }
 
     public static boolean isOnline(Context context) {
@@ -55,5 +57,23 @@ public class Constants {
         TelephonyManager telephonyManager = (TelephonyManager) context
                 .getSystemService(Context.TELEPHONY_SERVICE);
         return telephonyManager.getDeviceId();
+    }
+    public static String getPassword(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getString(Constants.password, "");
+    }
+
+    public static void setPassword(Context c, String pasword) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putString(Constants.password, pasword).commit();
+    }
+    public static String getUserName(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getString(Constants.name, "");
+    }
+
+    public static void setUserName(Context c, String userName) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putString(Constants.name, userName).commit();
     }
 }

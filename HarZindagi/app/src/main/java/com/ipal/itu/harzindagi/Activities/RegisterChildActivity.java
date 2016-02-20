@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,7 +32,7 @@ import java.util.Locale;
 
 public class RegisterChildActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
-
+    private static final int CALENDAR_CODE = 100;
     EditText CenterName;
     EditText childName;
     Button boy;
@@ -42,10 +44,8 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText guardianCNIC;
     EditText guardianMobileNumber;
     String Fpath;
-
     EditText ucNumber;
     Button childPicture;
-
     String UCNumber;
     String EPICenterName;
     String ChildName, childID;
@@ -56,7 +56,6 @@ public class RegisterChildActivity extends AppCompatActivity {
     String GuardianMobileNumber;
     int Gender;
     String app_name;
-    private static final int CALENDAR_CODE = 100;
     FileOutputStream fo;
 
     Calendar myCalendar = Calendar.getInstance();
@@ -133,9 +132,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         guardianName = (EditText) findViewById(R.id.registerChildGuardianName);
 
-
         guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
-
 
         guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
 
@@ -154,7 +151,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
-                cameraIntent.putExtra("filename",childName.getText().toString()+ucNumber.getText().toString());
+                cameraIntent.putExtra("filename", childName.getText().toString() + ucNumber.getText().toString());
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
@@ -167,7 +164,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      if(requestCode == CAMERA_REQUEST && resultCode == 1888) {
+        if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
             readEditTexts();
@@ -177,8 +174,6 @@ public class RegisterChildActivity extends AppCompatActivity {
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
-
-
 
 
             DateOfBirth = DOBText.getText().toString();

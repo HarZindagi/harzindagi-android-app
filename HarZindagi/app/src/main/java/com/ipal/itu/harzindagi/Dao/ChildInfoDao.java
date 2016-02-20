@@ -31,17 +31,27 @@ public class ChildInfoDao {
         return item.transactions();
     }*/
 
-    public void bulkInsert(List<Transaction> items) {
+    public void bulkInsert(List<ChildInfo> items) {
         ActiveAndroid.beginTransaction();
         try {
             for (int i = 0; i < items.size(); i++) {
 
-                Transaction item = new Transaction();
-                item.childID = items.get(i).childID;
-                item.date = items.get(i).date;
-                item.nextDate = items.get(i).nextDate;
-                item.VacID = items.get(i).VacID;
-                item.VisitNumb = items.get(i).VisitNumb;
+                ChildInfo item = new ChildInfo();
+                item.id = items.get(i).id;
+                item.epi_name = items.get(i).epi_name;
+                item.kid_name = items.get(i).kid_name;
+                item.epi_number = items.get(i).epi_number;
+                item.child_address = items.get(i).child_address;
+
+                item.date_of_birth = items.get(i).date_of_birth;
+                item.gender = items.get(i).gender;
+                item.location = items.get(i).location;
+                item.guardian_cnic = items.get(i).guardian_cnic;
+                item.phone_number = items.get(i).phone_number;
+                item.mother_name = items.get(i).mother_name;
+                item.next_due_date = items.get(i).next_due_date;
+
+
                 item.save();
             }
             ActiveAndroid.setTransactionSuccessful();

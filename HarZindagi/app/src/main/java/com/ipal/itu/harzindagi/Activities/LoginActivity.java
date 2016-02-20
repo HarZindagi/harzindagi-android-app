@@ -50,6 +50,7 @@ import com.ipal.itu.harzindagi.Utils.Constants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "Volly";
 
     public GUserInfo obj;
-    EditText userName;
+    TextView userName;
     EditText password;
     String UserName;
     String Password, app_name;
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
     Boolean isFolderExists;
     FileOutputStream fo;
     String rec_response;
+    String passwordTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-        userName = (EditText) findViewById(R.id.loginActivityUserName);
+        userName = (TextView) findViewById(R.id.loginActivityUserName);
 
         UserName = userName.getText().toString();
 
@@ -125,22 +127,34 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (Constants.getToken(LoginActivity.this).length() > 0) {
+                    if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
+                        Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                    } else {
+                        Snackbar.make(view, "Invalid User Password!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
 
-                sendUserInfo(userName.getText().toString(), password.getText().toString());
+                } else {
 
-                Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                //startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-
-
-               Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-              startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
+                    if (Constants.isOnline(LoginActivity.this)) {
+                        sendUserInfo(userName.getText().toString(), password.getText().toString());
+                    } else {
+                        Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                }
 
             }
         });
+        if(Constants.getToken(this).length()==0){
+            getUserInfo();
+        }else{
+            EngUC.setText(Constants.getUC(this));
+            userName.setText(Constants.getUserName(this));
+        }
 
-        getUserInfo();
 
 
     }
@@ -246,7 +260,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     public void parseUserResponse(JSONObject response) {
         Gson gson = new Gson();
         obj = gson.fromJson(response.toString(), GUserInfo.class);
@@ -254,17 +267,16 @@ public class LoginActivity extends AppCompatActivity {
         userInfoDao.save(obj.unioncouncil, obj.username, obj.Password);
         EngUC.setText(obj.unioncouncil);
         userName.setText(obj.username);
-
+        Constants.setUserName(this, obj.username);
+        Constants.setUC(this, obj.unioncouncil);
     }
 
     public void parseTokenResponse(JSONObject response) {
         Gson gson = new Gson();
         Token token = gson.fromJson(response.toString(), Token.class);
         Constants.setToken(this, token.auth_token);
+        Constants.setPassword(this, password.getText().toString());
         loadVisits();
-        //  Snackbar.make(view, "UserName: " + UserName + " , Password: " + Password, Snackbar.LENGTH_LONG)
-        //       .setAction("Action", null).show();
-
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
@@ -424,7 +436,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONArray response) {
-                      //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
                         parseInjections(response);
                         pDialog.hide();
@@ -484,7 +496,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONArray response) {
-
+                        pDialog.hide();
                         parseVaccinations(response);
 
                     }
@@ -492,7 +504,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-               Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -528,6 +540,7 @@ public class LoginActivity extends AppCompatActivity {
         vaccinationsDao.deleteTable();
         vaccinationsDao.bulkInsert(vac);
 
-
+        Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 }

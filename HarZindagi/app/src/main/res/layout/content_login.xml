@@ -68,10 +68,12 @@
             android:text="یوزر کا نام"
             android:textSize="20dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/loginActivityUserName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:textSize="20dp"
             android:layout_alignParentLeft="true"
             android:singleLine="true"
             android:nextFocusDown="@+id/pasNameTV"
