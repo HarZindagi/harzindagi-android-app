@@ -19,7 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/har_zindagi_logo"
+        android:background="@android:color/transparent"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"

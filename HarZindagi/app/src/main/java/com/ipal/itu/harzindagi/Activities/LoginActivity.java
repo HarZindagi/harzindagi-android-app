@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.loginActivityPassword);
         Password = password.getText().toString();
 
+
         //TODO: get location in SplashActivity ans pass on to LoginActivity to set this TextView
         unionCouncil = (TextView) findViewById(R.id.loginActivityUnionCouncil);
 
@@ -122,6 +123,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validator.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
         checkInButton = (Button) findViewById(R.id.loginActivityCheckInButton);
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,8 +142,10 @@ public class LoginActivity extends AppCompatActivity {
                         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST);
                     } else {
-                        Snackbar.make(view, "Invalid User Password!", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                       // Snackbar.make(view, "Invalid User Password!", Snackbar.LENGTH_LONG)
+                         //       .setAction("Action", null).show();
+
+                        validator.setVisibility(View.VISIBLE);
                     }
 
                 } else {
@@ -238,7 +250,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
