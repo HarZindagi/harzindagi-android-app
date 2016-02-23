@@ -19,7 +19,13 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
+<<<<<<< HEAD
         android:src="@drawable/app_logo" />
+=======
+        android:src="@drawable/har_zindagi_logo"
+        android:background="@android:color/transparent"
+        />
+>>>>>>> 3fdf34a7e65e1903bf64fb47b175d9174f327dd2
 
     <RelativeLayout
         android:layout_width="match_parent"
