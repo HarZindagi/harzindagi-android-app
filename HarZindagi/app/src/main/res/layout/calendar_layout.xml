@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Tareekh Pedaish select krain"
+            android:text="تاریخ پیدائش منتخب کریں"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="17dp" />
 

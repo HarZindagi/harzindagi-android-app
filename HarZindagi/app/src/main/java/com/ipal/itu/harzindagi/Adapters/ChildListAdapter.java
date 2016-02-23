@@ -68,7 +68,6 @@ public class ChildListAdapter extends BaseAdapter {
         Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
         pic.setImageBitmap(bmp_read);
 
-
         return convertView;
     }
 }

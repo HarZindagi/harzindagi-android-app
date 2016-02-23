@@ -47,14 +47,7 @@ public class Card_Scan extends Activity {
         ctx = this;
 
         imgV = (ImageView) findViewById(R.id.scan_image_view);
-        imgV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "All Children in UC", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                startActivity(new Intent(Card_Scan.this, VaccinationActivity.class));
-            }
-        });
+
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);

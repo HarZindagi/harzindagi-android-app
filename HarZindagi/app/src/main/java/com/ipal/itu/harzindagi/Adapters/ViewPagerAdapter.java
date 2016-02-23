@@ -89,7 +89,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return VaccinationOneFragment.newInstance(position, injections.get(position));
+        return VaccinationOneFragment.newInstance(position, injections.get(position),curr_visit);
 
     }
 

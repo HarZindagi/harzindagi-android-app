@@ -35,7 +35,7 @@ public class VaccinationOneFragment extends Fragment {
     private static final String ARG_PARAM3 = "param3";
 
     // TODO: Rename and change types of parameters
-
+    private int mParam1;
     private int mParam2;
     private ArrayList<GInjection> injection;
 
@@ -52,11 +52,12 @@ public class VaccinationOneFragment extends Fragment {
      * @return A new instance of fragment VaccinationOneFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VaccinationOneFragment newInstance( int pos,ArrayList<GInjection> injection) {
+    public static VaccinationOneFragment newInstance( int pos,ArrayList<GInjection> injection,int curVisit) {
         VaccinationOneFragment fragment = new VaccinationOneFragment();
         Bundle args = new Bundle();
 
         args.putInt(ARG_PARAM2, pos);
+        args.putInt(ARG_PARAM1, curVisit);
         args.putSerializable(ARG_PARAM3, injection);
         fragment.setArguments(args);
         return fragment;
@@ -66,7 +67,7 @@ public class VaccinationOneFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getInt(ARG_PARAM2);
             injection = (ArrayList<GInjection>) getArguments().getSerializable(ARG_PARAM3);
         }
@@ -86,7 +87,15 @@ public class VaccinationOneFragment extends Fragment {
         //data.add(ij);
         LinearLayout list;
         list = (LinearLayout) v.findViewById(R.id.list_v1);
+        if(mParam2>mParam1) {
+            v.findViewById(R.id.dimmLayout).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.dimmLayout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+        }
        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection
                ,0);
 
