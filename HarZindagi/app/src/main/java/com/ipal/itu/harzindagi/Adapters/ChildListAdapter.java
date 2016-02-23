@@ -50,7 +50,6 @@ public class ChildListAdapter extends BaseAdapter {
     }
 
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -66,9 +65,8 @@ public class ChildListAdapter extends BaseAdapter {
         childName.setText(data.get(position).kid_name);
         guardianName.setText(data.get(position).guardian_name);
         String imagePath = "/sdcard/" + app_name + "/" + data.get(position).image_name + ".jpg";
-       Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
-       pic.setImageBitmap(bmp_read);
-
+        Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
+        pic.setImageBitmap(bmp_read);
 
 
         return convertView;

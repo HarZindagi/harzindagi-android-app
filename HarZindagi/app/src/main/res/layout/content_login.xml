@@ -15,13 +15,14 @@
     tools:showIn="@layout/activity_login">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:src="@drawable/har_zindagi_logo"
-        android:background="@android:color/transparent"
-        />
+        android:src="@drawable/app_logo" />
+    android:background="@android:color/transparent"
+    />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -65,22 +66,23 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:textColor="@android:color/black"
             android:gravity="center"
             android:text="یوزر کا نام"
+            android:textColor="@android:color/black"
             android:textSize="20dp" />
 
         <TextView
             android:id="@+id/loginActivityUserName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|left"
-            android:textSize="20dp"
             android:layout_alignParentLeft="true"
-            android:singleLine="true"
-            android:nextFocusDown="@+id/pasNameTV"
             android:layout_toLeftOf="@+id/userNameTV"
-            android:hint="Name here"
+            android:hint="Name"
+            android:gravity="center|left"
+            android:nextFocusDown="@+id/pasNameTV"
+            android:singleLine="true"
+            android:textSize="20dp"
+
 
             />
     </RelativeLayout>
@@ -94,9 +96,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:textColor="@android:color/black"
             android:gravity="center"
             android:text="پاس ورڈ"
+            android:textColor="@android:color/black"
             android:textSize="20dp" />
 
         <EditText
@@ -105,11 +107,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
-            android:singleLine="true"
-            android:inputType="textPassword"
             android:layout_toLeftOf="@+id/pasNameTV"
-            android:hint="Password here"
-
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:singleLine="true"
             />
     </RelativeLayout>
 

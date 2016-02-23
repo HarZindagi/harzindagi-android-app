@@ -18,6 +18,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <application
         android:name=".Application.HarZindagiApp"
         android:allowBackup="true"
@@ -139,6 +144,11 @@
         <activity android:name=".Activities.CustomCameraKidstation" />
         <activity android:name=".Activities.CardScanWrite" />
         <activity android:name=".Activities.CardScanWriteVaccine" />
+        <receiver android:name=".Receivers.SmsBroadcastReceiver" android:exported="true" >
+            <intent-filter android:priority="999" >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

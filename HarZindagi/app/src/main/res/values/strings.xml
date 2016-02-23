@@ -14,7 +14,7 @@
     <string name="title_activity_search">Lost Card</string>
     <string name="title_activity_children_list">Results</string>
     <string name="title_activity_register_child">Register Child</string>
-
+    <string name="ok">OK</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
