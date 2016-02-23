@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         EngUC = (TextView) findViewById(R.id.UnionCouncil);
 
         validator = (TextView) findViewById(R.id.loginActivityValidationText);
-        validator.setText(R.string.loginValidation);
+        validator.setText(" براہ مہربانی درست یوزر کا نام اور پاسورڈ کا انتخاب کریں۔");
 
         forgetButton = (Button) findViewById(R.id.loginActivityForgetButton);
         forgetButton.setOnClickListener(new View.OnClickListener() {

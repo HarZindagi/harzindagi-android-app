@@ -93,7 +93,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setStrokeWidth(10);
-        p.setColor(Color.GREEN);
+        p.setColor(Color.parseColor("#DB4B39"));
         p.setStrokeCap(Paint.Cap.ROUND);
         p.setStyle(Paint.Style.STROKE);
         p.setDither(true);

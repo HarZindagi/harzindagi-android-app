@@ -8,6 +8,10 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Ali on 2/16/2016.
  */
@@ -75,5 +79,40 @@ public class Constants {
     public static void setUserName(Context c, String userName) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         prefs.edit().putString(Constants.name, userName).commit();
+    }
+
+    public static String getNextDueDate(int visit,String vaccs)
+    {
+
+        int [] Arry={0,42,28,28,154,168,0};  // should better be made dynamic input through Database.
+
+
+
+        Calendar c = Calendar.getInstance();
+
+        if(isVaccOfVisitCompleted(vaccs))
+        {c.add(Calendar.DATE, Arry[visit]);}
+        else
+        {c.add(Calendar.DATE, 10);}
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
+       return sdf1.format(c.getTime());
+
+    }
+
+    public static Boolean isVaccOfVisitCompleted( String vaccs)
+    {
+
+        String []arry=vaccs.split(",");
+
+        for(int i=0;i<arry.length;i++)
+        {
+                if(arry[i].equals("0"))
+                    return false;
+
+        }
+            return true;
+
+
     }
 }

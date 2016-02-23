@@ -113,10 +113,6 @@ public class CardScanWrite extends Activity {
         push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + longitude + "," + latitude + "#" + bundle.getString("EPIname");
 
 
-        tsLong = System.currentTimeMillis() / 1000;
-
-        push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + longitude + "," + latitude + "#" + "acd" + "#" + bundle.getString("img") + "#" + "123" + "#" + true + "#" + false;
-
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 

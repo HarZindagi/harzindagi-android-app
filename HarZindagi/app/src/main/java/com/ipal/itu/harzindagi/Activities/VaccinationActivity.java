@@ -22,6 +22,7 @@ import com.ipal.itu.harzindagi.Adapters.ViewPagerAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,6 +58,9 @@ public class VaccinationActivity extends AppCompatActivity {
     private ImageView fifthTabTickMark;
     public ImageView sixthTabTickMark;
 
+    Bundle bundle;
+    public int load_frag;
+    public String vaccs_done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +68,30 @@ public class VaccinationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vaccination);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        load_frag=0;
+        vaccs_done="0,0,0";
 
-        Bundle bundle = getIntent().getExtras();
+         bundle = getIntent().getExtras();
         try {
             childID = bundle.getString("childid");
         }catch (Exception e){
             Toast.makeText(this,"ID not found",Toast.LENGTH_LONG).show();
             finish();
             e.printStackTrace();
+        }
+        if(bundle.size()>=3)
+        {
+            load_frag=Integer.parseInt( bundle.getString("visit_num").toString())-1;
+
+            if(Constants.isVaccOfVisitCompleted( bundle.getString("vacc_details").toString()))
+            {
+
+                load_frag=Integer.parseInt( bundle.getString("visit_num").toString());
+
+
+            }
+
+            vaccs_done= bundle.getString("vacc_details").toString();
         }
 
         ChildInfoDao childInfoDao = new ChildInfoDao();
@@ -94,9 +114,22 @@ public class VaccinationActivity extends AppCompatActivity {
         sixthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivitySixthTabTick);
 
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this);
+        if(Constants.isVaccOfVisitCompleted(vaccs_done))
+        {
+            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this,vaccs_done,(load_frag)+"");
+
+        }else{
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this,vaccs_done,(load_frag+1)+"");
+
+        }
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(viewPagerAdapter);
+
+
+
+
+        mViewPager.setCurrentItem(load_frag);
+        mViewPager.setOffscreenPageLimit(1);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -208,11 +241,9 @@ public void SetVaccineInfo()
                 intent.putExtra("visit_num", bndl.getString("visit_num"));
 
             }
-             Calendar c = Calendar.getInstance();
 
-            c.add(Calendar.DATE, 40);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
-            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
-            String date_String=  sdf1.format(c.getTime());
+            String date_String= Constants.getNextDueDate(Integer.parseInt(bndl.getString("visit_num")), bndl.getString("vacc_details").toString()); // index wise it is correct
+
             intent.putExtra("next_date",date_String);
             this.finish();
             startActivity(intent);

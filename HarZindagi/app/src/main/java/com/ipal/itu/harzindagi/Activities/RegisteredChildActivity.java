@@ -48,6 +48,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
     double longitude;
     double latitude;
 
+
    final Context curr=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

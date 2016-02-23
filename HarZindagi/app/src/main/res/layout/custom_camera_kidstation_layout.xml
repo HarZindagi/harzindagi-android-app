@@ -32,11 +32,30 @@
 
     <ImageView
         android:id="@+id/button_capture_station"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:src="@drawable/image_capture_icon" />
 
+        android:src="@drawable/image_capture_icon2" />
+    <ImageView
+        android:id="@+id/done_capture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/check_camera" />
+    <ImageView
+        android:id="@+id/refresh_capture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+
+        android:layout_alignParentBottom="true"
+
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@+id/done_capture"
+
+        android:src="@drawable/refresh_red" />
 
 </RelativeLayout>

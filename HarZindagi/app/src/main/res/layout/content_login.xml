@@ -80,7 +80,7 @@
             android:singleLine="true"
             android:nextFocusDown="@+id/pasNameTV"
             android:layout_toLeftOf="@+id/userNameTV"
-            android:hint="Your Name here"
+            android:hint="Name here"
 
             />
     </RelativeLayout>
@@ -108,7 +108,7 @@
             android:singleLine="true"
             android:inputType="textPassword"
             android:layout_toLeftOf="@+id/pasNameTV"
-            android:hint="Your Password here"
+            android:hint="Password here"
 
             />
     </RelativeLayout>

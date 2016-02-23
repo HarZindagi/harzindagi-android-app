@@ -13,4 +13,5 @@ public class GInjection implements Serializable {
     public String name;
     public String description;
     public boolean is_drop;
+    public int is_done;
 }

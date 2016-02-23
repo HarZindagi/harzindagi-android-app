@@ -39,7 +39,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
     Bitmap camera_bitmap;
     Canvas camera_canvas;
     Paint p;
-    ImageView CropImageView, captureButton;
+    ImageView CropImageView, captureButton,done_capture,refresh_capture;
 
     Context ctx;
     public static ProgressDialog progress;
@@ -57,7 +57,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setStrokeWidth(10);
-        p.setColor(Color.GREEN);
+        p.setColor(Color.parseColor("#DB4B39"));
         p.setStrokeCap(Paint.Cap.ROUND);
         p.setStyle(Paint.Style.STROKE);
         p.setDither(true);
@@ -67,6 +67,32 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
 
         Height = metrics.heightPixels;
         Width = metrics.widthPixels;
+
+        done_capture=(ImageView) findViewById(R.id.done_capture);
+
+        refresh_capture=(ImageView)findViewById(R.id.refresh_capture);
+
+        done_capture.setVisibility(View.INVISIBLE);
+        refresh_capture.setVisibility(View.INVISIBLE);
+
+        done_capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishActivity();
+            }
+        });
+
+        refresh_capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCamera.startPreview();
+                done_capture.setVisibility(View.INVISIBLE);
+                refresh_capture.setVisibility(View.INVISIBLE);
+                captureButton.setVisibility(View.VISIBLE);
+                CropImageView.setImageBitmap(camera_bitmap);
+
+            }
+        });
 
         captureButton = (ImageView) findViewById(R.id.button_capture_station);
         captureButton.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +148,16 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
             }
 
 
-            finishActivity();
+            Bitmap bmp_read = BitmapFactory.decodeFile(Path);
+            CropImageView.setImageBitmap(bmp_read);
+
+            done_capture.setVisibility(View.VISIBLE);
+            refresh_capture.setVisibility(View.VISIBLE);
+            captureButton.setVisibility(View.INVISIBLE);
+            progress.dismiss();
+
+
+
         }
     };
 

@@ -13,12 +13,12 @@
         android:layout_marginTop="30dp"
         >
 
-        <ListView
+        <LinearLayout
             android:id="@+id/list_v1"
             android:layout_width="match_parent"
-            android:divider="@null"
-            android:layout_height="wrap_content" >
-        </ListView>
+            android:orientation="vertical"
+            android:layout_height="200dp" >
+        </LinearLayout>
         <View
             android:layout_width="fill_parent"
             android:layout_height="40dp"
