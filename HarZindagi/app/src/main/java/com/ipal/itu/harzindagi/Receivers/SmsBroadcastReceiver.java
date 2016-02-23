@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import com.ipal.itu.harzindagi.Activities.ChildrenListActivity;
+import com.ipal.itu.harzindagi.Activities.SearchActivity;
+
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
     public static final String SMS_BUNDLE = "pdus";
@@ -20,14 +23,22 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 // SharedPreferences sharedpreferences =context.getSharedPreferences(Constants.MyPREFERENCES, Context.MODE_PRIVATE);
                 String smsBody = smsMessage.getMessageBody().toString();
                 String address = smsMessage.getOriginatingAddress();
-                if (smsBody.startsWith("PEL")) {
-                    smsMessageStr += "SMS From: " + address + "\n";
-                    smsMessageStr += smsBody + "\n";
+                if (smsBody.startsWith("%")) {
+                    //smsMessageStr += "SMS From: " + address + "\n";
+                    //smsMessageStr += smsBody + "\n";
+                    String[] data = smsBody.split("%");
                     this.abortBroadcast();
-                   /* SmsActivity inst = SmsActivity.instance();
-                    if (inst != null) {
-                        inst.updateList(smsMessageStr);
-                    }*/
+                    Intent intentA = new Intent(context, ChildrenListActivity.class);
+
+                    intentA.putExtra("ChildID", data[0]);
+                    intentA.putExtra("CellPhone", data[1]);
+                    intentA.putExtra("CNIC", data[2]);
+                    intentA.putExtra("ChildName", data[3]);
+                    intentA.putExtra("fromSMS", true);
+                    intentA.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intentA);
+
+
 
 
                 }

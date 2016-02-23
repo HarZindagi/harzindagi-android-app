@@ -1,6 +1,7 @@
 package com.ipal.itu.harzindagi.Dao;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.annotation.Column;
 import com.activeandroid.query.Select;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Transaction;
@@ -72,11 +73,19 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-
     public  List<ChildInfo> getById(String id) {
         return new Select()
                 .from(ChildInfo.class)
                 .where("epi_number = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+
+
+    public  List<ChildInfo> getById(String id,String phone,String cnic) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("epi_number = ?", id).or("phone_number", phone).or("guardian_cnic", cnic)
                 .orderBy("kid_name ASC")
                 .execute();
     }
