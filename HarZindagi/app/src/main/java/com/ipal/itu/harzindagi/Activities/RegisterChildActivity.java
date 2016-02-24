@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -57,7 +60,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     String GuardianName;
     String GuardianCNIC;
     String GuardianMobileNumber;
-    int Gender;
+    int Gender = -1;
     String app_name;
     FileOutputStream fo;
 
@@ -144,8 +147,9 @@ public class RegisterChildActivity extends AppCompatActivity {
         childPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (inputValidate() == false) {
-                    Snackbar.make(view, "Missing Fields", Snackbar.LENGTH_LONG)
+                String msg = inputValidate();
+                if (!msg.equals("")) {
+                    Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
                 }
@@ -166,24 +170,40 @@ public class RegisterChildActivity extends AppCompatActivity {
         });
     }
 
-    public boolean inputValidate() {
-        boolean isValid = true;
-        if (guardianCNIC.getText().length() < 16) {
-            isValid = false;
-        }
-        if (guardianMobileNumber.getText().length() < 12) {
-            isValid = false;
-        }
-        if (guardianName.getText().length() < 1) {
-            isValid = false;
-        }
-        if (childName.getText().length() < 1) {
-            isValid = false;
+    public String inputValidate() {
+        String error = "";
+        if (EPINumber.getText().length() < 1) {
+            return error = "نامکمل EPI";
         }
         if (CenterName.getText().length() < 1) {
-            isValid = false;
+            return error = "نامکل مرکز   کا نام";
         }
-        return isValid;
+        if (childName.getText().length() < 1) {
+            return error = "نامکمل بچہ کا نام";
+        }
+        if (Gender == -1) {
+            return error = "نامکمل جنس";
+        }
+        if (DOBText.getText().toString().contains("DD")) {
+            return error = "نامکمل پیدائش کی تاریخ";
+        }
+
+        if (guardianName.getText().length() < 1) {
+            return error = "نامکمل سرپرست کا نام";
+        }
+        String cnic = guardianCNIC.getText().toString().trim();
+        if (cnic.length() < 16) {
+            return error = "نامکمل شناختی کارڈ نمبر";
+        }
+        String phone = guardianCNIC.getText().toString().trim();
+        if (phone.length() < 12) {
+            return error = "نامکمل موبائل نمبر";
+        }
+        if (motherName.getText().length() < 1) {
+            return error = "نامکمل والدہ کا نام";
+        }
+
+        return error;
     }
 
     private void updateLabel() {

@@ -29,8 +29,7 @@ public class DashboardActivity extends AppCompatActivity {
         registerChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Register Child", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
                 startActivity(new Intent(DashboardActivity.this, RegisterChildActivity.class));
 
             }
@@ -40,8 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
         scanChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Scan Child", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
                 startActivity(new Intent(DashboardActivity.this,Card_Scan.class));
 
             }
@@ -51,8 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
         searchChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Search Child", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
                 startActivity(new Intent( DashboardActivity.this , SearchActivity.class ));
             }
         });
@@ -61,9 +58,7 @@ public class DashboardActivity extends AppCompatActivity {
         allChildrenInUCButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* Snackbar.make(view, "All Children in UC", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                startActivity(new Intent(DashboardActivity.this, VaccinationActivity.class));*/
+
                 Intent intent = new Intent(DashboardActivity.this, ViewPagerWithTabs.class);
                 startActivity(intent);
             }

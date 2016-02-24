@@ -20,7 +20,7 @@
 
 
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
@@ -32,7 +32,9 @@
         android:supportsRtl="true"
 
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="face"/>
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="face" />
 
         <meta-data
             android:name="HarZindagiDatabase"
@@ -78,8 +80,7 @@
         <activity
             android:name=".Activities.ForgetActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-             />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -128,7 +129,10 @@
         </activity>
         <activity android:name=".Activities.EvacsEPI" />
         <activity android:name=".Activities.Act" />
-        <activity android:name=".Activities.Card_Scan" />
+        <activity
+            android:name=".Activities.Card_Scan"
+            android:label="Card Scan"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.CalenderActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
@@ -142,10 +146,19 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.CustomCamera" />
         <activity android:name=".Activities.CustomCameraKidstation" />
-        <activity android:name=".Activities.CardScanWrite" />
-        <activity android:name=".Activities.CardScanWriteVaccine" />
-        <receiver android:name=".Receivers.SmsBroadcastReceiver" android:exported="true" >
-            <intent-filter android:priority="999" >
+        <activity
+            android:name=".Activities.CardScanWrite"
+            android:label="Card Scan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.CardScanWriteVaccine"
+            android:label="Card Scan"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver
+            android:name=".Receivers.SmsBroadcastReceiver"
+            android:exported="true">
+            <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>

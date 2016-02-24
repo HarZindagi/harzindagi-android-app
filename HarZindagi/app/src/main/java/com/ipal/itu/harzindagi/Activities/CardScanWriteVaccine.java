@@ -15,6 +15,9 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,7 +52,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CardScanWriteVaccine extends Activity {
+public class CardScanWriteVaccine extends AppCompatActivity {
 
 
     Tag mytag;
@@ -86,7 +89,9 @@ public class CardScanWriteVaccine extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardscanwrite);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ctx = this;
         btn = (Button) findViewById(R.id.Push_nfc_btn);
 
@@ -169,7 +174,17 @@ public class CardScanWriteVaccine extends Activity {
 
         return 0;
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onNewIntent(Intent intent) {

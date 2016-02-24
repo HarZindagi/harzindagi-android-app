@@ -14,7 +14,9 @@ import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,7 +28,7 @@ import com.ipal.itu.harzindagi.R;
 import java.util.Arrays;
 
 
-public class Card_Scan extends Activity {
+public class Card_Scan extends AppCompatActivity {
 
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
@@ -43,7 +45,9 @@ public class Card_Scan extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cardscan);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Scan Card");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ctx = this;
 
         imgV = (ImageView) findViewById(R.id.scan_image_view);
@@ -133,7 +137,17 @@ public class Card_Scan extends Activity {
 
 
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onResume() {

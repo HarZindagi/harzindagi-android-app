@@ -77,16 +77,22 @@ public class VaccinationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (bundle.size() >= 3) {
-            load_frag = Integer.parseInt(bundle.getString("visit_num").toString()) - 1;
+            try {
+                load_frag = Integer.parseInt(bundle.getString("visit_num").toString()) - 1;
 
-            if (Constants.isVaccOfVisitCompleted(bundle.getString("vacc_details").toString())) {
+                if (Constants.isVaccOfVisitCompleted(bundle.getString("vacc_details").toString())) {
 
-                load_frag = Integer.parseInt(bundle.getString("visit_num").toString());
+                    load_frag = Integer.parseInt(bundle.getString("visit_num").toString());
 
 
+                }
+
+                vaccs_done = bundle.getString("vacc_details").toString();
+            }catch (Exception e){
+                Toast.makeText(this,"Card Corrupted",Toast.LENGTH_LONG).show();
+                finish();
             }
 
-            vaccs_done = bundle.getString("vacc_details").toString();
         }
 
         ChildInfoDao childInfoDao = new ChildInfoDao();
