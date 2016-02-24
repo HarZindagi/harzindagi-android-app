@@ -165,6 +165,7 @@ public class CardScanWriteVaccine extends Activity {
         Intent myintent = new Intent(this, DashboardActivity.class);
 
         startActivity(myintent);
+
         return 0;
     }
 

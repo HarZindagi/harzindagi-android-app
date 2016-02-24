@@ -34,33 +34,30 @@ import java.util.List;
 public class VaccinationActivity extends AppCompatActivity {
 
     public static final int CAMERA_REQUEST = 1888;
-
-    String app_name="Har Zindagi";
-   public String fpath;
-    public  String childID;
+    public String fpath;
+    public String childID;
+    public ImageView sixthTabTickMark;
+    public int load_frag;
+    public String vaccs_done;
+    String app_name = "Har Zindagi";
     FileOutputStream fo;
     List<ChildInfo> data;
-
+    Bundle bundle;
     private CustomViewPager mViewPager;
     private ViewPagerAdapter viewPagerAdapter;
-
     private View firstTab;
     private View secondTab;
     private View thirdTab;
     private View fourthTab;
     private View fifthTab;
     private View sixthTab;
-
+    View[] v ;
     private ImageView firstTabTickMark;
     private ImageView secondTabTickMark;
     private ImageView thirdTabTickMark;
     private ImageView fourthTabTickMark;
     private ImageView fifthTabTickMark;
-    public ImageView sixthTabTickMark;
-
-    Bundle bundle;
-    public int load_frag;
-    public String vaccs_done;
+    ImageView[] vt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,42 +65,40 @@ public class VaccinationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vaccination);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        load_frag=0;
-        vaccs_done="0,0,0";
+        load_frag = 0;
+        vaccs_done = "0,0,0";
 
-         bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         try {
             childID = bundle.getString("childid");
-        }catch (Exception e){
-            Toast.makeText(this,"ID not found",Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "ID not found", Toast.LENGTH_LONG).show();
             finish();
             e.printStackTrace();
         }
-        if(bundle.size()>=3)
-        {
-            load_frag=Integer.parseInt( bundle.getString("visit_num").toString())-1;
+        if (bundle.size() >= 3) {
+            load_frag = Integer.parseInt(bundle.getString("visit_num").toString()) - 1;
 
-            if(Constants.isVaccOfVisitCompleted( bundle.getString("vacc_details").toString()))
-            {
+            if (Constants.isVaccOfVisitCompleted(bundle.getString("vacc_details").toString())) {
 
-                load_frag=Integer.parseInt( bundle.getString("visit_num").toString());
+                load_frag = Integer.parseInt(bundle.getString("visit_num").toString());
 
 
             }
 
-            vaccs_done= bundle.getString("vacc_details").toString();
+            vaccs_done = bundle.getString("vacc_details").toString();
         }
 
         ChildInfoDao childInfoDao = new ChildInfoDao();
 
-        data = childInfoDao.getById( bundle.getString("childid").toString());
-        fpath=data.get(0).image_name;
+        data = childInfoDao.getById(bundle.getString("childid").toString());
+        fpath = data.get(0).image_name;
 
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);
         secondTab = findViewById(R.id.vaccinationActivitySecondTab);
-        thirdTab =  findViewById(R.id.vaccinationActivityThirdTab);
+        thirdTab = findViewById(R.id.vaccinationActivityThirdTab);
         fourthTab = findViewById(R.id.vaccinationActivityFourthTab);
-        fifthTab =  findViewById(R.id.vaccinationActivityFifthTab);
+        fifthTab = findViewById(R.id.vaccinationActivityFifthTab);
         sixthTab = findViewById(R.id.vaccinationActivitySixthTab);
 
         firstTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFirstTabTick);
@@ -112,20 +107,18 @@ public class VaccinationActivity extends AppCompatActivity {
         fourthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFourthTabTick);
         fifthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFifthTabTick);
         sixthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivitySixthTabTick);
-
+        v = new View[]{firstTab, secondTab, thirdTab, fourthTab, firstTab, sixthTab};
+        vt = new ImageView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark};
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
-        if(Constants.isVaccOfVisitCompleted(vaccs_done))
-        {
-            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this,vaccs_done,(load_frag)+"");
+        if (Constants.isVaccOfVisitCompleted(vaccs_done)) {
+            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag) + "");
 
-        }else{
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this,vaccs_done,(load_frag+1)+"");
+        } else {
+            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag + 1) + "");
 
         }
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(viewPagerAdapter);
-
-
 
 
         mViewPager.setCurrentItem(load_frag);
@@ -134,35 +127,58 @@ public class VaccinationActivity extends AppCompatActivity {
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                int curVisit = load_frag;//Integer.parseInt(bundle.getString("visit_num").toString());
                 switch (position + 1) {
                     case 1:
+                       // selectPrevious(0);
                         firstTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
                         break;
                     case 2:
-                        secondTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                        firstTabTickMark.setImageResource(R.drawable.ic_action_tick);
 
-                        firstTabTickMark.setVisibility(View.VISIBLE);
+                        if (curVisit >= position) {
+                            selectPrevious(0);
+                            secondTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                            firstTabTickMark.setImageResource(R.drawable.ic_action_tick);
+
+                            firstTabTickMark.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case 3:
-                        thirdTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                        secondTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                        secondTabTickMark.setVisibility(View.VISIBLE);
+
+                        if (curVisit >= position) {
+                            selectPrevious(1);
+                            thirdTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                            secondTabTickMark.setImageResource(R.drawable.ic_action_tick);
+                            secondTabTickMark.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case 4:
-                        fourthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                        thirdTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                        thirdTabTickMark.setVisibility(View.VISIBLE);
+
+                        if (curVisit >= position) {
+                            selectPrevious(2);
+                            fourthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                            thirdTabTickMark.setImageResource(R.drawable.ic_action_tick);
+                            thirdTabTickMark.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case 5:
-                        fifthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                        fourthTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                        fourthTabTickMark.setVisibility(View.VISIBLE);
+
+                        if (curVisit >= position) {
+                            selectPrevious(3);
+                            fifthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                            fourthTabTickMark.setImageResource(R.drawable.ic_action_tick);
+                            fourthTabTickMark.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case 6:
-                        sixthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                        fifthTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                        fifthTabTickMark.setVisibility(View.VISIBLE);
+
+                        if (curVisit >= position) {
+                            selectPrevious(4);
+                            sixthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                            fifthTabTickMark.setImageResource(R.drawable.ic_action_tick);
+                            fifthTabTickMark.setVisibility(View.VISIBLE);
+                        }
                         break;
                 }
             }
@@ -177,6 +193,14 @@ public class VaccinationActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void selectPrevious(int index) {
+        for (int i = 0; i <= index; i++) {
+            v[i].setBackgroundResource(R.drawable.vaccinationtab_filled);
+            vt[i].setImageResource(R.drawable.ic_action_tick);
+            vt[i].setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -201,24 +225,19 @@ public class VaccinationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-public void SetVaccineInfo()
-    {
-
+    public void SetVaccineInfo() {
 
 
     }
 
 
-
-
-    public void Take_Vaccine_Picture(View v){
-
+    public void Take_Vaccine_Picture(View v) {
 
 
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // Toast.makeText(this, "Clicked main", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "Clicked main", Toast.LENGTH_SHORT).show();
         if (resultCode == 1888) {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
@@ -230,31 +249,26 @@ public void SetVaccineInfo()
             saveBitmap(resizedImage);
 
 
-
-            Bundle bndl=data.getExtras();
+            Bundle bndl = data.getExtras();
 
             Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
-           intent.putExtra("childid", childID);
-            if(bndl.size()>=3)
-            {
+            intent.putExtra("childid", childID);
+            if (bndl.size() >= 3) {
                 intent.putExtra("vacc_details", bndl.getString("vacc_details"));
                 intent.putExtra("visit_num", bndl.getString("visit_num"));
 
             }
 
-            String date_String= Constants.getNextDueDate(Integer.parseInt(bndl.getString("visit_num")), bndl.getString("vacc_details").toString()); // index wise it is correct
+            String date_String = Constants.getNextDueDate(Integer.parseInt(bndl.getString("visit_num")), bndl.getString("vacc_details").toString()); // index wise it is correct
 
-            intent.putExtra("next_date",date_String);
+            intent.putExtra("next_date", date_String);
             this.finish();
             startActivity(intent);
             //imageView.setImageBitmap(photo);*/
         }
 
 
-
     }
-
-
 
 
     public void readEditTexts() {

@@ -144,8 +144,12 @@ public class RegisterChildActivity extends AppCompatActivity {
         childPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* Snackbar.make(view, "Picture Taken", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (inputValidate() == false) {
+                    Snackbar.make(view, "Missing Fields", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
+                }
+                        /*
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.TITLE, "New Picture");
                 imageUri = getContentResolver().insert(
@@ -160,6 +164,26 @@ public class RegisterChildActivity extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+    }
+
+    public boolean inputValidate() {
+        boolean isValid = true;
+        if (guardianCNIC.getText().length() < 16) {
+            isValid = false;
+        }
+        if (guardianMobileNumber.getText().length() < 12) {
+            isValid = false;
+        }
+        if (guardianName.getText().length() < 1) {
+            isValid = false;
+        }
+        if (childName.getText().length() < 1) {
+            isValid = false;
+        }
+        if (CenterName.getText().length() < 1) {
+            isValid = false;
+        }
+        return isValid;
     }
 
     private void updateLabel() {

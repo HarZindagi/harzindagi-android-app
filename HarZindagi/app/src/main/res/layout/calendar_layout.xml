@@ -6,17 +6,18 @@
     android:background="@android:color/transparent">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
         android:background="@android:color/white">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Tareekh Pedaish select krain"
+            android:gravity="center"
+            android:text="تاریخ پیدائش منتخب کریں"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="17dp" />
 

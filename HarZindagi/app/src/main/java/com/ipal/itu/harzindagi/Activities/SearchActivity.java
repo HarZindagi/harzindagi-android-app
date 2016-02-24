@@ -68,9 +68,6 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             @Override
             public void onClick(View view) {
                 setValues();
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
                 startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
                         .putExtra("ChildID", ChildID)
                         .putExtra("CellPhone", CellPhone)
@@ -92,10 +89,13 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
 
     }
-    public void  setValues(){
+    public boolean  setValues(){
+        boolean isValid =true;
+
         ChildID = childID.getText().toString() ;
         if(ChildID.equals("")){
             ChildID = "N/A";
+            isValid = false;
         }
         CellPhone = cellPhone.getText().toString();
         if(CellPhone.equals("")){
@@ -113,6 +113,8 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         if(GuardianName.equals("")){
             GuardianName = "N/A";
         }
+
+        return  isValid;
     }
 
     @Override
@@ -201,25 +203,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         // END_INCLUDE(contacts_permission_request)
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 }

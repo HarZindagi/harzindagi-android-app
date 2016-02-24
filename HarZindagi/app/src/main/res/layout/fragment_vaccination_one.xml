@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,40 +9,49 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="30dp"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/list_v1"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="200dp" >
-        </LinearLayout>
+            android:layout_height="200dp"
+            android:orientation="vertical"></LinearLayout>
+
         <View
+            android:id="@+id/v1_sp1"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:id="@+id/v1_sp1"
-            android:visibility="invisible"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/btn_v1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/Button_Theme_color"
-            android:textColor="@color/white"
-            android:text="تصویر کھینچنا"
-            android:textSize="22sp"
             android:layout_gravity="center_horizontal"
+            android:background="@color/Button_Theme_color"
+            android:onClick="Take_Vaccine_Picture"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:onClick="Take_Vaccine_Picture"
-            />
+            android:text="تصویر کھینچنا"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
 
 
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/dimmLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#77777777">
+
+
+    </LinearLayout>
+</RelativeLayout>

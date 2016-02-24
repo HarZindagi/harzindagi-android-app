@@ -77,12 +77,13 @@ public class RegisteredChildActivity extends AppCompatActivity {
         NFC_Write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
                 Intent myintent = new Intent(curr, VaccinationActivity.class);
 
                 myintent.putExtra("childid", childID);
                 startActivity(myintent);
+                finish();
             }
         });
 

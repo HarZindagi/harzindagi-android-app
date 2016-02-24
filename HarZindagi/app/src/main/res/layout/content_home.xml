@@ -35,7 +35,7 @@
         android:text="ہر زندگی"
         android:textColor="@color/white"
         android:layout_marginTop="20dp"
-        android:textSize="35dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         />
 

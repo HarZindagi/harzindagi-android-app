@@ -163,6 +163,7 @@ public class CardScanWrite extends Activity {
         }
 
         startActivity(myintent);
+        finish();
         return 0;
     }
 

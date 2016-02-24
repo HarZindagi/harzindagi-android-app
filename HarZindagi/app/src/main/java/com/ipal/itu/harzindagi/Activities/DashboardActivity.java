@@ -32,6 +32,7 @@ public class DashboardActivity extends AppCompatActivity {
                 Snackbar.make(view, "Register Child", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 startActivity(new Intent(DashboardActivity.this, RegisterChildActivity.class));
+
             }
         });
 
@@ -42,6 +43,7 @@ public class DashboardActivity extends AppCompatActivity {
                 Snackbar.make(view, "Scan Child", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 startActivity(new Intent(DashboardActivity.this,Card_Scan.class));
+
             }
         });
 

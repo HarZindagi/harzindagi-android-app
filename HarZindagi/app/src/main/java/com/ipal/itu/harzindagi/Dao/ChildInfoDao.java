@@ -83,9 +83,11 @@ public class ChildInfoDao {
 
 
     public  List<ChildInfo> getById(String id,String phone,String cnic) {
+        phone = phone.replace("N/A","");
+        cnic = cnic.replace("N/A","");
         return new Select()
                 .from(ChildInfo.class)
-                .where("epi_number = ?", id).or("phone_number", phone).or("guardian_cnic", cnic)
+                .where("epi_number = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
     }
