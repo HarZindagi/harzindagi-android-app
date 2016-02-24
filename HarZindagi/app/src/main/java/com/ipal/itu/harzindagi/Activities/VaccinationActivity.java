@@ -107,8 +107,8 @@ public class VaccinationActivity extends AppCompatActivity {
         fourthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFourthTabTick);
         fifthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFifthTabTick);
         sixthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivitySixthTabTick);
-        v = new View[]{firstTab, secondTab, thirdTab, fourthTab, firstTab, sixthTab};
-        vt = new ImageView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark};
+        v = new View[]{firstTab, secondTab, thirdTab, fourthTab, fifthTab, sixthTab};
+        vt = new ImageView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark,sixthTabTickMark};
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
         if (Constants.isVaccOfVisitCompleted(vaccs_done)) {
             viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag) + "");
@@ -122,7 +122,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
 
         mViewPager.setCurrentItem(load_frag);
-        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setOffscreenPageLimit(5);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -203,27 +203,8 @@ public class VaccinationActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void SetVaccineInfo() {
 

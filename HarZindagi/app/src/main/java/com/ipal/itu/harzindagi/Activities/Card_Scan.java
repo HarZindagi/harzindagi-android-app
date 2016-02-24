@@ -127,6 +127,7 @@ public class Card_Scan extends Activity {
             i.putExtra("visit_num",Arry[Arry.length-2]);
             i.putExtra("vacc_details",Arry[Arry.length-1]);
             startActivity(i);
+            finish();
 
         }
 

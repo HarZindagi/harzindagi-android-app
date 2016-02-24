@@ -25,6 +25,7 @@ public class Constants {
     public static final String kid_vaccinations = "http://103.226.216.170:3000/admin/kid_vaccinations.json";
 
     public static final String login = "http://103.226.216.170:3000/login";
+    public static final String logout = "http://103.226.216.170:3000/logout.json";
 
     public static final String token = "token";
     public static final String password = "password";

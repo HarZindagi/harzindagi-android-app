@@ -162,9 +162,10 @@ public class CardScanWriteVaccine extends Activity {
             }
         }
 
-        Intent myintent = new Intent(this, DashboardActivity.class);
+        //Intent myintent = new Intent(this, DashboardActivity.class);
 
-        startActivity(myintent);
+       // startActivity(myintent);
+        finish();
 
         return 0;
     }

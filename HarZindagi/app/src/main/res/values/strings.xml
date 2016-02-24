@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Har Zindagi</string>
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_register_device">Register Device</string>
+    <string name="action_reset_card">Reset Card</string>
     <string name="title_activity_splash">Har Zindagi</string>
 
 
