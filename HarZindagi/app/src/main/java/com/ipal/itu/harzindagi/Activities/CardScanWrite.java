@@ -192,7 +192,7 @@ public class CardScanWrite extends Activity {
                                 //myintent.pu
                                 // startActivityForResult(myintent, 0);
                             } else {
-//                                mTextView.setText(s);
+//                                mTextView.setTextE(s);
                                 btn.setText("WAIT");
                                 btn.setVisibility(View.VISIBLE);
                                 String Arry[] = s.split("#");
