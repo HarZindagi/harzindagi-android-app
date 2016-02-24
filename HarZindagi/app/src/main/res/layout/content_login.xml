@@ -109,6 +109,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/pasNameTV"
             android:hint="Password"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:singleLine="true"
             />
