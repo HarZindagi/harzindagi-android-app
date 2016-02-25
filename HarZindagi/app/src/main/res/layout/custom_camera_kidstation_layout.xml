@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
->
+    android:layout_height="fill_parent">
 
     <SurfaceView
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:text="Take Kid's Station photo"
-    android:textColor="@android:color/holo_red_dark"
-    android:color="@android:color/white"
-    android:textAlignment="center"
-    android:textStyle="bold"
-    android:textSize="25dp"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:color="@android:color/white"
+        android:text="Take Kid's Station photo"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="25dp"
+        android:textStyle="bold"
 
-    />
+        />
+
     <ImageView
         android:id="@+id/CropImageView_station"
         android:layout_width="match_parent"
@@ -40,25 +40,28 @@
         android:layout_centerInParent="true"
 
         android:src="@drawable/image_capture_icon2" />
+
     <ImageView
         android:id="@+id/done_capture"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
         android:layout_marginBottom="23dp"
-        android:src="@drawable/check_camera" />
+        android:src="@drawable/camera_tick" />
+
     <ImageView
         android:id="@+id/refresh_capture"
         android:layout_width="70dp"
         android:layout_height="70dp"
 
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="23dp"
         android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@+id/done_capture"
 
-        android:src="@drawable/refresh_red" />
+        android:layout_marginBottom="23dp"
+
+android:layout_marginRight="20dp"
+        android:src="@drawable/re_arrow" />
 
 </RelativeLayout>

@@ -86,7 +86,9 @@ public class DashboardActivity extends AppCompatActivity {
         if (id == R.id.action_reset_card) {
             return true;
         }
-
+        if (id == R.id.action_sync) {
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
