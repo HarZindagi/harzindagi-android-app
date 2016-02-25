@@ -12,12 +12,25 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+
+                def fileName = outputFile.name
+                fileName = fileName.replace("app-release.apk", "Har Zindagi-" + defaultConfig.versionName + "-v.apk")
+                fileName = fileName.replace("app-debug.apk", "Har Zindag-" + defaultConfig.versionName + "-v.apk")
+                //def fileName = outputFile.name.replace('.apk', "-${versionName}.apk")
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
         }
     }
 }
