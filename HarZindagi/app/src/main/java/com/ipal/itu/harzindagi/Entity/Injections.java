@@ -16,7 +16,7 @@ public class Injections extends TruncatableModel {
     public int id;
 
 
-    @Column(name = "name")   // it is the auto-increment id from Childinfo
+    @Column(name = "name")   // it is the auto-increment mobile_id from Childinfo
     public String name;
 
     @Column(name = "description")

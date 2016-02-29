@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.R;
 
@@ -177,11 +178,11 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
             CropImageView.setImageBitmap(camera_bitmap);
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            Toast.makeText(getApplication(),"Please Restart Phone",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
-
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         try {

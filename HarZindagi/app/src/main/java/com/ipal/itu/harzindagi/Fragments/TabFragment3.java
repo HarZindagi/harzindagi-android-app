@@ -32,9 +32,8 @@ public class TabFragment3 extends Fragment {
         app_name = getResources().getString(R.string.app_name);
 
         ChildInfoDao dao = new ChildInfoDao();
-        if (dao.getAll() != null) {
-            ChildInfoDao childInfoDao = new ChildInfoDao();
-            final List<ChildInfo> data = childInfoDao.getAll();
+        final List<ChildInfo> data = dao.getAll();
+        if( data.size()!=0 ){
 
             ListView listView = (ListView) rootView.findViewById(R.id.tab_list);
             ChildListAdapter childListAdapter = new ChildListAdapter(getActivity(), R.layout.listactivity_row, data, app_name);

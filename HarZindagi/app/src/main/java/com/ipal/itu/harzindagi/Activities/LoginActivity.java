@@ -1,20 +1,17 @@
 package com.ipal.itu.harzindagi.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +26,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.InjectionsDao;
 import com.ipal.itu.harzindagi.Dao.UserInfoDao;
@@ -37,11 +36,9 @@ import com.ipal.itu.harzindagi.Dao.VisitsDao;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
-import com.ipal.itu.harzindagi.GJson.GInjection;
 import com.ipal.itu.harzindagi.GJson.GInjectionAry;
 import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.GJson.GVaccinationAry;
-import com.ipal.itu.harzindagi.GJson.GVisit;
 import com.ipal.itu.harzindagi.GJson.GVisitAry;
 import com.ipal.itu.harzindagi.GJson.Token;
 import com.ipal.itu.harzindagi.R;
@@ -50,14 +47,12 @@ import com.ipal.itu.harzindagi.Utils.Constants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -80,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     FileOutputStream fo;
     String rec_response;
     String passwordTxt;
+    boolean isGettingLocation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,33 +138,66 @@ public class LoginActivity extends AppCompatActivity {
                         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST);
                     } else {
-                       // Snackbar.make(view, "Invalid User Password!", Snackbar.LENGTH_LONG)
-                         //       .setAction("Action", null).show();
 
                         validator.setVisibility(View.VISIBLE);
                     }
 
                 } else {
-
-                    if (Constants.isOnline(LoginActivity.this)) {
-                        sendUserInfo(userName.getText().toString(), password.getText().toString());
-                    } else {
-                        Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
+                    if(!isGettingLocation) {
+                        if (Constants.isOnline(LoginActivity.this)) {
+                            sendUserInfo(userName.getText().toString(), password.getText().toString(), location);
+                        } else {
+                            Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    }else{
+                        Snackbar.make(view, "Getting Location, Please Wait!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                 }
 
             }
         });
-        if(Constants.getToken(this).length()==0){
+        if (Constants.getToken(this).length() == 0) {
             getUserInfo();
-        }else{
+        } else {
             EngUC.setText(Constants.getUC(this));
             userName.setText(Constants.getUserName(this));
         }
 
+        getLocation();
+
+    }
+
+    private void getLocation() {
+        isGettingLocation = true;
+        LocationAjaxCallback cb = new LocationAjaxCallback();
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Getting Location");
+
+        cb.weakHandler(this, "locationCb").timeout(10 * 1000).progress(pDialog);
+        cb.async(this);
+
+    }
+    String location = "0.0,0.0";
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
+        if (loc != null) {
+
+            double lat = loc.getLatitude();
+            double log = loc.getLongitude();
+            location = lat + "," + log;
 
 
+        } else {
+            LoginActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Location Not Found", Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+        isGettingLocation = false;
     }
 
     private void getUserInfo() {
@@ -217,7 +246,7 @@ public class LoginActivity extends AppCompatActivity {
         queue.add(jsonObjReq);
     }
 
-    private void sendUserInfo(String userName, String password) {
+    private void sendUserInfo(String userName, String password, String location) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.login;
@@ -226,7 +255,14 @@ public class LoginActivity extends AppCompatActivity {
         pDialog.show();
         JSONObject obj = null;
         try {
-            obj = new JSONObject("{\"user\":{\"username\":\"" + userName + "\",\"password\":\"" + password + "\"}}");
+
+            obj = new JSONObject();
+            JSONObject user = new JSONObject();
+            obj.put("user", user);
+            user.put("username", userName);
+            user.put("password", password);
+            user.put("location", location);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -250,7 +286,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-              //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.hide();
             }
@@ -288,7 +324,12 @@ public class LoginActivity extends AppCompatActivity {
         Token token = gson.fromJson(response.toString(), Token.class);
         Constants.setToken(this, token.auth_token);
         Constants.setPassword(this, password.getText().toString());
-        loadVisits();
+        if(!Constants.getIsTableLoaded(this)) {
+            loadVisits();
+        }else{
+            Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        }
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
@@ -367,13 +408,7 @@ public class LoginActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-            return true;
-        }
-        if (id == R.id.action_reset_card) {
-            return true;
-        }
+
         if (id == R.id.action_register_device) {
             return true;
         }
@@ -558,7 +593,7 @@ public class LoginActivity extends AppCompatActivity {
 
         vaccinationsDao.deleteTable();
         vaccinationsDao.bulkInsert(vac);
-
+        Constants.setIsTableLoaded(this,true);
         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }

@@ -12,16 +12,12 @@ import com.ipal.itu.harzindagi.Utils.TruncatableModel;
 public class KidVaccinations extends TruncatableModel {
 
 
-    @Column(name = "_id", index = true, unique = true)
-    public int id;
-
-
     @Column(name = "location")
     public String location;
 
 
-    @Column(name = "kid_id")   // it is the auto-increment id from Childinfo
-    public int kid_id;
+    @Column(name = "kid_id")   // it is the auto-increment mobile_id from Childinfo
+    public long kid_id;
 
     @Column(name = "vaccination_id")
     public int vaccination_id;
@@ -45,7 +41,7 @@ public class KidVaccinations extends TruncatableModel {
         super();
     }
 
-    public void SetKidVaccinations(String Location, int KidID, int VaccinationID, String Image_, long CreateTime,Boolean IsSync) {
+    public void SetKidVaccinations(String Location, long KidID, int VaccinationID, String Image_, long CreateTime,Boolean IsSync) {
 
 
         this.location = Location;

@@ -13,7 +13,7 @@ import android.view.View;
 import com.ipal.itu.harzindagi.R;
 
 public class SplashActivity extends AppCompatActivity {
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
     private static boolean isRunning = true;
 
     @Override
