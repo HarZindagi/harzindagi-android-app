@@ -12,7 +12,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import org.json.JSONException;
@@ -82,7 +84,6 @@ public class ChildInfoSyncHandler {
             obj.put("user", user);
 
 
-          //  kid.put("mobile_id", childInfo.mobile_id);
             kid.put("mobile_id", childInfo.mobile_id);
             kid.put("imei_number", Constants.getIMEI(context));
             kid.put("kid_name", childInfo.kid_name);
@@ -97,6 +98,7 @@ public class ChildInfoSyncHandler {
             kid.put("gender", childInfo.gender);
             kid.put("epi_number", childInfo.epi_number);
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");
+            kid.put("image_path",childInfo.image_path);
 
             obj.put("kid", kid);
 
@@ -114,7 +116,15 @@ public class ChildInfoSyncHandler {
                             ChildInfoDao childInfoDao = new ChildInfoDao();
                             List<ChildInfo> child = childInfoDao.getById(childInfo.mobile_id);
                             child.get(0).record_update_flag = true;
+                            child.get(0).kid_id = response.optLong("id");
+
                             child.get(0).save();
+                            long kidID =   child.get(0).kid_id;
+                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(childInfo.mobile_id);
+                            for (int i = 0; i < kidVaccines.size(); i++) {
+                                kidVaccines.get(i).kid_id = kidID;
+                                kidVaccines.get(i).save();
+                            }
 
                             nextUpload(true);
 

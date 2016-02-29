@@ -23,5 +23,6 @@ public class GChildInfo implements Serializable {
     public String upload_timestamp;
     public String epi_number;
     public String itu_epi_number;
+    public String image_path;
 
 }

@@ -37,10 +37,10 @@ public class KidVaccinationDao {
                 .execute();
     }
 
-    public  List<KidVaccinations> getById(String id) {
+    public static   List<KidVaccinations> getById(long id) {
         return new Select()
                 .from(KidVaccinations.class)
-                .where("kid_id = ?", id)
+                .where("mobile_id = ?", id)
                 .orderBy("created_timestamp ASC")
                 .execute();
     }
