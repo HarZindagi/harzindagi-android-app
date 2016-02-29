@@ -1,22 +1,11 @@
 package com.ipal.itu.harzindagi.Activities;
 
-import android.app.DatePickerDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.Uri;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -89,7 +78,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
         ChildInfoDao childInfoDao = new ChildInfoDao();
 
-        List<ChildInfo> data = childInfoDao.getById(childID);
+        List<ChildInfo> data = childInfoDao.getByEPINum(childID);
 
         if(data!=null) {
             ucNumber.setText("" + "203");
@@ -108,7 +97,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
             guardianCNIC.setText(data.get(0).guardian_cnic);
             guardianMobileNumber.setText(data.get(0).phone_number);
             app_name = getResources().getString(R.string.app_name);
-            String imagePath = "/sdcard/" + app_name + "/" + data.get(0).image_name + ".jpg";
+            String imagePath = "/sdcard/" + app_name + "/" + data.get(0).image_path + ".jpg";
             Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
             childPic.setImageBitmap(bmp_read);
         }

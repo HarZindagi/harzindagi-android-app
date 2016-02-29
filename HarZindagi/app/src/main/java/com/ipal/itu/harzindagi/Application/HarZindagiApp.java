@@ -33,6 +33,7 @@ public class HarZindagiApp extends android.app.Application {
         configurationBuilder.addModelClass(KidVaccinations.class);
         ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
+
     }
 
 

@@ -3,11 +3,17 @@ package com.ipal.itu.harzindagi.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,10 +33,13 @@ public class Constants {
     public static final String login = "http://103.226.216.170:3000/login";
     public static final String logout = "http://103.226.216.170:3000/logout.json";
 
+    public static final String photos = "http://103.226.216.170:3000/photos";
+
     public static final String token = "token";
     public static final String password = "password";
     public static final String name = "name";
     public static final String uc = "uc";
+    public static final String isTableLoaded = "isTableLoaded";
 
     public static String getToken(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
@@ -58,11 +67,13 @@ public class Constants {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-    public static  String getIMEI(Context context) {
+
+    public static String getIMEI(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context
                 .getSystemService(Context.TELEPHONY_SERVICE);
         return telephonyManager.getDeviceId();
     }
+
     public static String getPassword(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         return prefs.getString(Constants.password, "");
@@ -72,6 +83,7 @@ public class Constants {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         prefs.edit().putString(Constants.password, pasword).commit();
     }
+
     public static String getUserName(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         return prefs.getString(Constants.name, "");
@@ -82,38 +94,78 @@ public class Constants {
         prefs.edit().putString(Constants.name, userName).commit();
     }
 
-    public static String getNextDueDate(int visit,String vaccs)
-    {
+    public static boolean getIsTableLoaded(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getBoolean(Constants.isTableLoaded, false);
+    }
 
-        int [] Arry={0,42,28,28,154,168,0};  // should better be made dynamic input through Database.
+    public static void setIsTableLoaded(Context c, boolean isLoaded) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putBoolean(Constants.isTableLoaded, isLoaded).commit();
+    }
 
+    public static String getNextDueDate(int visit, String vaccs) {
+
+        int[] Arry = {0, 42, 28, 28, 154, 168, 0};  // should better be made dynamic input through Database.
 
 
         Calendar c = Calendar.getInstance();
 
-        if(isVaccOfVisitCompleted(vaccs))
-        {c.add(Calendar.DATE, Arry[visit]);}
-        else
-        {c.add(Calendar.DATE, 10);}
+        if (isVaccOfVisitCompleted(vaccs)) {
+            c.add(Calendar.DATE, Arry[visit]);
+        } else {
+            c.add(Calendar.DATE, 10);
+        }
 
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
-       return sdf1.format(c.getTime());
+        return sdf1.format(c.getTime());
 
     }
 
-    public static Boolean isVaccOfVisitCompleted( String vaccs)
-    {
+    public static Boolean isVaccOfVisitCompleted(String vaccs) {
 
-        String []arry=vaccs.split(",");
+        String[] arry = vaccs.split(",");
 
-        for(int i=0;i<arry.length;i++)
-        {
-                if(arry[i].equals("0"))
-                    return false;
+        for (int i = 0; i < arry.length; i++) {
+            if (arry[i].equals("0"))
+                return false;
 
         }
-            return true;
+        return true;
 
 
+    }
+    public static Bitmap getBitmapFromFile(String file) {
+        File f = new File(file);
+        Bitmap bmp = BitmapFactory.decodeFile(f.getAbsolutePath());
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return bmp;
+    }
+    public static byte[] getBitmapBytesFromFile(String file) {
+        File f = new File(file);
+        Bitmap bmp = BitmapFactory.decodeFile(f.getAbsolutePath());
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
+
+    }
+    public static byte[] getBytesFromBitmao( Bitmap bmp) {
+     ;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
+
+    }
+    public static String getApplicationName(Context context) {
+        int stringId = context.getApplicationInfo().labelRes;
+        return context.getString(stringId);
+    }
+    public static int pxToDp(Context context,int px) {
+
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, context.getResources().getDisplayMetrics());
+       /* DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return dp;*/
     }
 }

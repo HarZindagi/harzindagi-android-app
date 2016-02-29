@@ -1,11 +1,9 @@
 package com.ipal.itu.harzindagi.Dao;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.annotation.Column;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.Transaction;
-import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
 import java.util.List;
 
@@ -18,13 +16,22 @@ public class ChildInfoDao {
         ChildInfo item = new ChildInfo();
         item.setChildInfo(childID,name,gender,dob,motherName,guardianName,CNIC,phoneNum,createdTime,Location,EpiName,kidStation,imageName,nfcNumber,bookFlag,recordFlag );
         item.save();
+        item.mobile_id = item.getId();
+        item.save();
 
     }
 
     public void save(ChildInfo info) {
         ChildInfo item = new ChildInfo();
-        item.setChildInfo(info.epi_number, info.kid_name, info.gender, info.date_of_birth, info.mother_name, info.guardian_name, info.guardian_cnic, info.phone_number, info.created_timestamp, info.location,info.epi_name,info.kids_station ,info.image_name ,info.nfc_number ,info.book_update_flag,info.record_update_flag );
+        item.setChildInfo(info.epi_number, info.kid_name, info.gender, info.date_of_birth, info.mother_name, info.guardian_name, info.guardian_cnic, info.phone_number, info.created_timestamp, info.location,info.epi_name,info.kids_station ,info.image_path,info.nfc_number ,info.book_update_flag,info.record_update_flag );
         item.save();
+    }
+
+    public void update(int childId){
+        new Update(ChildInfo.class)
+                .set("record_update_flag",true)
+                .where("_id = ?", childId)
+                .execute();
     }
 
   /*  public List<Transaction> getTransactions() {
@@ -38,7 +45,7 @@ public class ChildInfoDao {
             for (int i = 0; i < items.size(); i++) {
 
                 ChildInfo item = new ChildInfo();
-                item.id = items.get(i).id;
+                item.mobile_id = items.get(i).mobile_id;
                 item.epi_name = items.get(i).epi_name;
                 item.kid_name = items.get(i).kid_name;
                 item.epi_number = items.get(i).epi_number;
@@ -73,16 +80,35 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-    public  List<ChildInfo> getById(String id) {
+    public  List<ChildInfo> getByEPINum(String id) {
         return new Select()
                 .from(ChildInfo.class)
                 .where("epi_number = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
     }
-
-
-    public  List<ChildInfo> getById(String id,String phone,String cnic) {
+    public  List<ChildInfo> getById(long id) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("_id = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static List<ChildInfo> getNotSync() {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("record_update_flag = ?", false)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static List<ChildInfo> getByEpiNum(String epi_number) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("epi_number = ?", epi_number)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  List<ChildInfo> getByEPINum(String id, String phone, String cnic) {
         phone = phone.replace("N/A","");
         cnic = cnic.replace("N/A","");
         return new Select()

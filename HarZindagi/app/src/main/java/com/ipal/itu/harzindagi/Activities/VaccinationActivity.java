@@ -4,17 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Adapters.CustomViewPager;
@@ -27,8 +21,6 @@ import com.ipal.itu.harzindagi.Utils.Constants;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 public class VaccinationActivity extends AppCompatActivity {
@@ -97,8 +89,8 @@ public class VaccinationActivity extends AppCompatActivity {
 
         ChildInfoDao childInfoDao = new ChildInfoDao();
 
-        data = childInfoDao.getById(bundle.getString("childid").toString());
-        fpath = data.get(0).image_name;
+        data = childInfoDao.getByEPINum(bundle.getString("childid").toString());
+        fpath = data.get(0).image_path;
 
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);
         secondTab = findViewById(R.id.vaccinationActivitySecondTab);

@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -24,20 +23,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
-import com.ipal.itu.harzindagi.Dao.UserInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -165,9 +160,9 @@ public class CardScanWrite extends AppCompatActivity {
 
         myintent.putExtra("childid", Child_id);
         myintent.putExtra("EPIname", bundle.getString("EPIname"));
-        if (Constants.isOnline(this)) {
+        /*if (Constants.isOnline(this)) {
            sendChildData(Child_id);
-        }
+        }*/
 
         startActivity(myintent);
         finish();
@@ -321,7 +316,7 @@ public class CardScanWrite extends AppCompatActivity {
     private void sendChildData(String childID) {
         // Instantiate the RequestQueue.
         ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childInfo = childInfoDao.getById(childID);
+        List<ChildInfo> childInfo = childInfoDao.getByEPINum(childID);
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.kids;
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -335,8 +330,7 @@ public class CardScanWrite extends AppCompatActivity {
             obj.put("user", user);
 
             JSONObject kid = new JSONObject();
-            kid.put("id",childInfo.get(0).id);
-            kid.put("mobile_id",childInfo.get(0).id);
+            kid.put("mobile_id",childInfo.get(0).mobile_id);
             kid.put("imei_number",Constants.getIMEI(this));
             kid.put("kid_name",childInfo.get(0).kid_name);
             kid.put("father_name",childInfo.get(0).guardian_name);
@@ -362,8 +356,7 @@ public class CardScanWrite extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        // Log.d(TAG, response.toString());
+
                         pDialog.hide();
                         if (response.optBoolean("success")) {
                             JSONObject json = response.optJSONObject("data");

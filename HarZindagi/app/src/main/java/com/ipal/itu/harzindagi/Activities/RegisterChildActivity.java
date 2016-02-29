@@ -1,36 +1,36 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class RegisterChildActivity extends AppCompatActivity {
@@ -65,6 +65,18 @@ public class RegisterChildActivity extends AppCompatActivity {
     FileOutputStream fo;
 
     Calendar myCalendar = Calendar.getInstance();
+    private PopupWindow pw;
+    private View popUpView;
+
+    private void createContexMenu() {
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        popUpView = inflater.inflate(R.layout.contex_popup, null, false);
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 130, getResources().getDisplayMetrics());
+        pw = new PopupWindow(popUpView, width, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        pw.setOutsideTouchable(true);
+        pw.setTouchable(true);
+        pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.pop_up_bg_drawable));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,8 +161,13 @@ public class RegisterChildActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String msg = inputValidate();
                 if (!msg.equals("")) {
-                    Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                 /*   Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();*/
+                    return;
+                }
+                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
+                if(childInfo.size()>0){
+                    showError(EPINumber,"ڈوپلیکیٹ ریکارڈ");
                     return;
                 }
                         /*
@@ -168,39 +185,81 @@ public class RegisterChildActivity extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+        createContexMenu();
+    }
+
+    public void showError(View v, String error) {
+     /*   if(v instanceof EditText){
+            ((EditText)v).setError(error);
+        }
+        if(v instanceof TextView){
+            ((TextView)v).setError(error);
+        }*/
+        ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
+        pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this,10));
+
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        v.startAnimation(shake);
     }
 
     public String inputValidate() {
         String error = "";
         if (EPINumber.getText().length() < 1) {
-            return error = "نامکمل EPI";
+            error = "نامکمل EPI";
+            showError(EPINumber, error);
+
+            return error;
         }
         if (CenterName.getText().length() < 1) {
-            return error = "نامکل مرکز   کا نام";
+            error = "نامکل مرکز   کا نام";
+            showError(CenterName, error);
+
+            return error;
         }
         if (childName.getText().length() < 1) {
-            return error = "نامکمل بچہ کا نام";
+            error = "نامکمل بچہ کا نام";
+            showError(childName, error);
+
+            return error;
         }
         if (Gender == -1) {
-            return error = "نامکمل جنس";
+            error = "نامکمل جنس";
+            showError(boy, error);
+
+            return error;
         }
         if (DOBText.getText().toString().contains("DD")) {
-            return error = "نامکمل پیدائش کی تاریخ";
+            error = "نامکمل پیدائش کی تاریخ";
+            showError(DOBText, error);
+
+            return error;
         }
 
         if (guardianName.getText().length() < 1) {
-            return error = "نامکمل سرپرست کا نام";
+            error = "نامکمل سرپرست کا نام";
+
+            showError(guardianName, error);
+
+            return error;
         }
         String cnic = guardianCNIC.getText().toString().trim();
         if (cnic.length() < 16) {
-            return error = "نامکمل شناختی کارڈ نمبر";
+            error = "نامکمل شناختی کارڈ نمبر";
+            showError(guardianCNIC, error);
+
+            return error;
         }
-        String phone = guardianCNIC.getText().toString().trim();
+        String phone = guardianMobileNumber.getText().toString().trim();
         if (phone.length() < 12) {
-            return error = "نامکمل موبائل نمبر";
+            error = "نامکمل موبائل نمبر";
+            showError(guardianMobileNumber, error);
+
+            return error;
         }
         if (motherName.getText().length() < 1) {
-            return error = "نامکمل والدہ کا نام";
+            error = "نامکمل والدہ کا نام";
+            showError(motherName, error);
+            return error;
         }
 
         return error;
