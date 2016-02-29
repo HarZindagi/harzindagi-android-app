@@ -22,4 +22,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string-array name="non_epi_array">
+        <item>Buchay ka Mukam Muntakhib karain</item>
+        <item>Mukami Bucha</item>
+        <item>Mehman Bucha</item>
+
+
+    </string-array>
+
 </resources>
