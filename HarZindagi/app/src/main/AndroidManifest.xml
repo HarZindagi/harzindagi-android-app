@@ -127,7 +127,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
         </activity>
-        <activity android:name=".Activities.EvacsEPI" />
+        <activity android:name=".Activities.EvacsEPI" android:label="Evaccs-II"/>
+        <activity android:name=".Activities.EvacsNonEPI"  android:label="Evaccs-II" />
+        <activity android:name=".Activities.Evaccs"  android:label="Evaccs-II" />
         <activity android:name=".Activities.Act" />
         <activity
             android:name=".Activities.Card_Scan"

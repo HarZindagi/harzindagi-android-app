@@ -294,23 +294,23 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toLeftOf="@+id/injectionImageFour"
                 android:background="@drawable/rectangle_black"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="OPV-3"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+    android:gravity="center"
+    android:padding="8dp"
+    android:text="OPV-3"
+    android:textColor="@android:color/black"
+    android:textSize="20sp" />
 
-            <ImageView
-                android:id="@+id/injectionImageFour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/rectangle_black"
-                android:src="@drawable/droper" />
+    <ImageView
+        android:id="@+id/injectionImageFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/rectangle_black"
+        android:src="@drawable/droper" />
 
-        </RelativeLayout>
+</RelativeLayout>
     </LinearLayout>
 
     <TextView

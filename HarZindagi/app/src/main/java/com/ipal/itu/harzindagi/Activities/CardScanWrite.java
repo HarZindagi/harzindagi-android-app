@@ -12,6 +12,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -57,6 +58,8 @@ public class CardScanWrite extends AppCompatActivity {
     double longitude;
     double latitude;
     Bundle bundle;
+    boolean is_check = false;
+    boolean clicku = false;
     Long tsLong;
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
@@ -76,6 +79,7 @@ public class CardScanWrite extends AppCompatActivity {
     private String NextDueDate;
     private String card_data = "";
     private ImageView imgV;
+    boolean mWriteMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,27 +97,10 @@ public class CardScanWrite extends AppCompatActivity {
         bundle = getIntent().getExtras();
         Child_id = bundle.getString("ID");
 
-        //   BabyInfo info = new Select().from(BabyInfo.class).where("ChildID = ?" , Child_id).executeSingle();
-/*        childName=info.childName;
-        dateOfBirth=info.childDOB;
-
-        childGender=info.childGender;
-
-
-        fatherName=info.fatherName;
-        fatherCNIC=info.fatherCNIC;
-        fatherMobile=info.contactNumber;
-        childAddress=info.address;
-        District=info.district;
-        Tehsil=info.tehsil;
-        NextDueDate=info.nextDueDate;
-        VisitNum=info.visitNumber;*/
-
 
         tsLong = System.currentTimeMillis() / 1000;
 
         push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + longitude + "," + latitude + "#" + bundle.getString("EPIname");
-
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -123,9 +110,11 @@ public class CardScanWrite extends AppCompatActivity {
 
         // set an intent filter for all MIME data
         IntentFilter ndefIntent = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+
         try {
             ndefIntent.addDataType("*/*");
-            mIntentFilters = new IntentFilter[]{ndefIntent, new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)};
+            mIntentFilters = new IntentFilter[]{ndefIntent, tagDetected, new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED)};
         } catch (Exception e) {
 
             Toast.makeText(ctx, "adding ndefintent", Toast.LENGTH_LONG).show();
@@ -144,10 +133,20 @@ public class CardScanWrite extends AppCompatActivity {
 
     }
 
+    private void enableTagWriteMode() {
+        mWriteMode = true;
+
+        mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mIntentFilters, null);
+    }
+
+    private void disableTagWriteMode() {
+        mWriteMode = false;
+        mNfcAdapter.disableForegroundDispatch(this);
+    }
+
 
     public int Push_into_NFC() {
 
-        int loop_check = 0;
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
 
@@ -155,105 +154,77 @@ public class CardScanWrite extends AppCompatActivity {
         ChildInfoDao childInfoDao = new ChildInfoDao();
         childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false);
 
-
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
-
         myintent.putExtra("childid", Child_id);
         myintent.putExtra("EPIname", bundle.getString("EPIname"));
-        /*if (Constants.isOnline(this)) {
-           sendChildData(Child_id);
-        }*/
-
         startActivity(myintent);
         finish();
         return 0;
     }
 
-
     @Override
     public void onNewIntent(Intent intent) {
-        mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        String s = "";
-        String action = intent.getAction();
-        Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-        if (data != null) {
-            try {
-                for (int i = 0; i < data.length; i++) {
-                    NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();
-                    for (int j = 0; j < recs.length; j++) {
-                        if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
-                                Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
-                            byte[] payload = recs[j].getPayload();
-                            String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
 
-                            int langCodeLen = payload[0] & 0077;
-                            s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
-                                    textEncoding);
-                            if (s.equals("0")) {
-                                // Intent myintent = new Intent(this, RegisterChild.class);
-                                //myintent.pu
-                                // startActivityForResult(myintent, 0);
-                            } else {
+        if (is_check == false && clicku == true) {
+            mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            String s = "";
+            String action = intent.getAction();
+            Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (data != null) {
+                try {
+                    for (int i = 0; i < data.length; i++) {
+                        NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();
+                        for (int j = 0; j < recs.length; j++) {
+                            if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
+                                    Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
+                                byte[] payload = recs[j].getPayload();
+                                String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
+
+                                int langCodeLen = payload[0] & 0077;
+                                s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
+                                        textEncoding);
+
 //                                mTextView.setTextE(s);
-                                btn.setText("WAIT");
-                                btn.setVisibility(View.VISIBLE);
+                                btn.setText("Tap Again To Write2");
+                                btn.setEnabled(false);
                                 String Arry[] = s.split("#");
                                 card_data = Arry[0] + "#" + Arry[1];
-                                try {
-                                    write(card_data + push_NFC, mytag);
-                                    btn.setText("NEXT");
-                                    btn.setVisibility(View.VISIBLE);
+                                push_NFC = card_data + push_NFC;
+                                is_check = true;
 
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (FormatException e) {
-
-                                    Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
-                                    e.printStackTrace();
-                                }
 
                             }
-
                         }
                     }
+                } catch (Exception e) {
+                    Toast.makeText(ctx, "Tag dispatch on new intent", Toast.LENGTH_LONG).show();
                 }
-            } catch (Exception e) {
-                Toast.makeText(ctx, "Tag dispatch on new intent", Toast.LENGTH_LONG).show();
             }
+
+        } else {
+
+            if (mWriteMode && clicku == true) {
+                Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                NdefRecord record = NdefRecord.createMime(push_NFC, push_NFC.getBytes());
+                NdefMessage message = new NdefMessage(new NdefRecord[]{record});
+                if (writeTag(message, detectedTag)) {
+                    //   Toast.makeText(this, "Success: Wrotgme placeid to nfc tag", Toast.LENGTH_LONG)
+                    //.show();
+                    btn.setText("Next");
+                    btn.setVisibility(View.VISIBLE);
+                    btn.setEnabled(true);
+                    mWriteMode = false;
+
+
+                }
+            }
+
+
         }
 
 
-
-
-
-
-/*
-        // Saving child record in NFC
-        if(Push_into_NFC()==1) {
-
-            /// Saving Child Record in DB
-            BabyInfo newBabyRegistration = new BabyInfo(Child_id, childName, dateOfBirth, childGender, fatherName,
-                    fatherCNIC, fatherMobile, childAddress, District, Tehsil);
-
-            newBabyRegistration.save();
-
-
-            // Fetching CHild Record from DB
-
-            BabyInfo query = new Select().from(BabyInfo.class).executeSingle();
-            Toast.makeText(this, query.childName + " " + query.fatherName + "" + query.district, Toast.LENGTH_LONG).show();
-
-
-            // Calling Vaccine_record
-            Intent intent_2 = new Intent(this, Vaccine_record.class);
-            intent_2.putExtra("data", push_NFC);
-            intent_2.putExtra("scan_flag", 1);
-
-            startActivity(intent_2);
-            ctx.finish();
-        }*/
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -287,14 +258,46 @@ public class CardScanWrite extends AppCompatActivity {
         return recordNFC;
     }
 
-    private void write(String text, Tag tag) throws IOException, FormatException {
+    public boolean writeTag(NdefMessage message, Tag tag) {
+        int size = message.toByteArray().length;
+        try {
+            Ndef ndef = Ndef.get(tag);
+            if (ndef != null) {
+                ndef.connect();
+                if (!ndef.isWritable()) {
+                    Toast.makeText(getApplicationContext(),
+                            "Error: tag not writable",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                if (ndef.getMaxSize() < size) {
+                    Toast.makeText(getApplicationContext(),
+                            "Error: tag too small",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                ndef.writeNdefMessage(message);
+                return true;
+            } else {
+                NdefFormatable format = NdefFormatable.get(tag);
+                if (format != null) {
+                    try {
+                        format.connect();
+                        format.format(message);
+                        return true;
+                    } catch (IOException e) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            btn.setText("Tap Again To Write");
+            btn.setEnabled(false);
 
-        NdefRecord[] records = {createRecord(text)};
-        NdefMessage message = new NdefMessage(records);
-        Ndef ndef = Ndef.get(tag);
-        ndef.connect();
-        ndef.writeNdefMessage(message);
-        ndef.close();
+            return false;
+        }
     }
 
     @Override
@@ -326,26 +329,26 @@ public class CardScanWrite extends AppCompatActivity {
         try {
             obj = new JSONObject();
             JSONObject user = new JSONObject();
-            user.put("auth_token",Constants.getToken(this));
+            user.put("auth_token", Constants.getToken(this));
             obj.put("user", user);
 
             JSONObject kid = new JSONObject();
-            kid.put("mobile_id",childInfo.get(0).mobile_id);
-            kid.put("imei_number",Constants.getIMEI(this));
-            kid.put("kid_name",childInfo.get(0).kid_name);
-            kid.put("father_name",childInfo.get(0).guardian_name);
-            kid.put("mother_name",childInfo.get(0).mother_name);
-            kid.put("father_cnic",childInfo.get(0).guardian_cnic);
-            kid.put("mother_cnic","");
-            kid.put("phone_number",childInfo.get(0).phone_number);
-            kid.put("date_of_birth",childInfo.get(0).date_of_birth);
-            kid.put("location","00000,000000");
-            kid.put("child_address","");
-            kid.put("gender",childInfo.get(0).gender);
-            kid.put("epi_number",childInfo.get(0).epi_number);
-            kid.put("itu_epi_number",childInfo.get(0).epi_number+"_itu");
+            kid.put("mobile_id", childInfo.get(0).mobile_id);
+            kid.put("imei_number", Constants.getIMEI(this));
+            kid.put("kid_name", childInfo.get(0).kid_name);
+            kid.put("father_name", childInfo.get(0).guardian_name);
+            kid.put("mother_name", childInfo.get(0).mother_name);
+            kid.put("father_cnic", childInfo.get(0).guardian_cnic);
+            kid.put("mother_cnic", "");
+            kid.put("phone_number", childInfo.get(0).phone_number);
+            kid.put("date_of_birth", childInfo.get(0).date_of_birth);
+            kid.put("location", "00000,000000");
+            kid.put("child_address", "");
+            kid.put("gender", childInfo.get(0).gender);
+            kid.put("epi_number", childInfo.get(0).epi_number);
+            kid.put("itu_epi_number", childInfo.get(0).epi_number + "_itu");
 
-            obj.put("kid",kid);
+            obj.put("kid", kid);
 
         } catch (JSONException e) {
             e.printStackTrace();
