@@ -49,9 +49,9 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Pending"));
-        tabLayout.addTab(tabLayout.newTab().setText("Defaulter"));
-        tabLayout.addTab(tabLayout.newTab().setText("Completed"));
+        tabLayout.addTab(tabLayout.newTab().setText("زیر غور"));
+        tabLayout.addTab(tabLayout.newTab().setText("ڈیفالٹر"));
+        tabLayout.addTab(tabLayout.newTab().setText("مکمل شدہ"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         if (Constants.isOnline(this)) {
             loadChildData();
