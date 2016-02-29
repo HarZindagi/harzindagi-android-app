@@ -29,13 +29,13 @@ public class KidVaccinatioHandler {
 
 
     Context context;
-    List<KidVaccinations> childInfo;
+    List<KidVaccinations> kidVaccinations;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
     int index = 0;
 
-    public KidVaccinatioHandler(Context context, List<KidVaccinations> childInfo, OnUploadListner onUploadListner) {
-        this.childInfo = childInfo;
+    public KidVaccinatioHandler(Context context, List<KidVaccinations> kidVaccinations, OnUploadListner onUploadListner) {
+        this.kidVaccinations = kidVaccinations;
         this.context = context;
         this.onUploadListner = onUploadListner;
     }
@@ -44,8 +44,8 @@ public class KidVaccinatioHandler {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Saving Child data...");
         pDialog.show();
-        if (childInfo.size() != 0) {
-            sendVaccinationsData(childInfo.get(index));
+        if (kidVaccinations.size() != 0) {
+            sendVaccinationsData(kidVaccinations.get(index));
         } else {
             pDialog.dismiss();
         }
@@ -55,9 +55,9 @@ public class KidVaccinatioHandler {
     private void nextUpload(boolean isUploaded) {
         if (isUploaded) {
             index++;
-            if (index < childInfo.size()) {
-                sendVaccinationsData(childInfo.get(index));
-                pDialog.setMessage("Uploading data... " + index + " of " + childInfo.size());
+            if (index < kidVaccinations.size()) {
+                sendVaccinationsData(kidVaccinations.get(index));
+                pDialog.setMessage("Uploading data... " + index + " of " + kidVaccinations.size());
             } else {
                 onUploadListner.onUpload(true, "");
                 pDialog.dismiss();
@@ -69,7 +69,7 @@ public class KidVaccinatioHandler {
     }
 
 
-    private void sendVaccinationsData(KidVaccinations kidVaccinations) {
+    private void sendVaccinationsData(final KidVaccinations kidVaccinations) {
         // Instantiate the RequestQueue.
 
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -111,7 +111,8 @@ public class KidVaccinatioHandler {
                         // Log.d(TAG, response.toString());
                         // pDialog.hide();
                         if (!response.equals("")) {
-
+                            kidVaccinations.is_sync= true;
+                            kidVaccinations.save();
                             nextUpload(true);
 
                         }

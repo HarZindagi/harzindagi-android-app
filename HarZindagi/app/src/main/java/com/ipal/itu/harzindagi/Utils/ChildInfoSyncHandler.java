@@ -82,7 +82,6 @@ public class ChildInfoSyncHandler {
             obj.put("user", user);
 
 
-          //  kid.put("mobile_id", childInfo.mobile_id);
             kid.put("mobile_id", childInfo.mobile_id);
             kid.put("imei_number", Constants.getIMEI(context));
             kid.put("kid_name", childInfo.kid_name);
@@ -97,6 +96,7 @@ public class ChildInfoSyncHandler {
             kid.put("gender", childInfo.gender);
             kid.put("epi_number", childInfo.epi_number);
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");
+            kid.put("image_path",childInfo.image_path);
 
             obj.put("kid", kid);
 
