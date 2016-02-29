@@ -15,8 +15,10 @@ public class KidVaccinations extends TruncatableModel {
     @Column(name = "location")
     public String location;
 
+    @Column(name = "mobile_id")
+    public long mobile_id;
 
-    @Column(name = "kid_id")   // it is the auto-increment mobile_id from Childinfo
+    @Column(name = "kid_id")
     public long kid_id;
 
     @Column(name = "vaccination_id")
