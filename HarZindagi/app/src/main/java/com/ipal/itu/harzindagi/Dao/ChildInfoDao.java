@@ -90,7 +90,7 @@ public class ChildInfoDao {
     public  List<ChildInfo> getById(long id) {
         return new Select()
                 .from(ChildInfo.class)
-                .where("_id = ?", id)
+                .where("mobile_id = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
     }

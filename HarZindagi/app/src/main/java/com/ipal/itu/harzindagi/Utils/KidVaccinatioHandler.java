@@ -89,6 +89,7 @@ public class KidVaccinatioHandler {
 
             vaccination.put("imei_number", Constants.getIMEI(context));
             vaccination.put("location", kidVaccinations.location);
+            vaccination.put("mobile_id", kidVaccinations.mobile_id);
             vaccination.put("kid_id", kidVaccinations.kid_id);
             vaccination.put("vaccination_id", kidVaccinations.vaccination_id);
             vaccination.put("version_name", "");

@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     String rec_response;
     String passwordTxt;
     boolean isGettingLocation = false;
+    String location = "0.0,0.0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,14 +144,14 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    if(!isGettingLocation) {
+                    if (!isGettingLocation) {
                         if (Constants.isOnline(LoginActivity.this)) {
                             sendUserInfo(userName.getText().toString(), password.getText().toString(), location);
                         } else {
                             Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                         }
-                    }else{
+                    } else {
                         Snackbar.make(view, "Getting Location, Please Wait!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
@@ -179,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
         cb.async(this);
 
     }
-    String location = "0.0,0.0";
+
     public void locationCb(String url, final Location loc, AjaxStatus status) {
         if (loc != null) {
 
@@ -324,9 +325,9 @@ public class LoginActivity extends AppCompatActivity {
         Token token = gson.fromJson(response.toString(), Token.class);
         Constants.setToken(this, token.auth_token);
         Constants.setPassword(this, password.getText().toString());
-        if(!Constants.getIsTableLoaded(this)) {
+        if (!Constants.getIsTableLoaded(this)) {
             loadVisits();
-        }else{
+        } else {
             Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
             startActivityForResult(cameraIntent, CAMERA_REQUEST);
         }
@@ -361,7 +362,9 @@ public class LoginActivity extends AppCompatActivity {
                 fo = new FileOutputStream(f);
                 fo.write(bytes.toByteArray()); //write the bytes in file
             } finally {
-                fo.close(); // remember close the FileOutput
+                if (fo != null) {
+                    fo.close(); // remember close the FileOutput
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -593,7 +596,7 @@ public class LoginActivity extends AppCompatActivity {
 
         vaccinationsDao.deleteTable();
         vaccinationsDao.bulkInsert(vac);
-        Constants.setIsTableLoaded(this,true);
+        Constants.setIsTableLoaded(this, true);
         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }

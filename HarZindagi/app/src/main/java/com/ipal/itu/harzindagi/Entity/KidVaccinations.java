@@ -43,11 +43,11 @@ public class KidVaccinations extends TruncatableModel {
         super();
     }
 
-    public void SetKidVaccinations(String Location, long KidID, int VaccinationID, String Image_, long CreateTime,Boolean IsSync) {
+    public void SetKidVaccinations(String Location, long mobile_id, int VaccinationID, String Image_, long CreateTime,Boolean IsSync) {
 
 
         this.location = Location;
-        this.kid_id = KidID;
+        this.mobile_id = mobile_id;
         this.vaccination_id = VaccinationID;
         this.image = Image_;
         this.created_timestamp = CreateTime;
