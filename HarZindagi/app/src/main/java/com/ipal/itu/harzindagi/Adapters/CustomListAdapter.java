@@ -10,23 +10,28 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ipal.itu.harzindagi.GJson.VaccineInfo;
 import com.ipal.itu.harzindagi.R;
+
+import java.util.ArrayList;
 
 public class CustomListAdapter extends BaseAdapter {
     private Context mcontext;
+    ArrayList<VaccineInfo> vaccinfo;
     
-    public CustomListAdapter(Activity context) {
+    public CustomListAdapter(Activity context, ArrayList<VaccineInfo> vaccinfo) {
         mcontext = context;
+        this.vaccinfo= vaccinfo;
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return vaccinfo.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return vaccinfo.get(position);
     }
 
     @Override
@@ -54,12 +59,16 @@ public class CustomListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) row.getTag();
         }
-        holder.day.setText("");
-        holder.day.setText("");
-        holder.day.setText("");
-        holder.day.setText("");
-        holder.day.setText("");
-     //   holder.image.setBackgroundDrawable();
+        holder.day.setText(""+ vaccinfo.get(position).day);
+        holder.month.setText(""+ vaccinfo.get(position).month);
+        holder.year.setText("" + vaccinfo.get(position).year);
+        holder.vaccType.setText(""+ vaccinfo.get(position).vac_type);
+        holder.vaccName.setText(""+ vaccinfo.get(position).vac_name);
+       if(vaccinfo.get(position).vac_type.equals("drops")){
+           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.droper));
+       }else {
+         //  holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.droper)); // Use injection image
+       }
         return row;
 
     }
