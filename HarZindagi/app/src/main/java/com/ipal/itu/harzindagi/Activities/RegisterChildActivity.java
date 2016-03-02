@@ -205,19 +205,19 @@ public class RegisterChildActivity extends AppCompatActivity {
     public String inputValidate() {
         String error = "";
         if (EPINumber.getText().length() < 1) {
-            error = "نامکمل EPI";
+            error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
             showError(EPINumber, error);
 
             return error;
         }
         if (CenterName.getText().length() < 1) {
-            error = "نامکل مرکز   کا نام";
+            error = "برائے مہربانی سینٹر کا نام درج کریں۔";
             showError(CenterName, error);
 
             return error;
         }
         if (childName.getText().length() < 1) {
-            error = "نامکمل بچہ کا نام";
+            error = "برائے مہربانی بچے کا نام درج کریں۔";
             showError(childName, error);
 
             return error;
@@ -229,14 +229,14 @@ public class RegisterChildActivity extends AppCompatActivity {
             return error;
         }
         if (DOBText.getText().toString().contains("DD")) {
-            error = "نامکمل پیدائش کی تاریخ";
+            error = "برائے مہربانی تاریخ پیدائش درج کریں۔";
             showError(DOBText, error);
 
             return error;
         }
 
         if (guardianName.getText().length() < 1) {
-            error = "نامکمل سرپرست کا نام";
+            error = "برائے مہربانی سرپرست کا نام درج کریں۔";
 
             showError(guardianName, error);
 
@@ -244,20 +244,20 @@ public class RegisterChildActivity extends AppCompatActivity {
         }
         String cnic = guardianCNIC.getText().toString().trim();
         if (cnic.length() < 16) {
-            error = "نامکمل شناختی کارڈ نمبر";
+            error = "برائی مہربانی سرپرست کا شناختی کارڈ نمبر درج کریں۔";
             showError(guardianCNIC, error);
 
             return error;
         }
         String phone = guardianMobileNumber.getText().toString().trim();
         if (phone.length() < 12) {
-            error = "نامکمل موبائل نمبر";
+            error = "برائے مہربانی سرپرست کا موبائل نمبر درج کریں۔";
             showError(guardianMobileNumber, error);
 
             return error;
         }
         if (motherName.getText().length() < 1) {
-            error = "نامکمل والدہ کا نام";
+            error = "برائے مہربانی والدہ کا نام درج کریں ۔";
             showError(motherName, error);
             return error;
         }
