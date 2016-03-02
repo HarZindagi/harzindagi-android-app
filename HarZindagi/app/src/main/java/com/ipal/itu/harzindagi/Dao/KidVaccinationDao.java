@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class KidVaccinationDao {
 
-    public void save(String Location, int KidID, int VaccinationID, String Image_, long CreateTime,Boolean Is_Sync ) {
+    public void save(String Location, long KidID, int VaccinationID, String Image_, long CreateTime,Boolean Is_Sync ) {
         KidVaccinations item = new KidVaccinations();
         item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime,Is_Sync);
         item.save();
@@ -37,10 +37,17 @@ public class KidVaccinationDao {
                 .execute();
     }
 
-    public  List<KidVaccinations> getById(String id) {
+    public static   List<KidVaccinations> getById(long id) {
         return new Select()
                 .from(KidVaccinations.class)
-                .where("kid_id = ?", id)
+                .where("mobile_id = ?", id)
+                .orderBy("created_timestamp ASC")
+                .execute();
+    }
+    public  List<KidVaccinations> getNoSync() {
+        return new Select()
+                .from(KidVaccinations.class)
+                .where("is_sync = ?", false)
                 .orderBy("created_timestamp ASC")
                 .execute();
     }

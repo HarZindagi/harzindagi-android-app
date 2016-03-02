@@ -1,11 +1,8 @@
 package com.ipal.itu.harzindagi.Entity;
 
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.ipal.itu.harzindagi.Utils.TruncatableModel;
-
-import java.util.List;
 
 /**
  * Created by Ali on 1/13/2016.
@@ -14,9 +11,11 @@ import java.util.List;
 public class ChildInfo extends TruncatableModel {
 
 
-    @Column(name = "_id")
-    public int id;
+    @Column(name = "mobile_id")
+    public Long mobile_id;
 
+    @Column(name = "kid_id")
+    public Long kid_id;
 
     @Column(name = "epi_number")
     public String epi_number;
@@ -62,8 +61,8 @@ public class ChildInfo extends TruncatableModel {
     @Column(name = "kids_station")
     public String kids_station;
 
-    @Column(name = "image_name")
-    public String image_name;
+    @Column(name = "image_path")
+    public String image_path;
 
 
     @Column(name = "nfc_number")
@@ -101,11 +100,10 @@ public class ChildInfo extends TruncatableModel {
         this.location = Location;
         this.epi_name=EpiName;
         this.kids_station = kidStation;
-        this.image_name = imageName;
+        this.image_path = imageName;
         this.nfc_number = nfcNumber;
         this.book_update_flag = bookFlag;
         this.record_update_flag = recordFlag;
-
 
     }
 

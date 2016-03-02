@@ -6,8 +6,8 @@ import java.io.Serializable;
  * Created by Ali on 2/18/2016.
  */
 public class GChildInfo implements Serializable {
-    public int id ;
-    public String mobile_id;
+    public long mobile_id;
+   // public String mobile_id;
     public String imei_number;
     public String kid_name;
     public String father_name;
@@ -23,5 +23,6 @@ public class GChildInfo implements Serializable {
     public String upload_timestamp;
     public String epi_number;
     public String itu_epi_number;
+    public String image_path;
 
 }

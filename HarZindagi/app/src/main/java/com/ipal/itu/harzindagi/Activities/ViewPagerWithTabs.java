@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,14 +20,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Adapters.PagerAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
-import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -52,17 +51,22 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Pending"));
-        tabLayout.addTab(tabLayout.newTab().setText("Defaulter"));
-        tabLayout.addTab(tabLayout.newTab().setText("Completed"));
+        tabLayout.addTab(tabLayout.newTab().setText("زیر غور"));
+        tabLayout.addTab(tabLayout.newTab().setText("ڈیفالٹر"));
+        tabLayout.addTab(tabLayout.newTab().setText("مکمل شدہ"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        if (Constants.isOnline(this)) {
-            loadChildData();
-        } else {
-            setViewPagger();
-        }
+
+        setViewPagger();
+
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.sync_menu, menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -70,6 +74,12 @@ public class ViewPagerWithTabs extends AppCompatActivity {
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();
                 return true;
+            case  R.id.action_sync:
+                if (Constants.isOnline(this)) {
+                    loadChildData();
+                }
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -160,7 +170,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();
-            c.id = obj.childInfoArrayList.get(i).id;
+            c.mobile_id = obj.childInfoArrayList.get(i).mobile_id;
 
 
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
@@ -179,12 +189,17 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             }
             c.epi_number = obj.childInfoArrayList.get(i).epi_number;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
+            c.record_update_flag = true;
+            c.book_update_flag = true;
+            c.image_path = obj.childInfoArrayList.get(i).image_path;
 
             childInfoArrayList.add(c);
         }
         ChildInfoDao childInfoDao = new ChildInfoDao();
+        List<ChildInfo> noSync = ChildInfoDao.getNotSync();
         childInfoDao.deleteTable();
         childInfoDao.bulkInsert(childInfoArrayList);
+        childInfoDao.bulkInsert(noSync);
 
         setViewPagger();
     }

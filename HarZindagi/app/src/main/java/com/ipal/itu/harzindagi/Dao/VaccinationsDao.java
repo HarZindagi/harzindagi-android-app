@@ -1,30 +1,18 @@
 package com.ipal.itu.harzindagi.Dao;
 
-        import com.activeandroid.ActiveAndroid;
-        import com.activeandroid.Model;
-        import com.activeandroid.query.Select;
-        import com.ipal.itu.harzindagi.Entity.Injections;
-        import com.ipal.itu.harzindagi.Entity.Vaccinations;
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Model;
+import com.activeandroid.query.Select;
+import com.ipal.itu.harzindagi.Entity.Injections;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ali on 2/18/2016.
  */
-public class VaccinationsDao  {
-    public void save(int ID, int visitNumber, int injectionID) {
-        Vaccinations obj = new Vaccinations();
-        obj.SetKidVaccinations(ID, visitNumber, injectionID);
-        obj.save();
-
-    }
-    public  List<Vaccinations> getAll() {
-        return new Select()
-                .from(Vaccinations.class)
-                .orderBy("_id ASC")
-                .execute();
-    }
+public class VaccinationsDao {
     public static List<Vaccinations> getById(int id) {
         return new Select()
                 .from(Vaccinations.class)
@@ -33,22 +21,20 @@ public class VaccinationsDao  {
                 .execute();
     }
 
-    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num,String inj)
-    {
+    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num, String inj) {
 
-        String [] injarr=inj.split(",");
-       List<Integer>arr=new ArrayList<>();
-        List<Vaccinations> vc=new Select()
-            .from(Vaccinations.class)
-            .where("visit_id = ?", v_num)
-            .orderBy("_id ASC")
-            .execute();
-        List<Injections> lij=new ArrayList<>();
+        String[] injarr = inj.split(",");
+        List<Integer> arr = new ArrayList<>();
+        List<Vaccinations> vc = new Select()
+                .from(Vaccinations.class)
+                .where("visit_id = ?", v_num)
+                .orderBy("_id ASC")
+                .execute();
+        List<Injections> lij = new ArrayList<>();
 
 
-        for(int i=0;i<vc.size();i++)
-        {
-            List  <Injections> ij=new Select()
+        for (int i = 0; i < vc.size(); i++) {
+            List<Injections> ij = new Select()
                     .from(Injections.class)
                     .where("_id = ?", vc.get(i).injection_id)
                     .execute();
@@ -57,13 +43,10 @@ public class VaccinationsDao  {
 
         }
 
-        int x=0;
-        for(int i=0;i<lij.size()&&i<injarr.length;i++)
-        {
-            if(injarr[i].equals("1"))
-            {
-                if(vc.get(i).injection_id==lij.get(i).id)
-                {
+        int x = 0;
+        for (int i = 0; i < lij.size() && i < injarr.length; i++) {
+            if (injarr[i].equals("1")) {
+                if (vc.get(i).injection_id == lij.get(i).id) {
                     arr.add(vc.get(i).id);
 
 
@@ -76,11 +59,24 @@ public class VaccinationsDao  {
         }
 
 
-
-
-return arr;
+        return arr;
 
     }
+
+    public void save(int ID, int visitNumber, int injectionID) {
+        Vaccinations obj = new Vaccinations();
+        obj.SetKidVaccinations(ID, visitNumber, injectionID);
+        obj.save();
+
+    }
+
+    public List<Vaccinations> getAll() {
+        return new Select()
+                .from(Vaccinations.class)
+                .orderBy("_id ASC")
+                .execute();
+    }
+
     public void bulkInsert(List<Vaccinations> items) {
         ActiveAndroid.beginTransaction();
         try {
@@ -98,7 +94,8 @@ return arr;
             ActiveAndroid.endTransaction();
         }
     }
-    public  void deleteTable(){
+
+    public void deleteTable() {
         Vaccinations.truncate(Vaccinations.class);
     }
 }

@@ -3,7 +3,6 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.FormatException;
@@ -35,8 +34,6 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.KidVaccinations;
-import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -101,7 +98,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
 
         ChildInfoDao childInfo = new ChildInfoDao();
-        data = childInfo.getById(Child_id);
+        data = childInfo.getByEPINum(Child_id);
 
 
         push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date") + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
@@ -152,19 +149,12 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < lst.size(); i++) {
-            if(Constants.isOnline(this)) {
-
-                sendVaccinationsData(data.get(0).location, data.get(0).id,  lst.get(i), calendar.getTimeInMillis(),i);
-            }
-            else
-            {
-
 
                 KidVaccinationDao kd = new KidVaccinationDao();
 
-                kd.save(data.get(0).location, data.get(0).id, (int) lst.get(i), data.get(0).image_name, calendar.getTimeInMillis(),false);
+                kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis(), false);
 
-            }
+
         }
 
         //Intent myintent = new Intent(this, DashboardActivity.class);
@@ -365,7 +355,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
                         {
                             KidVaccinationDao kd = new KidVaccinationDao();
                             Calendar calendar = Calendar.getInstance();
-                            kd.save(data.get(0).location, data.get(0).id, (int) lst.get(index), data.get(0).image_name, calendar.getTimeInMillis(),true);
+                            kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(index), data.get(0).image_path, calendar.getTimeInMillis(),true);
 
 
 

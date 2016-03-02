@@ -2,8 +2,6 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -44,7 +42,7 @@ public class ChildrenListActivity extends AppCompatActivity {
         if (!fromSMS) {
 
 
-            final List<ChildInfo> data = dao.getById(ChildID, CellPhone, CNIC);
+            final List<ChildInfo> data = dao.getByEPINum(ChildID, CellPhone, CNIC);
             if (data != null) {
                 ListView listView = (ListView) findViewById(R.id.childrenListActivityListView);
                 ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, data, app_name);
