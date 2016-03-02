@@ -180,7 +180,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
         init();
         try {
             addFilePart( "image",new File(params[0]));
-            //multipart.addHeaderField("Accept", "application/json");
+            addHeaderField("Accept", "application/json");
             // multipart.addHeaderField("Content-Type", "application/json");
             // multipart.addFormField("name", "image");
             // multipart.addFormField("filename","Hh22.jpg");

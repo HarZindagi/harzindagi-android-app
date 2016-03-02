@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Environment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -20,6 +21,7 @@ import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,9 +119,10 @@ public class ChildInfoSyncHandler {
                             List<ChildInfo> child = childInfoDao.getById(childInfo.mobile_id);
                             child.get(0).record_update_flag = true;
                             child.get(0).kid_id = response.optLong("id");
-
+                            child.get(0).image_path ="image_"+child.get(0).kid_id;
                             child.get(0).save();
                             long kidID =   child.get(0).kid_id;
+                            renameFile(child.get(0).kid_name+child.get(0).epi_number,"image_"+kidID);
                             List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(childInfo.mobile_id);
                             for (int i = 0; i < kidVaccines.size(); i++) {
                                 kidVaccines.get(i).kid_id = kidID;
@@ -155,6 +158,14 @@ public class ChildInfoSyncHandler {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
+    }
+    public  void renameFile(String oldName,String newName){
+       String Path = "/sdcard/" + Constants.getApplicationName(context) + "/";
+
+
+        File from = new File(Path,oldName+ ".jpg");
+        File to = new File(Path,newName+ ".jpg");
+        from.renameTo(to);
     }
 
 }
