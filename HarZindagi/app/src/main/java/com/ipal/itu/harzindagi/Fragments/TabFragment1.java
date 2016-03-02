@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
@@ -44,7 +45,9 @@ public class TabFragment1 extends Fragment {
                 public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
                 {    Intent intent=new Intent(getActivity(),VaccinationActivity.class);
 
+                   Bundle bnd= KidVaccinationDao.get_visit_details_db(data.get(position).mobile_id);
                     intent.putExtra("childid",data.get(position).epi_number);
+                    intent.putExtras(bnd);
                     startActivity(intent);
 
                 }

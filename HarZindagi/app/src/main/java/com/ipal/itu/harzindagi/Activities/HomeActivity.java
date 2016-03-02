@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.R;
 
 public class HomeActivity extends AppCompatActivity {
@@ -25,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "EVACCS Button Clicked!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
 
                 Intent intent=new Intent(HomeActivity.this,Evaccs.class);
                 startActivity(intent);
