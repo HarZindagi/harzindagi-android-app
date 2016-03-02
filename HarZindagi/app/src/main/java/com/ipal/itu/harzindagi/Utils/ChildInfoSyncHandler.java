@@ -51,7 +51,7 @@ public class ChildInfoSyncHandler {
             sendChildData(childInfo.get(index));
         }else{
             pDialog.dismiss();
-
+            onUploadListner.onUpload(true,"");
         }
 
     }

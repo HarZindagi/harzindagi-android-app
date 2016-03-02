@@ -143,10 +143,10 @@ public class DashboardActivity extends AppCompatActivity {
     public void syncData() {
 
         final List<ChildInfo> childInfo = ChildInfoDao.getNotSync();
-        if (childInfo.size() == 0) {
+    /*    if (childInfo.size() == 0) {
             Toast.makeText(DashboardActivity.this, "Data Already Sync", Toast.LENGTH_LONG).show();
             return;
-        }
+        }*/
         ChildInfoSyncHandler childInfoSyncHandler = new ChildInfoSyncHandler(this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String response) {
@@ -179,10 +179,10 @@ public class DashboardActivity extends AppCompatActivity {
     public void syncVaccinaition() {
         KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
         List<KidVaccinations> kids = kidVaccinationDao.getNoSync();
-        if (kids.size() == 0) {
+      /*  if (kids.size() == 0) {
             Toast.makeText(getApplicationContext(), "Data Already Sync", Toast.LENGTH_LONG).show();
             return;
-        }
+        }*/
         KidVaccinatioHandler kidVaccinatioHandler = new KidVaccinatioHandler(this, kids, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {

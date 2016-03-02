@@ -48,6 +48,7 @@ public class KidVaccinatioHandler {
             sendVaccinationsData(kidVaccinations.get(index));
         } else {
             pDialog.dismiss();
+            onUploadListner.onUpload(true,"");
         }
 
     }

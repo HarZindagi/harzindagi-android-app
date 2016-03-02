@@ -47,7 +47,7 @@ public class ImageUploadHandler {
             sendChildData(childInfo.get(index));
         }else{
             pDialog.dismiss();
-
+            onUploadListner.onUpload(true,"");
         }
 
     }
