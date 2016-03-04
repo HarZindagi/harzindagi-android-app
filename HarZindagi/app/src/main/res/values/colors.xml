@@ -8,4 +8,5 @@
     <color name="green">#00CC00</color>
     <color name="Button_Theme_color">#DB4B39</color>
     <color name="back_color">#EAEAEA</color>
+    <color name="color_gray">#777777</color>
 </resources>

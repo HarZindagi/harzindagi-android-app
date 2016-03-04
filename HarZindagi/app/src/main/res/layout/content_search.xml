@@ -26,7 +26,7 @@
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/black"
-        android:textSize="24dp"
+        android:textSize="22dp"
         android:textStyle="bold" />
 
     <View
@@ -37,6 +37,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/epiSearchLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/textview_height"
         android:layout_marginTop="10dp"
@@ -51,15 +52,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/searchActivityChildID_TV"
-            android:layout_weight=".10"
-
             android:hint=""
-
-            android:inputType="textCapWords"
-
-            android:paddingLeft="16dp"
+            android:inputType="number"
             android:singleLine="true" />
-
 
         <TextView
 
@@ -69,7 +64,7 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="right|center_horizontal"
             android:gravity="right|center"
-            android:text="آئی ڈی کارڈ"
+            android:text="بچے کی EPI"
             android:textColor="@android:color/black"
             android:textSize="20dp" />
 
@@ -77,152 +72,89 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/advanceSearchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/searchActivityCellPhone_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center"
+                android:text="موبائل نمبر"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
+
+            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
+                android:id="@+id/searchActivityCellPhone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center_horizontal"
+                android:layout_toLeftOf="@+id/searchActivityCellPhone_TV"
+                android:layout_toStartOf="@+id/searchActivityCellPhone_TV"
+                android:hint="03##-#######"
+                android:inputType="number"
+                android:numeric="decimal"
+                android:singleLine="true"
+                android:textSize="16dp"
+                mask:mask="####-#######" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/searchActivityCellPhone_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right|center_horizontal"
-            android:gravity="right|center"
-            android:text="رپرست کا موبائل نمبر"
-            android:textColor="@android:color/black"
-            android:textSize="20dp" />
-
-        <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
-            android:id="@+id/searchActivityCellPhone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="یا"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="22dp" />
 
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="5dp"
-            android:hint="03##-#######"
-            android:inputType="number"
-            android:numeric="decimal"
-            android:paddingLeft="16dp"
-            android:singleLine="true"
-            mask:mask="####-#######" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+
+
+            <TextView
+
+                android:id="@+id/searchActivityCNIC_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center"
+                android:text="شناختی کارڈ نمبر"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
+
+
+            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
+                android:id="@+id/searchActivityCNIC"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_toLeftOf="@+id/searchActivityCNIC_TV"
+                android:layout_toStartOf="@+id/searchActivityCNIC_TV"
+                android:hint="#####-########-#"
+                android:inputType="number"
+                android:numeric="decimal"
+                android:singleLine="true"
+                android:textSize="16dp"
+                mask:mask="#####-########-#" />
+        </RelativeLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <TextView
-
-            android:id="@+id/searchActivityCNIC_TV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-
-            android:layout_gravity="right|center_horizontal"
-            android:gravity="right|center"
-            android:text="سرپرست کا شناختی کارڈ کا نمبر"
-            android:textColor="@android:color/black"
-            android:textSize="20dp" />
-
-
-        <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
-            android:id="@+id/searchActivityCNIC"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="5dp"
-            android:layout_weight=".10"
-            android:hint="#####-########-#"
-            android:inputType="number"
-            android:numeric="decimal"
-            android:paddingLeft="16dp"
-            android:singleLine="true"
-            mask:mask="#####-########-#" />
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/textview_height"
-
-        >
-
-        <EditText
-            android:id="@+id/searchActivityChildName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/searchActivityChildName_TV"
-            android:layout_weight=".10"
-
-            android:gravity="left|center"
-
-            android:hint=""
-
-            android:inputType="textCapWords"
-            android:paddingLeft="16dp"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/searchActivityChildName_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right|center_horizontal"
-            android:gravity="right|center"
-            android:text="بچے کا نام"
-            android:textColor="@android:color/black"
-            android:textSize="20dp" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/textview_height"
-        android:visibility="gone"
-
-        >
-
-        <EditText
-            android:id="@+id/searchActivityGuardianName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/searchActivityGuardianName_TV"
-            android:layout_weight=".10"
-
-            android:hint=""
-
-            android:inputType="textCapWords"
-
-            android:paddingLeft="16dp"
-            android:singleLine="true" />
-
-
-        <TextView
-
-            android:id="@+id/searchActivityGuardianName_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right|center_horizontal"
-            android:gravity="right|center"
-            android:text="سرپرست کا نام"
-            android:textColor="@android:color/black"
-            android:textSize="20dp" />
-
-
-    </RelativeLayout>
-
 
     <Button
         android:id="@+id/searchActivitySearchButton"
@@ -236,14 +168,15 @@
         android:textSize="20dp"
         android:textStyle="bold" />
 
+
     <Button
-        android:id="@+id/searchOnSMS"
+        android:id="@+id/advanceSearchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginTop="25dp"
         android:background="@drawable/roundbutton"
-        android:text="ایس ایم ایس کے ذریعے تلاش کریں"
+        android:text="@string/search_two"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold" />

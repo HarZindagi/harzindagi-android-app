@@ -29,7 +29,6 @@
             android:layout_toLeftOf="@+id/registerChildUCNumber_TV"
             android:inputType="number"
             android:nextFocusDown="@+id/registerChildEPICenterName"
-            android:paddingLeft="16dp"
             android:singleLine="true" />
 
 
@@ -61,7 +60,6 @@
             android:layout_weight=".10"
             android:hint=""
             android:inputType="textCapWords"
-            android:paddingLeft="16dp"
             android:singleLine="true" />
 
         <TextView
@@ -100,7 +98,6 @@
             android:hint=""
 
             android:inputType="textCapWords"
-            android:paddingLeft="16dp"
             android:singleLine="true" />
 
         <TextView
@@ -205,7 +202,6 @@
 
             android:inputType="textCapWords"
 
-            android:paddingLeft="16dp"
             android:singleLine="true" />
 
 
@@ -317,10 +313,7 @@
             android:layout_weight=".10"
             android:hint=""
             android:imeOptions="actionDone"
-
             android:inputType="textCapWords"
-
-            android:paddingLeft="16dp"
             android:singleLine="true" />
 
         <TextView

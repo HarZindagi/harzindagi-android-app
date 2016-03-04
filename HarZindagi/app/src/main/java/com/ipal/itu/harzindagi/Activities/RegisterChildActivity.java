@@ -189,12 +189,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     public void showError(View v, String error) {
-     /*   if(v instanceof EditText){
-            ((EditText)v).setError(error);
-        }
-        if(v instanceof TextView){
-            ((TextView)v).setError(error);
-        }*/
+
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
         pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this,10));
 
