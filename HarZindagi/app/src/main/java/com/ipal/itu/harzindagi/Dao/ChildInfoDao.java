@@ -108,12 +108,19 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-    public  List<ChildInfo> getByEPINum(String id, String phone, String cnic) {
-        phone = phone.replace("N/A","");
-        cnic = cnic.replace("N/A","");
+    public  List<ChildInfo> getByCnic( String cnic) {
+
         return new Select()
                 .from(ChildInfo.class)
-                .where("epi_number = ?", id)
+                .where("guardian_cnic = ?", cnic)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  List<ChildInfo> getByEPIPhone( String phone) {
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("phone_number = ?", phone)
                 .orderBy("kid_name ASC")
                 .execute();
     }

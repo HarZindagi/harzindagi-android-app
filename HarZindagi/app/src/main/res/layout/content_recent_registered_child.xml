@@ -15,175 +15,317 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.75"
         android:orientation="horizontal"
         android:weightSum="2">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.3"
             android:orientation="vertical"
             android:weightSum="4">
 
-            <TextView
-                android:id="@+id/ChildUCNumber"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:hint="UC #"
-                android:paddingLeft="10dp"
-                android:textSize="20sp" />
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/ChildUCNumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="UC #:"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ChildUCNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="28dp"
+                    android:layout_toRightOf="@+id/ChildUCNumberText"
+                    android:gravity="center_vertical"
+                    android:text="103"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/color_gray" />
 
-            <TextView
-                android:id="@+id/ChildEPICenterName"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:hint="EPI Center Name"
-                android:paddingLeft="10dp"
-                android:textSize="20sp" />
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/ChildEPICenterNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Center:"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ChildEPICenterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@+id/ChildEPICenterNameText"
+                    android:gravity="center_vertical"
+                    android:text="132"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/color_gray" />
 
-            <TextView
-                android:id="@+id/ChildName"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:hint="Child Name"
-                android:paddingLeft="10dp"
-                android:textSize="20sp" />
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/ChildNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Name:"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ChildName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="19dp"
+                    android:layout_toRightOf="@+id/ChildNameText"
+                    android:gravity="center_vertical"
+                    android:text="Asad"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/color_gray" />
 
-            <TextView
-                android:id="@+id/ChildGender"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:hint="Gender"
-                android:paddingLeft="10dp"
-                android:textSize="20sp" />
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/ChildGenderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Gender:"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ChildGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/ChildGenderText"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Male"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/color_gray" />
         </LinearLayout>
 
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_marginLeft="10dp"
+            android:layout_weight=".7">
 
             <ImageView
                 android:id="@+id/ChildPic"
-                android:padding="1dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerInParent="true"
+                android:padding="1dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher" />
         </RelativeLayout>
 
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/ChildDOB"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".10"
-        android:gravity="center_vertical"
-        android:hint="DOB"
-        android:paddingLeft="10dp"
-        android:textSize="20sp" />
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/ChildDOBText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="DOB:"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ChildDOB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="22dp"
+            android:layout_toRightOf="@+id/ChildDOBText"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="02-07-2015"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorAccent" />
+        android:background="@color/color_gray" />
 
-    <TextView
-        android:id="@+id/ChildGuardianName"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".10"
-        android:gravity="center_vertical"
-        android:hint="Guardian Name"
-        android:paddingLeft="10dp"
-        android:textSize="20sp" />
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/ChildGuardianNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Guardian Name:"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ChildGuardianName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/ChildGuardianNameText"
+            android:gravity="center_vertical"
+            android:text="Amjad Ali"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorAccent" />
+        android:background="@color/color_gray" />
 
-    <TextView
-        android:id="@+id/ChildMotherName"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".10"
-        android:gravity="center_vertical"
-        android:hint="Mother Name"
-        android:paddingLeft="10dp"
-        android:textSize="20sp" />
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/ChildMotherNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Mother Name:"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ChildMotherName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ChildMotherNameText"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Aysha"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorAccent" />
+        android:background="@color/color_gray" />
 
-    <TextView
-        android:id="@+id/ChildGuardianCNIC"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".10"
-        android:gravity="center_vertical"
-        android:hint="Guardian CNIC #"
-        android:paddingLeft="10dp"
-        android:textSize="20sp" />
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/ChildGuardianCNICText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="CNIC #:"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ChildGuardianCNIC"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ChildGuardianCNICText"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="35201-78858788-9"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorAccent" />
+        android:background="@color/color_gray" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
 
+    <TextView
+        android:id="@+id/ChildGuardianMobileNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="Phone #:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
     <TextView
         android:id="@+id/ChildGuardianMobileNumber"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".10"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/ChildGuardianMobileNumberText"
         android:gravity="center_vertical"
-        android:hint="Guardian Contact #"
-        android:paddingLeft="10dp"
+        android:text="0321-4180974"
+        android:paddingLeft="5dp"
+        android:textColor="@android:color/black"
+
         android:textSize="20sp" />
+</RelativeLayout>
 
     <Button
         android:id="@+id/NFCWrite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight=".05"
-        android:textSize="22dp"
+android:layout_marginTop="10dp"
         android:background="@drawable/roundbutton"
         android:text="ویکسی نیشن کی سکرین کو جانا"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="22dp" />
 
 </LinearLayout>

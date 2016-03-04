@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ChildrenListActivity extends AppCompatActivity {
     String app_name;
-
+    List<ChildInfo> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +34,17 @@ public class ChildrenListActivity extends AppCompatActivity {
         String ChildID = getIntent().getStringExtra("ChildID");
         String CellPhone = getIntent().getStringExtra("CellPhone");
         String CNIC = getIntent().getStringExtra("CNIC");
-        String ChildName = getIntent().getStringExtra("ChildName");
-        String GuardianName = getIntent().getStringExtra("GuardianName");
+
         boolean fromSMS = getIntent().getBooleanExtra("fromSMS", false);
 
 
         if (!fromSMS) {
 
 
-            final List<ChildInfo> data = dao.getByEPINum(ChildID, CellPhone, CNIC);
-            if (data != null) {
+
+            if (SearchActivity.data != null) {
                 ListView listView = (ListView) findViewById(R.id.childrenListActivityListView);
-                ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, data, app_name);
+                ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, SearchActivity.data, app_name);
                 listView.setAdapter(childListAdapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,7 +61,6 @@ public class ChildrenListActivity extends AppCompatActivity {
         } else {
             final List<ChildInfo> list = new ArrayList<>();
             ChildInfo childInfo = new ChildInfo();
-            childInfo.kid_name = ChildName;
             childInfo.guardian_cnic = CNIC;
             childInfo.phone_number = CellPhone;
             list.add(childInfo);

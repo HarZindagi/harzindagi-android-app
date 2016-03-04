@@ -1,126 +1,332 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Debug;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.UserInfoDao;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
+import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     /**/
     public static final String TAG = "MainActivity";
     private static final int REQUEST_SMS = 1;
+    public static List<ChildInfo> data;
     private static String[] PERMISSIONS_SMS = {Manifest.permission.READ_SMS,
             Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};
     EditText childID;
     EditText cellPhone;
     EditText cnic;
-    EditText childName;
-    EditText guardianName;
     Button searchButton;
     Button sendBtn, recive;
     EditText txt_msg;
-
+    View searchOneLayout;
+    View searchTwoLayout;
     String number;
     String ChildID, CellPhone, CNIC, ChildName, GuardianName;
+    boolean isAdvanceSearch = false;
     private View mLayout;
+    private PopupWindow pw;
+    private View popUpView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        createContexMenu();
+        searchOneLayout = findViewById(R.id.epiSearchLayout);
+        searchTwoLayout = findViewById(R.id.advanceSearchLayout);
 
         childID = (EditText) findViewById(R.id.searchActivityChildID);
 
 
         cellPhone = (EditText) findViewById(R.id.searchActivityCellPhone);
 
-
         cnic = (EditText) findViewById(R.id.searchActivityCNIC);
-
-        childName = (EditText) findViewById(R.id.searchActivityChildName);
-
-
-        guardianName = (EditText) findViewById(R.id.searchActivityGuardianName);
-
 
         searchButton = (Button) findViewById(R.id.searchActivitySearchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setValues();
-                startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
-                        .putExtra("ChildID", ChildID)
-                        .putExtra("CellPhone", CellPhone)
-                        .putExtra("CNIC", CNIC)
-                        .putExtra("ChildName", ChildName)
-                        .putExtra("GuardianName", GuardianName).putExtra("fromSMS",false));
+                boolean inputValid = validateInput(isAdvanceSearch);
+                ChildInfoDao childInfoDao = new ChildInfoDao();
+                if (inputValid && !isAdvanceSearch) {
 
+
+                    data = childInfoDao.getByEPINum(ChildID);
+                    if (data.size() != 0) {
+
+                        startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
+
+                                .putExtra("fromSMS", false));
+
+                    } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
+
+                        sendSMS("%" + ChildID + "%" + CellPhone + "%" + CNIC);
+
+                    } else {
+                        onlineSearch(ChildID, CellPhone, CNIC);
+                    }
+
+
+                } else {
+                    if (inputValid) {
+                        if (!cellPhone.getText().toString().equals("")) {
+                            data = childInfoDao.getByEPIPhone(CellPhone);
+                        } else if (!cnic.getText().toString().equals("")) {
+                            data = childInfoDao.getByCnic(CNIC);
+                        }
+
+                        if (data.size() != 0) {
+
+                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
+
+                                    .putExtra("fromSMS", false));
+
+                        } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
+                            if (isAdvanceSearch) {
+                                sendSMS("%" + CellPhone + "%" + CNIC);
+                            }
+
+                        } else {
+                            onlineSearch(ChildID, CellPhone, CNIC);
+                        }
+                    }
+                }
 
             }
         });
-        findViewById(R.id.searchOnSMS).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.advanceSearchButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setValues();
+                if (!isAdvanceSearch) {
+                    searchOneLayout.setVisibility(View.GONE);
+                    searchTwoLayout.setVisibility(View.VISIBLE);
+                    isAdvanceSearch = true;
 
-                sendSMS("%" + ChildID + "%" + CellPhone + "%" + CNIC + "%" + ChildName + "%" + GuardianName);
+                    ((Button) findViewById(R.id.advanceSearchButton)).setText(getString(R.string.search_one));
+                } else {
+                    searchOneLayout.setVisibility(View.VISIBLE);
+                    searchTwoLayout.setVisibility(View.GONE);
+
+                    ((Button) findViewById(R.id.advanceSearchButton)).setText(getString(R.string.search_two));
+                    isAdvanceSearch = false;
+                }
+
             }
         });
 
 
     }
-    public boolean  setValues(){
-        boolean isValid =true;
 
-        ChildID = childID.getText().toString() ;
-        if(ChildID.equals("")){
+    private void createContexMenu() {
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        popUpView = inflater.inflate(R.layout.contex_popup, null, false);
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 130, getResources().getDisplayMetrics());
+        pw = new PopupWindow(popUpView, width, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        pw.setOutsideTouchable(true);
+        pw.setTouchable(true);
+        pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.pop_up_bg_drawable));
+    }
+
+    public void showError(View v, String error) {
+
+        ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
+        pw.showAsDropDown(v, 0, -Constants.pxToDp(SearchActivity.this, 10));
+
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        v.startAnimation(shake);
+    }
+
+    public boolean validateInput(boolean isAdvanceSearch) {
+        boolean isValid = true;
+        String error = "";
+        if (isAdvanceSearch) {
+            ((EditText) findViewById(R.id.searchActivityChildID)).setText("");
+        } else {
+            ((EditText) findViewById(R.id.searchActivityCellPhone)).setText("");
+            ((EditText) findViewById(R.id.searchActivityCNIC)).setText("");
+        }
+        ChildID = childID.getText().toString();
+        if (ChildID.equals("") && !isAdvanceSearch) {
             ChildID = "N/A";
             isValid = false;
-        }
-        CellPhone = cellPhone.getText().toString();
-        if(CellPhone.equals("")){
-            CellPhone = "N/A";
+            error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
+            showError(childID, error);
+            return isValid;
+        } else if (!ChildID.equals("") && !isAdvanceSearch) {
+            return true;
         }
         CNIC = cnic.getText().toString();
-        if(CNIC.equals("")){
+        CellPhone = cellPhone.getText().toString();
+        if (CellPhone.trim().length() < 12 && CNIC.length() == 0) {
+
+            CellPhone = "N/A";
+            error = "برائے مہربانی سرپرست کا موبائل نمبر درج کریں۔";
+            showError(cellPhone, error);
+            return false;
+        } else if (CNIC.trim().length() < 16 && CellPhone.length() == 0) {
             CNIC = "N/A";
-        }
-        ChildName = childName.getText().toString();
-        if(ChildName.equals("")){
-            ChildName = "N/A";
-        }
-        GuardianName = guardianName.getText().toString();
-        if(GuardianName.equals("")){
-            GuardianName = "N/A";
+            error = "برائی مہربانی سرپرست کا شناختی کارڈ نمبر درج کریں۔";
+            showError(cnic, error);
+            return false;
         }
 
-        return  isValid;
+
+        return isValid;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Log.d("permissions", permissions.length + ":" + grantResults.length);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void onlineSearch(String epi, String phone, String cnic) {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.search;
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Please Wait...");
+        pDialog.show();
+        JSONObject obj = null;
+        try {
+
+            obj = new JSONObject();
+            JSONObject user = new JSONObject();
+            obj.put("user", user);
+            user.put("auth_token", Constants.getToken(SearchActivity.this));
+            JSONObject kid = new JSONObject();
+            kid.put("epi_number", epi);
+            kid.put("phone_number", phone);
+            kid.put("father_cnic", cnic);
+            obj.put("kid", kid);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, obj,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        pDialog.hide();
+                        if (response.toString().length() > 5) {
+
+                            parseKidReponse(response);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseKidReponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        String data = "{\"childInfoArrayList\":" + response + "}";
+        GChildInfoAry obj = gson.fromJson(data, GChildInfoAry.class);
+        ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
+        for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
+            ChildInfo c = new ChildInfo();
+            c.mobile_id = obj.childInfoArrayList.get(i).mobile_id;
+
+
+            c.kid_name = obj.childInfoArrayList.get(i).kid_name;
+            c.guardian_name = obj.childInfoArrayList.get(i).father_name;
+
+            c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
+
+            c.phone_number = obj.childInfoArrayList.get(i).phone_number;
+            c.date_of_birth = obj.childInfoArrayList.get(i).date_of_birth;
+            c.location = obj.childInfoArrayList.get(i).location;
+            c.child_address = obj.childInfoArrayList.get(i).child_address;
+            if (obj.childInfoArrayList.get(i).gender == true) {
+                c.gender = 1;
+            } else {
+                c.gender = 0;
+            }
+            c.epi_number = obj.childInfoArrayList.get(i).epi_number;
+            c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
+            c.record_update_flag = true;
+            c.book_update_flag = true;
+            c.image_path = obj.childInfoArrayList.get(i).image_path;
+
+            childInfoArrayList.add(c);
+        }
+
+        SearchActivity.data = childInfoArrayList;
+        startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
     }
 
     public void sendSMS(String msg) {
@@ -202,8 +408,6 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         }
         // END_INCLUDE(contacts_permission_request)
     }
-
-
 
 
 }
