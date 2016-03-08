@@ -34,6 +34,7 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.GJson.VaccineInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -142,24 +143,42 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         // ChildInfoDao childInfoDao = new ChildInfoDao();
         //childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
 /// @@@@@@@@@@@ CODE OF VACCINATIONS
+        VaccDetailBook vdb=new VaccDetailBook();
 
-
-       lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"));
+       lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"),vdb);
 
 
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < lst.size(); i++) {
 
                 KidVaccinationDao kd = new KidVaccinationDao();
+            VaccineInfo VI=new VaccineInfo();
+
+                vdb.vaccinfo.get(i).day= String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+            vdb.vaccinfo.get(i).month= String.valueOf(calendar.get(Calendar.MONTH));
+            vdb.vaccinfo.get(i).year= String.valueOf(calendar.get(Calendar.YEAR));
+
 
                 kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis(), false);
 
 
         }
 
-        //Intent myintent = new Intent(this, DashboardActivity.class);
+        String [] ayy=bundle.getString("vacc_details").toString().split(",");
+        for(int i=0;i<vdb.vaccinfo.size();i++)
+        {
 
-       // startActivity(myintent);
+            if(ayy[i].equals("0"))
+            {
+
+            vdb.vaccinfo.get(i).day= "X";
+            vdb.vaccinfo.get(i).month= "X";
+            vdb.vaccinfo.get(i).year= "X";}
+        }
+
+        Intent myintent = new Intent(this, VaccineList.class);
+        myintent.putExtra("VaccDetInfo",vdb);
+        startActivity(myintent);
         finish();
 
         return 0;

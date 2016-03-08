@@ -3,8 +3,10 @@ package com.ipal.itu.harzindagi.Dao;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.query.Select;
+import com.ipal.itu.harzindagi.Activities.VaccDetailBook;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
+import com.ipal.itu.harzindagi.GJson.VaccineInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class VaccinationsDao {
                 .execute();
     }
 
-    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num, String inj) {
+    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num, String inj, VaccDetailBook vdb) {
 
         String[] injarr = inj.split(",");
         List<Integer> arr = new ArrayList<>();
@@ -34,10 +36,15 @@ public class VaccinationsDao {
 
 
         for (int i = 0; i < vc.size(); i++) {
+            VaccineInfo VI=new VaccineInfo();
             List<Injections> ij = new Select()
                     .from(Injections.class)
                     .where("_id = ?", vc.get(i).injection_id)
                     .execute();
+
+            VI.vac_name=ij.get(0).name;
+            VI.vac_type=ij.get(0).is_drop;
+            vdb.vaccinfo.add(VI);
 
             lij.add(ij.get(0));
 

@@ -38,17 +38,6 @@
         android:textColor="@android:color/black"
         android:textSize="17sp" />
 
-    <TextView
-        android:id="@+id/vaccine_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:background="@drawable/rectangle_black"
-        android:hint="VacType"
-        android:padding="8dp"
-        android:textColor="@android:color/black"
-        android:textSize="17sp" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -75,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/rectangle_black"
-            android:src="@drawable/droper" />
+            android:src="@drawable/dropper" />
 
     </RelativeLayout>
 

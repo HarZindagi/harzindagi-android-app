@@ -108,7 +108,7 @@
         </activity>
         <activity
             android:name=".Activities.RegisterChildActivity"
-            android:label="sdad"
+            android:label="register"
             android:parentActivityName=".Activities.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustPan">
@@ -130,7 +130,11 @@
         <activity android:name=".Activities.EvacsEPI" android:label="Evaccs-II"/>
         <activity android:name=".Activities.EvacsNonEPI"  android:label="Evaccs-II" />
         <activity android:name=".Activities.Evaccs"  android:label="Evaccs-II" />
-        <activity android:name=".Activities.Act" />
+        <activity android:name=".Activities.Act" />VaccineList
+        <activity android:name=".Activities.VaccineList"
+            android:label="Write on Book"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".Activities.Card_Scan"
             android:label="Card Scan"
