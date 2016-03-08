@@ -25,13 +25,18 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="non_epi_array">
-        <item>Buchay ka Mukam Muntakhib karain</item>
-        <item>Mukami Bucha</item>
-        <item>Mehman Bucha</item>
+        <item>بچے کا مقام منتخب کریں</item>
+        <item>مقامی بچہ</item>
+        <item>مہمان کانام</item>
 
 
     </string-array>
-
+    <string name="padaish_forun_baad">پیدائش کے فوراً بعد</string>
+    <string name="six_huftay">6 ہفتے بعد</string>
+    <string name="ten_huftay">10 ہفتے بعد</string>
+    <string name="fourtheen_huftay">14 ہفتے بعد</string>
+    <string name="nine_month_baad">9 ماہ بعد</string>
+    <string name="fifteen_month_baad">15 ماہ بعد</string>
     <string name="search_two" >تلاش کا دوسرا طریقہ</string>
     <string name="search_one">تلاش کا پہلا طریقہ</string>
 

@@ -52,7 +52,7 @@ public class CustomListAdapter extends BaseAdapter {
             holder.day = (TextView) row.findViewById(R.id.day);
             holder.month = (TextView) row.findViewById(R.id.month);
             holder.year = (TextView) row.findViewById(R.id.year);
-            holder.vaccType = (TextView) row.findViewById(R.id.vaccine_type);
+
             holder.vaccName = (TextView) row.findViewById(R.id.vaccine_name);
             holder.image = (ImageView) row.findViewById(R.id.vaccine_image);
             row.setTag(holder);
@@ -62,12 +62,12 @@ public class CustomListAdapter extends BaseAdapter {
         holder.day.setText(""+ vaccinfo.get(position).day);
         holder.month.setText(""+ vaccinfo.get(position).month);
         holder.year.setText("" + vaccinfo.get(position).year);
-        holder.vaccType.setText(""+ vaccinfo.get(position).vac_type);
+
         holder.vaccName.setText(""+ vaccinfo.get(position).vac_name);
-       if(vaccinfo.get(position).vac_type.equals("drops")){
-           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.droper));
+       if(vaccinfo.get(position).vac_type==true){
+           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.dropper));
        }else {
-         //  holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.droper)); // Use injection image
+           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.syringe)); // Use injection image
        }
         return row;
 
@@ -77,7 +77,8 @@ public class CustomListAdapter extends BaseAdapter {
         TextView day;
         TextView month;
         TextView year;
-        TextView vaccType;
+
+
         TextView vaccName;
         ImageView image;
     }

@@ -3,8 +3,10 @@ package com.ipal.itu.harzindagi.Dao;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.query.Select;
+import com.ipal.itu.harzindagi.Activities.VaccDetailBook;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
+import com.ipal.itu.harzindagi.GJson.VaccineInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class VaccinationsDao {
                 .execute();
     }
 
-    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num, String inj) {
+    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num, String inj, VaccDetailBook vdb) {
 
         String[] injarr = inj.split(",");
         List<Integer> arr = new ArrayList<>();
@@ -30,14 +32,20 @@ public class VaccinationsDao {
                 .where("visit_id = ?", v_num)
                 .orderBy("_id ASC")
                 .execute();
+
         List<Injections> lij = new ArrayList<>();
 
 
         for (int i = 0; i < vc.size(); i++) {
+            VaccineInfo VI=new VaccineInfo();
             List<Injections> ij = new Select()
                     .from(Injections.class)
                     .where("_id = ?", vc.get(i).injection_id)
                     .execute();
+
+            VI.vac_name=ij.get(0).name;
+            VI.vac_type=ij.get(0).is_drop;
+            vdb.vaccinfo.add(VI);
 
             lij.add(ij.get(0));
 
@@ -45,8 +53,10 @@ public class VaccinationsDao {
 
         int x = 0;
         for (int i = 0; i < lij.size() && i < injarr.length; i++) {
-            if (injarr[i].equals("1")) {
-                if (vc.get(i).injection_id == lij.get(i).id) {
+            if (injarr[i].equals("1"))
+            {
+                if (vc.get(i).injection_id == lij.get(i).id)
+                {
                     arr.add(vc.get(i).id);
 
 

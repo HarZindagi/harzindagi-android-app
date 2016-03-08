@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:text="EPI"
+                android:text="EPI نمبر کا اندراج کریں"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Epi_txt"
@@ -54,7 +54,7 @@
                 />
 
             <TextView
-                android:text="Please tick the used vaccines"
+                android:text="استعمال شدہ ویکسینیشن کو ٹک کریں"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_cam"

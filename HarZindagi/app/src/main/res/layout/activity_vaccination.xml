@@ -204,7 +204,7 @@
                 android:gravity="bottom">
 
                 <Button
-                    android:text="Tasweer Khenchein"
+                    android:text="تصویر کھینچیں"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/roundbutton"

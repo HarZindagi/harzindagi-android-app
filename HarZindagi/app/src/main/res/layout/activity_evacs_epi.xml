@@ -29,7 +29,7 @@
                 />
 
             <TextView
-                android:text="Baby Name"
+                android:text="بچے کا نام"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Non_Epi_name"
@@ -51,7 +51,7 @@
 
                 />
             <TextView
-                android:text="Daily registration Number"
+                android:text="ڈیلی رجسٹریشن نمبر"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/Non_Epi_reg_num"
@@ -91,7 +91,7 @@
                 />
 
             <TextView
-                android:text="Please tick the used vaccines"
+                android:text="استعمال شدہ ویکسینیشن کو ٹک کریں"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/non_img_cam"

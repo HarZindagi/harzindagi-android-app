@@ -27,7 +27,7 @@ public class EvacsNonEPI extends AppCompatActivity {
         spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               if(parent.getItemAtPosition(position).toString().equals("Mukami Bucha"))
+               if(parent.getItemAtPosition(position).toString().equals("مقامی بچہ"))
                {
                    TextView tx=(TextView)findViewById(R.id.Non_Epi_reg_num);
                    tx.setVisibility(View.VISIBLE);

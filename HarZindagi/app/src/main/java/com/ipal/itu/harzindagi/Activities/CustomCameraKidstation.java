@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.R;
@@ -41,7 +42,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
     Canvas camera_canvas;
     Paint p;
     ImageView CropImageView, captureButton,done_capture,refresh_capture;
-
+    TextView kd_txt;
     Context ctx;
     public static ProgressDialog progress;
 
@@ -53,7 +54,8 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
-
+        kd_txt=(TextView)findViewById(R.id.kidstation_txt);
+        kd_txt.setText("کڈ اسٹیشن کی تصویر کھینچیں");
         ctx = this;
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -92,6 +94,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
                 captureButton.setVisibility(View.VISIBLE);
                 CropImageView.setImageBitmap(camera_bitmap);
 
+                kd_txt.setText("کڈ اسٹیشن کی تصویر کھینچیں");
             }
         });
 
@@ -104,6 +107,8 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
                 progress.setTitle("Loading");
 
                 progress.show();
+
+                kd_txt.setText("کڈ اسٹیشن کی تصویر بھیجیں");
 
             }
         });

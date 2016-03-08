@@ -29,8 +29,7 @@ public class ForgetActivity extends AppCompatActivity {
         evaccsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Message Center Clicked", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
                 Intent sendIntent = new Intent(Intent.ACTION_VIEW);
                 sendIntent.setData(Uri.parse("sms:0321-8395161"));
                 sendIntent.putExtra("sms_body", "Testing: please don't message me.");
@@ -42,8 +41,7 @@ public class ForgetActivity extends AppCompatActivity {
         harZindagiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Call Center Clicked", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0321-8395161"));
                 startActivity(intent);
             }

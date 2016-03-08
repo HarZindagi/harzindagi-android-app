@@ -103,7 +103,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toLeftOf="@+id/searchActivityCellPhone_TV"
                 android:layout_toStartOf="@+id/searchActivityCellPhone_TV"
-                android:hint="03##-#######"
+                android:hint="####-#######"
                 android:inputType="number"
                 android:numeric="decimal"
                 android:singleLine="true"
