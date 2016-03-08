@@ -32,6 +32,7 @@ public class VaccineListAdapter {
     Context context;
     ArrayList<GInjection> data;
     int curr_frag;
+    int aarr[];
 
     public VaccineListAdapter(Context context, ArrayList<GInjection> _injections, int Curr_frag) {
 
@@ -41,18 +42,23 @@ public class VaccineListAdapter {
 
 
         curr_frag = Curr_frag;
+        aarr=new int[_injections.size()];
+        for(int i=0;i<aarr.length;i++)
+        {
+            aarr[i]=0;
 
+        }
 
     }
 
 
     public String get_vaccs_details() {
 
-        String s = "" + data.get(0).is_done;
+        String s = "" + aarr[0];
         for (int i = 1; i < data.size(); i++) {
-            s = s + "," + data.get(i).is_done;
-
+            s = s + "," + aarr[i];
         }
+
         return s;
     }
 
@@ -87,10 +93,11 @@ public class VaccineListAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean _isChecked) {
                 if (_isChecked) {
                     data.get(currentPost).is_done = 1;
-
+                    aarr[position]=1;
                 } else {
 
                     data.get(currentPost).is_done = 0;
+                    aarr[position]=0;
                 }
             }
         });

@@ -32,6 +32,7 @@ public class VaccinationsDao {
                 .where("visit_id = ?", v_num)
                 .orderBy("_id ASC")
                 .execute();
+
         List<Injections> lij = new ArrayList<>();
 
 
@@ -52,8 +53,10 @@ public class VaccinationsDao {
 
         int x = 0;
         for (int i = 0; i < lij.size() && i < injarr.length; i++) {
-            if (injarr[i].equals("1")) {
-                if (vc.get(i).injection_id == lij.get(i).id) {
+            if (injarr[i].equals("1"))
+            {
+                if (vc.get(i).injection_id == lij.get(i).id)
+                {
                     arr.add(vc.get(i).id);
 
 

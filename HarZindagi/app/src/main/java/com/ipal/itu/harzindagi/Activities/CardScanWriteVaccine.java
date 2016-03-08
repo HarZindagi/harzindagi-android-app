@@ -139,10 +139,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
 
-        Long tsLong = System.currentTimeMillis() / 1000;
-        // ChildInfoDao childInfoDao = new ChildInfoDao();
-        //childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname") ,"abc", bundle.getString("img"),card_data, true, false);
-/// @@@@@@@@@@@ CODE OF VACCINATIONS
+
         VaccDetailBook vdb=new VaccDetailBook();
 
        lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"),vdb);
@@ -151,12 +148,9 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < lst.size(); i++) {
 
-                KidVaccinationDao kd = new KidVaccinationDao();
-            VaccineInfo VI=new VaccineInfo();
+            KidVaccinationDao kd = new KidVaccinationDao();
 
-                vdb.vaccinfo.get(i).day= String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-            vdb.vaccinfo.get(i).month= String.valueOf(calendar.get(Calendar.MONTH));
-            vdb.vaccinfo.get(i).year= String.valueOf(calendar.get(Calendar.YEAR));
+
 
 
                 kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis(), false);
@@ -171,9 +165,18 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             if(ayy[i].equals("0"))
             {
 
-            vdb.vaccinfo.get(i).day= "X";
-            vdb.vaccinfo.get(i).month= "X";
-            vdb.vaccinfo.get(i).year= "X";}
+            vdb.vaccinfo.get(i).day= "--";
+            vdb.vaccinfo.get(i).month= "--";
+            vdb.vaccinfo.get(i).year= "--";}
+            else
+            {
+
+                vdb.vaccinfo.get(i).day= String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+                vdb.vaccinfo.get(i).month= String.valueOf(calendar.get(Calendar.MONTH));
+                vdb.vaccinfo.get(i).year= String.valueOf(calendar.get(Calendar.YEAR));
+
+            }
+
         }
 
         Intent myintent = new Intent(this, VaccineList.class);

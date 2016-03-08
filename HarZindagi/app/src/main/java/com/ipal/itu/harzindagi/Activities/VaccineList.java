@@ -2,6 +2,8 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,7 +19,7 @@ import com.ipal.itu.harzindagi.R;
 /**
  * Created by Wahab on 3/2/2016.
  */
-public class VaccineList extends Activity {
+public class VaccineList extends AppCompatActivity {
 
     String rec_response;
     VaccDetailBook obj;

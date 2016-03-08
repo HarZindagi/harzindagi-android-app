@@ -114,8 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         forgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, R.string.loginValidation, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
+                      startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
 
             }
         });

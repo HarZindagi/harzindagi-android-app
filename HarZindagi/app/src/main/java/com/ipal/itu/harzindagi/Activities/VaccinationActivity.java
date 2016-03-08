@@ -131,6 +131,7 @@ public class VaccinationActivity extends AppCompatActivity {
                     case 1:
                        // selectPrevious(0);
                         firstTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+                        setTitle(getString(R.string.padaish_forun_baad));
                         break;
                     case 2:
 
@@ -141,6 +142,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
                             firstTabTickMark.setVisibility(View.VISIBLE);
                         }
+                        setTitle(getString(R.string.six_huftay));
                         break;
                     case 3:
 
@@ -149,7 +151,9 @@ public class VaccinationActivity extends AppCompatActivity {
                             thirdTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
                             secondTabTickMark.setImageResource(R.drawable.ic_action_tick);
                             secondTabTickMark.setVisibility(View.VISIBLE);
+
                         }
+                        setTitle(getString(R.string.ten_huftay));
                         break;
                     case 4:
 
@@ -158,7 +162,9 @@ public class VaccinationActivity extends AppCompatActivity {
                             fourthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
                             thirdTabTickMark.setImageResource(R.drawable.ic_action_tick);
                             thirdTabTickMark.setVisibility(View.VISIBLE);
+
                         }
+                        setTitle(getString(R.string.fourtheen_huftay));
                         break;
                     case 5:
 
@@ -167,7 +173,8 @@ public class VaccinationActivity extends AppCompatActivity {
                             fifthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
                             fourthTabTickMark.setImageResource(R.drawable.ic_action_tick);
                             fourthTabTickMark.setVisibility(View.VISIBLE);
-                        }
+
+                        }setTitle(getString(R.string.nine_month_baad));
                         break;
                     case 6:
 
@@ -176,7 +183,8 @@ public class VaccinationActivity extends AppCompatActivity {
                             sixthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
                             fifthTabTickMark.setImageResource(R.drawable.ic_action_tick);
                             fifthTabTickMark.setVisibility(View.VISIBLE);
-                        }
+
+                        } setTitle(getString(R.string.fifteen_month_baad));
                         break;
                 }
             }
@@ -233,6 +241,7 @@ public class VaccinationActivity extends AppCompatActivity {
             Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
             intent.putExtra("childid", childID);
             if (bndl.size() >= 3) {
+
                 intent.putExtra("vacc_details", bndl.getString("vacc_details"));
                 intent.putExtra("visit_num", bndl.getString("visit_num"));
 
