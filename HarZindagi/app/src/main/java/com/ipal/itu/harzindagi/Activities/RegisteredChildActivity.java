@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,7 +38,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
     double longitude;
     double latitude;
 
-
+     String childID;
    final Context curr=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
 
        Bundle bundle = getIntent().getExtras();
-       final String childID = bundle.getString("childid");
+       childID = bundle.getString("childid");
 
         NFC_Write= (Button) findViewById(R.id.NFCWrite);
         NFC_Write.setOnClickListener(new View.OnClickListener() {
@@ -110,5 +111,17 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
+
+        if (id == android.R.id.home) {
+            startActivity(new Intent(getApplication(),RegisterChildActivity.class).putExtra("epiNumber",childID));
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

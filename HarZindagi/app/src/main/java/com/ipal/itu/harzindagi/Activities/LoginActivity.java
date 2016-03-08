@@ -1,6 +1,7 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,11 +10,17 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +84,8 @@ public class LoginActivity extends AppCompatActivity {
     String passwordTxt;
     boolean isGettingLocation = false;
     String location = "0.0,0.0";
+    private PopupWindow pw;
+    private View popUpView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +155,9 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     if (!isGettingLocation) {
                         if (Constants.isOnline(LoginActivity.this)) {
-                            sendUserInfo(userName.getText().toString(), password.getText().toString(), location);
+                            if (inputValidate()) {
+                                sendUserInfo(userName.getText().toString(), password.getText().toString(), location);
+                            }
                         } else {
                             Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
@@ -167,7 +178,18 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         getLocation();
+        createContexMenu();
+    }
 
+    public boolean inputValidate() {
+
+        if (password.getText().length() < 1) {
+            String error = "پاس ورڈ خالی ہے";
+            showError(password, error);
+
+            return false;
+        }
+        return true;
     }
 
     private void getLocation() {
@@ -247,7 +269,7 @@ public class LoginActivity extends AppCompatActivity {
         queue.add(jsonObjReq);
     }
 
-    private void sendUserInfo(String userName, String password, String location) {
+    private void sendUserInfo(String userName, final String password, String location) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.login;
@@ -279,7 +301,11 @@ public class LoginActivity extends AppCompatActivity {
                         pDialog.hide();
                         if (response.optBoolean("success")) {
                             JSONObject json = response.optJSONObject("data");
-                            parseTokenResponse(json);
+                            if(!json.toString().equals("{}")) {
+                                parseTokenResponse(json);
+                            }else{
+                                showError(LoginActivity.this.password,"غلط پاسورڈ");
+                            }
                         }
 
                     }
@@ -308,6 +334,24 @@ public class LoginActivity extends AppCompatActivity {
         queue.add(jsonObjReq);
     }
 
+    private void createContexMenu() {
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        popUpView = inflater.inflate(R.layout.contex_popup, null, false);
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160, getResources().getDisplayMetrics());
+        pw = new PopupWindow(popUpView, width, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        pw.setOutsideTouchable(true);
+        pw.setTouchable(true);
+        pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.pop_up_bg_drawable));
+    }
+
+    public void showError(View v, String error) {
+
+        ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
+        pw.showAsDropDown(v, 0, -Constants.pxToDp(LoginActivity.this, 10));
+
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        v.startAnimation(shake);
+    }
 
     public void parseUserResponse(JSONObject response) {
         Gson gson = new Gson();

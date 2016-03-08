@@ -166,8 +166,8 @@ public class RegisterChildActivity extends AppCompatActivity {
                     return;
                 }
                 List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
-                if(childInfo.size()>0){
-                    showError(EPINumber,"ڈوپلیکیٹ ریکارڈ");
+                if (childInfo.size() > 0) {
+                    showError(EPINumber, "ڈوپلیکیٹ ریکارڈ");
                     return;
                 }
                         /*
@@ -186,15 +186,36 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         });
         createContexMenu();
+        if (getIntent().hasExtra("epiNumber")) {
+            String epiNum = getIntent().getStringExtra("epiNumber");
+            fillValues(epiNum);
+        }
     }
+
 
     public void showError(View v, String error) {
 
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
-        pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this,10));
+        pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this, 10));
 
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         v.startAnimation(shake);
+    }
+
+    public void fillValues(String epiNumber) {
+        List<ChildInfo> chidInfo = ChildInfoDao.getByEpiNum(epiNumber);
+        if (chidInfo.size() > 0) {
+            EPINumber.setText(chidInfo.get(0).epi_number);
+            CenterName.setText(chidInfo.get(0).kids_station);
+            childName.setText(chidInfo.get(0).kid_name);
+            Gender = chidInfo.get(0).gender;
+            DOBText.setText(chidInfo.get(0).date_of_birth);
+            guardianName.setText(chidInfo.get(0).guardian_name);
+            guardianCNIC.setText(chidInfo.get(0).guardian_cnic);
+            guardianMobileNumber.setText(chidInfo.get(0).phone_number);
+            motherName.setText(chidInfo.get(0).mother_name);
+        }
+
     }
 
     public String inputValidate() {

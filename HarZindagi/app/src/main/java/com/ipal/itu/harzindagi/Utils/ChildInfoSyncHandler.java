@@ -22,6 +22,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,11 +74,23 @@ public class ChildInfoSyncHandler {
                 pDialog.dismiss();
             }
         } else {
-            onUploadListner.onUpload(false,"");
+            onUploadListner.onUpload(false, "");
             pDialog.dismiss();
         }
     }
+  public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
 
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.HOUR, hour);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        return c.getTimeInMillis();
+    }
     private void sendChildData(final ChildInfo childInfo) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -94,7 +113,11 @@ public class ChildInfoSyncHandler {
             kid.put("father_cnic", childInfo.guardian_cnic);
             kid.put("mother_cnic", "");
             kid.put("phone_number", childInfo.phone_number);
-            kid.put("date_of_birth", childInfo.date_of_birth);
+            DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
+            Date date  = dfm.parse(childInfo.date_of_birth);
+            dfm.getCalendar().setTime(date);
+           // date.getTime();
+            kid.put("date_of_birth", (date.getTime()/1000)+"");
             kid.put("location", childInfo.location);
             kid.put("child_address", "");
             kid.put("gender", childInfo.gender);
@@ -105,6 +128,8 @@ public class ChildInfoSyncHandler {
             obj.put("kid", kid);
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,

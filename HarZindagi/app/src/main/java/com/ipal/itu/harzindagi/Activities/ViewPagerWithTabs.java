@@ -33,7 +33,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,7 +181,8 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
-            c.date_of_birth = obj.childInfoArrayList.get(i).date_of_birth;
+
+            c.date_of_birth = getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             c.location = obj.childInfoArrayList.get(i).location;
             c.child_address = obj.childInfoArrayList.get(i).child_address;
             if (obj.childInfoArrayList.get(i).gender == true) {
@@ -202,5 +205,14 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         childInfoDao.bulkInsert(noSync);
 
         setViewPagger();
+    }
+    public String getFortmattedDate(long date){
+
+
+        java.util.Date time=new java.util.Date(date*1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+        String formatedDate = sdf.format(time);
+        return  formatedDate;
     }
 }
