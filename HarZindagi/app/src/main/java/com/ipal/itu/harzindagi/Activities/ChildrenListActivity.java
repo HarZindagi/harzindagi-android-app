@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
@@ -18,7 +19,6 @@ import java.util.List;
 
 public class ChildrenListActivity extends AppCompatActivity {
     String app_name;
-    List<ChildInfo> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +50,12 @@ public class ChildrenListActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                        Intent intent = new Intent(ChildrenListActivity.this, VaccinationActivity.class);
 
-                        intent.putExtra("childid", data.get(position).epi_number);
+                        Intent intent = new Intent(getApplication(), VaccinationActivity.class);
+
+                        Bundle bnd = KidVaccinationDao.get_visit_details_db(SearchActivity.data.get(position).mobile_id);
+                        intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
+                        intent.putExtras(bnd);
                         startActivity(intent);
 
                     }
@@ -71,10 +74,14 @@ public class ChildrenListActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                    Intent intent = new Intent(ChildrenListActivity.this, VaccinationActivity.class);
 
+                    Intent intent = new Intent(getApplication(), VaccinationActivity.class);
+
+                    Bundle bnd = KidVaccinationDao.get_visit_details_db(list.get(position).mobile_id);
                     intent.putExtra("childid", list.get(position).epi_number);
+                    intent.putExtras(bnd);
                     startActivity(intent);
+
                 }
 
             });

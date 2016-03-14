@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class ChildInfoDao {
 
-    public void save(String childID, String name, int gender, String dob,  String motherName,String  guardianName, String CNIC, String phoneNum,long createdTime,String Location,String EpiName,String kidStation,String imageName, String nfcNumber,boolean bookFlag,boolean recordFlag ) {
+    public void save(String childID, String name, int gender, String dob,  String motherName,String  guardianName, String CNIC, String phoneNum,long createdTime,String Location,String EpiName,String kidStation,String imageName, String nfcNumber,boolean bookFlag,boolean recordFlag ,String address) {
         ChildInfo item = new ChildInfo();
-        item.setChildInfo(childID,name,gender,dob,motherName,guardianName,CNIC,phoneNum,createdTime,Location,EpiName,kidStation,imageName,nfcNumber,bookFlag,recordFlag );
+        item.setChildInfo(childID,name,gender,dob,motherName,guardianName,CNIC,phoneNum,createdTime,Location,EpiName,kidStation,imageName,nfcNumber,bookFlag,recordFlag ,address);
         item.save();
         item.mobile_id = item.getId();
         item.save();
@@ -23,7 +23,7 @@ public class ChildInfoDao {
 
     public void save(ChildInfo info) {
         ChildInfo item = new ChildInfo();
-        item.setChildInfo(info.epi_number, info.kid_name, info.gender, info.date_of_birth, info.mother_name, info.guardian_name, info.guardian_cnic, info.phone_number, info.created_timestamp, info.location,info.epi_name,info.kids_station ,info.image_path,info.nfc_number ,info.book_update_flag,info.record_update_flag );
+        item.setChildInfo(info.epi_number, info.kid_name, info.gender, info.date_of_birth, info.mother_name, info.guardian_name, info.guardian_cnic, info.phone_number, info.created_timestamp, info.location,info.epi_name,info.kids_station ,info.image_path,info.nfc_number ,info.book_update_flag,info.record_update_flag ,info.child_address);
         item.save();
     }
 

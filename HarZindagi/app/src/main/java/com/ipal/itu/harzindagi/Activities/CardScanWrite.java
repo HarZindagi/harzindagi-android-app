@@ -74,6 +74,7 @@ public class CardScanWrite extends AppCompatActivity {
     private String childAddress;
     private String District;
     private String Tehsil;
+    private String address;
     private String Child_id;
     private int VisitNum;
     private String NextDueDate;
@@ -97,6 +98,7 @@ public class CardScanWrite extends AppCompatActivity {
         bundle = getIntent().getExtras();
         Child_id = bundle.getString("ID");
 
+        address = bundle.getString("address");
 
         tsLong = System.currentTimeMillis() / 1000;
 
@@ -152,7 +154,7 @@ public class CardScanWrite extends AppCompatActivity {
 
         Long tsLong = System.currentTimeMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false);
+        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false,address);
 
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
         myintent.putExtra("childid", Child_id);

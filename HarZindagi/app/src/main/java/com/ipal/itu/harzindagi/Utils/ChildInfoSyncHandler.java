@@ -119,7 +119,7 @@ public class ChildInfoSyncHandler {
            // date.getTime();
             kid.put("date_of_birth", (date.getTime()/1000)+"");
             kid.put("location", childInfo.location);
-            kid.put("child_address", "");
+            kid.put("child_address", childInfo.child_address);
             kid.put("gender", childInfo.gender);
             kid.put("epi_number", childInfo.epi_number);
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");

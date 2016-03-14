@@ -47,7 +47,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText guardianCNIC;
     EditText guardianMobileNumber;
     String Fpath;
-
+    EditText houseAddress;
     EditText EPINumber;
     Button childPicture;
 
@@ -105,7 +105,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         EPINumber = (EditText) findViewById(R.id.registerChildUCNumber);
 
         CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
-
+        houseAddress = (EditText) findViewById(R.id.registerChildAddress);
 
         boy = (Button) findViewById(R.id.registerChildSexMale);
         boy.setOnClickListener(new View.OnClickListener() {
@@ -138,10 +138,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegisterChildActivity.this, CalenderActivity.class);
                 startActivityForResult(intent, CALENDAR_CODE);
-               /* new DatePickerDialog(RegisterChildActivity.this,
-                        date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH))
-                        .show();*/
+
             }
         });
 
@@ -161,8 +158,6 @@ public class RegisterChildActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String msg = inputValidate();
                 if (!msg.equals("")) {
-                 /*   Snackbar.make(view, msg, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();*/
                     return;
                 }
                 List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
@@ -170,14 +165,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                     showError(EPINumber, "ڈوپلیکیٹ ریکارڈ");
                     return;
                 }
-                        /*
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.TITLE, "New Picture");
-                imageUri = getContentResolver().insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
+
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
 
                 cameraIntent.putExtra("filename", childName.getText().toString() + EPINumber.getText().toString());
@@ -214,6 +202,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             guardianCNIC.setText(chidInfo.get(0).guardian_cnic);
             guardianMobileNumber.setText(chidInfo.get(0).phone_number);
             motherName.setText(chidInfo.get(0).mother_name);
+            houseAddress.setText(chidInfo.get(0).child_address);
         }
 
     }
@@ -258,7 +247,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             return error;
         }
-        String cnic = guardianCNIC.getText().toString().trim();
+    /*    String cnic = guardianCNIC.getText().toString().trim();
         if (cnic.length() < 16) {
             error = "برائی مہربانی سرپرست کا شناختی کارڈ نمبر درج کریں۔";
             showError(guardianCNIC, error);
@@ -271,13 +260,17 @@ public class RegisterChildActivity extends AppCompatActivity {
             showError(guardianMobileNumber, error);
 
             return error;
-        }
+        }*/
         if (motherName.getText().length() < 1) {
             error = "برائے مہربانی والدہ کا نام درج کریں ۔";
             showError(motherName, error);
             return error;
         }
-
+        if (houseAddress.getText().length() < 1) {
+            error = "خالی گھر کا ایڈریس";
+            showError(houseAddress, error);
+            return error;
+        }
         return error;
     }
 
@@ -312,6 +305,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             intent.putExtra("pnum", GuardianMobileNumber);
             intent.putExtra("img", Fpath);
             intent.putExtra("EPIname", EPICenterName);
+            intent.putExtra("address",houseAddress.getText().toString());
 
             this.finish();
             startActivity(intent);
@@ -335,6 +329,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         GuardianName = guardianName.getText().toString();
         GuardianCNIC = guardianCNIC.getText().toString();
         GuardianMobileNumber = guardianMobileNumber.getText().toString();
+
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {

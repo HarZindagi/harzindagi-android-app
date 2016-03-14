@@ -3,6 +3,8 @@ package com.ipal.itu.harzindagi.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,11 +37,17 @@ import com.ipal.itu.harzindagi.Utils.ImageUploader;
 import com.ipal.itu.harzindagi.Utils.KidVaccinatioHandler;
 import com.ipal.itu.harzindagi.Utils.MultipartUtility;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,12 +134,14 @@ public class DashboardActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            logout();
+           // logout();
+            Constants.setCheckOut(this,(Calendar.getInstance().getTimeInMillis()/1000)+"");
+            Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
             return true;
         }
-        if (id == R.id.action_reset_card) {
+     /*   if (id == R.id.action_reset_card) {
             return true;
-        }
+        }*/
         if (id == R.id.action_sync) {
 
             syncData();
@@ -186,7 +197,8 @@ public class DashboardActivity extends AppCompatActivity {
         KidVaccinatioHandler kidVaccinatioHandler = new KidVaccinatioHandler(this, kids, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+
+                sendCheckIn();
             }
         });
         kidVaccinatioHandler.execute();
@@ -238,5 +250,135 @@ public class DashboardActivity extends AppCompatActivity {
         queue.add(jsonObjReq);
     }
 
+    private void sendCheckIn() {
 
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.checkIn;
+        final ProgressDialog pDialog;
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Saving CheckIn Time...");
+        pDialog.show();
+        JSONObject obj = null;
+
+        try {
+            obj = new JSONObject();
+            JSONObject user = new JSONObject();
+            user.put("auth_token", Constants.getToken(this));
+            obj.put("user", user);
+
+            obj.put("imei_number", Constants.getIMEI(this));
+            obj.put("location", Constants.getLocation(this));
+
+
+            obj.put("version_name", Constants.getVersionName(this));
+            obj.put("created_timestamp",Constants.getCheckIn(this));
+            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis()/1000)+"");
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, obj,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Log.d("response",response.toString());
+                        if (!response.toString().equals("")){
+                            pDialog.hide();
+                            sendCheckOut();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(jsonObjReq);
+    }
+    private void sendCheckOut() {
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.checkOut;
+        final ProgressDialog pDialog;
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Saving CheckOut Time...");
+        pDialog.show();
+        JSONObject obj = null;
+
+        try {
+            obj = new JSONObject();
+            JSONObject user = new JSONObject();
+            user.put("auth_token", Constants.getToken(this));
+            obj.put("user", user);
+
+            obj.put("imei_number", Constants.getIMEI(this));
+            obj.put("location", Constants.getLocation(this));
+
+
+            obj.put("version_name", Constants.getVersionName(this));
+            obj.put("created_timestamp",Constants.getCheckIn(this));
+            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis()/1000)+"");
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, obj,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Log.d("response",response.toString());
+                        if (!response.toString().equals("")){
+                            pDialog.hide();
+                            Toast.makeText(getApplicationContext(), "Upload Completed", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(jsonObjReq);
+    }
 }

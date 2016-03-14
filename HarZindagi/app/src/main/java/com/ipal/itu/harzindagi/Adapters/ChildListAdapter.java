@@ -63,6 +63,7 @@ public class ChildListAdapter extends BaseAdapter {
 
         childName.setText(data.get(position).kid_name);
         guardianName.setText(data.get(position).guardian_name);
+        address.setText(data.get(position).child_address);
         String imagePath = "/sdcard/" + app_name + "/" + data.get(position).image_path + ".jpg";
         Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
         pic.setImageBitmap(bmp_read);

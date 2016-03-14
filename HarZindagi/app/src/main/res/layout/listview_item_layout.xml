@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="10dp"
+    android:padding="5dp"
     android:orientation="horizontal">
 
     <TextView
@@ -13,6 +14,8 @@
         android:background="@drawable/rectangle_black"
         android:hint="DD"
         android:padding="8dp"
+
+        android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="17sp" />
 
@@ -23,6 +26,7 @@
         android:layout_marginLeft="5dp"
         android:background="@drawable/rectangle_black"
         android:hint="MM"
+        android:gravity="center"
         android:padding="8dp"
         android:textColor="@android:color/black"
         android:textSize="17sp" />
@@ -34,6 +38,7 @@
         android:layout_marginLeft="5dp"
         android:background="@drawable/rectangle_black"
         android:hint="YY"
+        android:gravity="center"
         android:padding="8dp"
         android:textColor="@android:color/black"
         android:textSize="17sp" />
@@ -58,11 +63,12 @@
 
         <ImageView
             android:id="@+id/vaccine_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:padding="5dp"
             android:background="@drawable/rectangle_black"
             android:src="@drawable/dropper" />
 

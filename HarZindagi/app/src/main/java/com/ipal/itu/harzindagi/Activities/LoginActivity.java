@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -59,6 +60,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
     FileOutputStream fo;
     String rec_response;
     String passwordTxt;
-    boolean isGettingLocation = false;
+
     String location = "0.0,0.0";
     private PopupWindow pw;
     private View popUpView;
@@ -123,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
         forgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                      startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
+                startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
 
             }
         });
@@ -152,19 +154,16 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    if (!isGettingLocation) {
-                        if (Constants.isOnline(LoginActivity.this)) {
-                            if (inputValidate()) {
-                                sendUserInfo(userName.getText().toString(), password.getText().toString(), location);
-                            }
-                        } else {
-                            Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+
+                    if (Constants.isOnline(LoginActivity.this)) {
+                        if (inputValidate()) {
+                            sendUserInfo(userName.getText().toString(), password.getText().toString(), location);
                         }
                     } else {
-                        Snackbar.make(view, "Getting Location, Please Wait!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
+
                 }
 
             }
@@ -176,8 +175,16 @@ public class LoginActivity extends AppCompatActivity {
             userName.setText(Constants.getUserName(this));
         }
 
-        getLocation();
+
         createContexMenu();
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(!provider.contains("gps")) { //if gps is disabled
+            Intent gpsOptionsIntent = new Intent(
+                    android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(gpsOptionsIntent);
+            Toast.makeText(this,"GPS ON KEREN",Toast.LENGTH_LONG).show();
+        }
     }
 
     public boolean inputValidate() {
@@ -191,36 +198,6 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getLocation() {
-        isGettingLocation = true;
-        LocationAjaxCallback cb = new LocationAjaxCallback();
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Getting Location");
-
-        cb.weakHandler(this, "locationCb").timeout(10 * 1000).progress(pDialog);
-        cb.async(this);
-
-    }
-
-    public void locationCb(String url, final Location loc, AjaxStatus status) {
-        if (loc != null) {
-
-            double lat = loc.getLatitude();
-            double log = loc.getLongitude();
-            location = lat + "," + log;
-
-
-        } else {
-            LoginActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "Location Not Found", Toast.LENGTH_LONG).show();
-                }
-            });
-
-        }
-        isGettingLocation = false;
-    }
 
     private void getUserInfo() {
         // Instantiate the RequestQueue.
@@ -300,10 +277,10 @@ public class LoginActivity extends AppCompatActivity {
                         pDialog.hide();
                         if (response.optBoolean("success")) {
                             JSONObject json = response.optJSONObject("data");
-                            if(!json.toString().equals("{}")) {
+                            if (!json.toString().equals("{}")) {
                                 parseTokenResponse(json);
-                            }else{
-                                showError(LoginActivity.this.password,"غلط پاسورڈ");
+                            } else {
+                                showError(LoginActivity.this.password, "غلط پاسورڈ");
                             }
                         }
 
@@ -434,7 +411,9 @@ public class LoginActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
+
             //imageView.setImageBitmap(photo);
+            Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis()/1000)+"");
         }
 
     }

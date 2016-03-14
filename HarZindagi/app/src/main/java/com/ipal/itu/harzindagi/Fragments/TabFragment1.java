@@ -34,19 +34,18 @@ public class TabFragment1 extends Fragment {
 
         ChildInfoDao dao = new ChildInfoDao();
         final List<ChildInfo> data = dao.getAll();
-        if( data.size()!=0 ){
+        if (data.size() != 0) {
             ListView listView = (ListView) rootView.findViewById(R.id.tab_list);
-            ChildListAdapter childListAdapter = new ChildListAdapter(getActivity(), R.layout.listactivity_row, data,app_name);
+            ChildListAdapter childListAdapter = new ChildListAdapter(getActivity(), R.layout.listactivity_row, data, app_name);
             listView.setAdapter(childListAdapter);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
-                {    Intent intent=new Intent(getActivity(),VaccinationActivity.class);
+                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                    Intent intent = new Intent(getActivity(), VaccinationActivity.class);
 
-                   Bundle bnd= KidVaccinationDao.get_visit_details_db(data.get(position).mobile_id);
-                    intent.putExtra("childid",data.get(position).epi_number);
+                    Bundle bnd = KidVaccinationDao.get_visit_details_db(data.get(position).mobile_id);
+                    intent.putExtra("childid", data.get(position).epi_number);
                     intent.putExtras(bnd);
                     startActivity(intent);
 

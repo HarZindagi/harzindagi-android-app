@@ -8,11 +8,11 @@
         android:title="@string/action_logout"
         app:showAsAction="never" />
 
-    <item
+  <!--  <item
         android:id="@+id/action_reset_card"
         android:orderInCategory="100"
         android:title="کارڈ دوبارہ ترتیب دیں"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
     <item
         android:id="@+id/action_sync"
         android:orderInCategory="100"

@@ -86,7 +86,7 @@ public class ChildInfo extends TruncatableModel {
         super();
     }
 
-    public void setChildInfo(String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location,String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag) {
+    public void setChildInfo(String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location,String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag,String address) {
 
         this.epi_number = childID;
         this.kid_name = name;
@@ -104,6 +104,7 @@ public class ChildInfo extends TruncatableModel {
         this.nfc_number = nfcNumber;
         this.book_update_flag = bookFlag;
         this.record_update_flag = recordFlag;
+        this.child_address = address;
 
     }
 
