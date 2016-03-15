@@ -35,18 +35,20 @@
             android:layout_height="40dp"
             android:layout_below="@+id/topPanel"
             android:layout_above="@+id/nextBtn"
-android:gravity="right"
+            android:gravity="right"
+            android:background="@drawable/color_1"
             android:orientation="vertical">
-<TextView
-    android:layout_width="wrap_content"
-    android:padding="5dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:background="@drawable/title_bg"
-    android:textColor="@android:color/black"
-    android:layout_height="wrap_content"
-    android:text="پیدایش کے"
-    />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/title_bg"
+                android:padding="5dp"
+                android:id="@+id/time_period_txt"
+                android:text="@string/padaish_forun_baad"
+                android:textColor="@android:color/black" />
             <ListView
                 android:id="@+id/vacc_list"
                 android:layout_width="match_parent"
