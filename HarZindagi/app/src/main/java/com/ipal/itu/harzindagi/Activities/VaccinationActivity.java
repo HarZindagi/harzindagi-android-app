@@ -50,7 +50,7 @@ public class VaccinationActivity extends AppCompatActivity {
     private ImageView fourthTabTickMark;
     private ImageView fifthTabTickMark;
     ImageView[] vt;
-
+    static int currnt_visit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +127,7 @@ public class VaccinationActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                 int curVisit = load_frag;//Integer.parseInt(bundle.getString("visit_num").toString());
+                currnt_visit=curVisit;
                 switch (position + 1) {
                     case 1:
                        // selectPrevious(0);
