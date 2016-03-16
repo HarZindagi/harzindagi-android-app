@@ -3,12 +3,15 @@ package com.ipal.itu.harzindagi.Activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Adapters.CustomViewPager;
@@ -59,7 +62,12 @@ public class VaccinationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         load_frag = 0;
         vaccs_done = "0,0,0";
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
+
+
+       // getSupportActionBar().setIcon(d);
         bundle = getIntent().getExtras();
         try {
             childID = bundle.getString("childid");
@@ -91,6 +99,9 @@ public class VaccinationActivity extends AppCompatActivity {
 
         data = childInfoDao.getByEPINum(bundle.getString("childid").toString());
         fpath = data.get(0).image_path;
+
+        setTitleImage(toolbar,fpath);
+        ((TextView)findViewById(R.id.ChildName)).setText(data.get(0).kid_name);
 
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);
         secondTab = findViewById(R.id.vaccinationActivitySecondTab);
@@ -201,7 +212,13 @@ public class VaccinationActivity extends AppCompatActivity {
             }
         });
     }
-
+public void  setTitleImage(Toolbar toolbar,String fpath){
+    String imagePath = "/sdcard/" + app_name + "/" +fpath+ ".jpg";
+   // Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
+    Drawable d = Drawable.createFromPath(imagePath);
+    //Drawable d = new BitmapDrawable(getResources(), bmp_read);
+    toolbar.setNavigationIcon(d);
+}
     public void selectPrevious(int index) {
         for (int i = 0; i <= index; i++) {
             v[i].setBackgroundResource(R.drawable.vaccinationtab_filled);

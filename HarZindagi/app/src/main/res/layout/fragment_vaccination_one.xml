@@ -10,8 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
+
         android:orientation="vertical">
+
+
 
         <LinearLayout
             android:id="@+id/list_v1"
@@ -37,7 +39,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="5dp"
-            android:text="تصویر کھینچنا"
+            android:text="تصور کھینچیں"
             android:textColor="@color/white"
             android:textSize="22sp" />
 
@@ -46,11 +48,11 @@
 
     <LinearLayout
         android:id="@+id/dimmLayout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="#77777777">
+        android:background="#77777777"
+        android:orientation="vertical"
+        android:visibility="gone">
 
 
     </LinearLayout>
