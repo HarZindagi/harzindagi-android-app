@@ -41,6 +41,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     String push_NFC="";
+    int check=0;
         boolean mWriteMode = false;
         private NfcAdapter mNfcAdapter;
         private PendingIntent mNfcPendingIntent;
@@ -60,7 +61,15 @@ public class MainActivity extends AppCompatActivity {
         mNfcPendingIntent = PendingIntent.getActivity(MainActivity.this, 0,
                 new Intent(MainActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
             IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
-           mWriteTagFilters = new IntentFilter[] { tagDetected, new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED),new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED),new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED)};
+        IntentFilter ndefIntent = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            ndefIntent.addDataType("*/*");
+
+        } catch (Exception e) {
+
+            Toast.makeText(ctx, "adding ndefintent", Toast.LENGTH_LONG).show();
+        }
+           mWriteTagFilters = new IntentFilter[] { tagDetected,ndefIntent, new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED),new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED)};
 
             ((Button) findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,53 +105,56 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onNewIntent(Intent intent) {
             mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            String s = "";
-            String action = intent.getAction();
-            Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            if (data != null) {
-                try {
-                    for (int i = 0; i < data.length; i++) {
-                        NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();
-                        for (int j = 0; j < recs.length; j++) {
-                            if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
-                                    Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
-                                byte[] payload = recs[j].getPayload();
-                                String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
 
-                                int langCodeLen = payload[0] & 0077;
-                                s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
-                                        textEncoding);
+            if(check==0) {
+
+                String s = "";
+                String action = intent.getAction();
+
+                Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                if (data != null) {
+                    try {
+                        for (int i = 0; i < data.length; i++) {
+                            NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();
+                            for (int j = 0; j < recs.length; j++) {
+                                if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
+                                        Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
+                                    byte[] payload = recs[j].getPayload();
+                                    String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
+
+                                    int langCodeLen = payload[0] & 0077;
+                                    s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
+                                            textEncoding);
 
 //                                mTextView.setTextE(s);
 
-                                String Arry[] = s.split("#");
-                                card_data = Arry[0] + "#" + Arry[1];
-                                push_NFC="Hello cat";
-                                push_NFC=card_data + push_NFC;
 
+                                    push_NFC = s+"Hello cat";
 
-
-
+                                    Toast.makeText(ctx, push_NFC, Toast.LENGTH_LONG).show();
+                      }
                             }
                         }
+                    } catch (Exception e) {
+                        Toast.makeText(ctx, "Tag dispatch on new intent", Toast.LENGTH_LONG).show();
                     }
-                } catch (Exception e) {
-                    Toast.makeText(ctx, "Tag dispatch on new intent", Toast.LENGTH_LONG).show();
                 }
+                check=1;
+
+
+                // Tag writing mode
+
             }
-
-
-            // Tag writing mode
-
-
+            else {
                 Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                String ff=push_NFC;
-                NdefRecord record = NdefRecord.createMime( ff, ff.getBytes());
-                NdefMessage message = new NdefMessage(new NdefRecord[] { record });
+                String ff = push_NFC+"go";
+                NdefRecord record = NdefRecord.createMime(ff, ff.getBytes());
+                NdefMessage message = new NdefMessage(new NdefRecord[]{record});
                 if (writeTag(message, detectedTag)) {
                     Toast.makeText(this, "Success: Wrote placeid to nfc tag", Toast.LENGTH_LONG)
                             .show();
                 }
+            }
             }
 
 

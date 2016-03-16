@@ -23,7 +23,7 @@ public class VaccineList extends AppCompatActivity {
     CustomListAdapter adapter;
 
     private int[] vacc_period = {
-            R.string.padaish_forun_baad,
+
             R.string.padaish_forun_baad,
             R.string.six_huftay,
             R.string.ten_huftay,
@@ -32,7 +32,7 @@ public class VaccineList extends AppCompatActivity {
             R.string.fifteen_month_baad
     };
     private int[] color_period = {
-            R.drawable.color_1,
+
             R.drawable.color_1,
             R.drawable.color_2,
             R.drawable.color_3,
@@ -51,12 +51,10 @@ public class VaccineList extends AppCompatActivity {
          setSupportActionBar(toolbar);
          top_header = (LinearLayout) findViewById(R.id.topHeader);
          time_period_txt=(TextView)findViewById(R.id.time_period_txt);
-         for (int i = 1; i <= 6; i++) {
-             if (VaccinationActivity.currnt_visit == i) {
-                 time_period_txt.setText(vacc_period[i]);
-                 top_header.setBackgroundResource(color_period[i]);
-             }
-         }
+
+                 time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
+                 top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
+
 
         obj= (VaccDetailBook) getIntent().getSerializableExtra("VaccDetInfo");
 

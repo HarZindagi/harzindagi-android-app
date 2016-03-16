@@ -17,5 +17,10 @@
         <tech-list>
             <tech>android.nfc.tech.NfcBarcode</tech>
         </tech-list>
-
+    <tech-list>
+        <tech>android.nfc.tech.Ndef</tech>
+    </tech-list>
+    <tech-list>
+        <tech>android.nfc.tech.NdefFormatable</tech>
+    </tech-list>
 </resources>

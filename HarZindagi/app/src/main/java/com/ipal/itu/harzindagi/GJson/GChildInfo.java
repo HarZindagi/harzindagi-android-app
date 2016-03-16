@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by Ali on 2/18/2016.
  */
 public class GChildInfo implements Serializable {
+    public long id;
     public long mobile_id;
    // public String mobile_id;
     public String imei_number;

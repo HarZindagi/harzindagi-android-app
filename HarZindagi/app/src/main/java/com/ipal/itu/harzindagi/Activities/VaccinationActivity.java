@@ -249,7 +249,7 @@ public class VaccinationActivity extends AppCompatActivity {
             }
 
             String date_String = Constants.getNextDueDate(Integer.parseInt(bndl.getString("visit_num")), bndl.getString("vacc_details").toString()); // index wise it is correct
-
+            intent.putExtra("curr_visit_num",load_frag);
             intent.putExtra("next_date", date_String);
             this.finish();
             startActivity(intent);
