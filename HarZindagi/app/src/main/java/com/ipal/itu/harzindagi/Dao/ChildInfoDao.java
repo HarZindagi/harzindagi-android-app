@@ -59,6 +59,9 @@ public class ChildInfoDao {
                 item.mother_name = items.get(i).mother_name;
                 item.next_due_date = items.get(i).next_due_date;
 
+                item.record_update_flag = items.get(i).record_update_flag;
+                item.book_update_flag =  items.get(i).book_update_flag;;
+
 
                 item.save();
             }

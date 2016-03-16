@@ -1,4 +1,4 @@
-package com.ipal.itu.harzindagi.Activities;
+package com.ipal.itu.harzindagi.Entity;
 
 import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.GJson.VaccineInfo;

@@ -30,10 +30,12 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                     this.abortBroadcast();
                     Intent intentA = new Intent(context, ChildrenListActivity.class);
 
-                    intentA.putExtra("ChildID", data[0]);
-                    intentA.putExtra("CellPhone", data[1]);
-                    intentA.putExtra("CNIC", data[2]);
-                    intentA.putExtra("ChildName", data[3]);
+                    intentA.putExtra("ID", data[0]);
+                    intentA.putExtra("CHILD_NAME", data[1]);
+                    intentA.putExtra("Guardian_name", data[2]);
+                    intentA.putExtra("Address", data[3]);
+                    intentA.putExtra("VisitNum", data[4]);
+                    intentA.putExtra("VAC_LIST", data[5]);
                     intentA.putExtra("fromSMS", true);
                     intentA.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intentA);

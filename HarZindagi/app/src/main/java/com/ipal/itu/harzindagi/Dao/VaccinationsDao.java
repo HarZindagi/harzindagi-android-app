@@ -1,9 +1,8 @@
 package com.ipal.itu.harzindagi.Dao;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Model;
 import com.activeandroid.query.Select;
-import com.ipal.itu.harzindagi.Activities.VaccDetailBook;
+import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.GJson.VaccineInfo;

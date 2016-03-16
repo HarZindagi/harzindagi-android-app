@@ -107,6 +107,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
                                 .putExtra("fromSMS", false));
 
+
                     } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
 
                         sendSMS("%" + ChildID + "%" + CellPhone + "%" + CNIC);
@@ -326,7 +327,11 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         }
 
         SearchActivity.data = childInfoArrayList;
-        startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
+        if( SearchActivity.data.size()!=0) {
+            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
+        }else{
+            Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void sendSMS(String msg) {

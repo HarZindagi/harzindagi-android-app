@@ -169,6 +169,9 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
         Gson gson = new Gson();
         GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
+        if(obj.childInfoArrayList.size()==0){
+            return;
+        }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
@@ -28,21 +29,18 @@ public class ChildrenListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         app_name = getResources().getString(R.string.app_name);
-
-
-        ChildInfoDao dao = new ChildInfoDao();
-        String ChildID = getIntent().getStringExtra("ChildID");
-        String CellPhone = getIntent().getStringExtra("CellPhone");
-        String CNIC = getIntent().getStringExtra("CNIC");
-
         boolean fromSMS = getIntent().getBooleanExtra("fromSMS", false);
 
 
         if (!fromSMS) {
 
 
-
             if (SearchActivity.data != null) {
+                if (SearchActivity.data.size()==0) {
+                    Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
+                    finish();
+                    return;
+                }
                 ListView listView = (ListView) findViewById(R.id.childrenListActivityListView);
                 ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, SearchActivity.data, app_name);
                 listView.setAdapter(childListAdapter);
@@ -62,10 +60,29 @@ public class ChildrenListActivity extends AppCompatActivity {
                 });
             }
         } else {
+            ChildInfoDao dao = new ChildInfoDao();
+
+
+            String ID = getIntent().getStringExtra("ID");
+
+            String CHILD_NAME = getIntent().getStringExtra("CHILD_NAME");
+            if (CHILD_NAME.equals("0")) {
+                Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+            String guardian_name = getIntent().getStringExtra("Guardian_name");
+            String Address = getIntent().getStringExtra("Address");
+            String VisitNum = getIntent().getStringExtra("VisitNum");
+            String VAC_LIST = getIntent().getStringExtra("VAC_LIST");
+
             final List<ChildInfo> list = new ArrayList<>();
             ChildInfo childInfo = new ChildInfo();
-            childInfo.guardian_cnic = CNIC;
-            childInfo.phone_number = CellPhone;
+            childInfo.mobile_id = Long.parseLong(ID);
+            childInfo.kid_name = CHILD_NAME;
+            childInfo.guardian_name = guardian_name;
+            childInfo.child_address = Address;
+
             list.add(childInfo);
             ListView listView = (ListView) findViewById(R.id.childrenListActivityListView);
             ChildListAdapter childListAdapter = new ChildListAdapter(this, R.layout.listactivity_row, list, app_name);
