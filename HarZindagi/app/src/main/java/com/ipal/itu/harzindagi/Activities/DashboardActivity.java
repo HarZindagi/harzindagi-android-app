@@ -197,8 +197,9 @@ public class DashboardActivity extends AppCompatActivity {
         KidVaccinatioHandler kidVaccinatioHandler = new KidVaccinatioHandler(this, kids, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-
-                sendCheckIn();
+                if(!Constants.getCheckIn(DashboardActivity.this).equals("")) {
+                    sendCheckIn();
+                }
             }
         });
         kidVaccinatioHandler.execute();
@@ -288,7 +289,10 @@ public class DashboardActivity extends AppCompatActivity {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")){
                             pDialog.hide();
-                            sendCheckOut();
+
+                            if(!Constants.getCheckOut(DashboardActivity.this).equals("")) {
+                                sendCheckOut();
+                            }
                         }
 
                     }
@@ -355,6 +359,7 @@ public class DashboardActivity extends AppCompatActivity {
                         if (!response.toString().equals("")){
                             pDialog.hide();
                             Toast.makeText(getApplicationContext(), "Upload Completed", Toast.LENGTH_LONG).show();
+                            Constants.setCheckOut(DashboardActivity.this,"");
                         }
 
                     }

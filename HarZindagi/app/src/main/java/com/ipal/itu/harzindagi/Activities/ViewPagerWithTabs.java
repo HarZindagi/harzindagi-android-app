@@ -5,13 +5,20 @@ package com.ipal.itu.harzindagi.Activities;
  */
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -33,6 +40,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,14 +63,51 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("زیر غور"));
-        tabLayout.addTab(tabLayout.newTab().setText("ڈیفالٹر"));
-        tabLayout.addTab(tabLayout.newTab().setText("مکمل شدہ"));
+
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[0], R.drawable.yellew_rectangle)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[1], R.drawable.red_rectangle)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[2], R.drawable.green_rectangle)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
 
         setViewPagger();
+        setIndicatorColor();
+    }
+    public  void setIndicatorColor(){
+        try {
+            Field field = TabLayout.class.getDeclaredField("mTabStrip");
+            field.setAccessible(true);
+            Object ob = field.get(tabLayout);
+            Class<?> c = Class.forName("android.support.design.widget.TabLayout$SlidingTabStrip");
+            Method method = c.getDeclaredMethod("setSelectedIndicatorColor", int.class);
+            method.setAccessible(true);
+            method.invoke(ob, Color.RED);//now its ok
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ"};
+    public View getCustView(String string,int res){
+        View v = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
+        TextView tv = (TextView) v.findViewById(R.id.item);
+       // tv.setSelected(true);
+        v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
 
+        tv.setBackgroundResource(res);
+        tv.setGravity(Gravity.CENTER);
+        tv.setTextColor(Color.BLACK);
+        tv.setText(string);
+        return  v;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

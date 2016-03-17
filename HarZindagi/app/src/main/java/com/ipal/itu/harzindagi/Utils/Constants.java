@@ -52,6 +52,7 @@ public class Constants {
     public static final String checkOut = "checkOut";
 
     public static final String location = "location";
+    public static final String day = "cDay";
 
     public static String getToken(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
@@ -143,6 +144,16 @@ public class Constants {
     public static void setLocation(Context c, String location) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         prefs.edit().putString(Constants.location, location).commit();
+    }
+
+    public static String getDay(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getString(Constants.day, "");
+    }
+
+    public static void setDay(Context c, String day) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putString(Constants.day, day).commit();
     }
     public static String getVersionName(Context c) {
         PackageInfo pInfo = null;

@@ -413,7 +413,13 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
             //imageView.setImageBitmap(photo);
-            Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis()/1000)+"");
+            int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            if(Constants.getCheckIn(this).equals("") || !Constants.getDay(this).equals(day+"")) {
+                Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+                Constants.setDay(this,day+"");
+                Constants.setCheckOut(this, "");
+                Constants.setCheckIn(this, "");
+            }
         }
 
     }

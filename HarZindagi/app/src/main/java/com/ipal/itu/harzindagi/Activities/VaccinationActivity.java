@@ -62,12 +62,8 @@ public class VaccinationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         load_frag = 0;
         vaccs_done = "0,0,0";
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-
-
-       // getSupportActionBar().setIcon(d);
         bundle = getIntent().getExtras();
         try {
             childID = bundle.getString("childid");
@@ -100,9 +96,9 @@ public class VaccinationActivity extends AppCompatActivity {
         data = childInfoDao.getByEPINum(bundle.getString("childid").toString());
         fpath = data.get(0).image_path;
 
-        setTitleImage(toolbar,fpath);
+        //setTitleImage(toolbar,fpath);
         ((TextView)findViewById(R.id.ChildName)).setText(data.get(0).kid_name);
-
+        ((TextView)findViewById(R.id.EPINumber)).setText(data.get(0).epi_number+"");
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);
         secondTab = findViewById(R.id.vaccinationActivitySecondTab);
         thirdTab = findViewById(R.id.vaccinationActivityThirdTab);

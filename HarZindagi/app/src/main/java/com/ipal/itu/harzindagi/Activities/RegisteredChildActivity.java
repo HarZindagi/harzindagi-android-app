@@ -117,7 +117,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
 
         if (id == android.R.id.home) {
-            startActivity(new Intent(getApplication(),RegisterChildActivity.class).putExtra("epiNumber",childID));
+           // startActivity(new Intent(getApplication(),RegisterChildActivity.class).putExtra("epiNumber",childID));
             finish();
             return true;
         }
