@@ -16,6 +16,7 @@ import android.util.TypedValue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -181,6 +182,23 @@ public class Constants {
 
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
         return sdf1.format(c.getTime());
+
+    }
+    public static long getNextDueDateNew(int visit, String vaccs) {
+
+        int[] Arry = {0, 42, 28, 28, 154, 168, 0};  // should better be made dynamic input through Database.
+
+
+        Calendar c = Calendar.getInstance();
+
+        if (isVaccOfVisitCompleted(vaccs)) {
+            c.add(Calendar.DATE, Arry[visit]);
+        } else {
+            c.add(Calendar.DATE, 10);
+        }
+
+       // SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
+        return c.getTimeInMillis()/1000;
 
     }
 

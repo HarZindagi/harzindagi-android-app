@@ -43,8 +43,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,6 +161,22 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
 
         }
+
+
+       ChildInfoDao childInfoDao = new ChildInfoDao();
+        List<ChildInfo> childInfo = childInfoDao.getById(data.get(0).mobile_id);
+        DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = null;
+        try {
+             date =sdf.parse(bundle.getString("next_date"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+        childInfo.get(0).next_due_date =   date.getTime();
+
 
         String [] ayy=bundle.getString("vacc_details").toString().split(",");
         for(int i=0;i<vdb.vaccinfo.size();i++)
