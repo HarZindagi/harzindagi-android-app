@@ -51,6 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -157,7 +158,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
 
 
-                kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis(), false);
+                kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis()/1000, false);
 
 
         }
@@ -165,17 +166,18 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
        ChildInfoDao childInfoDao = new ChildInfoDao();
         List<ChildInfo> childInfo = childInfoDao.getById(data.get(0).mobile_id);
-        DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = null;
+        DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        Date date = new Date();
         try {
              date =sdf.parse(bundle.getString("next_date"));
+
+            childInfo.get(0).next_due_date =   date.getTime();
+            childInfo.get(0).save();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
-
-        childInfo.get(0).next_due_date =   date.getTime();
 
 
         String [] ayy=bundle.getString("vacc_details").toString().split(",");

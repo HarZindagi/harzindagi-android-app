@@ -43,6 +43,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,8 +152,8 @@ public class CardScanWrite extends AppCompatActivity {
 
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
-
-        Long tsLong = System.currentTimeMillis() / 1000;
+        Calendar calendar = Calendar.getInstance();
+        Long tsLong =calendar.getTimeInMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
         childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false,address);
 
