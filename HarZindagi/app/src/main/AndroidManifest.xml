@@ -132,12 +132,12 @@
         <activity android:name=".Activities.Evaccs"  android:label="Evaccs-II" />
         <activity android:name=".Activities.Act" />VaccineList
         <activity android:name=".Activities.VaccineList"
-            android:label="Write on Book"
+            android:label="کتاب میں لکھیں"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".Activities.Card_Scan"
-            android:label="Card Scan"
+            android:label="کارڈ سکین"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.CalenderActivity"
@@ -145,7 +145,7 @@
 
         <activity
             android:name=".Activities.RegisteredChildActivity"
-            android:label="Registered Child"
+            android:label="بچے کی انفادمیشن"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.ViewPagerWithTabs"
@@ -155,11 +155,11 @@
         <activity android:name=".Activities.CustomCameraKidstation" />
         <activity
             android:name=".Activities.CardScanWrite"
-            android:label="Card Scan"
+            android:label="کارڈ سکین"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.CardScanWriteVaccine"
-            android:label="Card Scan"
+            android:label="کارڈ سکین"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver

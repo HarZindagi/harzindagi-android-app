@@ -273,7 +273,7 @@
 
             <include layout="@layout/content_vaccination" />
 
-            <LinearLayout
+        <!--    <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -298,7 +298,7 @@
                     android:text="Card Par Mehfooz Karein"
                     android:textColor="@color/white" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
 
         </LinearLayout>

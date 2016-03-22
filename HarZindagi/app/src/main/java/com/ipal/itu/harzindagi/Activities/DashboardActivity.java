@@ -1,5 +1,7 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -137,6 +139,12 @@ public class DashboardActivity extends AppCompatActivity {
            // logout();
             Constants.setCheckOut(this,(Calendar.getInstance().getTimeInMillis()/1000)+"");
             Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
+            Intent mStartActivity = new Intent(this, LoginActivity.class);
+            int mPendingIntentId = 123456;
+            PendingIntent mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+            AlarmManager mgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+            System.exit(0);
             return true;
         }
      /*   if (id == R.id.action_reset_card) {
@@ -149,6 +157,12 @@ public class DashboardActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,HomeActivity.class));
+        super.onBackPressed();
     }
 
     public void syncData() {

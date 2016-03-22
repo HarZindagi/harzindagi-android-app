@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/scan_image_view"
             android:background="@color/Button_Theme_color"
-            android:text="اگے چلیں"
+            android:text="آگے چلیں"
+            android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="bold"
 

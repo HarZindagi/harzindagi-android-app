@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.R;
 
+import java.nio.charset.CharsetEncoder;
 import java.util.Arrays;
 
 
@@ -108,8 +109,7 @@ public class Card_Scan extends AppCompatActivity {
                                 //myintent.pu
                                 // startActivityForResult(myintent, 0);
                             } else {
-//                                mTextView.setText(s);
-
+                                // mTextView.setText(s);
 
                             }
 
