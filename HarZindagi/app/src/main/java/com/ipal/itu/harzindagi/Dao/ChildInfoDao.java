@@ -127,6 +127,33 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
+    public List<ChildInfo> getToday(long curr_date){
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("next_due_date >? and next_due_date < ?",curr_date-((86400000)*5),curr_date+((86400000)*5))
+                .orderBy("kid_name ASC")
+                .execute();
+
+    }
+
+    public List<ChildInfo> getDefaulter(long curr_date){
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("next_due_date < ? OR next_due_date =?",curr_date-((86400000)*5),curr_date-((86400000)*5))
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+
+    public List<ChildInfo> getCompleted(long curr_date){
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("next_due_date > ? OR next_due_date =?",curr_date+((86400000)*5),curr_date+((86400000)*5))
+                .orderBy("kid_name ASC")
+                .execute();
+    }
     public  void deleteTable(){
         ChildInfo.truncate(ChildInfo.class);
     }

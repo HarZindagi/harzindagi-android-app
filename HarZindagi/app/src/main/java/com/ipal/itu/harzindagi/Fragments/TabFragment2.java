@@ -19,6 +19,7 @@ import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class TabFragment2 extends Fragment {
@@ -32,7 +33,10 @@ public class TabFragment2 extends Fragment {
         app_name = getResources().getString(R.string.app_name);
 
         ChildInfoDao dao = new ChildInfoDao();
-        final List<ChildInfo> data = dao.getAll();
+
+        Calendar calendar= Calendar.getInstance();
+
+        final List<ChildInfo> data = dao.getDefaulter(calendar.getTimeInMillis());
         if( data.size()!=0 ){
 
             ListView listView = (ListView) rootView.findViewById(R.id.tab_list);
