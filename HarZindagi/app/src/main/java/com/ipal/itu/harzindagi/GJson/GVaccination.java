@@ -12,4 +12,6 @@ public class GVaccination implements Serializable {
     public int id;
     public int visit_id;
     public int injection_id;
+
+
 }

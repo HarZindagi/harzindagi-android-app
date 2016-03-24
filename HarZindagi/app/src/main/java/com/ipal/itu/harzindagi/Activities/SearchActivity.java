@@ -30,6 +30,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -41,6 +42,7 @@ import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -108,13 +110,16 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                                 .putExtra("fromSMS", false));
 
 
-                    } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
+                    } else if (data.size() == 0) {
+                        Toast.makeText(SearchActivity.this, "No Record Found!", Toast.LENGTH_LONG).show();
+                    }
+                    /* else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
 
                         sendSMS("%" + ChildID + "%" + CellPhone + "%" + CNIC);
 
                     } else {
                         onlineSearch(ChildID, CellPhone, CNIC);
-                    }
+                    }*/
 
 
                 } else {
@@ -127,9 +132,8 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
                         if (data.size() != 0) {
 
-                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
+                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
 
-                                    .putExtra("fromSMS", false));
 
                         } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
                             if (isAdvanceSearch) {
@@ -253,12 +257,12 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.POST,
                 url, obj,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
 
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
 
                         pDialog.hide();
                         if (response.toString().length() > 5) {
@@ -292,11 +296,15 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         queue.add(jsonObjReq);
     }
 
-    public void parseKidReponse(JSONObject response) {
+    public void parseKidReponse(JSONArray response) {
 
         Gson gson = new Gson();
         String data = "{\"childInfoArrayList\":" + response + "}";
         GChildInfoAry obj = gson.fromJson(data, GChildInfoAry.class);
+        if(obj.childInfoArrayList.size()==0){
+            Toast.makeText(SearchActivity.this,"No Record Found!",Toast.LENGTH_LONG).show();
+            return;
+        }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();
@@ -327,9 +335,9 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         }
 
         SearchActivity.data = childInfoArrayList;
-        if( SearchActivity.data.size()!=0) {
+        if (SearchActivity.data.size() != 0) {
             startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
-        }else{
+        } else {
             Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
         }
     }

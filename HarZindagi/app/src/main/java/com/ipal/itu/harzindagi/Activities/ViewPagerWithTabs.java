@@ -31,8 +31,12 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Adapters.PagerAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
+import com.ipal.itu.harzindagi.GJson.GKidTransaction;
+import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -264,5 +268,95 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
         String formatedDate = sdf.format(time);
         return  formatedDate;
+    }
+    private void loadKidVaccination() {
+        // Instantiate the RequestQueue.
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kid_vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading Vaccination data...");
+        pDialog.show();
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        pDialog.hide();
+                        if (response.toString().contains("Invalid User")) {
+                            Toast.makeText(ViewPagerWithTabs.this, "Token Expired", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject("{\"kidVaccinations\":" + response + "}");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        parseVaccinationReponse(json);
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseVaccinationReponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        GKidTransactionAry obj = gson.fromJson(response.toString(), GKidTransactionAry.class);
+        if(obj.kidVaccinations.size()==0){
+            return;
+        }
+        ArrayList<KidVaccinations> childInfoArrayList = new ArrayList<>();
+        for (int i = 0; i < obj.kidVaccinations.size(); i++) {
+            KidVaccinations c = new KidVaccinations();
+            c.location = obj.kidVaccinations.get(i).location;
+
+
+            c.mobile_id = obj.kidVaccinations.get(i).mobile_id;
+            c.kid_id = obj.kidVaccinations.get(i).kid_id;
+
+            c.vaccination_id = obj.kidVaccinations.get(i).vaccination_id;
+
+            c.image = obj.kidVaccinations.get(i).image_path;
+
+            c.created_timestamp = obj.kidVaccinations.get(i).created_timestamp;
+
+            c.is_sync = true;
+
+            childInfoArrayList.add(c);
+
+        }
+        KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
+        List<KidVaccinations> noSync = kidVaccinationDao.getNoSync();
+        kidVaccinationDao.deleteTable();
+        kidVaccinationDao.bulkInsert(childInfoArrayList);
+        kidVaccinationDao.bulkInsert(noSync);
+
+        setViewPagger();
     }
 }

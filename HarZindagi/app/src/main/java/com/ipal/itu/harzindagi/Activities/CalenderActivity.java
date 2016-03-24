@@ -5,9 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.R;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -17,9 +22,9 @@ public class CalenderActivity extends Activity {
 
     TextView yearText = null, monthText = null, dayText = null, currentYear, previousYear, lastYear;
     Calendar myCalendar = Calendar.getInstance();
-int [] daysIds = {R.id.one,R.id.two,R.id.three,R.id.four,R.id.five,R.id.six,R.id.seven,R.id.eight,R.id.nine,R.id.ten,R.id.eleven,R.id.twelve,R.id.thirteen,R.id.fourteen,R.id.fifteen,
-        R.id.sixteen,R.id.seventeen,R.id.nineteen,R.id.eighteen,R.id.twenty,R.id.thirtyone,R.id.twentytwo,R.id.twentythree,R.id.twentyfour,R.id.twentyfive,R.id.twentysix,R.id.twentyseven,R.id.twentyeight,R.id.twentynine,R.id.thirty,R.id.thirtyone};
-    int [] monthIds = {R.id.jan,R.id.feb,R.id.mar,R.id.apr,R.id.may,R.id.jun,R.id.jul,R.id.aug,R.id.sep,R.id.oct,R.id.nov,R.id.dec};
+    int[] daysIds = {R.id.one, R.id.two, R.id.three, R.id.four, R.id.five, R.id.six, R.id.seven, R.id.eight, R.id.nine, R.id.ten, R.id.eleven, R.id.twelve, R.id.thirteen, R.id.fourteen, R.id.fifteen,
+            R.id.sixteen, R.id.seventeen, R.id.nineteen, R.id.eighteen, R.id.twenty, R.id.thirtyone, R.id.twentytwo, R.id.twentythree, R.id.twentyfour, R.id.twentyfive, R.id.twentysix, R.id.twentyseven, R.id.twentyeight, R.id.twentynine, R.id.thirty, R.id.thirtyone};
+    int[] monthIds = {R.id.jan, R.id.feb, R.id.mar, R.id.apr, R.id.may, R.id.jun, R.id.jul, R.id.aug, R.id.sep, R.id.oct, R.id.nov, R.id.dec};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +83,20 @@ int [] daysIds = {R.id.one,R.id.two,R.id.three,R.id.four,R.id.five,R.id.six,R.id
             i.putExtra("year", yearText.getText().toString());
             i.putExtra("month", monthText.getText().toString());
             i.putExtra("day", dayText.getText().toString());
-            setResult(100, i);
-            finish();
+            DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+            try {
+                Date date = sdf.parse(dayText.getText().toString() + "-" + monthText.getText().toString() + "-" + yearText.getText().toString());
+                if (date.after(Calendar.getInstance().getTime())) {
+                    Toast.makeText(this, "Please Select Correct date", Toast.LENGTH_LONG).show();
+                } else {
+                    setResult(100, i);
+                    finish();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 
@@ -113,11 +130,11 @@ int [] daysIds = {R.id.one,R.id.two,R.id.three,R.id.four,R.id.five,R.id.six,R.id
                 clearYearBackground();
                 yearText = (TextView) findViewById(R.id.lastYear);
                 yearText.setBackgroundDrawable(getResources().getDrawable(R.drawable.rectangle_bg));
-                if (monthText != null && monthText.getText().equals("FEB")){
-                leapYear();
-            }
-            checkAndFinishActivity();
-            break;
+                if (monthText != null && monthText.getText().equals("FEB")) {
+                    leapYear();
+                }
+                checkAndFinishActivity();
+                break;
         }
     }
 
@@ -443,6 +460,7 @@ int [] daysIds = {R.id.one,R.id.two,R.id.three,R.id.four,R.id.five,R.id.six,R.id
                 checkAndFinishActivity();
                 break;
         }
+
     }
 
 

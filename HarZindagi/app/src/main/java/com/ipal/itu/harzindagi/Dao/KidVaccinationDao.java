@@ -12,6 +12,7 @@ import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.Transaction;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
+import com.ipal.itu.harzindagi.GJson.GKidTransaction;
 
 import java.util.Date;
 import java.util.List;
@@ -150,5 +151,34 @@ public class KidVaccinationDao {
 
         bnd.putString("vacc_details",str);
         return bnd;
+    }
+    public void bulkInsert(List<KidVaccinations> items) {
+        ActiveAndroid.beginTransaction();
+        try {
+            for (int i = 0; i < items.size(); i++) {
+
+                KidVaccinations item = new KidVaccinations();
+                item.mobile_id = items.get(i).mobile_id;
+                item.location = items.get(i).location;
+
+
+                item.mobile_id = items.get(i).mobile_id;
+                item.kid_id = items.get(i).kid_id;
+
+                item.vaccination_id = items.get(i).vaccination_id;
+
+                item.image = items.get(i).image;
+
+                item.created_timestamp = items.get(i).created_timestamp;
+
+                item.is_sync =  items.get(i).is_sync;
+
+
+                item.save();
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        } finally {
+            ActiveAndroid.endTransaction();
+        }
     }
 }
