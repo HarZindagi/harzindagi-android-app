@@ -104,6 +104,13 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
+    public  static List<ChildInfo> getImageNotSync() {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("image_update_flag = ?", false)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
     public  static List<ChildInfo> getByEpiNum(String epi_number) {
         return new Select()
                 .from(ChildInfo.class)

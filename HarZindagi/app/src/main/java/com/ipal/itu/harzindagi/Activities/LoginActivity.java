@@ -418,7 +418,7 @@ public class LoginActivity extends AppCompatActivity {
                 Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
                 Constants.setDay(this,day+"");
                 Constants.setCheckOut(this, "");
-                Constants.setCheckIn(this, "");
+
             }
         }
 

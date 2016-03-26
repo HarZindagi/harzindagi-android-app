@@ -151,6 +151,7 @@ public class ChildInfoSyncHandler {
                             List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(childInfo.mobile_id);
                             for (int i = 0; i < kidVaccines.size(); i++) {
                                 kidVaccines.get(i).kid_id = kidID;
+                                kidVaccines.get(i).mobile_id = kidID;
                                 kidVaccines.get(i).save();
                             }
 

@@ -50,8 +50,13 @@ public class ChildrenListActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
                         Intent intent = new Intent(getApplication(), VaccinationActivity.class);
-
-                        Bundle bnd = KidVaccinationDao.get_visit_details_db(SearchActivity.data.get(position).mobile_id);
+                        long kid = 0;
+                        if(SearchActivity.data.get(position).kid_id!=null){
+                            kid = SearchActivity.data.get(position).kid_id;
+                        }else{
+                            kid = SearchActivity.data.get(position).mobile_id;
+                        }
+                        Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                         intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
                         intent.putExtras(bnd);
                         startActivity(intent);
@@ -93,8 +98,13 @@ public class ChildrenListActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
                     Intent intent = new Intent(getApplication(), VaccinationActivity.class);
-
-                    Bundle bnd = KidVaccinationDao.get_visit_details_db(list.get(position).mobile_id);
+                    long kid = 0;
+                    if(list.get(position).kid_id!=null){
+                        kid = list.get(position).kid_id;
+                    }else{
+                        kid = list.get(position).mobile_id;
+                    }
+                    Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                     intent.putExtra("childid", list.get(position).epi_number);
                     intent.putExtras(bnd);
                     startActivity(intent);

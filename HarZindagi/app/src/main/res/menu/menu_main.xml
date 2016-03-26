@@ -13,13 +13,13 @@
         android:orderInCategory="100"
         android:title="کارڈ دوبارہ ترتیب دیں"
         app:showAsAction="never" />-->
-    <item
+   <!-- <item
         android:id="@+id/action_sync"
         android:orderInCategory="100"
         android:title="@string/action_sync_text"
         android:icon="@drawable/sync_image"
         android:checkable="true"
         android:checked="true"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 
 </menu>

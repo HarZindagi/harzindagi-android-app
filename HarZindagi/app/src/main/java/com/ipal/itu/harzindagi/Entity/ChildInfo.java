@@ -75,6 +75,9 @@ public class ChildInfo extends TruncatableModel {
     @Column(name = "record_update_flag")
     public boolean record_update_flag;
 
+    @Column(name = "image_update_flag")
+    public boolean image_update_flag;
+
     @Column(name = "next_due_date")
     public long next_due_date;
 

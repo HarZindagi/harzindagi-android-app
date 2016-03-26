@@ -88,7 +88,11 @@
         <activity
             android:name=".Activities.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ipal.itu.harzindagi.Activities.HomeActivity" />
+        </activity>
         <activity
             android:name=".Activities.SearchActivity"
             android:label="@string/title_activity_search"
@@ -127,14 +131,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ipal.itu.harzindagi.Activities.DashboardActivity" />
         </activity>
-        <activity android:name=".Activities.EvacsEPI" android:label="Evaccs-II"/>
-        <activity android:name=".Activities.EvacsNonEPI"  android:label="Evaccs-II" />
-        <activity android:name=".Activities.Evaccs"  android:label="Evaccs-II" />
+        <activity
+            android:name=".Activities.EvacsEPI"
+            android:label="Evaccs-II" />
+        <activity
+            android:name=".Activities.EvacsNonEPI"
+            android:label="Evaccs-II" />
+        <activity
+            android:name=".Activities.Evaccs"
+            android:label="Evaccs-II" />
         <activity android:name=".Activities.Act" />VaccineList
-        <activity android:name=".Activities.VaccineList"
+        <activity
+            android:name=".Activities.VaccineList"
             android:label="کتاب میں لکھیں"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.Card_Scan"
             android:label="کارڈ سکین"

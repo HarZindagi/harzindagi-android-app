@@ -129,67 +129,51 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-           // logout();
-            Constants.setCheckOut(this,(Calendar.getInstance().getTimeInMillis()/1000)+"");
-            Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
+            // logout();
+            Constants.setCheckOut(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+            if (Constants.isOnline(this)) {
+                syncData();
+            }
+           /* Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
             Intent mStartActivity = new Intent(this, LoginActivity.class);
             int mPendingIntentId = 123456;
             PendingIntent mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
             AlarmManager mgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
             System.exit(0);
-            return true;
+            return true;*/
         }
-     /*   if (id == R.id.action_reset_card) {
-            return true;
-        }*/
-        if (id == R.id.action_sync) {
 
-            syncData();
-
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this,HomeActivity.class));
+        startActivity(new Intent(this, HomeActivity.class));
         super.onBackPressed();
     }
 
     public void syncData() {
 
-        final List<ChildInfo> childInfo = ChildInfoDao.getNotSync();
-    /*    if (childInfo.size() == 0) {
-            Toast.makeText(DashboardActivity.this, "Data Already Sync", Toast.LENGTH_LONG).show();
-            return;
-        }*/
+         List<ChildInfo> childInfo = ChildInfoDao.getNotSync();
+
         ChildInfoSyncHandler childInfoSyncHandler = new ChildInfoSyncHandler(this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String response) {
-                if (success) {
 
-                    //Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Failed! Try Again.", Toast.LENGTH_LONG).show();
-                }
-                androidImageUpload((ArrayList<ChildInfo>) childInfo);
+              androidImageUpload();
             }
         });
         childInfoSyncHandler.execute();
     }
 
-    public void androidImageUpload(ArrayList<ChildInfo> childInfos) {
-
+    public void androidImageUpload() {
+        List<ChildInfo> childInfos = ChildInfoDao.getImageNotSync();
         ImageUploadHandler imageUploadHandler = new ImageUploadHandler(this, childInfos, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
@@ -211,7 +195,7 @@ public class DashboardActivity extends AppCompatActivity {
         KidVaccinatioHandler kidVaccinatioHandler = new KidVaccinatioHandler(this, kids, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                if(!Constants.getCheckIn(DashboardActivity.this).equals("")) {
+                if (!Constants.getCheckIn(DashboardActivity.this).equals("")) {
                     sendCheckIn();
                 }
             }
@@ -268,7 +252,7 @@ public class DashboardActivity extends AppCompatActivity {
     private void sendCheckIn() {
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.checkIn;
+        String url = Constants.checkins;
         final ProgressDialog pDialog;
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Saving CheckIn Time...");
@@ -286,9 +270,8 @@ public class DashboardActivity extends AppCompatActivity {
 
 
             obj.put("version_name", Constants.getVersionName(this));
-            obj.put("created_timestamp",Constants.getCheckIn(this));
-            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis()/1000)+"");
-
+            obj.put("created_timestamp", Constants.getCheckIn(this));
+            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
 
 
         } catch (JSONException e) {
@@ -301,10 +284,10 @@ public class DashboardActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Log.d("response",response.toString());
-                        if (!response.toString().equals("")){
+                        if (!response.toString().equals("")) {
                             pDialog.hide();
 
-                            if(!Constants.getCheckOut(DashboardActivity.this).equals("")) {
+                            if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
                                 sendCheckOut();
                             }
                         }
@@ -314,6 +297,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DashboardActivity.this,"Error"+error.getMessage(),Toast.LENGTH_LONG).show();
                 pDialog.hide();
             }
         }) {
@@ -333,10 +317,11 @@ public class DashboardActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }
+
     private void sendCheckOut() {
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.checkOut;
+        String url = Constants.checkouts;
         final ProgressDialog pDialog;
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Saving CheckOut Time...");
@@ -354,10 +339,8 @@ public class DashboardActivity extends AppCompatActivity {
 
 
             obj.put("version_name", Constants.getVersionName(this));
-            obj.put("created_timestamp",Constants.getCheckIn(this));
-            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis()/1000)+"");
-
-
+            obj.put("created_timestamp", Constants.getCheckOut(this));
+            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
 
 
         } catch (JSONException e) {
@@ -370,10 +353,11 @@ public class DashboardActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Log.d("response",response.toString());
-                        if (!response.toString().equals("")){
+                        if (!response.toString().equals("")) {
                             pDialog.hide();
                             Toast.makeText(getApplicationContext(), "Upload Completed", Toast.LENGTH_LONG).show();
-                            Constants.setCheckOut(DashboardActivity.this,"");
+                            Constants.setCheckOut(DashboardActivity.this, "");
+                            Constants.setCheckIn(DashboardActivity.this, "");
                         }
 
                     }
@@ -392,7 +376,6 @@ public class DashboardActivity extends AppCompatActivity {
                 headers.put("Accept", "application/json");
                 return headers;
             }
-
 
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,

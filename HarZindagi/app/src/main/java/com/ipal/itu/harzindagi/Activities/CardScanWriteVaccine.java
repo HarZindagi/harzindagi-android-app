@@ -156,9 +156,14 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             KidVaccinationDao kd = new KidVaccinationDao();
 
 
+                long kId  =0;
+                if( data.get(0).kid_id!=null){
+                    kId = data.get(0).kid_id;
+                }else{
+                    kId = data.get(0).mobile_id;
+                }
 
-
-                kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis()/1000, false);
+                kd.save(data.get(0).location,kId, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis()/1000, false);
 
 
         }

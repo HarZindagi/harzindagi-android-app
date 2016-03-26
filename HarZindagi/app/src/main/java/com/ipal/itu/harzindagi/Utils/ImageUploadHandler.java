@@ -73,6 +73,8 @@ public class ImageUploadHandler {
         MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
+                childInfo.image_update_flag = true;
+                childInfo.save();
                 nextUpload(success);
             }
         });

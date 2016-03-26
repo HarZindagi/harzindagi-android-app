@@ -48,8 +48,13 @@ public class TabFragment3 extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                     Intent intent = new Intent(getActivity(), VaccinationActivity.class);
-
-                    Bundle bnd= KidVaccinationDao.get_visit_details_db(data.get(position).mobile_id);
+                    long kid = 0;
+                    if(data.get(position).kid_id!=null){
+                        kid = data.get(position).kid_id;
+                    }else{
+                        kid = data.get(position).mobile_id;
+                    }
+                    Bundle bnd= KidVaccinationDao.get_visit_details_db(kid);
                     intent.putExtra("childid", data.get(position).epi_number);
                     intent.putExtras(bnd);
                     startActivity(intent);

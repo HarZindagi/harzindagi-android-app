@@ -48,11 +48,11 @@ public class KidVaccinations extends TruncatableModel {
 
         this.location = Location;
         this.mobile_id = mobile_id;
+        this.kid_id = mobile_id;
         this.vaccination_id = VaccinationID;
         this.image = Image_;
         this.created_timestamp = CreateTime;
         this.is_sync=IsSync;
-
 
     }
 
