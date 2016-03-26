@@ -90,10 +90,17 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-    public  List<ChildInfo> getById(long id) {
+    public  static  List<ChildInfo> getById(long id) {
         return new Select()
                 .from(ChildInfo.class)
                 .where("mobile_id = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static  List<ChildInfo> getByKId(long id) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("kid_id = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
     }

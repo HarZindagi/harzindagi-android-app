@@ -310,7 +310,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             ChildInfo c = new ChildInfo();
             c.mobile_id = obj.childInfoArrayList.get(i).mobile_id;
 
-
+            c.kid_id = obj.childInfoArrayList.get(i).id;
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
             c.guardian_name = obj.childInfoArrayList.get(i).father_name;
 

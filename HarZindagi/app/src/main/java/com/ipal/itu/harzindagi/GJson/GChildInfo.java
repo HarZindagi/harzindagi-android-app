@@ -16,6 +16,7 @@ public class GChildInfo implements Serializable {
     public String father_cnic;
     public String mother_cnic;
     public String phone_number;
+    public long next_due_date;
     public String date_of_birth;
     public String location;
     public String child_address;

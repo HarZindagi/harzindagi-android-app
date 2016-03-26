@@ -235,6 +235,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
 
             c.date_of_birth = getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             c.location = obj.childInfoArrayList.get(i).location;

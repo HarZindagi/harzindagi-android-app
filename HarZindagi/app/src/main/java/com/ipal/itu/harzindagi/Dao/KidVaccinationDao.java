@@ -22,27 +22,6 @@ import java.util.List;
  */
 public class KidVaccinationDao {
 
-    public void save(String Location, long KidID, int VaccinationID, String Image_, long CreateTime, Boolean Is_Sync) {
-        KidVaccinations item = new KidVaccinations();
-        item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime, Is_Sync);
-        item.save();
-
-    }
-
-
-    public void deleteItem(int CID) {
-        KidVaccinations item = new KidVaccinations();
-        item.delete(KidVaccinations.class, CID);
-    }
-
-    public List<KidVaccinations> getAll() {
-        return new Select()
-                .from(KidVaccinations.class)
-                        //.where("KidVaccinations = ?", KidVaccinations.getId())
-                .orderBy("_id ASC")
-                .execute();
-    }
-
     public static List<KidVaccinations> getById(long id) {
         return new Select()
                 .from(KidVaccinations.class)
@@ -51,22 +30,10 @@ public class KidVaccinationDao {
                 .execute();
     }
 
-    public List<KidVaccinations> getNoSync() {
-        return new Select()
-                .from(KidVaccinations.class)
-                .where("is_sync = ?", false)
-                .orderBy("created_timestamp ASC")
-                .execute();
-    }
-
-    public void deleteTable() {
-        KidVaccinations.truncate(KidVaccinations.class);
-    }
-
     public static Bundle get_visit_details_db(long kid) {
 
 
-        Bundle bnd=new Bundle();
+        Bundle bnd = new Bundle();
         From query = new Select()
                 .from(Vaccinations.class)
                 .innerJoin(KidVaccinations.class)
@@ -124,34 +91,66 @@ public class KidVaccinationDao {
                 str = "0";
 
             }
-        }else
-        {
+        } else {
             str = "0";
         }
         for (int i = 1; i < inj.size(); i++) {
 
-           if (x<vacs.size()){
-            if (inj.get(i).id == vacs.get(x).injection_id) {
-                str = str+",1";
-                x++;
+            if (x < vacs.size()) {
+                if (inj.get(i).id == vacs.get(x).injection_id) {
+                    str = str + ",1";
+                    x++;
 
 
+                } else {
+                    str = str + ",0";
+
+                }
             } else {
-                str =str+ ",0";
-
-            }}else
-           {
-               str = str+",0";
+                str = str + ",0";
 
 
-           }
+            }
 
         }
 
 
-        bnd.putString("vacc_details",str);
+        bnd.putString("vacc_details", str);
         return bnd;
     }
+
+    public void save(String Location, long KidID, int VaccinationID, String Image_, long CreateTime, Boolean Is_Sync) {
+        KidVaccinations item = new KidVaccinations();
+        item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime, Is_Sync);
+        item.save();
+
+    }
+
+    public void deleteItem(int CID) {
+        KidVaccinations item = new KidVaccinations();
+        item.delete(KidVaccinations.class, CID);
+    }
+
+    public List<KidVaccinations> getAll() {
+        return new Select()
+                .from(KidVaccinations.class)
+                        //.where("KidVaccinations = ?", KidVaccinations.getId())
+                .orderBy("_id ASC")
+                .execute();
+    }
+
+    public List<KidVaccinations> getNoSync() {
+        return new Select()
+                .from(KidVaccinations.class)
+                .where("is_sync = ?", false)
+                .orderBy("created_timestamp ASC")
+                .execute();
+    }
+
+    public void deleteTable() {
+        KidVaccinations.truncate(KidVaccinations.class);
+    }
+
     public void bulkInsert(List<KidVaccinations> items) {
         ActiveAndroid.beginTransaction();
         try {
@@ -171,7 +170,7 @@ public class KidVaccinationDao {
 
                 item.created_timestamp = items.get(i).created_timestamp;
 
-                item.is_sync =  items.get(i).is_sync;
+                item.is_sync = items.get(i).is_sync;
 
 
                 item.save();

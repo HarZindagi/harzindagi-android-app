@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Adapters.CustomListAdapter;
 import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
@@ -21,7 +22,8 @@ public class VaccineList extends AppCompatActivity {
     VaccDetailBook obj;
     ListView list;
     CustomListAdapter adapter;
-
+    TextView time_period_txt;
+    LinearLayout top_header;
     private int[] vacc_period = {
 
             R.string.padaish_forun_baad,
@@ -40,23 +42,26 @@ public class VaccineList extends AppCompatActivity {
             R.drawable.color_5,
             R.drawable.color_6
     };
-    TextView time_period_txt;
-    LinearLayout top_header;
 
-     @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         setContentView(R.layout.vacc_list_layout);
-         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-         setSupportActionBar(toolbar);
-         top_header = (LinearLayout) findViewById(R.id.topHeader);
-         time_period_txt=(TextView)findViewById(R.id.time_period_txt);
+        setContentView(R.layout.vacc_list_layout);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        top_header = (LinearLayout) findViewById(R.id.topHeader);
+        time_period_txt = (TextView) findViewById(R.id.time_period_txt);
+        try {
+            time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
+            top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
+        }catch (Exception e){
+            Toast.makeText(this ,"Error:"+e.getMessage(),Toast.LENGTH_LONG).show();
+            finish();
+        }
 
-                 time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
-                 top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
 
 
-        obj= (VaccDetailBook) getIntent().getSerializableExtra("VaccDetInfo");
+        obj = (VaccDetailBook) getIntent().getSerializableExtra("VaccDetInfo");
 
         parseResponse();
         findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {

@@ -28,6 +28,7 @@ public class Constants {
 
     public static final String get_device_info = "http://103.226.216.170:3000/get_device_info.json";
     public static final String visits = "http://103.226.216.170:3000/admin/visits.json";
+    public static final String vaccinationsItems = "http://103.226.216.170:3000//admin/kid_vaccinations/";
     public static final String injections = "http://103.226.216.170:3000/admin/injections.json";
     public static final String vaccinations = "http://103.226.216.170:3000/admin/vaccinations.json";
     public static final String kids = "http://103.226.216.170:3000/admin/kids.json";
