@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -126,19 +128,23 @@ public class DashboardActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_logout) {
             // logout();
             Constants.setCheckOut(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-            if (Constants.isOnline(this)) {
-                syncData();
+            if(!Constants.getCheckIn(this).equals("")){
+                sendCheckIn();
+            }else{
+                Toast.makeText(this,"Done",Toast.LENGTH_LONG).show();
             }
+
+
            /* Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
             Intent mStartActivity = new Intent(this, LoginActivity.class);
             int mPendingIntentId = 123456;
@@ -147,6 +153,11 @@ public class DashboardActivity extends AppCompatActivity {
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
             System.exit(0);
             return true;*/
+        }
+        if(id == R.id.action_sync){
+            if (Constants.isOnline(this)) {
+                syncData();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -195,9 +206,7 @@ public class DashboardActivity extends AppCompatActivity {
         KidVaccinatioHandler kidVaccinatioHandler = new KidVaccinatioHandler(this, kids, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                if (!Constants.getCheckIn(DashboardActivity.this).equals("")) {
-                    sendCheckIn();
-                }
+                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
             }
         });
         kidVaccinatioHandler.execute();
@@ -355,7 +364,7 @@ public class DashboardActivity extends AppCompatActivity {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
                             pDialog.hide();
-                            Toast.makeText(getApplicationContext(), "Upload Completed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                             Constants.setCheckOut(DashboardActivity.this, "");
                             Constants.setCheckIn(DashboardActivity.this, "");
                         }

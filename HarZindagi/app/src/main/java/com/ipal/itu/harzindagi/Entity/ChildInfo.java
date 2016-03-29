@@ -109,6 +109,7 @@ public class ChildInfo extends TruncatableModel {
         this.record_update_flag = recordFlag;
         this.child_address = address;
 
+
     }
 
 }

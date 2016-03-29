@@ -4,7 +4,7 @@
     <string name="action_logout">چیک اوٹ</string>
     <string name="action_register_device">کارڈ دوبارہ ترتیب دیں</string>
     <string name="action_reset_card">Reset Card</string>
-    <string name="action_sync_text">Sync</string>
+    <string name="action_sync_text">آپلوڈ کریں</string>
     <string name="title_activity_splash">Har Zindagi</string>
 
 
