@@ -308,7 +308,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();
-            c.mobile_id = obj.childInfoArrayList.get(i).mobile_id;
+            c.mobile_id = obj.childInfoArrayList.get(i).id;
 
             c.kid_id = obj.childInfoArrayList.get(i).id;
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
@@ -330,7 +330,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             c.record_update_flag = true;
             c.book_update_flag = true;
             c.image_path = obj.childInfoArrayList.get(i).image_path;
-
+            c.save();
             childInfoArrayList.add(c);
         }
 
