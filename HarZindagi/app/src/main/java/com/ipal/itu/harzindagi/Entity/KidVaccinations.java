@@ -36,14 +36,18 @@ public class KidVaccinations extends TruncatableModel {
     @Column(name = "is_sync")
     public boolean is_sync;
 
+    @Column(name = "imei_number")
+    public String imei_number;
 
+    @Column(name = "guest_imei_number")
+    public String guest_imei_number;
 
 
     public KidVaccinations() {
         super();
     }
 
-    public void SetKidVaccinations(String Location, long mobile_id, int VaccinationID, String Image_, long CreateTime,Boolean IsSync) {
+    public void SetKidVaccinations(String Location, long mobile_id, int VaccinationID, String Image_, long CreateTime, Boolean IsSync, String imei,String guest_imei) {
 
 
         this.location = Location;
@@ -52,7 +56,9 @@ public class KidVaccinations extends TruncatableModel {
         this.vaccination_id = VaccinationID;
         this.image = Image_;
         this.created_timestamp = CreateTime;
-        this.is_sync=IsSync;
+        this.is_sync = IsSync;
+        this.imei_number = imei;
+        this.guest_imei_number = guest_imei;
 
     }
 

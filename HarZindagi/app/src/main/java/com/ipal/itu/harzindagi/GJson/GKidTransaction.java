@@ -9,6 +9,7 @@ public class GKidTransaction implements Serializable {
 
 
     public long id = 274;
+    public String guest_imei_number;
     public String imei_number;
     public boolean is_deleted;
     public String location;

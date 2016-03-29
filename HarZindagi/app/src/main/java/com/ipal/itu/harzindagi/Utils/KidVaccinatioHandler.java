@@ -88,7 +88,8 @@ public class KidVaccinatioHandler {
 
             JSONObject vaccination = new JSONObject();
 
-            vaccination.put("imei_number", Constants.getIMEI(context));
+            vaccination.put("imei_number", kidVaccinations.imei_number);
+            vaccination.put("guest_imei_number", kidVaccinations.guest_imei_number);
             vaccination.put("location", kidVaccinations.location);
             vaccination.put("mobile_id", kidVaccinations.mobile_id);
             vaccination.put("kid_id", kidVaccinations.kid_id);

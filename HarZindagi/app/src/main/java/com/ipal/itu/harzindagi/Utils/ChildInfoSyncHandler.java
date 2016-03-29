@@ -106,7 +106,7 @@ public class ChildInfoSyncHandler {
 
 
             kid.put("mobile_id", childInfo.mobile_id);
-            kid.put("imei_number", Constants.getIMEI(context));
+            kid.put("imei_number",childInfo.imei_number);
             kid.put("kid_name", childInfo.kid_name);
             kid.put("father_name", childInfo.guardian_name);
             kid.put("mother_name", childInfo.mother_name);

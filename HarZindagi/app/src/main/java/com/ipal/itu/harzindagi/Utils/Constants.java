@@ -251,4 +251,13 @@ public class Constants {
         int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return dp;*/
     }
+    public static String getFortmattedDate(long date){
+
+
+        java.util.Date time=new java.util.Date(date*1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+        String formatedDate = sdf.format(time);
+        return  formatedDate;
+    }
 }

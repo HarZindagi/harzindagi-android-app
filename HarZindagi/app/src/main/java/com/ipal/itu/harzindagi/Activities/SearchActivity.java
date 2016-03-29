@@ -301,8 +301,8 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         Gson gson = new Gson();
         String data = "{\"childInfoArrayList\":" + response + "}";
         GChildInfoAry obj = gson.fromJson(data, GChildInfoAry.class);
-        if(obj.childInfoArrayList.size()==0){
-            Toast.makeText(SearchActivity.this,"No Record Found!",Toast.LENGTH_LONG).show();
+        if (obj.childInfoArrayList.size() == 0) {
+            Toast.makeText(SearchActivity.this, "No Record Found!", Toast.LENGTH_LONG).show();
             return;
         }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
@@ -310,14 +310,16 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             ChildInfo c = new ChildInfo();
             c.mobile_id = obj.childInfoArrayList.get(i).id;
 
-            c.kid_id = obj.childInfoArrayList.get(i).id;
+            c.imei_number =  obj.childInfoArrayList.get(i).imei_number;
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
             c.guardian_name = obj.childInfoArrayList.get(i).father_name;
 
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
-            c.date_of_birth = obj.childInfoArrayList.get(i).date_of_birth;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
+
+            c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             c.location = obj.childInfoArrayList.get(i).location;
             c.child_address = obj.childInfoArrayList.get(i).child_address;
             if (obj.childInfoArrayList.get(i).gender == true) {
@@ -329,14 +331,16 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
             c.book_update_flag = true;
-            c.image_path = obj.childInfoArrayList.get(i).image_path;
-            c.save();
+
+            c.image_path = "image_" + obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
             childInfoArrayList.add(c);
         }
+        ChildInfoDao childInfoDao = new ChildInfoDao();
+        childInfoDao.bulkInsert(childInfoArrayList);
 
         SearchActivity.data = childInfoArrayList;
         if (SearchActivity.data.size() != 0) {
-            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
+            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false).putExtra("isOnline", true));
         } else {
             Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
         }

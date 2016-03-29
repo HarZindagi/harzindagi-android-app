@@ -151,6 +151,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
 
         Calendar calendar = Calendar.getInstance();
+        String imei = Constants.getIMEI(this);
         for (int i = 0; i < lst.size(); i++) {
 
             KidVaccinationDao kd = new KidVaccinationDao();
@@ -162,9 +163,11 @@ public class CardScanWriteVaccine extends AppCompatActivity {
                 }else{
                     kId = data.get(0).mobile_id;
                 }
-
-                kd.save(data.get(0).location,kId, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis()/1000, false);
-
+                if(imei.equals(data.get(0).imei_number)) {
+                    kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis() / 1000, false, data.get(0).imei_number);
+                }else{
+                    kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, calendar.getTimeInMillis() / 1000, false, data.get(0).imei_number,imei);
+                }
 
         }
 
@@ -406,7 +409,8 @@ public class CardScanWriteVaccine extends AppCompatActivity {
                         {
                             KidVaccinationDao kd = new KidVaccinationDao();
                             Calendar calendar = Calendar.getInstance();
-                            kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(index), data.get(0).image_path, calendar.getTimeInMillis(),true);
+                            String imei = Constants.getIMEI(CardScanWriteVaccine.this);
+                            kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(index), data.get(0).image_path, calendar.getTimeInMillis(),true,imei);
 
 
 

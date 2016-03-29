@@ -237,7 +237,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
             c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
 
-            c.date_of_birth = getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
+            c.date_of_birth = Constants.getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             c.location = obj.childInfoArrayList.get(i).location;
             c.child_address = obj.childInfoArrayList.get(i).child_address;
             if (obj.childInfoArrayList.get(i).gender == true) {
@@ -261,15 +261,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         loadKidVaccination();
       //  setViewPagger();
     }
-    public String getFortmattedDate(long date){
 
-
-        java.util.Date time=new java.util.Date(date*1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-
-        String formatedDate = sdf.format(time);
-        return  formatedDate;
-    }
     private void loadKidVaccination() {
         // Instantiate the RequestQueue.
 

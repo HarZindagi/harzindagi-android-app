@@ -46,6 +46,7 @@ import java.util.Map;
 
 public class ChildrenListActivity extends AppCompatActivity {
     String app_name;
+    int selectedPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class ChildrenListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         app_name = getResources().getString(R.string.app_name);
         boolean fromSMS = getIntent().getBooleanExtra("fromSMS", false);
-
+        final boolean isOnline = getIntent().getBooleanExtra("isOnline", false);
 
         if (!fromSMS) {
 
@@ -87,12 +88,16 @@ public class ChildrenListActivity extends AppCompatActivity {
                         }
 
                         if (size != 0) {
-                            Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
-                            intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
-                            intent.putExtras(bnd);
-                            startActivity(intent);
-                        }else{
-                            getVaccinations(kid);
+                            if (isOnline) {
+                                getVaccinations(kid);
+                            } else {
+                                Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+                                intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
+                                intent.putExtras(bnd);
+                                startActivity(intent);
+                            }
+                        } else {
+                            Toast.makeText(ChildrenListActivity.this, "No Record Found", Toast.LENGTH_LONG).show();
                         }
 
 
@@ -150,10 +155,11 @@ public class ChildrenListActivity extends AppCompatActivity {
         }
 
     }
-    public  void getVaccinations(final long kid){
+
+    public void getVaccinations(final long kid) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.vaccinationsItems+ kid + "/by_kid_id?" + "user[auth_token]=" + Constants.getToken(this);
+        String url = Constants.vaccinationsItems + kid + "/by_kid_id?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading Vaccinations");
         pDialog.show();
@@ -166,7 +172,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         //  Log.d(TAG, response.toString());
                         pDialog.hide();
-                        parseVaccs(response,kid);
+                        parseVaccs(response, kid);
 
                     }
                 }, new Response.ErrorListener() {
@@ -193,103 +199,47 @@ public class ChildrenListActivity extends AppCompatActivity {
         queue.add(jsonObjReq);
     }
 
-    private void parseVaccs(JSONArray response,long kid) {
+    private void parseVaccs(JSONArray response, long kid) {
 
-            Gson gson = new Gson();
-          GKidTransactionAry gVisitAry = gson.fromJson("{\"kidVaccinations\":" + response.toString() + "}", GKidTransactionAry.class);
-
-            ArrayList<KidVaccinations> vaccsList = new ArrayList<>();
-            for (int i = 0; i < gVisitAry.kidVaccinations.size(); i++) {
-                KidVaccinations vaccs = new KidVaccinations();
-                vaccs.location = gVisitAry.kidVaccinations.get(i).location;
-                vaccs.kid_id = gVisitAry.kidVaccinations.get(i).kid_id;
-                vaccs.vaccination_id = gVisitAry.kidVaccinations.get(i).vaccination_id;
-                vaccs.mobile_id = gVisitAry.kidVaccinations.get(i).kid_id;
-                vaccs.created_timestamp = gVisitAry.kidVaccinations.get(i).created_timestamp;
-                vaccs.is_sync = true;
-                vaccs.save();
-
-                vaccsList.add(vaccs);
+        Gson gson = new Gson();
+        GKidTransactionAry gVisitAry = gson.fromJson("{\"kidVaccinations\":" + response.toString() + "}", GKidTransactionAry.class);
+        String imei =Constants.getIMEI(this);
+        ArrayList<KidVaccinations> vaccsList = new ArrayList<>();
+        for (int i = 0; i < gVisitAry.kidVaccinations.size(); i++) {
+            KidVaccinations vaccs = new KidVaccinations();
+            vaccs.location = gVisitAry.kidVaccinations.get(i).location;
+            vaccs.kid_id = gVisitAry.kidVaccinations.get(i).kid_id;
+            vaccs.mobile_id = gVisitAry.kidVaccinations.get(i).kid_id;
+            vaccs.image = gVisitAry.kidVaccinations.get(i).image_path;
+            vaccs.vaccination_id = gVisitAry.kidVaccinations.get(i).vaccination_id;
+            vaccs.created_timestamp = gVisitAry.kidVaccinations.get(i).created_timestamp;
+            vaccs.imei_number = gVisitAry.kidVaccinations.get(i).imei_number;
+            if(imei.equals(gVisitAry.kidVaccinations.get(i).imei_number)){
+                vaccs.guest_imei_number = "";
+            }else{
+                vaccs.guest_imei_number = imei;
             }
+
+            vaccs.is_sync = true;
+
+            vaccsList.add(vaccs);
+        }
+
+        KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
+        List<KidVaccinations> items = kidVaccinationDao.getById(kid);
+        for (int i = 0; i < items.size(); i++) {
+            if(items.get(i).is_sync==true){
+                items.get(i).delete();
+            }
+        }
+        kidVaccinationDao.bulkInsert(vaccsList);
         Intent intent = new Intent(getApplication(), VaccinationActivity.class);
         Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
         intent.putExtra("childid", SearchActivity.data.get(selectedPosition).epi_number);
         intent.putExtras(bnd);
         startActivity(intent);
-           //  showVaccinations(vaccsList);
-
 
     }
-    int selectedPosition = 0;
-    private  void showVaccinations(ArrayList<KidVaccinations> vaccsList){
-        Bundle b = new Bundle();
-        int max_vaccID=0;
-        for(int i=0;i<vaccsList.size();i++){
-            if(max_vaccID<vaccsList.get(i).vaccination_id){
-                max_vaccID = vaccsList.get(i).vaccination_id;
-            }
-        }
-
-        int max_visit = VaccinationsDao.getById(max_vaccID).get(0).visit_id;
-        b.putString("visit_num", max_visit + "");
-
-        List<Injections> inj = new Select()
-                .from(Injections.class)
-                .innerJoin(Vaccinations.class)
-                .on(" Injections._id=Vaccinations.injection_id")
-                .where("Vaccinations.visit_id =?", max_visit)
-                .orderBy("Vaccinations._id")
-                .execute();
-
-        List<Vaccinations> vacs = new Select().distinct()
-                .from(Vaccinations.class)
-                .innerJoin(KidVaccinations.class)
-                .on(" Vaccinations._id=KidVaccinations.vaccination_id")
-                .where("KidVaccinations.kid_id =?", SearchActivity.data.get(selectedPosition).kid_id )
-                .and("Vaccinations.visit_id =?", max_visit)
-                .orderBy("Vaccinations._id")
-                .execute();
-
-        String str = "";
-        int x = 0;
-        if (vaccsList.size() > 0) {
-            if (inj.get(0).id == vacs.get(0).injection_id) {
-                str = "1";
-                x++;
 
 
-            } else {
-                str = "0";
-
-            }
-        } else {
-            str = "0";
-        }
-        for (int i = 1; i < inj.size(); i++) {
-
-            if (x < vacs.size()) {
-                if (inj.get(i).id == vacs.get(x).injection_id) {
-                    str = str + ",1";
-                    x++;
-
-
-                } else {
-                    str = str + ",0";
-
-                }
-            } else {
-                str = str + ",0";
-
-
-            }
-
-        }
-
-        b.putString("vacc_details", str);
-        Intent intent = new Intent(getApplication(), VaccinationActivity.class);
-        intent.putExtra("childid", SearchActivity.data.get(selectedPosition).epi_number);
-        intent.putExtras(b);
-        startActivity(intent);
-
-    }
 }

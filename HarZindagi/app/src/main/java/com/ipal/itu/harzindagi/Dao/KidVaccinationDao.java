@@ -119,13 +119,18 @@ public class KidVaccinationDao {
         return bnd;
     }
 
-    public void save(String Location, long KidID, int VaccinationID, String Image_, long CreateTime, Boolean Is_Sync) {
+    public void save(String Location, long KidID, int VaccinationID, String Image_, long CreateTime, Boolean Is_Sync,String imei) {
         KidVaccinations item = new KidVaccinations();
-        item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime, Is_Sync);
+        item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime, Is_Sync,imei,"");
         item.save();
 
     }
+    public void save(String Location, long KidID, int VaccinationID, String Image_, long CreateTime, Boolean Is_Sync,String imei,String guest_imei) {
+        KidVaccinations item = new KidVaccinations();
+        item.SetKidVaccinations(Location, KidID, VaccinationID, Image_, CreateTime, Is_Sync,imei,guest_imei);
+        item.save();
 
+    }
     public void deleteItem(int CID) {
         KidVaccinations item = new KidVaccinations();
         item.delete(KidVaccinations.class, CID);
@@ -147,6 +152,7 @@ public class KidVaccinationDao {
                 .execute();
     }
 
+
     public void deleteTable() {
         KidVaccinations.truncate(KidVaccinations.class);
     }
@@ -157,10 +163,7 @@ public class KidVaccinationDao {
             for (int i = 0; i < items.size(); i++) {
 
                 KidVaccinations item = new KidVaccinations();
-                item.mobile_id = items.get(i).mobile_id;
                 item.location = items.get(i).location;
-
-
                 item.mobile_id = items.get(i).mobile_id;
                 item.kid_id = items.get(i).kid_id;
 
@@ -172,6 +175,8 @@ public class KidVaccinationDao {
 
                 item.is_sync = items.get(i).is_sync;
 
+                item.imei_number = items.get(i).imei_number;
+                item.guest_imei_number = items.get(i).guest_imei_number;
 
                 item.save();
             }
