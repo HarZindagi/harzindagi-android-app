@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 Intent intent=new Intent(HomeActivity.this,Evaccs.class);
                 startActivity(intent);
-                finish();
+               // finish();
             }
         });
 
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
                /* Snackbar.make(view, "Har Zindagi Button Clicked!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 startActivity(new Intent(HomeActivity.this, DashboardActivity.class));
-                finish();
+               // finish();
             }
         });
         getLocation();

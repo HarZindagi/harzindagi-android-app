@@ -247,20 +247,25 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             return error;
         }
-    /*    String cnic = guardianCNIC.getText().toString().trim();
-        if (cnic.length() < 16) {
-            error = "برائی مہربانی سرپرست کا شناختی کارڈ نمبر درج کریں۔";
-            showError(guardianCNIC, error);
 
-            return error;
+        String cnic = guardianCNIC.getText().toString().trim();
+        if (!cnic.equals("")) {
+            if (cnic.length() < 16) {
+                error = "برائی مہربانی سرپرست کا درست شناختی کارڈ نمبر درج کریں۔";
+                showError(guardianCNIC, error);
+
+                return error;
+            }
         }
         String phone = guardianMobileNumber.getText().toString().trim();
-        if (phone.length() < 12) {
-            error = "برائے مہربانی سرپرست کا موبائل نمبر درج کریں۔";
-            showError(guardianMobileNumber, error);
+        if (!phone.equals("")) {
+            if (phone.length() < 12) {
+                error = "برائے مہربانی سرپرست کا درست موبائل نمبر درج کریں۔";
+                showError(guardianMobileNumber, error);
 
-            return error;
-        }*/
+                return error;
+            }
+        }
         if (motherName.getText().length() < 1) {
             error = "برائے مہربانی والدہ کا نام درج کریں ۔";
             showError(motherName, error);
@@ -305,7 +310,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             intent.putExtra("pnum", GuardianMobileNumber);
             intent.putExtra("img", Fpath);
             intent.putExtra("EPIname", EPICenterName);
-            intent.putExtra("address",houseAddress.getText().toString());
+            intent.putExtra("address", houseAddress.getText().toString());
 
             this.finish();
             startActivity(intent);
