@@ -50,10 +50,6 @@ public class ChildInfo extends TruncatableModel {
     public String phone_number;
 
 
-    @Column(name = "created_timestamp")
-    public long created_timestamp;
-
-
     @Column(name = "location")
     public String location;
 
@@ -87,6 +83,11 @@ public class ChildInfo extends TruncatableModel {
     @Column(name = "imei_number")
     public String imei_number;
 
+    @Column(name = "created_timestamp")
+    public long created_timestamp;
+
+    @Column(name = "upload_timestamp")
+    public long upload_timestamp;
 
     public ChildInfo() {
         super();
@@ -111,6 +112,7 @@ public class ChildInfo extends TruncatableModel {
         this.book_update_flag = bookFlag;
         this.record_update_flag = recordFlag;
         this.child_address = address;
+
 
 
     }

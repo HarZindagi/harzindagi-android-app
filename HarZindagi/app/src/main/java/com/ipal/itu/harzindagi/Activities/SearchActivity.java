@@ -39,8 +39,10 @@ import com.ipal.itu.harzindagi.Dao.UserInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GUserInfo;
+import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.ImageDownloader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -339,11 +341,8 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         childInfoDao.bulkInsert(childInfoArrayList);
 
         SearchActivity.data = childInfoArrayList;
-        if (SearchActivity.data.size() != 0) {
-            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false).putExtra("isOnline", true));
-        } else {
-            Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
-        }
+        downloadImages(childInfoArrayList);
+
     }
 
     public void sendSMS(String msg) {
@@ -426,5 +425,18 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         // END_INCLUDE(contacts_permission_request)
     }
 
+    private  void downloadImages( List<ChildInfo> childInfo){
 
+        ImageDownloader imageDownloader = new ImageDownloader(this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String reponse) {
+                if (SearchActivity.data.size() != 0) {
+                    startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false).putExtra("isOnline", true));
+                } else {
+                    Toast.makeText(SearchActivity.this, "No Record Found", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        imageDownloader.execute();
+    }
 }

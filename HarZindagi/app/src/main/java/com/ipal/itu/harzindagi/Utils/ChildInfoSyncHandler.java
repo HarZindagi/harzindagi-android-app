@@ -43,11 +43,12 @@ public class ChildInfoSyncHandler {
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
     int index=0;
-
+    Calendar calendar;
     public ChildInfoSyncHandler(Context context, List<ChildInfo> childInfo, OnUploadListner onUploadListner) {
         this.childInfo = childInfo;
         this.context = context;
         this.onUploadListner = onUploadListner;
+        calendar = Calendar.getInstance();
     }
 
     public void execute() {
@@ -113,6 +114,10 @@ public class ChildInfoSyncHandler {
             kid.put("father_cnic", childInfo.guardian_cnic);
             kid.put("mother_cnic", "");
             kid.put("phone_number", childInfo.phone_number);
+            kid.put("created_timestamp",childInfo.created_timestamp);
+
+            Long tsLong =calendar.getTimeInMillis() / 1000;
+            kid.put("upload_timestamp",tsLong);
             DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
             Date date  = dfm.parse(childInfo.date_of_birth);
             dfm.getCalendar().setTime(date);

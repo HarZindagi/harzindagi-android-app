@@ -34,6 +34,8 @@ public class HarZindagiApp extends android.app.Application {
         ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
 
+
+
     }
 
 

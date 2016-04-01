@@ -37,8 +37,10 @@ import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GKidTransaction;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
+import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.ImageDownloader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -352,4 +354,5 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
         setViewPagger();
     }
+
 }

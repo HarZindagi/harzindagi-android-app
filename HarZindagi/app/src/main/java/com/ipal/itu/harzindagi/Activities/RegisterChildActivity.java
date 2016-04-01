@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
@@ -65,6 +68,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     FileOutputStream fo;
 
     Calendar myCalendar = Calendar.getInstance();
+    public  static  String location = "0.0000,0.0000";
     private PopupWindow pw;
     private View popUpView;
 
@@ -178,8 +182,8 @@ public class RegisterChildActivity extends AppCompatActivity {
             String epiNum = getIntent().getStringExtra("epiNumber");
             fillValues(epiNum);
         }
+        getLocation();
     }
-
 
     public void showError(View v, String error) {
 
@@ -370,6 +374,33 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void getLocation() {
+
+        LocationAjaxCallback cb = new LocationAjaxCallback();
+        //  final ProgressDialog pDialog = new ProgressDialog(this);
+        //  pDialog.setMessage("Getting Location");
+
+        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(this);
+        //  pDialog.setCancelable(false);
+        //  pDialog.show();
+    }
+
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
+
+        if (loc != null) {
+
+            double lat = loc.getLatitude();
+            double log = loc.getLongitude();
+            location = lat + "," + log;
+
+
+        } else {
+            location = "0.0000:0.0000";
+
+
         }
     }
 }

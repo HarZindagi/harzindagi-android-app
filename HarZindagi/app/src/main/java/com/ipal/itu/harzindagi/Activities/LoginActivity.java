@@ -453,7 +453,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.visits + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading GVisit");
+        pDialog.setMessage("Loading Visits");
         pDialog.show();
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
                 url, new JSONObject(),
@@ -513,7 +513,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.injections + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Loading Injections...");
         pDialog.show();
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
                 url, new JSONObject(),
@@ -573,7 +573,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
+        pDialog.setMessage("Loading Vaccinations...");
         pDialog.show();
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
                 url, new JSONObject(),

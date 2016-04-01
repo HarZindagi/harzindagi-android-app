@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -31,6 +32,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
@@ -56,8 +59,6 @@ public class CardScanWrite extends AppCompatActivity {
     String push_NFC;
     Activity ctx;
     Button btn;
-    double longitude;
-    double latitude;
     Bundle bundle;
     boolean is_check = false;
     boolean clicku = false;
@@ -103,7 +104,7 @@ public class CardScanWrite extends AppCompatActivity {
 
         tsLong = System.currentTimeMillis() / 1000;
 
-        push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + longitude + "," + latitude + "#" + bundle.getString("EPIname");
+        push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + RegisterChildActivity.location + "#" + bundle.getString("EPIname");
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -155,7 +156,7 @@ public class CardScanWrite extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         Long tsLong =calendar.getTimeInMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, "" + longitude + "," + latitude + "", bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false,address,Constants.getIMEI(this));
+        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false,address,Constants.getIMEI(this));
 
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
         myintent.putExtra("childid", Child_id);
