@@ -26,5 +26,6 @@ public class GChildInfo implements Serializable {
     public String epi_number;
     public String itu_epi_number;
     public String image_path;
+    public String book_id;
 
 }

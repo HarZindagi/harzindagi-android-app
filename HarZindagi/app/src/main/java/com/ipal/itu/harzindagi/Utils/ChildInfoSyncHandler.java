@@ -130,6 +130,7 @@ public class ChildInfoSyncHandler {
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");
             kid.put("image_path",childInfo.image_path);
             kid.put("next_due_date",childInfo.next_due_date);
+            kid.put("book_id",childInfo.book_id);
 
 
             obj.put("kid", kid);

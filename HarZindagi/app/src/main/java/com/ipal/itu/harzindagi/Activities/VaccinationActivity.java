@@ -29,15 +29,26 @@ import java.util.List;
 public class VaccinationActivity extends AppCompatActivity {
 
     public static final int CAMERA_REQUEST = 1888;
+
     public String fpath;
     public String childID;
-
     public int load_frag;
     public String vaccs_done;
+    public TextView sixthTabTickMark;
     String app_name = "Har Zindagi";
     FileOutputStream fo;
     List<ChildInfo> data;
     Bundle bundle;
+    View[] v;
+    TextView[] vt;
+    Toolbar toolbar;
+    int[] array = new int[]{R.drawable.vactab_fill1,
+            R.drawable.vactab_fill2,
+            R.drawable.vactab_fill3,
+            R.drawable.vactab_fill4,
+            R.drawable.vactab_fill5,
+            R.drawable.vactab_fill6};
+    boolean isVaccCompleted = false;
     private CustomViewPager mViewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private View firstTab;
@@ -46,26 +57,21 @@ public class VaccinationActivity extends AppCompatActivity {
     private View fourthTab;
     private View fifthTab;
     private View sixthTab;
-    View[] v ;
     private TextView firstTabTickMark;
     private TextView secondTabTickMark;
     private TextView thirdTabTickMark;
     private TextView fourthTabTickMark;
     private TextView fifthTabTickMark;
-    public TextView sixthTabTickMark;
-    TextView[] vt;
-    static int currnt_visit;
-    Toolbar toolbar;
-  private int[]toolbar_color={
+    private int[] toolbar_color = {
 
-          R.color.dark_red,
-          R.color.red,
-          R.color.purple,
-          R.color.yellow_green,
-          R.color.blue,
-          R.color.dark_green
+            R.color.dark_red,
+            R.color.red,
+            R.color.purple,
+            R.color.yellow_green,
+            R.color.blue,
+            R.color.dark_green
     };
-    private int[]circle_colr={
+    private int[] circle_colr = {
 
             R.drawable.dark_red_cir,
             R.drawable.red_cir,
@@ -74,6 +80,7 @@ public class VaccinationActivity extends AppCompatActivity {
             R.drawable.blue_cir,
             R.drawable.dark_green_cir
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,13 +107,15 @@ public class VaccinationActivity extends AppCompatActivity {
                 if (Constants.isVaccOfVisitCompleted(bundle.getString("vacc_details").toString())) {
 
                     load_frag = Integer.parseInt(bundle.getString("visit_num").toString());
-
+                    if(load_frag==6) {
+                        isVaccCompleted = true;
+                    }
 
                 }
 
                 vaccs_done = bundle.getString("vacc_details").toString();
-            }catch (Exception e){
-                Toast.makeText(this,"Card Corrupted",Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Card Corrupted", Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -118,8 +127,8 @@ public class VaccinationActivity extends AppCompatActivity {
         fpath = data.get(0).image_path;
 
         //setTitleImage(toolbar,fpath);
-        ((TextView)findViewById(R.id.ChildName)).setText(data.get(0).kid_name);
-        ((TextView)findViewById(R.id.EPINumber)).setText(data.get(0).epi_number+"");
+        ((TextView) findViewById(R.id.ChildName)).setText(data.get(0).kid_name);
+        ((TextView) findViewById(R.id.EPINumber)).setText(data.get(0).epi_number + "");
         firstTab = findViewById(R.id.vaccinationActivityFirstTab);
         secondTab = findViewById(R.id.vaccinationActivitySecondTab);
         thirdTab = findViewById(R.id.vaccinationActivityThirdTab);
@@ -134,7 +143,7 @@ public class VaccinationActivity extends AppCompatActivity {
         fifthTabTickMark = (TextView) findViewById(R.id.vaccinationActivityFifthTabTick);
         sixthTabTickMark = (TextView) findViewById(R.id.vaccinationActivitySixthTabTick);
         v = new View[]{firstTab, secondTab, thirdTab, fourthTab, fifthTab, sixthTab};
-       vt = new TextView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark,sixthTabTickMark};
+        vt = new TextView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark, sixthTabTickMark};
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
         if (Constants.isVaccOfVisitCompleted(vaccs_done)) {
             viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag) + "");
@@ -149,13 +158,20 @@ public class VaccinationActivity extends AppCompatActivity {
 
         mViewPager.setCurrentItem(load_frag);
         mViewPager.setOffscreenPageLimit(5);
-        selectPrevious(load_frag-1);
+        int index = load_frag - 1;
+        if (index < 0) {
+
+            v[0].setBackgroundResource(array[0]);
+        } else {
+            selectPrevious(index);
+        }
+
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 toolbar.setBackgroundResource(toolbar_color[position]);
-                int curVisit = load_frag;//Integer.parseInt(bundle.getString("visit_num").toString());
-                currnt_visit=curVisit;
+
                 switch (position + 1) {
                     case 1:
 
@@ -195,26 +211,30 @@ public class VaccinationActivity extends AppCompatActivity {
             }
         });
     }
-public void  setTitleImage(Toolbar toolbar,String fpath){
-    String imagePath = "/sdcard/" + app_name + "/" +fpath+ ".jpg";
-   // Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
-    Drawable d = Drawable.createFromPath(imagePath);
-    //Drawable d = new BitmapDrawable(getResources(), bmp_read);
-    toolbar.setNavigationIcon(d);
-}
-    int []array  = new int[] {R.drawable.vactab_fill1,R.drawable.vactab_fill2,R.drawable.vactab_fill3,R.drawable.vactab_fill4,R.drawable.vactab_fill5,R.drawable.vactab_fill6};
+
+    public void setTitleImage(Toolbar toolbar, String fpath) {
+        String imagePath = "/sdcard/" + app_name + "/" + fpath + ".jpg";
+        // Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
+        Drawable d = Drawable.createFromPath(imagePath);
+        //Drawable d = new BitmapDrawable(getResources(), bmp_read);
+        toolbar.setNavigationIcon(d);
+    }
+
     public void selectPrevious(int index) {
         for (int i = 0; i <= index; i++) {
             v[i].setBackgroundResource(circle_colr[i]);
-           //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
-           // v[i].setVisibility(View.VISIBLE);
+            //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
+            // v[i].setVisibility(View.VISIBLE);
             vt[i].setVisibility(View.GONE);
         }
-        v[load_frag].setBackgroundResource(array[load_frag]);
+        if (!isVaccCompleted) {
+            v[load_frag].setBackgroundResource(array[load_frag]);
+        } else {
+            v[5].setBackgroundResource(circle_colr[5]);
+            vt[5].setVisibility(View.GONE);
+        }
 
     }
-
-
 
 
     public void SetVaccineInfo() {
@@ -253,7 +273,7 @@ public void  setTitleImage(Toolbar toolbar,String fpath){
             }
 
             String date_String = Constants.getNextDueDate(Integer.parseInt(bndl.getString("visit_num")), bndl.getString("vacc_details").toString()); // index wise it is correct
-            intent.putExtra("curr_visit_num",load_frag);
+            intent.putExtra("curr_visit_num", load_frag);
             intent.putExtra("next_date", date_String);
             this.finish();
             startActivity(intent);

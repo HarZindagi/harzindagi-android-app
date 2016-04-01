@@ -89,11 +89,14 @@ public class ChildInfo extends TruncatableModel {
     @Column(name = "upload_timestamp")
     public long upload_timestamp;
 
+    @Column(name = "book_id")
+    public String book_id;
+
     public ChildInfo() {
         super();
     }
 
-    public void setChildInfo(String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location,String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag,String address,String imei) {
+    public void setChildInfo(String book_id,String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location,String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag,String address,String imei) {
        this.imei_number = imei;
         this.epi_number = childID;
         this.kid_name = name;
@@ -112,6 +115,7 @@ public class ChildInfo extends TruncatableModel {
         this.book_update_flag = bookFlag;
         this.record_update_flag = recordFlag;
         this.child_address = address;
+        this.book_id =book_id;
 
 
 

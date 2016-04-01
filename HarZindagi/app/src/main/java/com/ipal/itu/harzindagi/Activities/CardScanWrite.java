@@ -156,7 +156,7 @@ public class CardScanWrite extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         Long tsLong =calendar.getTimeInMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false,address,Constants.getIMEI(this));
+        childInfoDao.save(Child_id+"_"+Calendar.getInstance().getTimeInMillis(),Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false,address,Constants.getIMEI(this));
 
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
         myintent.putExtra("childid", Child_id);
