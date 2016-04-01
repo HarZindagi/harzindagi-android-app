@@ -120,22 +120,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
-
-                        <View
-                            android:id="@+id/vaccinationActivityFirstTab"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/vaccinationtab">
-
-                        </View>
-
-                        <ImageView
+                        <TextView
                             android:id="@+id/vaccinationActivityFirstTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/fill_1"
+                            android:text="1"
+                            android:textColor="@android:color/black"
                             android:visibility="visible" />
+                        <View
+                            android:id="@+id/vaccinationActivityFirstTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vactab_fill1">
+
+                        </View>
+
+
                     </FrameLayout>
 
                 </LinearLayout>
@@ -150,18 +151,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <View
-                            android:id="@+id/vaccinationActivitySecondTab"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/vaccinationtab" />
 
-                        <ImageView
+
+                        <TextView
                             android:id="@+id/vaccinationActivitySecondTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/u_fill_2" />
+                            android:text="2"
+                            android:textColor="@android:color/black"/>
+                        <View
+                            android:id="@+id/vaccinationActivitySecondTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vactab_2" />
 
                     </FrameLayout>
 
@@ -177,18 +180,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
+
+
+                        <TextView
+                            android:id="@+id/vaccinationActivityThirdTabTick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:layout_gravity="center"
+                            android:text="3" />
                         <View
                             android:id="@+id/vaccinationActivityThirdTab"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:background="@drawable/vaccinationtab" />
-
-                        <ImageView
-                            android:id="@+id/vaccinationActivityThirdTabTick"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/u_fill_3" />
+                            android:background="@drawable/vactab_3" />
                     </FrameLayout>
                 </LinearLayout>
 
@@ -202,18 +207,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <View
-                            android:id="@+id/vaccinationActivityFourthTab"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/vaccinationtab" />
 
-                        <ImageView
+
+                        <TextView
                             android:id="@+id/vaccinationActivityFourthTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/u_fill_4" />
+                            android:text="4"
+                            android:textColor="@android:color/black"
+                             />
+                        <View
+                            android:id="@+id/vaccinationActivityFourthTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vactab_4" />
                     </FrameLayout>
                 </LinearLayout>
 
@@ -227,18 +235,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <View
-                            android:id="@+id/vaccinationActivityFifthTab"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/vaccinationtab" />
 
-                        <ImageView
+
+                        <TextView
                             android:id="@+id/vaccinationActivityFifthTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/u_fill_5" />
+                            android:text="5"
+                            android:textColor="@android:color/black"
+                            />
+                        <View
+                            android:id="@+id/vaccinationActivityFifthTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vactab_5" />
                     </FrameLayout>
 
                 </LinearLayout>
@@ -253,18 +264,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <View
-                            android:id="@+id/vaccinationActivitySixthTab"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/vaccinationtab" />
 
-                        <ImageView
+
+                        <TextView
                             android:id="@+id/vaccinationActivitySixthTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/u_fill_6" />
+                            android:text="6"
+                            android:textColor="@android:color/black"/>
+                        <View
+                            android:id="@+id/vaccinationActivitySixthTab"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/vactab_6" />
                     </FrameLayout>
 
                 </LinearLayout>

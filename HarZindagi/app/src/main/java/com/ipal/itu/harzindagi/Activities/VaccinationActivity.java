@@ -31,7 +31,7 @@ public class VaccinationActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST = 1888;
     public String fpath;
     public String childID;
-    public ImageView sixthTabTickMark;
+
     public int load_frag;
     public String vaccs_done;
     String app_name = "Har Zindagi";
@@ -47,19 +47,40 @@ public class VaccinationActivity extends AppCompatActivity {
     private View fifthTab;
     private View sixthTab;
     View[] v ;
-    private ImageView firstTabTickMark;
-    private ImageView secondTabTickMark;
-    private ImageView thirdTabTickMark;
-    private ImageView fourthTabTickMark;
-    private ImageView fifthTabTickMark;
-    ImageView[] vt;
+    private TextView firstTabTickMark;
+    private TextView secondTabTickMark;
+    private TextView thirdTabTickMark;
+    private TextView fourthTabTickMark;
+    private TextView fifthTabTickMark;
+    public TextView sixthTabTickMark;
+    TextView[] vt;
     static int currnt_visit;
+    Toolbar toolbar;
+  private int[]toolbar_color={
+
+          R.color.dark_red,
+          R.color.red,
+          R.color.purple,
+          R.color.yellow_green,
+          R.color.blue,
+          R.color.dark_green
+    };
+    private int[]circle_colr={
+
+            R.drawable.dark_red_cir,
+            R.drawable.red_cir,
+            R.drawable.purple_cir,
+            R.drawable.yel_grn_cir,
+            R.drawable.blue_cir,
+            R.drawable.dark_green_cir
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vaccination);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         load_frag = 0;
         vaccs_done = "0,0,0";
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -106,14 +127,14 @@ public class VaccinationActivity extends AppCompatActivity {
         fifthTab = findViewById(R.id.vaccinationActivityFifthTab);
         sixthTab = findViewById(R.id.vaccinationActivitySixthTab);
 
-        firstTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFirstTabTick);
-        secondTabTickMark = (ImageView) findViewById(R.id.vaccinationActivitySecondTabTick);
-        thirdTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityThirdTabTick);
-        fourthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFourthTabTick);
-        fifthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivityFifthTabTick);
-        sixthTabTickMark = (ImageView) findViewById(R.id.vaccinationActivitySixthTabTick);
+        firstTabTickMark = (TextView) findViewById(R.id.vaccinationActivityFirstTabTick);
+        secondTabTickMark = (TextView) findViewById(R.id.vaccinationActivitySecondTabTick);
+        thirdTabTickMark = (TextView) findViewById(R.id.vaccinationActivityThirdTabTick);
+        fourthTabTickMark = (TextView) findViewById(R.id.vaccinationActivityFourthTabTick);
+        fifthTabTickMark = (TextView) findViewById(R.id.vaccinationActivityFifthTabTick);
+        sixthTabTickMark = (TextView) findViewById(R.id.vaccinationActivitySixthTabTick);
         v = new View[]{firstTab, secondTab, thirdTab, fourthTab, fifthTab, sixthTab};
-        vt = new ImageView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark,sixthTabTickMark};
+       vt = new TextView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark,sixthTabTickMark};
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
         if (Constants.isVaccOfVisitCompleted(vaccs_done)) {
             viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag) + "");
@@ -128,71 +149,37 @@ public class VaccinationActivity extends AppCompatActivity {
 
         mViewPager.setCurrentItem(load_frag);
         mViewPager.setOffscreenPageLimit(5);
-
+        selectPrevious(load_frag-1);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                toolbar.setBackgroundResource(toolbar_color[position]);
                 int curVisit = load_frag;//Integer.parseInt(bundle.getString("visit_num").toString());
                 currnt_visit=curVisit;
                 switch (position + 1) {
                     case 1:
-                       // selectPrevious(0);
-                        firstTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
+
                         setTitle(getString(R.string.padaish_forun_baad));
                         break;
                     case 2:
 
-                        if (curVisit >= position) {
-                            selectPrevious(0);
-                            secondTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                            firstTabTickMark.setImageResource(R.drawable.ic_action_tick);
-
-                            firstTabTickMark.setVisibility(View.VISIBLE);
-                        }
                         setTitle(getString(R.string.six_huftay));
                         break;
                     case 3:
 
-                        if (curVisit >= position) {
-                            selectPrevious(1);
-                            thirdTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                            secondTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                            secondTabTickMark.setVisibility(View.VISIBLE);
-
-                        }
                         setTitle(getString(R.string.ten_huftay));
                         break;
                     case 4:
 
-                        if (curVisit >= position) {
-                            selectPrevious(2);
-                            fourthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                            thirdTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                            thirdTabTickMark.setVisibility(View.VISIBLE);
-
-                        }
                         setTitle(getString(R.string.fourtheen_huftay));
                         break;
                     case 5:
 
-                        if (curVisit >= position) {
-                            selectPrevious(3);
-                            fifthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                            fourthTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                            fourthTabTickMark.setVisibility(View.VISIBLE);
-
-                        }setTitle(getString(R.string.nine_month_baad));
+                        setTitle(getString(R.string.nine_month_baad));
                         break;
                     case 6:
 
-                        if (curVisit >= position) {
-                            selectPrevious(4);
-                            sixthTab.setBackgroundResource(R.drawable.vaccinationtab_filled);
-                            fifthTabTickMark.setImageResource(R.drawable.ic_action_tick);
-                            fifthTabTickMark.setVisibility(View.VISIBLE);
-
-                        } setTitle(getString(R.string.fifteen_month_baad));
+                        setTitle(getString(R.string.fifteen_month_baad));
                         break;
                 }
             }
@@ -215,12 +202,16 @@ public void  setTitleImage(Toolbar toolbar,String fpath){
     //Drawable d = new BitmapDrawable(getResources(), bmp_read);
     toolbar.setNavigationIcon(d);
 }
+    int []array  = new int[] {R.drawable.vactab_fill1,R.drawable.vactab_fill2,R.drawable.vactab_fill3,R.drawable.vactab_fill4,R.drawable.vactab_fill5,R.drawable.vactab_fill6};
     public void selectPrevious(int index) {
         for (int i = 0; i <= index; i++) {
-            v[i].setBackgroundResource(R.drawable.vaccinationtab_filled);
-            vt[i].setImageResource(R.drawable.ic_action_tick);
-            vt[i].setVisibility(View.VISIBLE);
+            v[i].setBackgroundResource(circle_colr[i]);
+           //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
+           // v[i].setVisibility(View.VISIBLE);
+            vt[i].setVisibility(View.GONE);
         }
+        v[load_frag].setBackgroundResource(array[load_frag]);
+
     }
 
 

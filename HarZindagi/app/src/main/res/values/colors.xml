@@ -9,4 +9,10 @@
     <color name="Button_Theme_color">#DB4B39</color>
     <color name="back_color">#EAEAEA</color>
     <color name="color_gray">#777777</color>
+    <color name="dark_red">#800000</color>
+    <color name="red">#FF0000</color>
+    <color name="purple">#4B0082</color>
+    <color name="yellow_green">#808000</color>
+    <color name="blue">#0000A0</color>
+    <color name="dark_green">#008000</color>
 </resources>
