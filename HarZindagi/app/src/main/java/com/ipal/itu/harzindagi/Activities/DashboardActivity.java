@@ -128,6 +128,7 @@ public class DashboardActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -138,10 +139,10 @@ public class DashboardActivity extends AppCompatActivity {
         if (id == R.id.action_logout) {
             // logout();
             Constants.setCheckOut(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-            if(!Constants.getCheckIn(this).equals("")){
+            if (!Constants.getCheckIn(this).equals("")) {
                 sendCheckIn();
-            }else{
-                Toast.makeText(this,"Done",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
             }
 
 
@@ -154,7 +155,7 @@ public class DashboardActivity extends AppCompatActivity {
             System.exit(0);
             return true;*/
         }
-        if(id == R.id.action_sync){
+        if (id == R.id.action_sync) {
             if (Constants.isOnline(this)) {
                 syncData();
             }
@@ -165,19 +166,19 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-      //  startActivity(new Intent(this, HomeActivity.class));
+        //  startActivity(new Intent(this, HomeActivity.class));
         super.onBackPressed();
     }
 
     public void syncData() {
 
-         List<ChildInfo> childInfo = ChildInfoDao.getNotSync();
+        List<ChildInfo> childInfo = ChildInfoDao.getNotSync();
 
         ChildInfoSyncHandler childInfoSyncHandler = new ChildInfoSyncHandler(this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String response) {
 
-              androidImageUpload();
+                androidImageUpload();
             }
         });
         childInfoSyncHandler.execute();
@@ -306,7 +307,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DashboardActivity.this,"Error"+error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(DashboardActivity.this, "Error" + error.getMessage(), Toast.LENGTH_LONG).show();
                 pDialog.hide();
             }
         }) {
@@ -364,9 +365,10 @@ public class DashboardActivity extends AppCompatActivity {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
                             pDialog.hide();
-                            Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+
                             Constants.setCheckOut(DashboardActivity.this, "");
                             Constants.setCheckIn(DashboardActivity.this, "");
+                            uploadKitStationImage();
                         }
 
                     }
@@ -392,4 +394,23 @@ public class DashboardActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }
+
+    private void uploadKitStationImage() {
+        String imagePath  = "/sdcard/" +  Constants.getApplicationName(this) + "/"
+                + "Image_"+ Constants.getUC(this) + ".jpg";
+        final ProgressDialog pDialog;
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Saving Kit Station Image...");
+        pDialog.show();
+        MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String reponse) {
+                pDialog.hide();
+                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        multipart.execute(imagePath);
+    }
+
 }

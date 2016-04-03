@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,7 +56,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
         kd_txt=(TextView)findViewById(R.id.kidstation_txt);
-        kd_txt.setText("کڈ اسٹیشن کی تصویر کھینچیں");
+        kd_txt.setText("کٹ اسٹیشن کی تصویر کھینچیں");
         ctx = this;
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -94,7 +95,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
                 captureButton.setVisibility(View.VISIBLE);
                 CropImageView.setImageBitmap(camera_bitmap);
 
-                kd_txt.setText("کڈ اسٹیشن کی تصویر کھینچیں");
+                kd_txt.setText("کٹ اسٹیشن کی تصویر کھینچیں");
             }
         });
 
@@ -136,7 +137,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
             Bitmap BmpRotate = Bitmap.createBitmap(realImage, 0, 0, realImage.getWidth(), realImage.getHeight(), matrix, true);
             Bitmap cropped_bitmap = cropBitmap(BmpRotate);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            cropped_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            cropped_bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
             byte[] byteArray = stream.toByteArray();
 
             File pictureFile = getOutputMediaFile();
@@ -169,7 +170,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
 
     private File getOutputMediaFile() {
         Path = "/sdcard/" + app_name + "/"
-                + "IMG_Temp" + ".jpg";
+                + "Image_"+ Constants.getUC(this) + ".jpg";
         mediaFile = new File(Path);
 
         return mediaFile;
