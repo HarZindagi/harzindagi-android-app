@@ -5,10 +5,12 @@ package com.ipal.itu.harzindagi.Activities;
  */
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -131,13 +133,37 @@ public class ViewPagerWithTabs extends AppCompatActivity {
                 return true;
             case  R.id.action_sync:
                 if (Constants.isOnline(this)) {
-                    loadChildData();
+                    showAlertDialog();
                 }
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private  void  showAlertDialog(){
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+        adb.setTitle("کیا آپ ڈیٹا ڈاونلوڈ کرنا چاہحتے ہیں؟");
+
+
+        adb.setIcon(R.drawable.info_circle);
+
+
+        adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                loadChildData();
+                dialog.dismiss();
+
+            } });
+
+
+        adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            } });
+        adb.show();
     }
     private void setViewPagger() {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);

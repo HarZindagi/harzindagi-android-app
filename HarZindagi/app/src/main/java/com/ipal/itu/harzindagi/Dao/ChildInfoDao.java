@@ -15,18 +15,12 @@ public class ChildInfoDao {
     public void save(String book_id,String childID, String name, int gender, String dob,  String motherName,String  guardianName, String CNIC, String phoneNum,long createdTime,String Location,String EpiName,String kidStation,String imageName, String nfcNumber,boolean bookFlag,boolean recordFlag ,String address,String imei) {
         ChildInfo item = new ChildInfo();
         item.setChildInfo(book_id,childID, name, gender, dob, motherName, guardianName, CNIC, phoneNum, createdTime, Location, EpiName, kidStation, imageName, nfcNumber, bookFlag, recordFlag, address, imei);
-        item.save();
+        item.save(); // to get system generated id we have to save it first
         item.mobile_id = item.getId();
-
         item.save();
 
     }
 
- /*   public void save(ChildInfo info) {
-        ChildInfo item = new ChildInfo();
-        item.setChildInfo(info.epi_number, info.kid_name, info.gender, info.date_of_birth, info.mother_name, info.guardian_name, info.guardian_cnic, info.phone_number, info.created_timestamp, info.location,info.epi_name,info.kids_station ,info.image_path,info.nfc_number ,info.book_update_flag,info.record_update_flag ,info.child_address,info.imei_number);
-        item.save();
-    }*/
 
     public void update(int childId){
         new Update(ChildInfo.class)

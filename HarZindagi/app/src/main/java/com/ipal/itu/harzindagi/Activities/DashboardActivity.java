@@ -1,21 +1,18 @@
 package com.ipal.itu.harzindagi.Activities;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,34 +21,33 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.EvaccsDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
-import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.*;
+import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
+import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.ChildInfoSyncHandler;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.EvaccsSyncHandler;
+import com.ipal.itu.harzindagi.Utils.EvacssImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.ImageUploadHandler;
-import com.ipal.itu.harzindagi.Utils.ImageUploader;
 import com.ipal.itu.harzindagi.Utils.KidVaccinatioHandler;
 import com.ipal.itu.harzindagi.Utils.MultipartUtility;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,10 +156,38 @@ public class DashboardActivity extends AppCompatActivity {
                 syncData();
             }
         }
+        if (id == R.id.action_download) {
+            if (Constants.isOnline(this)) {
+                showAlertDialog();
+            }
+        }
 
         return super.onOptionsItemSelected(item);
     }
+   private  void  showAlertDialog(){
+       AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
+       adb.setTitle("کیا آپ ڈیٹا ڈاونلوڈ کرنا چاہحتے ہیں؟");
+
+
+       adb.setIcon(R.drawable.info_circle);
+
+
+       adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int which) {
+               loadChildData();
+               dialog.dismiss();
+
+           } });
+
+
+       adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int which) {
+
+               dialog.dismiss();
+           } });
+       adb.show();
+   }
     @Override
     public void onBackPressed() {
         //  startActivity(new Intent(this, HomeActivity.class));
@@ -200,20 +224,41 @@ public class DashboardActivity extends AppCompatActivity {
     public void syncVaccinaition() {
         KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
         List<KidVaccinations> kids = kidVaccinationDao.getNoSync();
-      /*  if (kids.size() == 0) {
-            Toast.makeText(getApplicationContext(), "Data Already Sync", Toast.LENGTH_LONG).show();
-            return;
-        }*/
+
         KidVaccinatioHandler kidVaccinatioHandler = new KidVaccinatioHandler(this, kids, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                syncEvaccsData();
             }
         });
         kidVaccinatioHandler.execute();
     }
 
+    public void syncEvaccsData() {
 
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
+
+        EvaccsSyncHandler childInfoSyncHandler = new EvaccsSyncHandler(DashboardActivity.this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String response) {
+
+                androidEvaccsImageUpload();
+            }
+        });
+        childInfoSyncHandler.execute();
+    }
+    public void androidEvaccsImageUpload() {
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
+        EvacssImageUploadHandler  imageUploadHandler = new EvacssImageUploadHandler(this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String reponse) {
+
+                Toast.makeText(DashboardActivity.this,"آپلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
+            }
+        });
+        imageUploadHandler.execute();
+
+    }
     public void logout() {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -413,4 +458,194 @@ public class DashboardActivity extends AppCompatActivity {
         multipart.execute(imagePath);
     }
 
+    ///Download data from server
+
+    private void loadChildData() {
+        // Instantiate the RequestQueue.
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kids + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading Child data...");
+        pDialog.show();
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        pDialog.hide();
+                        if (response.toString().contains("Invalid User")) {
+                            Toast.makeText(DashboardActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject("{\"childInfoArrayList\":" + response + "}");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        parseKidReponse(json);
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+    public void parseKidReponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
+        if(obj.childInfoArrayList.size()==0){
+            return;
+        }
+        ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
+        for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
+            ChildInfo c = new ChildInfo();
+            c.mobile_id = obj.childInfoArrayList.get(i).id;
+
+
+            c.kid_name = obj.childInfoArrayList.get(i).kid_name;
+            c.guardian_name = obj.childInfoArrayList.get(i).father_name;
+
+            c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
+
+            c.phone_number = obj.childInfoArrayList.get(i).phone_number;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
+
+            c.date_of_birth = Constants.getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
+            c.location = obj.childInfoArrayList.get(i).location;
+            c.child_address = obj.childInfoArrayList.get(i).child_address;
+            if (obj.childInfoArrayList.get(i).gender == true) {
+                c.gender = 1;
+            } else {
+                c.gender = 0;
+            }
+            c.epi_number = obj.childInfoArrayList.get(i).epi_number;
+            c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
+            c.record_update_flag = true;
+            c.book_update_flag = true;
+            c.image_path ="image_"+obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
+
+            childInfoArrayList.add(c);
+        }
+        ChildInfoDao childInfoDao = new ChildInfoDao();
+        List<ChildInfo> noSync = ChildInfoDao.getNotSync();
+        childInfoDao.deleteTable();
+        childInfoDao.bulkInsert(childInfoArrayList);
+        childInfoDao.bulkInsert(noSync);
+        loadKidVaccination();
+        //  setViewPagger();
+    }
+    private void loadKidVaccination() {
+        // Instantiate the RequestQueue.
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kid_vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading Vaccination data...");
+        pDialog.show();
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        pDialog.hide();
+                        if (response.toString().contains("Invalid User")) {
+                            Toast.makeText(DashboardActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject("{\"kidVaccinations\":" + response + "}");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        parseVaccinationReponse(json);
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+    public void parseVaccinationReponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        GKidTransactionAry obj = gson.fromJson(response.toString(), GKidTransactionAry.class);
+        if(obj.kidVaccinations.size()==0){
+            return;
+        }
+        ArrayList<KidVaccinations> childInfoArrayList = new ArrayList<>();
+        for (int i = 0; i < obj.kidVaccinations.size(); i++) {
+            KidVaccinations c = new KidVaccinations();
+            c.location = obj.kidVaccinations.get(i).location;
+
+
+            c.mobile_id = obj.kidVaccinations.get(i).kid_id;
+            c.kid_id = obj.kidVaccinations.get(i).kid_id;
+
+            c.vaccination_id = obj.kidVaccinations.get(i).vaccination_id;
+
+            c.image = obj.kidVaccinations.get(i).image_path;
+
+            c.created_timestamp = obj.kidVaccinations.get(i).created_timestamp;
+
+            c.is_sync = true;
+
+            childInfoArrayList.add(c);
+
+        }
+        KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
+        List<KidVaccinations> noSync = kidVaccinationDao.getNoSync();
+        kidVaccinationDao.deleteTable();
+        kidVaccinationDao.bulkInsert(childInfoArrayList);
+        kidVaccinationDao.bulkInsert(noSync);
+
+        Toast.makeText(DashboardActivity.this,"ڈاونلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
+    }
 }

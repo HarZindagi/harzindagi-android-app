@@ -170,7 +170,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
 
     private File getOutputMediaFile() {
         Path = "/sdcard/" + app_name + "/"
-                + "Image_"+ Constants.getUC(this) + ".jpg";
+                + "Image_"+ Constants.getUCID(this) + ".jpg";
         mediaFile = new File(Path);
 
         return mediaFile;
