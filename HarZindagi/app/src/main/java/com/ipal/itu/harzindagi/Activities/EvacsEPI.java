@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.ipal.itu.harzindagi.R;
@@ -13,6 +15,7 @@ import com.ipal.itu.harzindagi.R;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class EvacsEPI extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
@@ -22,25 +25,57 @@ public class EvacsEPI extends AppCompatActivity {
     String Evac;
     TextView ep_txt_view;
     String epiNumber;
-    String  childID;
-    Boolean isFolderExists;
+
+    CheckBox[] v_box;
+    ArrayList<Integer> selectedCheckboxes = new ArrayList<Integer>();
+    ArrayList<String> chkBox_txt = new ArrayList<String>();
+    CheckBox bx_BCG,bx_OPV,bx_OPV1,bx_Pentavalent,bx_Pneumococcal,bx_OPV2,bx_Pentavalent2
+            ,bx_Pneumococcal2,bx_OPV3,bx_Pentavalent3,bx_Pneumococcal3,bx_Measles,bx_Measles2;
+    /*String[] chkBox_txt = new String[]{"BCG", "OPV-O(Polio)","OPV-1","Pentavalent-1","Pneumococcal-1","OPV-2","Pentavalent-2"
+    ,"Pneumococcal-2","OPV-3","Pentavalent-3","Pneumococcal-3","Measles-1","Measles-2"};*/
+    Button mahfooz_Karain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evacs_epi2);
-        ep_txt_view=(TextView)findViewById(R.id.ep_txt_view);
-       /* File f = new File("/sdcard/" + app_name + "/" + Evac + "/");
-        if(!f.isDirectory()){
-            f.mkdir();
-        }*/
-        app_name = getResources().getString(R.string.app_name);
-        Evac =getResources().getString(R.string.evac);
-        File appFolder = new File("/sdcard/" + app_name +"/"+ Evac+"/");
-        isFolderExists = appFolder.exists();
-        if (!isFolderExists) {
 
-            appFolder.mkdirs();
-        }
+
+        ep_txt_view=(TextView)findViewById(R.id.ep_txt_view);
+
+        bx_BCG=(CheckBox)findViewById(R.id.bx_BCG);
+        bx_OPV=(CheckBox)findViewById(R.id.bx_OPV);
+        bx_OPV1=(CheckBox)findViewById(R.id.bx_OPV1);
+        bx_Pentavalent=(CheckBox)findViewById(R.id.bx_Pentavalent);
+        bx_Pneumococcal=(CheckBox)findViewById(R.id.bx_Pneumococcal);
+        bx_OPV2=(CheckBox)findViewById(R.id.bx_OPV2);
+        bx_Pentavalent2=(CheckBox)findViewById(R.id.bx_Pentavalent2);
+        bx_Pneumococcal2=(CheckBox)findViewById(R.id.bx_Pneumococcal2);
+        bx_OPV3=(CheckBox)findViewById(R.id.bx_OPV3);
+        bx_Pentavalent3=(CheckBox)findViewById(R.id.bx_Pentavalent3);
+        bx_Pneumococcal3=(CheckBox)findViewById(R.id.bx_Pneumococcal3);
+        bx_Measles=(CheckBox)findViewById(R.id.bx_Measles);
+        bx_Measles2=(CheckBox)findViewById(R.id.bx_Measles2);
+
+        mahfooz_Karain=(Button)findViewById(R.id.mahfooz_Karain);
+
+        v_box = new CheckBox[]{ bx_BCG,bx_OPV,bx_OPV1,bx_Pentavalent,bx_Pneumococcal,bx_OPV2,bx_Pentavalent2
+                ,bx_Pneumococcal2,bx_OPV3,bx_Pentavalent3,bx_Pneumococcal3,bx_Measles,bx_Measles2};
+
+
+        mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i = 0; i < v_box.length; i++){
+                    if(v_box[i].isChecked()){
+                        selectedCheckboxes.add(i+1);
+                        chkBox_txt.add(v_box[i].getText().toString());
+                    }else{
+                        selectedCheckboxes.add(0);
+                    }
+                }
+            }
+        });
     }
     public void opencam(View v)
     {
@@ -61,7 +96,7 @@ public class EvacsEPI extends AppCompatActivity {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
             readEditTexts();
-            childID = epiNumber;
+
             Fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);

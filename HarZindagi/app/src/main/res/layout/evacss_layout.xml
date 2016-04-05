@@ -11,30 +11,15 @@
 
     >
 
-<ImageView
-    android:layout_width="75dp"
-    android:layout_height="75dp"
-    android:id="@+id/evacs_checkin"
-    android:src="@drawable/evacs_checkin"
-
-    />
-    <ImageView
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/evacs_Kidstation"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/evacs_kidstation"
-        android:layout_toRightOf="@id/evacs_checkin"
 
 
-        />
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:id="@+id/evacs_Epi"
         android:src="@drawable/evacs_epi"
         android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@id/evacs_Kidstation"
+
 
 
         />
@@ -43,7 +28,7 @@
         android:layout_height="75dp"
         android:id="@+id/evacs_non_Epi"
         android:src="@drawable/evacs_non_epi"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/evacs_checkin"
+       android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/evacs_Epi"
         />
 </RelativeLayout>

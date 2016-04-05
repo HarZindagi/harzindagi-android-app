@@ -9,14 +9,25 @@ import android.widget.ImageView;
 
 import com.ipal.itu.harzindagi.R;
 
-public class Evaccs extends AppCompatActivity {
+import java.io.File;
 
+public class Evaccs extends AppCompatActivity {
+    String app_name;
+    String Evac;
+    Boolean isFolderExists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evacss_layout);
 
        final Context ctx=this;
+        app_name = getResources().getString(R.string.app_name);
+        Evac =getResources().getString(R.string.evac);
+        File appFolder = new File("/sdcard/" + app_name +"/"+ Evac+"/");
+        isFolderExists = appFolder.exists();
+        if (!isFolderExists) {
+            appFolder.mkdirs();
+        }
         ImageView epi_btn=(ImageView)findViewById(R.id.evacs_Epi);
         epi_btn.setOnClickListener(new View.OnClickListener() {
             @Override
