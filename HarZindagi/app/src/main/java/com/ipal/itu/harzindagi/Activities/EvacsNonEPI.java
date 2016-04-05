@@ -1,5 +1,6 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,12 +15,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.ipal.itu.harzindagi.Entity.*;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class EvacsNonEPI extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
@@ -32,6 +36,9 @@ public class EvacsNonEPI extends AppCompatActivity {
     Button non_mahfooz_Karain;
     CheckBox[] nonEPIv_box;
     String non_epiNumber;
+    String non_epiName;
+    EditText non_Epi_name;
+    Context context;
     ArrayList<Integer> selectedCheckboxes_nonEPI = new ArrayList<Integer>();
     ArrayList<String> nonEPI_chkBox_txt = new ArrayList<String>();
     CheckBox non_bx_BCG,non_bx_OPV,non_bx_OPV1,non_bx_Pentavalent,non_bx_Pneumococcal,non_bx_OPV2,non_bx_Pentavalent2
@@ -40,7 +47,8 @@ public class EvacsNonEPI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evacs_epi);
-
+        context=this;
+        non_Epi_name=(EditText)findViewById(R.id.Non_Epi_name);
         non_bx_BCG=(CheckBox)findViewById(R.id.non_bx_BCG);
         non_bx_OPV=(CheckBox)findViewById(R.id.non_bx_OPV);
         non_bx_OPV1=(CheckBox)findViewById(R.id.non_bx_OPV1);
@@ -88,6 +96,7 @@ public class EvacsNonEPI extends AppCompatActivity {
         non_mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+
                for (int i = 0; i < nonEPIv_box.length; i++) {
                    if (nonEPIv_box[i].isChecked()) {
                        selectedCheckboxes_nonEPI.add(i + 1);
@@ -95,6 +104,21 @@ public class EvacsNonEPI extends AppCompatActivity {
                    } else {
                        selectedCheckboxes_nonEPI.add(0);
                    }
+               }
+               for (int i = 0; i < selectedCheckboxes_nonEPI.size(); i++) {
+                   com.ipal.itu.harzindagi.Entity.Evaccs evaccs = new com.ipal.itu.harzindagi.Entity.Evaccs();
+                   evaccs.created_timestamp = Calendar.getInstance().getTimeInMillis()/1000;
+                   evaccs.epi_number = Non_Epi_reg_num_txt.getText().toString();
+                   evaccs.kid_name = "";
+                   evaccs.is_guest = 1;
+                   evaccs.image_path = "image_"+ evaccs.epi_number;
+                   evaccs.imei_number = Constants.getIMEI(context);
+                   evaccs.image_update_flag = false;
+                   evaccs.name_of_guest_kid = non_Epi_name.getText().toString();
+                   evaccs.record_update_flag = false;
+                   evaccs.vaccination_id =""+selectedCheckboxes_nonEPI.get(i);
+                   evaccs.vaccination_name =""+nonEPI_chkBox_txt.get(i);
+                   evaccs.save();
                }
            }
        });
@@ -106,7 +130,7 @@ public class EvacsNonEPI extends AppCompatActivity {
     public void opencam(View v)
     {
         Intent cameraIntent = new Intent(EvacsNonEPI.this, CustomCamera.class);
-        cameraIntent.putExtra("filename", Non_Epi_reg_num_txt.getText().toString());
+        cameraIntent.putExtra("image_", Non_Epi_reg_num_txt.getText().toString());
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 
@@ -119,12 +143,13 @@ public class EvacsNonEPI extends AppCompatActivity {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
             readEditTexts();
-
             Fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
+
+
 
         }
     }
@@ -165,6 +190,7 @@ public class EvacsNonEPI extends AppCompatActivity {
     }
     public void readEditTexts() {
         non_epiNumber = Non_Epi_reg_num_txt.getText().toString();
+        non_epiName= non_Epi_name.getText().toString();
 
     }
 }

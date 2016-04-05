@@ -1,5 +1,6 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,12 +11,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.ipal.itu.harzindagi.Dao.EvaccsDao;
+import com.ipal.itu.harzindagi.Entity.*;
+import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class EvacsEPI extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
@@ -25,7 +31,7 @@ public class EvacsEPI extends AppCompatActivity {
     String Evac;
     TextView ep_txt_view;
     String epiNumber;
-
+    Context context;
     CheckBox[] v_box;
     ArrayList<Integer> selectedCheckboxes = new ArrayList<Integer>();
     ArrayList<String> chkBox_txt = new ArrayList<String>();
@@ -40,7 +46,7 @@ public class EvacsEPI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evacs_epi2);
 
-
+        context=this;
         ep_txt_view=(TextView)findViewById(R.id.ep_txt_view);
 
         bx_BCG=(CheckBox)findViewById(R.id.bx_BCG);
@@ -74,6 +80,22 @@ public class EvacsEPI extends AppCompatActivity {
                         selectedCheckboxes.add(0);
                     }
                 }
+
+                for (int i = 0; i < selectedCheckboxes.size(); i++) {
+                    com.ipal.itu.harzindagi.Entity.Evaccs evaccs = new Evaccs();
+                    evaccs.created_timestamp = Calendar.getInstance().getTimeInMillis()/1000;
+                    evaccs.epi_number = ep_txt_view.getText().toString();
+                    evaccs.kid_name = "";
+                    evaccs.is_guest = 0;
+                    evaccs.image_path = "image_"+ evaccs.epi_number;
+                    evaccs.imei_number = Constants.getIMEI(context);
+                    evaccs.image_update_flag = false;
+                    evaccs.name_of_guest_kid = "";
+                    evaccs.record_update_flag = false;
+                    evaccs.vaccination_id =""+selectedCheckboxes.get(i);
+                    evaccs.vaccination_name =""+chkBox_txt.get(i);
+                    evaccs.save();
+                }
             }
         });
     }
@@ -84,7 +106,7 @@ public class EvacsEPI extends AppCompatActivity {
 
 
         Intent cameraIntent = new Intent(EvacsEPI.this, CustomCamera.class);
-        cameraIntent.putExtra("filename", ep_txt_view.getText().toString());
+        cameraIntent.putExtra("image_", ep_txt_view.getText().toString());
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }
@@ -102,6 +124,9 @@ public class EvacsEPI extends AppCompatActivity {
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
+
+
+
 
         }
         }
