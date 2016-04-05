@@ -249,8 +249,16 @@ public class DashboardActivity extends AppCompatActivity {
         childInfoSyncHandler.execute();
     }
     public void androidEvaccsImageUpload() {
-        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getDistinct();
-        EvacssImageUploadHandler  imageUploadHandler = new EvacssImageUploadHandler(this, childInfo, new OnUploadListner() {
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfoDistinc = new ArrayList<>();
+        String preEpi = "";
+        for (int i = 0; i <childInfo.size() ; i++) {
+            if(!preEpi.equals(childInfo.get(i).epi_number)){
+                childInfoDistinc.add(childInfo.get(i));
+                preEpi = childInfo.get(i).epi_number;
+            }
+        }
+        EvacssImageUploadHandler  imageUploadHandler = new EvacssImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
                 List<Evaccs> list = EvaccsDao.getAll();

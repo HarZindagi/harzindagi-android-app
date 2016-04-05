@@ -47,6 +47,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="ای پی آئی نمبر"
+                android:drawableLeft="@drawable/required_field"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
         </RelativeLayout>
@@ -75,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/required_field"
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="سینٹر کا نام"
@@ -112,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/required_field"
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="بچے کا نام"
@@ -162,13 +165,15 @@
 
             <TextView
                 android:id="@+id/registerChildDOB"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
                 android:gravity="center|right"
                 android:paddingLeft="16dp"
+                android:drawableLeft="@drawable/required_field"
                 android:singleLine="true"
+                android:layout_alignParentRight="true"
                 android:text="تاریخ پیدائش"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
@@ -221,6 +226,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="سرپرست کا نام"
+                android:drawableLeft="@drawable/required_field"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -346,6 +352,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="گھر کا پتہ"
+                android:drawableLeft="@drawable/required_field"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 

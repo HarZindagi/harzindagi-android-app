@@ -4,8 +4,8 @@
     tools:context=".Activities.LoginActivity">
 
     <item
-        android:id="@+id/action_register_device"
+        android:id="@+id/action_app_refresh_btn"
         android:orderInCategory="100"
-        android:title="@string/action_register_device"
+        android:title="@string/action_app_refresh"
         app:showAsAction="never" />
 </menu>

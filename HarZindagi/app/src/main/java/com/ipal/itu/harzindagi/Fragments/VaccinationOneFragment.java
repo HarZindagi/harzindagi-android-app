@@ -33,7 +33,7 @@ public class VaccinationOneFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
-    boolean isActive;
+    boolean isActive = false;
     // TODO: Rename and change types of parameters
     private int mParam1;
     private int mParam2;
@@ -87,7 +87,7 @@ public class VaccinationOneFragment extends Fragment {
         LinearLayout list;
         list = (LinearLayout) v.findViewById(R.id.list_v1);
         if (mParam2 > mParam1) {
-            isActive = false;
+
             v.findViewById(R.id.dimmLayout).setVisibility(View.VISIBLE);
             v.findViewById(R.id.dimmLayout).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,7 +101,9 @@ public class VaccinationOneFragment extends Fragment {
 
         for (int i = 0; i < injection.size(); i++) {
             adapter.getView(i, null, list);
-
+            if(injection.get(i).is_done ==0){
+                isActive = true;
+            }
         }
         // list.setAdapter(adapter);
 

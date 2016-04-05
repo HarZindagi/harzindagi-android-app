@@ -6,17 +6,21 @@
     <SurfaceView
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+
+        android:layout_margin="10dp"
         android:color="@android:color/white"
         android:text="کڈ اسٹیشن کی تصویر بھیجیں"
         android:textAlignment="center"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="25dp"
+        android:background="@drawable/text_bg_kid_station"
+        android:padding="5dp"
         android:textStyle="bold"
         android:id="@+id/kidstation_txt"
 

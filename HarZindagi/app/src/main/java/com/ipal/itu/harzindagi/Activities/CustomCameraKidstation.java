@@ -109,7 +109,7 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
 
                 progress.show();
 
-                kd_txt.setText("کڈ اسٹیشن کی تصویر بھیجیں");
+                kd_txt.setText("کٹ اسٹیشن کی تصویر بھیجیں");
 
             }
         });

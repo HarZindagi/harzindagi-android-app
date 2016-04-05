@@ -270,11 +270,11 @@ public class RegisterChildActivity extends AppCompatActivity {
                 return error;
             }
         }
-        if (motherName.getText().length() < 1) {
+      /*  if (motherName.getText().length() < 1) {
             error = "برائے مہربانی والدہ کا نام درج کریں ۔";
             showError(motherName, error);
             return error;
-        }
+        }*/
         if (houseAddress.getText().length() < 1) {
             error = "خالی گھر کا ایڈریس";
             showError(houseAddress, error);

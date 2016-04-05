@@ -1,11 +1,16 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
@@ -20,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -185,8 +191,46 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(gpsOptionsIntent);
             Toast.makeText(this,"GPS ON KEREN",Toast.LENGTH_LONG).show();
         }
-    }
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                    long downloadId = intent.getLongExtra(
+                            DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(enqueue);
+                    Cursor c = dm.query(query);
+                    if (c.moveToFirst()) {
+                        int columnIndex = c
+                                .getColumnIndex(DownloadManager.COLUMN_STATUS);
+                        if (DownloadManager.STATUS_SUCCESSFUL == c
+                                .getInt(columnIndex)) {
 
+
+                            String uriString = c
+                                    .getString(c
+                                            .getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                           /* Intent promptInstall = new Intent(Intent.ACTION_VIEW)
+                                    .setDataAndType(Uri.parse(uriString),
+                                            "application/vnd.android.package-archive");
+                            startActivity(promptInstall);*/
+                            showDownload();
+
+                        }
+                    }
+                }
+            }
+        };
+
+        registerReceiver(receiver, new IntentFilter(
+                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
+    public void showDownload() {
+        Intent i = new Intent();
+        i.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
+        startActivity(i);
+    }
     public boolean inputValidate() {
 
         if (password.getText().length() < 1) {
@@ -432,7 +476,8 @@ public class LoginActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.login_main, menu);
         return true;
     }
-
+    private long enqueue;
+    private DownloadManager dm;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -441,13 +486,22 @@ public class LoginActivity extends AppCompatActivity {
         int id = item.getItemId();
 
 
-        if (id == R.id.action_register_device) {
+        if (id == R.id.action_app_refresh_btn) {
+            downloadFile();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+    public void downloadFile() {
+        dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 
+        DownloadManager.Request request = new DownloadManager.Request(
+                Uri.parse("http://centsolapps.com/api/apk/app.apk"));
+        request.setDestinationInExternalPublicDir("/sdcard/" + app_name + "/", "app.apk");
+        enqueue = dm.enqueue(request);
+
+    }
     public void loadVisits() {
 
         // Instantiate the RequestQueue.

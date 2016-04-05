@@ -39,7 +39,7 @@ public class EvaccsDao {
                 .execute();
     }
     public static List<Evaccs> getDistinct() {
-        return new Select().distinct()
+        return new Select("epi_number").distinct()
                 .from(Evaccs.class)
                 .orderBy("kid_name ASC")
                 .execute();
