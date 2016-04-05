@@ -48,7 +48,8 @@ public class EvacsNonEPI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evacs_epi);
         context=this;
-        non_Epi_name=(EditText)findViewById(R.id.Non_Epi_name);
+        Non_Epi_reg_num_txt=(EditText)findViewById(R.id.Non_Epi_reg_num_txt);
+        non_Epi_name=(EditText)findViewById(R.id.non_ep_txt_view);
         non_bx_BCG=(CheckBox)findViewById(R.id.non_bx_BCG);
         non_bx_OPV=(CheckBox)findViewById(R.id.non_bx_OPV);
         non_bx_OPV1=(CheckBox)findViewById(R.id.non_bx_OPV1);
