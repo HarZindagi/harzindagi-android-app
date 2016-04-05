@@ -28,7 +28,7 @@ import java.util.Calendar;
 public class EvacsNonEPI extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     EditText Non_Epi_reg_num_txt;
-    Spinner spn;
+    
     FileOutputStream fo;
     String Fpath;
     String app_name;
@@ -67,32 +67,7 @@ public class EvacsNonEPI extends AppCompatActivity {
         nonEPIv_box = new CheckBox[]{ non_bx_BCG,non_bx_OPV,non_bx_OPV1,non_bx_Pentavalent,non_bx_Pneumococcal,non_bx_OPV2,non_bx_Pentavalent2
                 ,non_bx_Pneumococcal2,non_bx_OPV3,non_bx_Pentavalent3,non_bx_Pneumococcal3,non_bx_Measles,non_bx_Measles2};
 
-        spn=(Spinner)findViewById(R.id.spinner_non_epi);
-        spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               if(parent.getItemAtPosition(position).toString().equals("مقامی بچہ"))
-               {
-                   TextView tx=(TextView)findViewById(R.id.Non_Epi_reg_num);
-                   tx.setVisibility(View.VISIBLE);
-                   EditText et=(EditText)findViewById(R.id.Non_Epi_reg_num_txt);
-                   et.setVisibility(View.VISIBLE);
 
-               }
-                else
-               {
-                   TextView tx=(TextView)findViewById(R.id.Non_Epi_reg_num);
-                   tx.setVisibility(View.INVISIBLE);
-                   EditText et=(EditText)findViewById(R.id.Non_Epi_reg_num_txt);
-                   et.setVisibility(View.INVISIBLE);
-               }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         non_mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
            @Override

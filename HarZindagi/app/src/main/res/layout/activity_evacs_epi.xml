@@ -19,14 +19,7 @@
             android:orientation="vertical">
 
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner_non_epi"
 
-                android:drawSelectorOnTop="true"
-                android:entries="@array/non_epi_array"
-                />
 
             <TextView
                 android:text="بچے کا نام"
@@ -38,7 +31,6 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:inputType="number"
                 android:ems="10"
                 android:background="@drawable/txtbx"
                 android:paddingLeft="5dp"
@@ -56,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Non_Epi_reg_num"
                 android:layout_marginTop="10dp"
-                android:visibility="invisible"
+
                 />
 
             <EditText
@@ -71,7 +63,7 @@
                 android:layout_below="@+id/Non_Epi_reg_num"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:visibility="invisible"
+
 
                 />
 
