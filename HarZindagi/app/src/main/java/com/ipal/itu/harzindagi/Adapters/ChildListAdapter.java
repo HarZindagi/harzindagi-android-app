@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -65,9 +66,13 @@ public class ChildListAdapter extends BaseAdapter {
         guardianName.setText(data.get(position).guardian_name);
         address.setText(data.get(position).child_address);
         String imagePath = "/sdcard/" + app_name + "/" + data.get(position).image_path + ".jpg";
-        Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
-        pic.setImageBitmap(bmp_read);
-
+        File f = new File(imagePath);
+        if(f.exists()) {
+            Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
+            pic.setImageBitmap(bmp_read);
+        }else{
+            pic.setImageResource(R.drawable.paceholder);
+        }
         return convertView;
     }
 }
