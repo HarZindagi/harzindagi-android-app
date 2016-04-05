@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Ali on 4/4/2016.
  */
 public class EvaccsDao {
-    public void save(String epi_number, String kid_name, String vaccination_id, String vaccination_name, int is_guest, String name_of_guest_kid, String location, String image_path, long created_timestamp) {
+  /*  public void save(String epi_number, String kid_name, String vaccination_id, String vaccination_name, int is_guest, String name_of_guest_kid, String location, String image_path, long created_timestamp) {
         Evaccs item = new Evaccs();
         item.epi_number = epi_number;
         item.kid_name = kid_name;
@@ -23,7 +23,7 @@ public class EvaccsDao {
         item.created_timestamp = created_timestamp;
         item.save();
 
-    }
+    }*/
 
     public List<Evaccs> getByEPINum(String epi_number) {
         return new Select()
@@ -35,7 +35,12 @@ public class EvaccsDao {
     public static List<Evaccs> getAll() {
         return new Select()
                 .from(Evaccs.class)
-                        //.where("ChildInfo = ?", childInfo.getId())
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public static List<Evaccs> getDistinct() {
+        return new Select().distinct()
+                .from(Evaccs.class)
                 .orderBy("kid_name ASC")
                 .execute();
     }

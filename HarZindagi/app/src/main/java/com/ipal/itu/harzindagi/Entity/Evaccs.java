@@ -17,17 +17,17 @@ public class Evaccs extends TruncatableModel {
     @Column(name = "kid_name")
     public String kid_name;
 
-    @Column(name = "vaccination_id ")
-    public String vaccination_id;
+    @Column(name = "vacc_id")
+    public String vacc_id;
 
-    @Column(name = "vaccination_name ")
-    public String vaccination_name ;
+    @Column(name = "vacc_name")
+    public String vacc_name ;
 
-    @Column(name = "is_guest ")
+    @Column(name = "is_guest")
     public int is_guest ;
 
 
-    @Column(name = "name_of_guest_kid ")
+    @Column(name = "name_of_guest_kid")
     public String name_of_guest_kid ;
 
 
@@ -59,13 +59,6 @@ public class Evaccs extends TruncatableModel {
         super();
     }
 
-    public void setChildInfo(String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location,String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag,String address,String imei) {
-        this.imei_number = imei;
-        this.kid_name = name;
-        this.created_timestamp = createdTime;
-        this.location = Location;
-        this.image_path = imageName;
-        this.record_update_flag = recordFlag;
-    }
+
 
 }

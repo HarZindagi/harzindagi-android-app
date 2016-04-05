@@ -59,8 +59,7 @@ public class EvacssImageUploadHandler {
         MultipartUtility multipart = new MultipartUtility(Constants.photos_evaccs, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                childInfo.image_update_flag = true;
-                childInfo.delete();
+
                 nextUpload(success);
             }
         });
