@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Dao.EvaccsDao;
 import com.ipal.itu.harzindagi.Entity.*;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
@@ -68,7 +71,7 @@ public class EvacsEPI extends AppCompatActivity {
         v_box = new CheckBox[]{ bx_BCG,bx_OPV,bx_OPV1,bx_Pentavalent,bx_Pneumococcal,bx_OPV2,bx_Pentavalent2
                 ,bx_Pneumococcal2,bx_OPV3,bx_Pentavalent3,bx_Pneumococcal3,bx_Measles,bx_Measles2};
 
-
+        getLocation();
         mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,8 +79,6 @@ public class EvacsEPI extends AppCompatActivity {
                     if(v_box[i].isChecked()){
                         selectedCheckboxes.add(i+1);
                         chkBox_txt.add(v_box[i].getText().toString());
-                    }else{
-                        selectedCheckboxes.add(0);
                     }
                 }
 
@@ -92,10 +93,12 @@ public class EvacsEPI extends AppCompatActivity {
                     evaccs.image_update_flag = false;
                     evaccs.name_of_guest_kid = "";
                     evaccs.record_update_flag = false;
-                    evaccs.vaccination_id =""+selectedCheckboxes.get(i);
-                    evaccs.vaccination_name =""+chkBox_txt.get(i);
+                    evaccs.vacc_id =""+selectedCheckboxes.get(i);
+                    evaccs.vacc_name =""+chkBox_txt.get(i);
+                    evaccs.location = location;
                     evaccs.save();
                 }
+                finish();
             }
         });
     }
@@ -168,5 +171,26 @@ public class EvacsEPI extends AppCompatActivity {
     public void readEditTexts() {
         epiNumber = ep_txt_view.getText().toString();
 
+    }
+    private void getLocation() {
+
+        LocationAjaxCallback cb = new LocationAjaxCallback();
+        //  final ProgressDialog pDialog = new ProgressDialog(this);
+        //  pDialog.setMessage("Getting Location");
+
+        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000*30*5).async(this);
+        //  pDialog.setCancelable(false);
+        //  pDialog.show();
+    }
+    String location = "0.00000,0.00000";
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
+
+        if (loc != null) {
+
+            double lat = loc.getLatitude();
+            double log = loc.getLongitude();
+            location = lat + "," + log;
+
+        }
     }
 }

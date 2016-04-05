@@ -30,6 +30,7 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.EvaccsDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.*;
+import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
@@ -248,11 +249,14 @@ public class DashboardActivity extends AppCompatActivity {
         childInfoSyncHandler.execute();
     }
     public void androidEvaccsImageUpload() {
-        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getDistinct();
         EvacssImageUploadHandler  imageUploadHandler = new EvacssImageUploadHandler(this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-
+                List<Evaccs> list = EvaccsDao.getAll();
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).delete();
+                }
                 Toast.makeText(DashboardActivity.this,"آپلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
             }
         });

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Entity.*;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -67,6 +70,7 @@ public class EvacsNonEPI extends AppCompatActivity {
                 ,non_bx_Pneumococcal2,non_bx_OPV3,non_bx_Pentavalent3,non_bx_Pneumococcal3,non_bx_Measles,non_bx_Measles2};
 
         spn=(Spinner)findViewById(R.id.spinner_non_epi);
+        getLocation();
         spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -101,8 +105,6 @@ public class EvacsNonEPI extends AppCompatActivity {
                    if (nonEPIv_box[i].isChecked()) {
                        selectedCheckboxes_nonEPI.add(i + 1);
                        nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
-                   } else {
-                       selectedCheckboxes_nonEPI.add(0);
                    }
                }
                for (int i = 0; i < selectedCheckboxes_nonEPI.size(); i++) {
@@ -116,10 +118,12 @@ public class EvacsNonEPI extends AppCompatActivity {
                    evaccs.image_update_flag = false;
                    evaccs.name_of_guest_kid = non_Epi_name.getText().toString();
                    evaccs.record_update_flag = false;
-                   evaccs.vaccination_id =""+selectedCheckboxes_nonEPI.get(i);
-                   evaccs.vaccination_name =""+nonEPI_chkBox_txt.get(i);
+                   evaccs.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
+                   evaccs.vacc_name =""+nonEPI_chkBox_txt.get(i);
+                   evaccs.location= location;
                    evaccs.save();
                }
+               finish();
            }
        });
 
@@ -192,5 +196,27 @@ public class EvacsNonEPI extends AppCompatActivity {
         non_epiNumber = Non_Epi_reg_num_txt.getText().toString();
         non_epiName= non_Epi_name.getText().toString();
 
+    }
+    private void getLocation() {
+
+        LocationAjaxCallback cb = new LocationAjaxCallback();
+        //  final ProgressDialog pDialog = new ProgressDialog(this);
+        //  pDialog.setMessage("Getting Location");
+
+        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000*30*5).async(this);
+        //  pDialog.setCancelable(false);
+        //  pDialog.show();
+    }
+    String location = "0.00000,0.00000";
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
+
+        if (loc != null) {
+
+            double lat = loc.getLatitude();
+            double log = loc.getLongitude();
+            location = lat + "," + log;
+
+
+        }
     }
 }

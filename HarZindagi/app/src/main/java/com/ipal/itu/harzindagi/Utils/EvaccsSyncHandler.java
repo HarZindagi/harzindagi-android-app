@@ -107,13 +107,12 @@ public class EvaccsSyncHandler {
             kid.put("kid_name", childInfo.kid_name);
             kid.put("imei_number",Constants.getIMEI(context));
             kid.put("image_path",childInfo.image_path);
-            kid.put("vaccination_id",childInfo.vaccination_id);
-            kid.put("vaccination_name",childInfo.vaccination_name);
+            kid.put("vaccination_id",childInfo.vacc_id);
+            kid.put("vaccination_name",childInfo.vacc_name);
             kid.put("is_guest",childInfo.is_guest);
             kid.put("name_of_guest_kid",childInfo.name_of_guest_kid);
             kid.put("epi_number", childInfo.epi_number);
             kid.put("location", childInfo.location);
-
             kid.put("created_timestamp",childInfo.created_timestamp);
             kid.put("upload_timestamp",tsLong);
 
