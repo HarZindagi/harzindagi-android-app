@@ -33,7 +33,7 @@ public class VaccinationOneFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
-
+    boolean isActive;
     // TODO: Rename and change types of parameters
     private int mParam1;
     private int mParam2;
@@ -47,12 +47,11 @@ public class VaccinationOneFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-
      * @param pos Parameter 2.
      * @return A new instance of fragment VaccinationOneFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VaccinationOneFragment newInstance( int pos,ArrayList<GInjection> injection,int curVisit) {
+    public static VaccinationOneFragment newInstance(int pos, ArrayList<GInjection> injection, int curVisit) {
         VaccinationOneFragment fragment = new VaccinationOneFragment();
         Bundle args = new Bundle();
 
@@ -77,17 +76,18 @@ public class VaccinationOneFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v  = inflater.inflate(R.layout.fragment_vaccination_one, container, false);
+        View v = inflater.inflate(R.layout.fragment_vaccination_one, container, false);
 
         // have to this dynamic in future
 
-        List<Injections> data= InjectionsDao.getInjectionsByVisit(1);
-       // Injections ij=new Injections();
+        List<Injections> data = InjectionsDao.getInjectionsByVisit(1);
+        // Injections ij=new Injections();
         //ij.SetInjections(1,"abc","aaaaaa",true);
         //data.add(ij);
         LinearLayout list;
         list = (LinearLayout) v.findViewById(R.id.list_v1);
-        if(mParam2>mParam1) {
+        if (mParam2 > mParam1) {
+            isActive = false;
             v.findViewById(R.id.dimmLayout).setVisibility(View.VISIBLE);
             v.findViewById(R.id.dimmLayout).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,38 +96,38 @@ public class VaccinationOneFragment extends Fragment {
                 }
             });
         }
-       final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection
-               ,0);
+        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection
+                , 0);
 
         for (int i = 0; i < injection.size(); i++) {
-            adapter.getView(i,null,list);
+            adapter.getView(i, null, list);
 
         }
-       // list.setAdapter(adapter);
+        // list.setAdapter(adapter);
 
 
-      Button btn=(Button)v.findViewById(R.id.btn_v1);
+        Button btn = (Button) v.findViewById(R.id.btn_v1);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                String det_vacs=adapter.get_vaccs_details();
-
-                Intent cameraIntent = new Intent(getActivity(), CustomCamera.class);
-                cameraIntent.putExtra("filename",((VaccinationActivity)getActivity()).fpath );
-                cameraIntent.putExtra("vacc_details",det_vacs);
-                cameraIntent.putExtra("visit_num",(mParam2+1)+"");
-                startActivityForResult(cameraIntent,((VaccinationActivity)getActivity()).CAMERA_REQUEST );
+                if (isActive) {
+                    String det_vacs = adapter.get_vaccs_details();
+                    if(!det_vacs.equals("")) {
+                        Intent cameraIntent = new Intent(getActivity(), CustomCamera.class);
+                        cameraIntent.putExtra("filename", ((VaccinationActivity) getActivity()).fpath);
+                        cameraIntent.putExtra("vacc_details", det_vacs);
+                        cameraIntent.putExtra("visit_num", (mParam2 + 1) + "");
+                        startActivityForResult(cameraIntent, ((VaccinationActivity) getActivity()).CAMERA_REQUEST);
+                    }
+                }
             }
         });
 
 
-        return  v;
+        return v;
     }
-
-
 
 
 }
