@@ -10,11 +10,15 @@ import com.ipal.itu.harzindagi.Activities.ChildrenListActivity;
 import com.ipal.itu.harzindagi.Activities.SearchActivity;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SmsBroadcastReceiver extends BroadcastReceiver {
@@ -67,14 +71,30 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         childRec.get(0).delete();
                     }
                     childInfo.save();
+                    List<Vaccinations> vaccs = getVacIds(Integer.parseInt(data[7]));
 
-                 /*   KidVaccinations kidVaccinations = new KidVaccinations();
-                    kidVaccinations.guest_imei_number = Constants.getIMEI(context);
-                    kidVaccinations.is_sync = true;
-                    kidVaccinations.imei_number =  data[9];
-                    kidVaccinations.kid_id = Long.parseLong(data[3]);
-                    kidVaccinations.mobile_id = Long.parseLong(data[3]);
-                    kidVaccinations.vaccination_id = 1;*/
+                    List<KidVaccinations> kidVacss = KidVaccinationDao.getById(Long.parseLong(data[3]));
+                    for (int k = 0; k < kidVacss.size(); k++) {
+                        kidVacss.get(k).delete();
+                    }
+
+
+                    for (int j = 0; j <vaccs.size() ; j++) {
+                        KidVaccinations kidVaccinations = new KidVaccinations();
+
+                        kidVaccinations.guest_imei_number = Constants.getIMEI(context);
+                        kidVaccinations.is_sync = true;
+                        kidVaccinations.imei_number =  data[9];
+                        kidVaccinations.kid_id = Long.parseLong(data[3]);
+                        kidVaccinations.mobile_id = Long.parseLong(data[3]);
+                        kidVaccinations.vaccination_id = vaccs.get(j).id;
+                        kidVaccinations.location =  data[10];
+                        kidVaccinations.image =  "image_" + Long.parseLong(data[3]);
+                        kidVaccinations.created_timestamp = Calendar.getInstance().getTimeInMillis()/1000;
+                        kidVaccinations.save();
+                    }
+
+
 
                     Intent act = new Intent(context, VaccinationActivity.class);
                     Bundle bnd = new Bundle();
@@ -96,9 +116,9 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
         }
     }
-    private ArrayList<String> getVacIds(int visitNumn){
-        ArrayList<String> list = new ArrayList<>();
+    private  List<Vaccinations> getVacIds(int visitNumn){
 
+        List<Vaccinations> list = VaccinationsDao.getById(visitNumn);
         return list;
     }
 }

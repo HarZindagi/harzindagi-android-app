@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Dao;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
@@ -85,6 +86,7 @@ public class VaccinationsDao {
                 .orderBy("_id ASC")
                 .execute();
     }
+
 
     public void bulkInsert(List<Vaccinations> items) {
         ActiveAndroid.beginTransaction();
