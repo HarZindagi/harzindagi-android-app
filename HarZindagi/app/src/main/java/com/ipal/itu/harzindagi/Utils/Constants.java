@@ -32,6 +32,7 @@ public class Constants {
     public static final String injections = "http://103.226.216.170:3000/admin/injections.json";
     public static final String vaccinations = "http://103.226.216.170:3000/admin/vaccinations.json";
     public static final String kids = "http://103.226.216.170:3000/admin/kids.json";
+    public static final String kids_evaccs = "http://103.226.216.170:3000/admin/evaccs.json";
     public static final String kid_vaccinations = "http://103.226.216.170:3000/admin/kid_vaccinations.json";
 
     public static final String login = "http://103.226.216.170:3000/login";
@@ -40,6 +41,7 @@ public class Constants {
     public static final String search = "http://103.226.216.170:3000/admin/kids/kid_search";
 
     public static final String photos = "http://103.226.216.170:3000/photos";
+    public static final String photos_evaccs = "http://103.226.216.170:3000/photos_evaccs";
     public static final String imageDownload =  "http://103.226.216.170:3000/images/";
 
     public static final String checkouts   = "http://103.226.216.170:3000/admin/checkouts";
@@ -49,6 +51,7 @@ public class Constants {
     public static final String password = "password";
     public static final String name = "name";
     public static final String uc = "uc";
+    public static final String uc_id = "uc_id";
     public static final String isTableLoaded = "isTableLoaded";
 
     public static final String checkIn = "checkIn";
@@ -75,6 +78,15 @@ public class Constants {
     public static void setUC(Context c, String uc) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         prefs.edit().putString(Constants.uc, uc).commit();
+    }
+    public static int getUCID(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getInt(Constants.uc_id, 0);
+    }
+
+    public static void setUCID(Context c, int uc_id) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putInt(Constants.uc_id, uc_id).commit();
     }
 
     public static boolean isOnline(Context context) {
@@ -171,7 +183,7 @@ public class Constants {
 
     public static String getNextDueDate(int visit, String vaccs) {
 
-        int[] Arry = {0, 42, 28, 28, 154, 168, 0};  // should better be made dynamic input through Database.
+        int[] Arry = {0, 42, 28, 28, 154, 168, 36000};  // should better be made dynamic input through Database.
 
 
         Calendar c = Calendar.getInstance();
@@ -179,7 +191,7 @@ public class Constants {
         if (isVaccOfVisitCompleted(vaccs)) {
             c.add(Calendar.DATE, Arry[visit]);
         } else {
-            c.add(Calendar.DATE, 10);
+            c.add(Calendar.DATE, 7);
         }
 
         SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");

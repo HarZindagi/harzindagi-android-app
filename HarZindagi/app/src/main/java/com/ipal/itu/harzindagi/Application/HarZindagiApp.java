@@ -9,6 +9,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.UserInfo;
@@ -31,6 +32,7 @@ public class HarZindagiApp extends android.app.Application {
         configurationBuilder.addModelClass(Injections.class);
         configurationBuilder.addModelClass(Vaccinations.class);
         configurationBuilder.addModelClass(KidVaccinations.class);
+        configurationBuilder.addModelClass(Evaccs.class);
         ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
 

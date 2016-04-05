@@ -113,7 +113,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
 
                     } else if (data.size() == 0) {
-                        Toast.makeText(SearchActivity.this, "No Record Found!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SearchActivity.this, "اس ای پی آئی کے مطابق کوئی رکوڈ نہیں ہے", Toast.LENGTH_LONG).show();
                     }
                     /* else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
 
@@ -270,6 +270,8 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                         if (response.toString().length() > 5) {
 
                             parseKidReponse(response);
+                        }else{
+                            Toast.makeText(SearchActivity.this, "اس ای پی آئی کے مطابق کوئی رکوڈ نہیں ہے", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -341,7 +343,10 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         childInfoDao.bulkInsert(childInfoArrayList);
 
         SearchActivity.data = childInfoArrayList;
+
         downloadImages(childInfoArrayList);
+
+
 
     }
 

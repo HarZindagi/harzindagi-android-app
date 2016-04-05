@@ -62,7 +62,9 @@
             android:name="KidVaccinations"
             android:value="com.ipal.itu.harzindagi.Entity.KidVaccinations" />
 
-
+        <meta-data
+            android:name="Evaccs"
+            android:value="com.ipal.itu.harzindagi.Entity.Evaccs" />
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/title_activity_splash"

@@ -104,9 +104,10 @@ public class CardScanWrite extends AppCompatActivity {
 
         tsLong = System.currentTimeMillis() / 1000;
 
-        push_NFC = "#" + Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + RegisterChildActivity.location + "#" + bundle.getString("EPIname");
 
+    push_NFC = Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + RegisterChildActivity.location + "#" + bundle.getString("EPIname")+"#"+Calendar.getInstance().getTimeInMillis()+"#1#0,0,0";
 
+// intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         mPendingIntent = PendingIntent.getActivity(this, 0,
@@ -126,7 +127,7 @@ public class CardScanWrite extends AppCompatActivity {
 
         mNFCTechLists = new String[][]{new String[]{NfcF.class.getName()}};
 
-
+//end
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +137,7 @@ public class CardScanWrite extends AppCompatActivity {
 
 
     }
+
 
     private void enableTagWriteMode() {
         mWriteMode = true;
@@ -168,53 +170,17 @@ public class CardScanWrite extends AppCompatActivity {
 
     @Override
     public void onNewIntent(Intent intent) {
+        enableTagWriteMode();
+        mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-        if (is_check == false && clicku == true) {
-            mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            String s = "";
-            String action = intent.getAction();
-            Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            if (data != null) {
-                try {
-                    for (int i = 0; i < data.length; i++) {
-                        NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();
-                        for (int j = 0; j < recs.length; j++) {
-                            if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
-                                    Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
-                                byte[] payload = recs[j].getPayload();
-                                String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
-
-                                int langCodeLen = payload[0] & 0077;
-                                s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
-                                        textEncoding);
-
-//                                mTextView.setTextE(s);
-                                btn.setText("Tap Again To Write2");
-                                btn.setEnabled(false);
-                                String Arry[] = s.split("#");
-                                card_data = Arry[0] + "#" + Arry[1];
-                                push_NFC = card_data + push_NFC;
-                                is_check = true;
-
-
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(ctx, "Tag dispatch on new intent", Toast.LENGTH_LONG).show();
-                }
-            }
-
-        } else {
-
-            if (mWriteMode && clicku == true) {
+            if (mWriteMode) {
                 Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 NdefRecord record = NdefRecord.createMime(push_NFC, push_NFC.getBytes());
                 NdefMessage message = new NdefMessage(new NdefRecord[]{record});
                 if (writeTag(message, detectedTag)) {
                     //   Toast.makeText(this, "Success: Wrotgme placeid to nfc tag", Toast.LENGTH_LONG)
                     //.show();
-                    btn.setText("Next");
+                    btn.setText("آگے چلیں");
                     btn.setVisibility(View.VISIBLE);
                     btn.setEnabled(true);
                     mWriteMode = false;
@@ -224,7 +190,7 @@ public class CardScanWrite extends AppCompatActivity {
             }
 
 
-        }
+
 
 
     }

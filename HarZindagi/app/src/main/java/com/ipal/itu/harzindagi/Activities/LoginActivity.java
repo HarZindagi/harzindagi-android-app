@@ -338,6 +338,7 @@ public class LoginActivity extends AppCompatActivity {
         userName.setText(obj.username);
         Constants.setUserName(this, obj.username);
         Constants.setUC(this, obj.unioncouncil);
+        Constants.setUCID(this, obj.unioncouncil_id);
     }
 
     public void parseTokenResponse(JSONObject response) {

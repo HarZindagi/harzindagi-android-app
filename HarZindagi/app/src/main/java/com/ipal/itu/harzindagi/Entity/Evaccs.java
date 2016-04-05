@@ -10,23 +10,21 @@ import com.ipal.itu.harzindagi.Utils.TruncatableModel;
 @Table(name = "Evaccs")
 public class Evaccs extends TruncatableModel {
 
-    @Column(name = "mobile_id")
-    public Long mobile_id;
 
-    @Column(name = "kid_id")
-    public Long kid_id;
+    @Column(name = "epi_number")
+    public String epi_number;
 
     @Column(name = "kid_name")
     public String kid_name;
 
     @Column(name = "vaccination_id ")
-    public int vaccination_id;
+    public String vaccination_id;
 
     @Column(name = "vaccination_name ")
     public String vaccination_name ;
 
     @Column(name = "is_guest ")
-    public boolean is_guest ;
+    public int is_guest ;
 
 
     @Column(name = "name_of_guest_kid ")

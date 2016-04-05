@@ -96,8 +96,8 @@ public class KidVaccinatioHandler {
             vaccination.put("vaccination_id", kidVaccinations.vaccination_id);
             vaccination.put("version_name", "");
             vaccination.put("location_source", "00.00");
-            vaccination.put("vac_time", Calendar.getInstance().getTimeInMillis());
-
+            vaccination.put("upload_timestamp", Calendar.getInstance().getTimeInMillis()/1000);
+            vaccination.put("created_timestamp",kidVaccinations.created_timestamp);
 
             obj.put("kid_vaccination", vaccination);
 

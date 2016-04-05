@@ -127,7 +127,7 @@ public class Card_Scan extends AppCompatActivity {
 
         String Arry[] = s.split("#");
             Intent i= new Intent(Card_Scan.this,VaccinationActivity.class);
-            i.putExtra("childid",Arry[2]);
+            i.putExtra("childid",Arry[0]);
             i.putExtra("visit_num",Arry[Arry.length-2]);
             i.putExtra("vacc_details",Arry[Arry.length-1]);
             startActivity(i);
