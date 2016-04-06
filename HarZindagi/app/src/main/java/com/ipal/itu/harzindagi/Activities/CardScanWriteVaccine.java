@@ -224,6 +224,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
         Intent myintent = new Intent(this, VaccineList.class);
         myintent.putExtra("VaccDetInfo",vdb);
+        myintent.putExtra("next_due_date",bundle.getString("next_date"));
         myintent.putExtra("visit_num_",bundle.getInt("curr_visit_num"));
 
         startActivity(myintent);

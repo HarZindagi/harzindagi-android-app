@@ -53,6 +53,7 @@ public class VaccineList extends AppCompatActivity {
         time_period_txt = (TextView) findViewById(R.id.time_period_txt);
         try {
             time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
+            ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
             top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
         }catch (Exception e){
             Toast.makeText(this ,"Error:"+e.getMessage(),Toast.LENGTH_LONG).show();

@@ -101,7 +101,7 @@ public class Card_Scan extends AppCompatActivity {
 
                        /* if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
                                 Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) */
-                        if (recs[j].getTnf() == NdefRecord.TNF_MIME_MEDIA )
+                        if (recs[j].getTnf() == NdefRecord.TNF_MIME_MEDIA || recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN )
                         {
                             byte[] payload = recs[j].getPayload();
                             String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
