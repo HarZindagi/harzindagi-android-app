@@ -145,6 +145,13 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             }
         });
+        DOBText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterChildActivity.this, CalenderActivity.class);
+                startActivityForResult(intent, CALENDAR_CODE);
+            }
+        });
 
         motherName = (EditText) findViewById(R.id.registerChildMotherName);
 
