@@ -141,8 +141,8 @@ public class CardScanWrite extends AppCompatActivity {
 
     private void enableTagWriteMode() {
         mWriteMode = true;
-
-        mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mIntentFilters, null);
+        if (mNfcAdapter != null)
+            mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mIntentFilters, mNFCTechLists);
     }
 
     private void disableTagWriteMode() {
@@ -170,7 +170,7 @@ public class CardScanWrite extends AppCompatActivity {
 
     @Override
     public void onNewIntent(Intent intent) {
-        enableTagWriteMode();
+
         mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
             if (mWriteMode) {
@@ -273,9 +273,8 @@ public class CardScanWrite extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        enableTagWriteMode();
 
-        if (mNfcAdapter != null)
-            mNfcAdapter.enableForegroundDispatch(this, mPendingIntent, mIntentFilters, mNFCTechLists);
     }
 
     @Override

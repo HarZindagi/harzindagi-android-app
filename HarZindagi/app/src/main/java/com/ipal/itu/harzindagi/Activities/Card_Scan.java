@@ -90,19 +90,26 @@ public class Card_Scan extends AppCompatActivity {
         //if (mWriteMode && NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())
         // Tag mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        String myData = intent.getStringExtra("mType");
         Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         if (data != null) {
             try {
                 for (int i = 0; i < data.length; i++) {
                     NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();
+
                     for (int j = 0; j < recs.length; j++) {
-                        if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
-                                Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) {
+
+                       /* if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
+                                Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) */
+                        if (recs[j].getTnf() == NdefRecord.TNF_MIME_MEDIA )
+                        {
                             byte[] payload = recs[j].getPayload();
                             String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
 
                             int langCodeLen = payload[0] & 0077;
-                            s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
+                           /* s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
+                                    textEncoding);*/
+                             s = new String(payload, 0, payload.length,
                                     textEncoding);
                             if (s.equals("0")) {
                                 // Intent myintent = new Intent(this, RegisterChild.class);
@@ -126,12 +133,21 @@ public class Card_Scan extends AppCompatActivity {
         {
 
         String Arry[] = s.split("#");
-            Intent i= new Intent(Card_Scan.this,VaccinationActivity.class);
-            i.putExtra("childid",Arry[0]);
-            i.putExtra("visit_num",Arry[Arry.length-2]);
-            i.putExtra("vacc_details",Arry[Arry.length-1]);
-            startActivity(i);
-            finish();
+            if(Arry.length>3) {
+                Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
+                i.putExtra("childid", Arry[0]);
+                i.putExtra("visit_num", Arry[Arry.length - 2]);
+                i.putExtra("vacc_details", Arry[Arry.length - 1]);
+                startActivity(i);
+                finish();
+            }else{
+                Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
+                i.putExtra("childid", s.replace("0",""));
+                i.putExtra("visit_num", "1");
+                i.putExtra("vacc_details", "1,1,1");
+                startActivity(i);
+                finish();
+            }
 
         }
 
