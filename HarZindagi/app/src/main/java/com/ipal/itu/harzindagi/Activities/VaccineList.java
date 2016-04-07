@@ -42,7 +42,34 @@ public class VaccineList extends AppCompatActivity {
             R.drawable.color_5,
             R.drawable.color_6
     };
+    private int[] nxt_oardr_colr = {
 
+            R.drawable.nxt_date_boardr1,
+            R.drawable.nxt_date_boardr2,
+            R.drawable.nxt_date_boardr3,
+            R.drawable.nxt_date_boardr4,
+            R.drawable.nxt_date_boardr5,
+            R.drawable.nxt_date_boardr6,
+    };
+    private int[] nxt_boardr_ = {
+
+            R.drawable.nxt_date_boardr1,
+            R.drawable.nxt_date_boardr2,
+            R.drawable.nxt_date_boardr3,
+            R.drawable.nxt_date_boardr4,
+            R.drawable.nxt_date_boardr5,
+            R.drawable.nxt_date_boardr6,
+    };
+    private int[] nxt_boardr_numbr = {
+
+            R.drawable.next_boardr_full1,
+            R.drawable.next_boardr_full2,
+            R.drawable.next_boardr_full3,
+            R.drawable.next_boardr_full4,
+            R.drawable.next_boardr_full5,
+            R.drawable.next_boardr_full6
+    };
+    private String[] numbr={"1","2","3","4","5","6"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +81,11 @@ public class VaccineList extends AppCompatActivity {
         try {
             time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
             ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
+            ((TextView) findViewById(R.id.nextDueDateTxt)).setBackgroundResource(nxt_oardr_colr[getIntent().getExtras().getInt("visit_num_")] + 1);
+            ((TextView)findViewById(R.id.nextDueDateNmbr)).setText(numbr[getIntent().getExtras().getInt("visit_num_")+ 1] );
+            ((TextView)findViewById(R.id.nextDueDateNmbr)).setBackgroundResource(nxt_boardr_numbr[getIntent().getExtras().getInt("visit_num_")]+1);
             top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
+
         }catch (Exception e){
             Toast.makeText(this ,"Error:"+e.getMessage(),Toast.LENGTH_LONG).show();
             finish();
