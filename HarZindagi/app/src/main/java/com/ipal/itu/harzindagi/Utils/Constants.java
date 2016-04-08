@@ -17,6 +17,8 @@ import android.util.TypedValue;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -272,5 +274,19 @@ public class Constants {
 
         String formatedDate = sdf.format(time);
         return  formatedDate;
+    }
+    public  static String addDate(String dateStr){
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        Date date = null;
+        Calendar c =Calendar.getInstance();
+        try {
+            date = df.parse(dateStr);
+            c.setTime(date);
+            c.add(Calendar.DAY_OF_YEAR, 5);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String nextDate = df.format(c.getTime());
+        return  nextDate;
     }
 }

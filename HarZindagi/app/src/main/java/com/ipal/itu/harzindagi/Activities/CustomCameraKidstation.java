@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,9 +43,10 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
     Bitmap camera_bitmap;
     Canvas camera_canvas;
     Paint p;
-    ImageView CropImageView, captureButton,done_capture,refresh_capture;
+    ImageView CropImageView, captureButton;
     TextView kd_txt;
     Context ctx;
+    LinearLayout done_capture,refresh_capture;
     public static ProgressDialog progress;
 
     @Override
@@ -72,9 +74,9 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
         Height = metrics.heightPixels;
         Width = metrics.widthPixels;
 
-        done_capture=(ImageView) findViewById(R.id.done_capture);
+        done_capture=(LinearLayout) findViewById(R.id.done_capture);
 
-        refresh_capture=(ImageView)findViewById(R.id.refresh_capture);
+        refresh_capture=(LinearLayout)findViewById(R.id.refresh_capture);
 
         done_capture.setVisibility(View.INVISIBLE);
         refresh_capture.setVisibility(View.INVISIBLE);

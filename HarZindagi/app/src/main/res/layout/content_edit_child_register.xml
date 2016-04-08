@@ -9,7 +9,7 @@
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ipal.itu.harzindagi.Activities.RegisterChildActivity"
-    tools:showIn="@layout/activity_register_child">
+    tools:showIn="@layout/activity_edit_child_register">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_height="50dp">
 
 
-            <EditText
+            <TextView
                 android:id="@+id/registerChildUCNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height">
 
-            <Spinner
+            <TextView
                 android:id="@+id/registerChildEPICenterName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -68,8 +68,7 @@
                 android:layout_weight=".10"
                 android:hint=""
                 android:inputType="textCapWords"
-                android:singleLine="true"
-                />
+                android:singleLine="true" />
 
             <TextView
 
@@ -201,7 +200,7 @@
 
             >
 
-            <EditText
+            <TextView
                 android:id="@+id/registerChildGuardianName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -311,7 +310,7 @@
 
             >
 
-            <EditText
+            <TextView
                 android:id="@+id/registerChildMotherName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -356,7 +355,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/registerChildTown_ET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -367,7 +366,6 @@
                 android:singleLine="true"
                 android:textSize="16sp" />
         </RelativeLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
@@ -387,7 +385,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/registerChildAddress"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
