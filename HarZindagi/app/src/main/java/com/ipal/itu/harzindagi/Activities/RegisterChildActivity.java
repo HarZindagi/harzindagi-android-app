@@ -43,6 +43,7 @@ import java.util.Locale;
 public class RegisterChildActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
+    public static String location = "0.0000,0.0000";
     Spinner CenterName;
     EditText childName;
     Button boy;
@@ -57,9 +58,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText houseAddress;
     EditText EPINumber;
     Button childPicture;
-
     String epiNumber;
-
     String EPICenterName;
     String ChildName, childID;
     String DateOfBirth;
@@ -72,7 +71,6 @@ public class RegisterChildActivity extends AppCompatActivity {
     FileOutputStream fo;
     String[] array_age_yrs = {"A", "B", "C", "D", "E", "F"};
     Calendar myCalendar = Calendar.getInstance();
-    public  static  String location = "0.0000,0.0000";
     private PopupWindow pw;
     private View popUpView;
 
@@ -111,8 +109,6 @@ public class RegisterChildActivity extends AppCompatActivity {
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
 
         EPINumber = (EditText) findViewById(R.id.registerChildUCNumber);
-
-
 
         // Spinner item selection Listener
         addItemsOnSpinnerAge_yr();
@@ -200,6 +196,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         }*/
         getLocation();
     }
+
     public void addItemsOnSpinnerAge_yr() {
 
 
@@ -222,6 +219,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
 
     }
+
     public void showError(View v, String error) {
 
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
@@ -235,7 +233,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         List<ChildInfo> chidInfo = ChildInfoDao.getByEpiNum(epiNumber);
         if (chidInfo.size() > 0) {
             EPINumber.setText(chidInfo.get(0).epi_number);
-           //CenterName.setText(chidInfo.get(0).kids_station);
+            //CenterName.setText(chidInfo.get(0).kids_station);
             childName.setText(chidInfo.get(0).kid_name);
             Gender = chidInfo.get(0).gender;
             DOBText.setText(chidInfo.get(0).date_of_birth);

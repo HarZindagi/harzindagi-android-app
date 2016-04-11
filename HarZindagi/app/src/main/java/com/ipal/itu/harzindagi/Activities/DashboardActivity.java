@@ -157,11 +157,11 @@ public class DashboardActivity extends AppCompatActivity {
                 syncData();
             }
         }
-        if (id == R.id.action_download) {
+      /*  if (id == R.id.action_download) {
             if (Constants.isOnline(this)) {
                 showAlertDialog();
             }
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -176,7 +176,7 @@ public class DashboardActivity extends AppCompatActivity {
 
        adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int which) {
-               loadChildData();
+
                dialog.dismiss();
 
            } });
@@ -472,192 +472,5 @@ public class DashboardActivity extends AppCompatActivity {
 
     ///Download data from server
 
-    private void loadChildData() {
-        // Instantiate the RequestQueue.
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.kids + "?" + "user[auth_token]=" + Constants.getToken(this);
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading Child data...");
-        pDialog.show();
-
-        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
-                url, new JSONObject(),
-                new Response.Listener<JSONArray>() {
-
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        pDialog.hide();
-                        if (response.toString().contains("Invalid User")) {
-                            Toast.makeText(DashboardActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        JSONObject json = null;
-                        try {
-                            json = new JSONObject("{\"childInfoArrayList\":" + response + "}");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        parseKidReponse(json);
-
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-
-        };
-
-// Add the request to the RequestQueue.
-        queue.add(jsonObjReq);
-    }
-    public void parseKidReponse(JSONObject response) {
-
-        Gson gson = new Gson();
-        GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
-        if(obj.childInfoArrayList.size()==0){
-            return;
-        }
-        ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
-        for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
-            ChildInfo c = new ChildInfo();
-            c.mobile_id = obj.childInfoArrayList.get(i).id;
-
-
-            c.kid_name = obj.childInfoArrayList.get(i).kid_name;
-            c.guardian_name = obj.childInfoArrayList.get(i).father_name;
-
-            c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
-
-            c.phone_number = obj.childInfoArrayList.get(i).phone_number;
-            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
-
-            c.date_of_birth = Constants.getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
-            c.location = obj.childInfoArrayList.get(i).location;
-            c.child_address = obj.childInfoArrayList.get(i).child_address;
-            if (obj.childInfoArrayList.get(i).gender == true) {
-                c.gender = 1;
-            } else {
-                c.gender = 0;
-            }
-            c.epi_number = obj.childInfoArrayList.get(i).epi_number;
-            c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
-            c.record_update_flag = true;
-            c.book_update_flag = true;
-            c.image_path ="image_"+obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
-
-            childInfoArrayList.add(c);
-        }
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> noSync = ChildInfoDao.getNotSync();
-        childInfoDao.deleteTable();
-        childInfoDao.bulkInsert(childInfoArrayList);
-        childInfoDao.bulkInsert(noSync);
-        loadKidVaccination();
-        //  setViewPagger();
-    }
-    private void loadKidVaccination() {
-        // Instantiate the RequestQueue.
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.kid_vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading Vaccination data...");
-        pDialog.show();
-
-        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
-                url, new JSONObject(),
-                new Response.Listener<JSONArray>() {
-
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        pDialog.hide();
-                        if (response.toString().contains("Invalid User")) {
-                            Toast.makeText(DashboardActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        JSONObject json = null;
-                        try {
-                            json = new JSONObject("{\"kidVaccinations\":" + response + "}");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        parseVaccinationReponse(json);
-
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-
-        };
-
-// Add the request to the RequestQueue.
-        queue.add(jsonObjReq);
-    }
-    public void parseVaccinationReponse(JSONObject response) {
-
-        Gson gson = new Gson();
-        GKidTransactionAry obj = gson.fromJson(response.toString(), GKidTransactionAry.class);
-        if(obj.kidVaccinations.size()==0){
-            return;
-        }
-        ArrayList<KidVaccinations> childInfoArrayList = new ArrayList<>();
-        for (int i = 0; i < obj.kidVaccinations.size(); i++) {
-            KidVaccinations c = new KidVaccinations();
-            c.location = obj.kidVaccinations.get(i).location;
-
-
-            c.mobile_id = obj.kidVaccinations.get(i).kid_id;
-            c.kid_id = obj.kidVaccinations.get(i).kid_id;
-
-            c.vaccination_id = obj.kidVaccinations.get(i).vaccination_id;
-
-            c.image = obj.kidVaccinations.get(i).image_path;
-
-            c.created_timestamp = obj.kidVaccinations.get(i).created_timestamp;
-
-            c.is_sync = true;
-
-            childInfoArrayList.add(c);
-
-        }
-        KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
-        List<KidVaccinations> noSync = kidVaccinationDao.getNoSync();
-        kidVaccinationDao.deleteTable();
-        kidVaccinationDao.bulkInsert(childInfoArrayList);
-        kidVaccinationDao.bulkInsert(noSync);
-
-        Toast.makeText(DashboardActivity.this,"ڈاونلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
-    }
 }
