@@ -43,14 +43,20 @@ import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
 import com.google.gson.Gson;
+import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.InjectionsDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.UserInfoDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Dao.VisitsDao;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Injections;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
+import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GInjectionAry;
+import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
 import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.GJson.GVaccinationAry;
 import com.ipal.itu.harzindagi.GJson.GVisitAry;
@@ -68,6 +74,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -92,8 +99,11 @@ public class LoginActivity extends AppCompatActivity {
     String passwordTxt;
 
     String location = "0.0,0.0";
+    BroadcastReceiver receiver;
     private PopupWindow pw;
     private View popUpView;
+    private long enqueue;
+    private DownloadManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,13 +195,13 @@ public class LoginActivity extends AppCompatActivity {
         createContexMenu();
         String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 
-        if(!provider.contains("gps")) { //if gps is disabled
+        if (!provider.contains("gps")) { //if gps is disabled
             Intent gpsOptionsIntent = new Intent(
                     android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsOptionsIntent);
-            Toast.makeText(this,"GPS ON KEREN",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "GPS ON KEREN", Toast.LENGTH_LONG).show();
         }
-        BroadcastReceiver receiver = new BroadcastReceiver() {
+        receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
@@ -226,11 +236,21 @@ public class LoginActivity extends AppCompatActivity {
         registerReceiver(receiver, new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
+
     public void showDownload() {
         Intent i = new Intent();
         i.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
         startActivity(i);
     }
+
+    @Override
+    protected void onDestroy() {
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
+        super.onDestroy();
+    }
+
     public boolean inputValidate() {
 
         if (password.getText().length() < 1) {
@@ -241,7 +261,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
     private void getUserInfo() {
         // Instantiate the RequestQueue.
@@ -436,7 +455,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == 1887) {
             Bitmap photo, resizedImage;
@@ -459,9 +477,9 @@ public class LoginActivity extends AppCompatActivity {
 
             //imageView.setImageBitmap(photo);
             int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            if(Constants.getCheckIn(this).equals("") || !Constants.getDay(this).equals(day+"")) {
+            if (Constants.getCheckIn(this).equals("") || !Constants.getDay(this).equals(day + "")) {
                 Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-                Constants.setDay(this,day+"");
+                Constants.setDay(this, day + "");
                 Constants.setCheckOut(this, "");
 
             }
@@ -469,15 +487,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.login_main, menu);
         return true;
     }
-    private long enqueue;
-    private DownloadManager dm;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -493,6 +509,7 @@ public class LoginActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void downloadFile() {
         dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 
@@ -502,6 +519,7 @@ public class LoginActivity extends AppCompatActivity {
         enqueue = dm.enqueue(request);
 
     }
+
     public void loadVisits() {
 
         // Instantiate the RequestQueue.
@@ -679,6 +697,197 @@ public class LoginActivity extends AppCompatActivity {
 
         vaccinationsDao.deleteTable();
         vaccinationsDao.bulkInsert(vac);
+
+
+        loadChildData();
+
+    }
+    private void loadChildData() {
+        // Instantiate the RequestQueue.
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kids + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading Child data...");
+        pDialog.show();
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        pDialog.hide();
+                        if (response.toString().contains("Invalid User")) {
+                            Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject("{\"childInfoArrayList\":" + response + "}");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        parseKidReponse(json);
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+    public void parseKidReponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
+        if(obj.childInfoArrayList.size()==0){
+            return;
+        }
+        ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
+        for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
+            ChildInfo c = new ChildInfo();
+            c.mobile_id = obj.childInfoArrayList.get(i).id;
+
+
+            c.kid_name = obj.childInfoArrayList.get(i).kid_name;
+            c.guardian_name = obj.childInfoArrayList.get(i).father_name;
+
+            c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
+
+            c.phone_number = obj.childInfoArrayList.get(i).phone_number;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
+
+            c.date_of_birth = Constants.getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
+            c.location = obj.childInfoArrayList.get(i).location;
+            c.child_address = obj.childInfoArrayList.get(i).child_address;
+            if (obj.childInfoArrayList.get(i).gender == true) {
+                c.gender = 1;
+            } else {
+                c.gender = 0;
+            }
+            c.epi_number = obj.childInfoArrayList.get(i).epi_number;
+            c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
+            c.record_update_flag = true;
+            c.book_update_flag = true;
+            c.image_path ="image_"+obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
+
+            childInfoArrayList.add(c);
+        }
+        ChildInfoDao childInfoDao = new ChildInfoDao();
+        List<ChildInfo> noSync = ChildInfoDao.getNotSync();
+        childInfoDao.deleteTable();
+        childInfoDao.bulkInsert(childInfoArrayList);
+        childInfoDao.bulkInsert(noSync);
+        loadKidVaccination();
+        //  setViewPagger();
+    }
+    private void loadKidVaccination() {
+        // Instantiate the RequestQueue.
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kid_vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading Vaccination data...");
+        pDialog.show();
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        pDialog.hide();
+                        if (response.toString().contains("Invalid User")) {
+                            Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject("{\"kidVaccinations\":" + response + "}");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        parseVaccinationReponse(json);
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+    public void parseVaccinationReponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        GKidTransactionAry obj = gson.fromJson(response.toString(), GKidTransactionAry.class);
+        if(obj.kidVaccinations.size()==0){
+            return;
+        }
+        ArrayList<KidVaccinations> childInfoArrayList = new ArrayList<>();
+        for (int i = 0; i < obj.kidVaccinations.size(); i++) {
+            KidVaccinations c = new KidVaccinations();
+            c.location = obj.kidVaccinations.get(i).location;
+
+
+            c.mobile_id = obj.kidVaccinations.get(i).kid_id;
+            c.kid_id = obj.kidVaccinations.get(i).kid_id;
+
+            c.vaccination_id = obj.kidVaccinations.get(i).vaccination_id;
+
+            c.image = obj.kidVaccinations.get(i).image_path;
+
+            c.created_timestamp = obj.kidVaccinations.get(i).created_timestamp;
+
+            c.is_sync = true;
+
+            childInfoArrayList.add(c);
+
+        }
+        KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
+        List<KidVaccinations> noSync = kidVaccinationDao.getNoSync();
+        kidVaccinationDao.deleteTable();
+        kidVaccinationDao.bulkInsert(childInfoArrayList);
+        kidVaccinationDao.bulkInsert(noSync);
+        Toast.makeText(LoginActivity.this,"ڈاونلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
         Constants.setIsTableLoaded(this, true);
         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);

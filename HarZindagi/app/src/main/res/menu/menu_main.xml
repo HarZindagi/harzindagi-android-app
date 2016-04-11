@@ -20,11 +20,11 @@
         android:title="@string/action_sync_text"
         android:icon="@drawable/arrows"
         />
-    <item
+ <!--   <item
         android:id="@+id/action_download"
         android:orderInCategory="100"
         android:title="@string/action_download_text"
         android:icon="@drawable/arrows"
-        />
+        />-->
 
 </menu>
