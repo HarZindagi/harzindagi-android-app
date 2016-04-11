@@ -1,7 +1,9 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -68,7 +70,7 @@ public class VaccineList extends AppCompatActivity {
             R.drawable.next_boardr_full5,
             R.drawable.next_boardr_full6
     };
-
+    Context context;
     private String[] numbr={"1","2","3","4","5","6"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class VaccineList extends AppCompatActivity {
         setContentView(R.layout.vacc_list_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        context=this;
         top_header = (LinearLayout) findViewById(R.id.topHeader);
         time_period_txt = (TextView) findViewById(R.id.time_period_txt);
         try {
@@ -98,7 +100,7 @@ public class VaccineList extends AppCompatActivity {
                 ((TextView)findViewById(R.id.nextDueDateNmbr)).setVisibility(View.GONE);
                 ((ImageView)findViewById(R.id.two_arrw_head)).setVisibility(View.GONE);
                 ((TextView)findViewById(R.id.nxt_txt)).setText(compelte1 + compelte2 + "\"" + compelte3 + "\"" + compelte4);
-               // ((TextView)findViewById(R.id.nxt_txt)).(Color.parseColor("#bdbdbd"));
+                ((TextView)findViewById(R.id.nxt_txt)).setTextColor(ContextCompat.getColor(context, R.color.red));
                 top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
 
 

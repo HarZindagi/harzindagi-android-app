@@ -34,7 +34,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
     TextView guardianMobileNumber;
     ImageView childPic;
     String app_name;
-    Button NFC_Write;
+    Button NFC_Write,editChild;
     double longitude;
     double latitude;
 
@@ -58,7 +58,16 @@ public class RegisteredChildActivity extends AppCompatActivity {
         guardianCNIC = (TextView) findViewById(R.id.ChildGuardianCNIC);
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
         childPic = (ImageView) findViewById(R.id.ChildPic);
+        editChild=(Button)findViewById(R.id.edit_child);
+        editChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent=new Intent(RegisteredChildActivity.this,EditRegisterChildActivity.class);
+                intent.putExtra("epiNumber",childID);
+                startActivity(intent);
+            }
+        });
 
        Bundle bundle = getIntent().getExtras();
        childID = bundle.getString("childid");

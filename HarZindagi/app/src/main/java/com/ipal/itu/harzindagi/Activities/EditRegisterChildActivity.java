@@ -61,7 +61,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
     Button childPicture;
 
     String epiNumber;
-
+    String epiNum;
     String EPICenterName;
     String ChildName, childID;
     String DateOfBirth;
@@ -116,7 +116,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
         guardianName = (TextView) findViewById(R.id.registerChildGuardianName);
         guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
         guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
-
+        CenterName=(TextView)findViewById(R.id.registerChildEPICenterName);
 
         childPicture = (Button) findViewById(R.id.registerChildTakePicture);
         childPicture.setOnClickListener(new View.OnClickListener() {
@@ -127,18 +127,22 @@ public class EditRegisterChildActivity extends AppCompatActivity {
                     return;
                 }
                 List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
-                if (childInfo.size() > 0) {
-                    showError(EPINumber, "ڈوپلیکیٹ ریکارڈ");
-                    return;
-                }
+               readEditTexts();
+                childInfo.get(0).kid_name = ChildName;
+                childInfo.get(0).guardian_cnic=GuardianCNIC;
+                childInfo.get(0).phone_number=GuardianMobileNumber;
+                childInfo.get(0).save();
 
-                Intent cameraIntent = new Intent(EditRegisterChildActivity.this, CustomCamera.class);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                Intent regIntent = new Intent(EditRegisterChildActivity.this, RegisteredChildActivity.class);
+                regIntent.putExtra("childid", epiNum);
+                startActivity(regIntent);
+                finish();
             }
         });
         createContexMenu();
         if (getIntent().hasExtra("epiNumber")) {
-            String epiNum = getIntent().getStringExtra("epiNumber");
+            epiNum = getIntent().getStringExtra("epiNumber");
+
             fillValues(epiNum);
         }
         getLocation();
@@ -160,7 +164,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
         List<ChildInfo> chidInfo = ChildInfoDao.getByEpiNum(epiNumber);
         if (chidInfo.size() > 0) {
             EPINumber.setText(chidInfo.get(0).epi_number);
-            CenterName.setText(chidInfo.get(0).kids_station);
+            CenterName.setText(chidInfo.get(0).epi_name);
             childName.setText(chidInfo.get(0).kid_name);
             Gender = chidInfo.get(0).gender;
             DOBText.setText(chidInfo.get(0).date_of_birth);
@@ -214,7 +218,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
+       /* if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
 
             readEditTexts();
             childID = epiNumber;
@@ -237,7 +241,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
             this.finish();
             startActivity(intent);
             //imageView.setImageBitmap(photo);
-        }
+        }*/
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
             String year = data.getStringExtra("year");
             String month = data.getStringExtra("month");

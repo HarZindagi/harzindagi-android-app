@@ -193,10 +193,11 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         });
         createContexMenu();
-        if (getIntent().hasExtra("epiNumber")) {
+      /*  if (getIntent().hasExtra("epiNumber")) {
             String epiNum = getIntent().getStringExtra("epiNumber");
             fillValues(epiNum);
-        }
+
+        }*/
         getLocation();
     }
     public void addItemsOnSpinnerAge_yr() {
@@ -234,7 +235,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         List<ChildInfo> chidInfo = ChildInfoDao.getByEpiNum(epiNumber);
         if (chidInfo.size() > 0) {
             EPINumber.setText(chidInfo.get(0).epi_number);
-           // CenterName.setText(chidInfo.get(0).kids_station);
+           //CenterName.setText(chidInfo.get(0).kids_station);
             childName.setText(chidInfo.get(0).kid_name);
             Gender = chidInfo.get(0).gender;
             DOBText.setText(chidInfo.get(0).date_of_birth);
@@ -368,7 +369,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     public void readEditTexts() {
         epiNumber = EPINumber.getText().toString();
-        EPICenterName = CenterName.getSelectedItem().toString();
+        EPICenterName = array_age_yrs[CenterName.getSelectedItemPosition()];
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();
         GuardianName = guardianName.getText().toString();

@@ -346,5 +346,14 @@
         android:text="ویکسی نیشن کی سکرین پر جائیں"
         android:textColor="@color/white"
         android:textSize="18dp" />
+    <Button
+        android:id="@+id/edit_child"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/roundbutton"
+        android:text="Edit Child Data"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
 
 </LinearLayout>
