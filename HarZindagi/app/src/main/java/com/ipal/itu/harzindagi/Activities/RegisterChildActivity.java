@@ -44,8 +44,9 @@ public class RegisterChildActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
     public static String location = "0.0000,0.0000";
-    Spinner CenterName;
+    EditText CenterName;
     EditText childName;
+    Spinner registerChildTown_ET;
     Button boy;
     Button girl;
     View DOB;
@@ -59,7 +60,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText EPINumber;
     Button childPicture;
     String epiNumber;
-    String EPICenterName;
+    String EPICenterName,TownName;
     String ChildName, childID;
     String DateOfBirth;
     String MotherName;
@@ -109,6 +110,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
 
         EPINumber = (EditText) findViewById(R.id.registerChildUCNumber);
+
+        CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
 
         // Spinner item selection Listener
         addItemsOnSpinnerAge_yr();
@@ -200,12 +203,12 @@ public class RegisterChildActivity extends AppCompatActivity {
     public void addItemsOnSpinnerAge_yr() {
 
 
-        CenterName = (Spinner) findViewById(R.id.registerChildEPICenterName);
+        registerChildTown_ET=(Spinner)findViewById(R.id.registerChildTown_ET);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.selected_item, array_age_yrs);
         adapter.setDropDownViewResource(R.layout.spinner_row);
-        CenterName.setAdapter(adapter);
-        CenterName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        registerChildTown_ET.setAdapter(adapter);
+        registerChildTown_ET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -254,7 +257,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             return error;
         }
-        if (CenterName.getSelectedItemPosition() < 1) {
+        if (CenterName.getText().length() < 1) {
             error = "برائے مہربانی سینٹر کا نام درج کریں۔";
             showError(CenterName, error);
 
@@ -367,7 +370,8 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     public void readEditTexts() {
         epiNumber = EPINumber.getText().toString();
-        EPICenterName = array_age_yrs[CenterName.getSelectedItemPosition()];
+        EPICenterName = CenterName.getText().toString();
+        TownName = array_age_yrs[registerChildTown_ET.getSelectedItemPosition()];
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();
         GuardianName = guardianName.getText().toString();
