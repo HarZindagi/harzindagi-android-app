@@ -16,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class RegisteredChildActivity extends AppCompatActivity {
@@ -34,11 +37,12 @@ public class RegisteredChildActivity extends AppCompatActivity {
     TextView guardianMobileNumber;
     ImageView childPic;
     String app_name;
-    Button NFC_Write,editChild;
+    Button vaccination_btn,editChild;
     double longitude;
     double latitude;
-
-     String childID;
+    ChildInfoDao dao;
+    Calendar calendar;
+    String childID;
    final Context curr=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,9 @@ public class RegisteredChildActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dao = new ChildInfoDao();
 
+        calendar= Calendar.getInstance();
         ucNumber = (TextView) findViewById(R.id.ChildUCNumber);
         epiCenterName = (TextView) findViewById(R.id.ChildEPICenterName);
         childName = (TextView) findViewById(R.id.ChildName);
@@ -66,22 +72,35 @@ public class RegisteredChildActivity extends AppCompatActivity {
                 Intent intent=new Intent(RegisteredChildActivity.this,EditRegisterChildActivity.class);
                 intent.putExtra("epiNumber",childID);
                 startActivity(intent);
+                finish();
             }
         });
 
        Bundle bundle = getIntent().getExtras();
        childID = bundle.getString("childid");
 
-        NFC_Write= (Button) findViewById(R.id.NFCWrite);
-        NFC_Write.setOnClickListener(new View.OnClickListener() {
+        vaccination_btn = (Button) findViewById(R.id.NFCWrite);
+        vaccination_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                Intent myintent = new Intent(curr, VaccinationActivity.class);
+               /* Intent myintent = new Intent(curr, VaccinationActivity.class);
 
                 myintent.putExtra("childid", childID);
-                startActivity(myintent);
+                startActivity(myintent);*/
+                final List<ChildInfo> data = dao.getByEPINum(childID);
+                Intent intent = new Intent(curr, VaccinationActivity.class);
+                long kid = 0;
+                if(data.get(0).kid_id!=null){
+                    kid = data.get(0).kid_id;
+                }else{
+                    kid = data.get(0).mobile_id;
+                }
+                Bundle bnd= KidVaccinationDao.get_visit_details_db(kid);
+                intent.putExtra("childid", data.get(0).epi_number);
+                intent.putExtras(bnd);
+                startActivity(intent);
                 finish();
             }
         });
@@ -91,7 +110,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
         List<ChildInfo> data = childInfoDao.getByEPINum(childID);
 
         if(data!=null) {
-            ucNumber.setText("" + "203");
+            ucNumber.setText("" + Constants.getUCID(this));
             epiCenterName.setText("" + data.get(0).epi_name);
             childName.setText("" + data.get(0).kid_name);
 

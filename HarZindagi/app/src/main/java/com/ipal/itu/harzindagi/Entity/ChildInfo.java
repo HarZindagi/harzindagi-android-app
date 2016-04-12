@@ -120,5 +120,11 @@ public class ChildInfo extends TruncatableModel {
 
 
     }
+    public void setChildInfo(String name,  String CNIC, String phoneNum) {
+        this.kid_name = name;
+        this.guardian_cnic = CNIC;
+        this.phone_number = phoneNum;
+
+    }
 
 }

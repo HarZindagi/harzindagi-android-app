@@ -6,8 +6,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -16,7 +14,6 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -32,8 +29,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.LocationAjaxCallback;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
@@ -45,7 +40,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +99,7 @@ public class CardScanWrite extends AppCompatActivity {
         tsLong = System.currentTimeMillis() / 1000;
 
 
-    push_NFC = Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + RegisterChildActivity.location + "#" + bundle.getString("EPIname")+"#"+Calendar.getInstance().getTimeInMillis()+"#1#0,0,0";
+        push_NFC = Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + RegisterChildActivity.location + "#" + bundle.getString("EPIname") + "#" + Calendar.getInstance().getTimeInMillis() + "#1#0,0,0";
 
 // intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -131,7 +125,7 @@ public class CardScanWrite extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Push_into_NFC();
+                Push_into_DB();
             }
         });
 
@@ -151,14 +145,21 @@ public class CardScanWrite extends AppCompatActivity {
     }
 
 
-    public int Push_into_NFC() {
+    public int Push_into_DB() {
 
 
         Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
         Calendar calendar = Calendar.getInstance();
-        Long tsLong =calendar.getTimeInMillis() / 1000;
+        Long tsLong = calendar.getTimeInMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
-        childInfoDao.save(Child_id+"_"+Calendar.getInstance().getTimeInMillis(),Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false,address,Constants.getIMEI(this));
+        List<ChildInfo> item = childInfoDao.getByEPINum(Child_id);
+        if (item.size() == 0) {
+            childInfoDao.save(Child_id + "_" + Calendar.getInstance().getTimeInMillis(), Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this));
+
+        } else {
+            childInfoDao.save(item.get(0), bundle.getString("Name"), bundle.getString("cnic"), bundle.getString("pnum"));
+
+        }
 
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
         myintent.putExtra("childid", Child_id);
@@ -173,24 +174,21 @@ public class CardScanWrite extends AppCompatActivity {
 
         mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-            if (mWriteMode) {
-                Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                NdefRecord record = NdefRecord.createMime(push_NFC, push_NFC.getBytes());
-                NdefMessage message = new NdefMessage(new NdefRecord[]{record});
-                if (writeTag(message, detectedTag)) {
-                    //   Toast.makeText(this, "Success: Wrotgme placeid to nfc tag", Toast.LENGTH_LONG)
-                    //.show();
-                    btn.setText("آگے چلیں");
-                    btn.setVisibility(View.VISIBLE);
-                    btn.setEnabled(true);
-                    mWriteMode = false;
+        if (mWriteMode) {
+            Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            NdefRecord record = NdefRecord.createMime(push_NFC, push_NFC.getBytes());
+            NdefMessage message = new NdefMessage(new NdefRecord[]{record});
+            if (writeTag(message, detectedTag)) {
+                //   Toast.makeText(this, "Success: Wrotgme placeid to nfc tag", Toast.LENGTH_LONG)
+                //.show();
+                btn.setText("آگے چلیں");
+                btn.setVisibility(View.VISIBLE);
+                btn.setEnabled(true);
+                mWriteMode = false;
 
 
-                }
             }
-
-
-
+        }
 
 
     }

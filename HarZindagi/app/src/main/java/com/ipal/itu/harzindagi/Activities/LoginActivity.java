@@ -61,8 +61,10 @@ import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.GJson.GVaccinationAry;
 import com.ipal.itu.harzindagi.GJson.GVisitAry;
 import com.ipal.itu.harzindagi.GJson.Token;
+import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.ImageDownloader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -798,8 +800,19 @@ public class LoginActivity extends AppCompatActivity {
         childInfoDao.deleteTable();
         childInfoDao.bulkInsert(childInfoArrayList);
         childInfoDao.bulkInsert(noSync);
-        loadKidVaccination();
+
+        downloadImages(childInfoDao.getAll());
         //  setViewPagger();
+    }
+    private  void downloadImages( List<ChildInfo> childInfo){
+
+        ImageDownloader imageDownloader = new ImageDownloader(this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String reponse) {
+                loadKidVaccination();
+            }
+        });
+        imageDownloader.execute();
     }
     private void loadKidVaccination() {
         // Instantiate the RequestQueue.
@@ -892,4 +905,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
+
 }

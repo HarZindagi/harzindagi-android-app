@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.ipal.itu.harzindagi.Activities.RegisteredChildActivity;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
@@ -46,12 +47,17 @@ public class TabFragment1 extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                    Intent intent = new Intent(getActivity(), VaccinationActivity.class);
+                   /* Intent intent = new Intent(getActivity(), VaccinationActivity.class);
 
                     Bundle bnd = KidVaccinationDao.get_visit_details_db(data.get(position).mobile_id);
                     intent.putExtra("childid", data.get(position).epi_number);
                     intent.putExtras(bnd);
-                    startActivity(intent);
+                    startActivity(intent);*/
+
+                    Intent myintent = new Intent(getActivity(), RegisteredChildActivity.class);
+                    myintent.putExtra("childid", data.get(position).epi_number);
+                    myintent.putExtra("EPIname",data.get(position).epi_name );
+                    startActivity(myintent);
 
                 }
             });

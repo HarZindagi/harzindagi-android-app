@@ -51,6 +51,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
     Button girl;
     View DOB;
     TextView DOBText;
+    TextView registerChildTown_ET;
     TextView motherName;
     TextView guardianName;
     EditText guardianCNIC;
@@ -62,7 +63,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
 
     String epiNumber;
     String epiNum;
-    String EPICenterName;
+    String EPICenterName,TownName;
     String ChildName, childID;
     String DateOfBirth;
     String MotherName;
@@ -71,6 +72,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
     String GuardianMobileNumber;
     int Gender = -1;
     String app_name;
+    TextView ChildGender;
     Calendar myCalendar = Calendar.getInstance();
     public  static  String location = "0.0000,0.0000";
     private PopupWindow pw;
@@ -108,7 +110,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
         DOB = (View) findViewById(R.id.registerChildDOB);
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
         EPINumber = (TextView) findViewById(R.id.registerChildUCNumber);
-
+        registerChildTown_ET=(TextView)findViewById(R.id.registerChildTown_ET);
         houseAddress = (TextView) findViewById(R.id.registerChildAddress);
         boy = (Button) findViewById(R.id.registerChildSexMale);
         girl = (Button) findViewById(R.id.registerChildSexFemale);
@@ -117,6 +119,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
         guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
         guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
         CenterName=(TextView)findViewById(R.id.registerChildEPICenterName);
+        ChildGender=(TextView)findViewById(R.id.ChildGender);
 
         childPicture = (Button) findViewById(R.id.registerChildTakePicture);
         childPicture.setOnClickListener(new View.OnClickListener() {
@@ -127,15 +130,29 @@ public class EditRegisterChildActivity extends AppCompatActivity {
                     return;
                 }
                 List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
-               readEditTexts();
+                readEditTexts();
                 childInfo.get(0).kid_name = ChildName;
                 childInfo.get(0).guardian_cnic=GuardianCNIC;
                 childInfo.get(0).phone_number=GuardianMobileNumber;
                 childInfo.get(0).save();
+                DateOfBirth = DOBText.getText().toString();
+                Intent intent = new Intent(EditRegisterChildActivity.this, CardScanWrite.class);
+                intent.putExtra("ID", epiNum);
+                intent.putExtra("Name", ChildName);
+                intent.putExtra("Gender", Gender);
+                intent.putExtra("DOB", DateOfBirth);
+                intent.putExtra("mName", MotherName);
+                intent.putExtra("gName", GuardianName);
+                intent.putExtra("cnic", GuardianCNIC);
+                intent.putExtra("pnum", GuardianMobileNumber);
+                intent.putExtra("img", Fpath);
+                intent.putExtra("EPIname", EPICenterName);
+                intent.putExtra("address", houseAddress.getText().toString());
 
-                Intent regIntent = new Intent(EditRegisterChildActivity.this, RegisteredChildActivity.class);
+                startActivity(intent);
+               /* Intent regIntent = new Intent(EditRegisterChildActivity.this, RegisteredChildActivity.class);
                 regIntent.putExtra("childid", epiNum);
-                startActivity(regIntent);
+                startActivity(regIntent);*/
                 finish();
             }
         });
@@ -167,6 +184,9 @@ public class EditRegisterChildActivity extends AppCompatActivity {
             CenterName.setText(chidInfo.get(0).epi_name);
             childName.setText(chidInfo.get(0).kid_name);
             Gender = chidInfo.get(0).gender;
+            ChildGender.setText("Female");
+            if (chidInfo.get(0).gender == 1)
+                ChildGender.setText("Male");
             DOBText.setText(chidInfo.get(0).date_of_birth);
             guardianName.setText(chidInfo.get(0).guardian_name);
             guardianCNIC.setText(chidInfo.get(0).guardian_cnic);
@@ -255,6 +275,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
     public void readEditTexts() {
         epiNumber = EPINumber.getText().toString();
         EPICenterName = CenterName.getText().toString();
+        TownName = registerChildTown_ET.getText().toString();
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();
         GuardianName = guardianName.getText().toString();

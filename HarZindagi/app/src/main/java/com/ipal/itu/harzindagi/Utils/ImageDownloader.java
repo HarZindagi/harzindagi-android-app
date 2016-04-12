@@ -48,7 +48,7 @@ public class ImageDownloader {
 
     }
 
-    private void nextUpload(boolean isUploaded) {
+    private void nextDownload(boolean isUploaded) {
         if (isUploaded) {
             index++;
             if (index < childInfo.size()) {
@@ -77,19 +77,25 @@ public class ImageDownloader {
 
             }
         });
+        File myDir = new File("/sdcard/" + Constants.getApplicationName(context) + "/" +childInfo.image_path+".jpg");
+        if (myDir.exists()){
+            nextDownload(true);
+        }else{
+            imageLoader.get(Constants.imageDownload + childInfo.image_path+".jpg", new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                    SaveImage(response.getBitmap(),childInfo.image_path);
+                }
 
-        imageLoader.get(Constants.imageDownload + childInfo.image_path+".jpg", new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                SaveImage(response.getBitmap(),childInfo.image_path);
-            }
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context,"Error, Try Again",Toast.LENGTH_LONG).show();
+                    pDialog.dismiss();
+                }
+            });
+        }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,"Error, Try Again",Toast.LENGTH_LONG).show();
-                pDialog.dismiss();
-            }
-        });
+
 
 
 
@@ -124,7 +130,7 @@ public class ImageDownloader {
             finalBitmap.compress(Bitmap.CompressFormat.JPEG,100, out);
             out.flush();
             out.close();
-            nextUpload(true);
+            nextDownload(true);
 
         } catch (Exception e) {
             e.printStackTrace();

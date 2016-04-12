@@ -20,7 +20,13 @@ public class ChildInfoDao {
         item.save();
 
     }
+    public void save( ChildInfo item,String name,String cnic,String phoneNum) {
 
+        item.setChildInfo( name ,cnic, phoneNum);
+        item.save(); // to get system generated id we have to save it first
+
+
+    }
 
     public void update(int childId){
         new Update(ChildInfo.class)
