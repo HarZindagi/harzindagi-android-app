@@ -166,9 +166,13 @@ public class LoginActivity extends AppCompatActivity {
                     if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
                         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                    } else {
+                    } else if(password.getText().toString().equals("")){
 
-                        validator.setVisibility(View.VISIBLE);
+                       // validator.setVisibility(View.VISIBLE);
+                        inputValidate();
+                    }else{
+                        String error = "غلط پاس ورڈ";
+                        showError(password, error);
                     }
 
                 } else {
@@ -201,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent gpsOptionsIntent = new Intent(
                     android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsOptionsIntent);
-            Toast.makeText(this, "GPS ON KEREN", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "اون کریں GPS", Toast.LENGTH_LONG).show();
         }
         receiver = new BroadcastReceiver() {
             @Override

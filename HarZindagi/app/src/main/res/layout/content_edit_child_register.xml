@@ -28,13 +28,14 @@
 
             <TextView
                 android:id="@+id/registerChildUCNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/registerChildUCNumber_TV"
                 android:inputType="number"
+                android:textSize="20dp"
+                android:gravity="center"
                 android:textColor="@android:color/black"
                 android:nextFocusDown="@+id/registerChildEPICenterName"
                 android:singleLine="true" />
@@ -59,16 +60,16 @@
 
             <TextView
                 android:id="@+id/registerChildEPICenterName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginRight="5dp"
+
+                android:layout_marginRight="15dp"
+                android:gravity="center"
                 android:layout_toLeftOf="@+id/registerChildEPICenterName_TV"
                 android:layout_weight=".10"
                 android:hint=""
                 android:textColor="@android:color/black"
-
+                android:textSize="20dp"
                 android:inputType="textCapWords"
                 android:singleLine="true" />
 
@@ -130,17 +131,15 @@
 
             <TextView
                 android:id="@+id/ChildGender"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/ChildGenderText"
                 android:layout_weight=".10"
-                android:gravity="left|center"
                 android:hint=""
                 android:textColor="@android:color/black"
-
+                android:textSize="20dp"
                 android:inputType="textCapWords"
                 android:singleLine="true" />
 
@@ -200,18 +199,17 @@
 
             <TextView
                 android:id="@+id/registerChildGuardianName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/registerChildGuardianName_TV"
                 android:layout_weight=".10"
 
                 android:hint=""
 
                 android:inputType="textCapWords"
-
+                android:textSize="20dp"
                 android:singleLine="true" />
 
 
@@ -309,14 +307,14 @@
 
             <TextView
                 android:id="@+id/registerChildMotherName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginRight="5dp"
+              android:gravity="center"
+                android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/registerChildMotherName_TV"
                 android:layout_weight=".10"
                 android:hint=""
+                android:textSize="20dp"
                 android:inputType="textCapWords"
                 android:singleLine="true" />
 
@@ -353,14 +351,16 @@
 
             <TextView
                 android:id="@+id/registerChildTown_ET"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:layout_toLeftOf="@+id/registerChildTown"
                 android:layout_toStartOf="@+id/registerChildTown"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:hint=""
+                android:layout_marginRight="15dp"
+                android:textSize="20sp" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
