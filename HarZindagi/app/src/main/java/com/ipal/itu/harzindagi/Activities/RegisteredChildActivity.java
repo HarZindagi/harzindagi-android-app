@@ -115,9 +115,9 @@ public class RegisteredChildActivity extends AppCompatActivity {
             childName.setText("" + data.get(0).kid_name);
 
 
-            Gender.setText("Female");
+            Gender.setText("لڑکی");
             if (data.get(0).gender == 1)
-                Gender.setText("Male");
+                Gender.setText("لڑکا");
 
 
             DOB.setText(data.get(0).date_of_birth);
