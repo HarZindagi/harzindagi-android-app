@@ -52,8 +52,11 @@ import com.ipal.itu.harzindagi.Dao.VisitsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.Towns;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
+import com.ipal.itu.harzindagi.GJson.GAreas;
+import com.ipal.itu.harzindagi.GJson.GAreasList;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GInjectionAry;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
@@ -166,11 +169,11 @@ public class LoginActivity extends AppCompatActivity {
                     if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
                         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                    } else if(password.getText().toString().equals("")){
+                    } else if (password.getText().toString().equals("")) {
 
-                       // validator.setVisibility(View.VISIBLE);
+                        // validator.setVisibility(View.VISIBLE);
                         inputValidate();
-                    }else{
+                    } else {
                         String error = "غلط پاس ورڈ";
                         showError(password, error);
                     }
@@ -708,6 +711,7 @@ public class LoginActivity extends AppCompatActivity {
         loadChildData();
 
     }
+
     private void loadChildData() {
         // Instantiate the RequestQueue.
 
@@ -762,11 +766,12 @@ public class LoginActivity extends AppCompatActivity {
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
+
     public void parseKidReponse(JSONObject response) {
 
         Gson gson = new Gson();
         GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
-        if(obj.childInfoArrayList.size()==0){
+        if (obj.childInfoArrayList.size() == 0) {
             return;
         }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
@@ -783,7 +788,7 @@ public class LoginActivity extends AppCompatActivity {
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
             c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
 
-            c.date_of_birth = Constants.getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
+            c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             c.location = obj.childInfoArrayList.get(i).location;
             c.child_address = obj.childInfoArrayList.get(i).child_address;
             if (obj.childInfoArrayList.get(i).gender == true) {
@@ -795,7 +800,7 @@ public class LoginActivity extends AppCompatActivity {
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
             c.book_update_flag = true;
-            c.image_path ="image_"+obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
+            c.image_path = "image_" + obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
 
             childInfoArrayList.add(c);
         }
@@ -808,7 +813,8 @@ public class LoginActivity extends AppCompatActivity {
         downloadImages(childInfoDao.getAll());
         //  setViewPagger();
     }
-    private  void downloadImages( List<ChildInfo> childInfo){
+
+    private void downloadImages(List<ChildInfo> childInfo) {
 
         ImageDownloader imageDownloader = new ImageDownloader(this, childInfo, new OnUploadListner() {
             @Override
@@ -818,6 +824,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         imageDownloader.execute();
     }
+
     private void loadKidVaccination() {
         // Instantiate the RequestQueue.
 
@@ -872,11 +879,12 @@ public class LoginActivity extends AppCompatActivity {
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
+
     public void parseVaccinationReponse(JSONObject response) {
 
         Gson gson = new Gson();
         GKidTransactionAry obj = gson.fromJson(response.toString(), GKidTransactionAry.class);
-        if(obj.kidVaccinations.size()==0){
+        if (obj.kidVaccinations.size() == 0) {
             return;
         }
         ArrayList<KidVaccinations> childInfoArrayList = new ArrayList<>();
@@ -904,10 +912,90 @@ public class LoginActivity extends AppCompatActivity {
         kidVaccinationDao.deleteTable();
         kidVaccinationDao.bulkInsert(childInfoArrayList);
         kidVaccinationDao.bulkInsert(noSync);
-        Toast.makeText(LoginActivity.this,"ڈاونلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
+        loadAreas();
+    }
+
+    private void loadAreas() {
+        // Instantiate the RequestQueue.
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.areas + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading Areas...");
+        pDialog.show();
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        pDialog.hide();
+                        if (response.toString().contains("Invalid User")) {
+                            Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject("{\"areasList\":" + response + "}");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        parseAreasResponse(json);
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseAreasResponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        GAreasList obj = gson.fromJson(response.toString(), GAreasList.class);
+        if (obj.areasList.size() == 0) {
+            return;
+        }
+        ArrayList<Towns> townses = new ArrayList<>();
+        for (int i = 0; i < obj.areasList.size(); i++) {
+            Towns c = new Towns();
+            c.name = obj.areasList.get(i).name;
+
+
+            c.tId = obj.areasList.get(i).id;
+
+
+            townses.add(c);
+
+        }
+        Towns.deleteTable();
+        Towns.bulkInsert(townses);
+        Toast.makeText(LoginActivity.this, "ڈاونلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
+
         Constants.setIsTableLoaded(this, true);
         Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
-    }
 
+    }
 }
