@@ -93,7 +93,7 @@
 
             >
 
-            <EditText
+            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
                 android:id="@+id/registerChildName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -201,7 +201,7 @@
 
             >
 
-            <EditText
+            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
                 android:id="@+id/registerChildGuardianName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -311,7 +311,7 @@
 
             >
 
-            <EditText
+            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
                 android:id="@+id/registerChildMotherName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

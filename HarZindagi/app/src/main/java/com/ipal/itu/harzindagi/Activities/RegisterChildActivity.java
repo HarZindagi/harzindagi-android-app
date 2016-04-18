@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.SpaceTokenizer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -45,14 +47,14 @@ public class RegisterChildActivity extends AppCompatActivity {
     private static final int CALENDAR_CODE = 100;
     public static String location = "0.0000,0.0000";
     EditText CenterName;
-    EditText childName;
+    MultiAutoCompleteTextView childName;
     Spinner registerChildTown_ET;
     Button boy;
     Button girl;
     View DOB;
     TextView DOBText;
-    EditText motherName;
-    EditText guardianName;
+    MultiAutoCompleteTextView motherName;
+    MultiAutoCompleteTextView guardianName;
     EditText guardianCNIC;
     EditText guardianMobileNumber;
     String Fpath;
@@ -70,7 +72,13 @@ public class RegisterChildActivity extends AppCompatActivity {
     int Gender = -1;
     String app_name;
     FileOutputStream fo;
+    ArrayAdapter<String> adp;
     String[] array_age_yrs = {"A", "B", "C", "D", "E", "F"};
+
+  String[] str={"Andoid","Jelly Bean","Froyo",
+          "Ginger Bread","Eclipse Indigo","Eclipse Juno",
+          "AHMED","ALi","Butt","Bilal","Danial","Engine","Farhan","Gulzar","Hina","Jhangir","Usman","Osman","Waseem",
+          "Babar","Mannan","Imran","Zaheer",};
     Calendar myCalendar = Calendar.getInstance();
     private PopupWindow pw;
     private View popUpView;
@@ -105,7 +113,14 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         };
 
-        childName = (EditText) findViewById(R.id.registerChildName);
+        childName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildName);
+        childName.setTokenizer(new SpaceTokenizer());
+
+        adp=new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,str);
+
+        childName.setThreshold(1);
+        childName.setAdapter(adp);
         DOB = (View) findViewById(R.id.registerChildDOB);
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
 
@@ -160,11 +175,19 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         });
 
-        motherName = (EditText) findViewById(R.id.registerChildMotherName);
+        motherName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildMotherName);
+        motherName.setTokenizer(new SpaceTokenizer());
 
 
-        guardianName = (EditText) findViewById(R.id.registerChildGuardianName);
+        motherName.setThreshold(1);
+        motherName.setAdapter(adp);
 
+        guardianName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildGuardianName);
+        guardianName.setTokenizer(new SpaceTokenizer());
+
+
+        guardianName.setThreshold(1);
+        guardianName.setAdapter(adp);
         guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
 
         guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
