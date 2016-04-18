@@ -49,6 +49,8 @@ public class Constants {
     public static final String checkouts   = "http://103.226.216.170:3000/admin/checkouts";
     public static final String checkins   = "http://103.226.216.170:3000/admin/checkins";
 
+    public static final String areas   = "http://103.226.216.170:3000/admin/areas";
+
     public static final String token = "token";
     public static final String password = "password";
     public static final String name = "name";
