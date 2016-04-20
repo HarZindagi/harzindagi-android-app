@@ -29,6 +29,9 @@ import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+
+import com.ipal.itu.harzindagi.Entity.Towns;
+import com.ipal.itu.harzindagi.GJson.GAreasList;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 import com.ipal.itu.harzindagi.Utils.SpaceTokenizer;
@@ -38,6 +41,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -47,6 +51,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     private static final int CALENDAR_CODE = 100;
     public static String location = "0.0000,0.0000";
     EditText CenterName;
+    List<Towns> list_Towns;
     MultiAutoCompleteTextView childName;
     Spinner registerChildTown_ET;
     Button boy;
@@ -73,7 +78,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     String app_name;
     FileOutputStream fo;
     ArrayAdapter<String> adp;
-    String[] array_age_yrs = {"A", "B", "C", "D", "E", "F"};
+   // String[] array_age_yrs = {"A", "B", "C", "D", "E", "F"};
 
   String[] str={"Andoid","Jelly Bean","Froyo",
           "Ginger Bread","Eclipse Indigo","Eclipse Juno",
@@ -227,8 +232,14 @@ public class RegisterChildActivity extends AppCompatActivity {
 
 
         registerChildTown_ET=(Spinner)findViewById(R.id.registerChildTown_ET);
+        Towns town=new Towns();
+        list_Towns= town.getAll();
+       ArrayList<String> items = new ArrayList<>();
+        for (int i = 0; i <list_Towns.size() ; i++) {
+            items.add(list_Towns.get(i).name);
+        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.selected_item, array_age_yrs);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.selected_item,items);
         adapter.setDropDownViewResource(R.layout.spinner_row);
         registerChildTown_ET.setAdapter(adapter);
         registerChildTown_ET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -394,7 +405,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     public void readEditTexts() {
         epiNumber = EPINumber.getText().toString();
         EPICenterName = CenterName.getText().toString();
-        TownName = array_age_yrs[registerChildTown_ET.getSelectedItemPosition()];
+        //TownName = array_age_yrs[registerChildTown_ET.getSelectedItemPosition()];
         ChildName = childName.getText().toString();
         MotherName = motherName.getText().toString();
         GuardianName = guardianName.getText().toString();

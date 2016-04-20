@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean isTableLoaded = Constants.getIsTableLoaded(LoginActivity.this);
 
                 if (Constants.getToken(LoginActivity.this).length() > 0) {
                     if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
@@ -686,7 +687,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         };
-
+        loadAreas();
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -772,6 +773,7 @@ public class LoginActivity extends AppCompatActivity {
         Gson gson = new Gson();
         GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
         if (obj.childInfoArrayList.size() == 0) {
+
             return;
         }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
@@ -912,7 +914,7 @@ public class LoginActivity extends AppCompatActivity {
         kidVaccinationDao.deleteTable();
         kidVaccinationDao.bulkInsert(childInfoArrayList);
         kidVaccinationDao.bulkInsert(noSync);
-        loadAreas();
+
     }
 
     private void loadAreas() {

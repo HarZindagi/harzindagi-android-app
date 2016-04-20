@@ -82,7 +82,18 @@ public class VaccineList extends AppCompatActivity {
         top_header = (LinearLayout) findViewById(R.id.topHeader);
         time_period_txt = (TextView) findViewById(R.id.time_period_txt);
         try {
-            if(getIntent().getExtras().getInt("visit_num_")<5){
+            if(getIntent().getExtras().getInt("visit_num_") == -1){
+                time_period_txt.setText(vacc_period[0]);
+                ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
+                ((TextView) findViewById(R.id.nextDueDateTxt)).setBackgroundResource(nxt_oardr_colr[1]);
+                ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setText(Constants.addDate(getIntent().getExtras().getString("next_due_date")));
+                ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setBackgroundResource(nxt_oardr_colr[1]);
+                ((TextView)findViewById(R.id.nextDueDateNmbr)).setText(numbr[1]);
+                ((TextView)findViewById(R.id.nextDueDateNmbr)).setBackgroundResource(nxt_boardr_numbr[1]);
+                top_header.setBackgroundResource(color_period[0]);
+
+            }
+            if(getIntent().getExtras().getInt("visit_num_")<5 && getIntent().getExtras().getInt("visit_num_")>0){
                 time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setBackgroundResource(nxt_oardr_colr[getIntent().getExtras().getInt("visit_num_")] + 1);
@@ -93,7 +104,7 @@ public class VaccineList extends AppCompatActivity {
                 top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
 
             }
-            else{
+            if(getIntent().getExtras().getInt("visit_num_")==5){
                 time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setVisibility(View.GONE);
                 ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setVisibility(View.GONE);
