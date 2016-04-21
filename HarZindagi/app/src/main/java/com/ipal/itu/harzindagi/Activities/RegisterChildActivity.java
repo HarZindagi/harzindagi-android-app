@@ -78,12 +78,18 @@ public class RegisterChildActivity extends AppCompatActivity {
     String app_name;
     FileOutputStream fo;
     ArrayAdapter<String> adp;
+    ArrayAdapter<String> adp_wm;
+
    // String[] array_age_yrs = {"A", "B", "C", "D", "E", "F"};
 
-  String[] str={"Andoid","Jelly Bean","Froyo",
-          "Ginger Bread","Eclipse Indigo","Eclipse Juno",
-          "AHMED","ALi","Butt","Bilal","Danial","Engine","Farhan","Gulzar","Hina","Jhangir","Usman","Osman","Waseem",
-          "Babar","Mannan","Imran","Zaheer",};
+  String[] str={
+          "Ahmed","Ali","Babar","Butt","Bilal","Danial","Farhan","Gulzar","Hina","Khizir","Mehmood","Nasir","Pathan","Hassan","Saad",
+          "Tahir","Umer","Khawer","Yasir","Jhangir","Usman","Osman","Waseem",
+          "Mannan","Imran","Zaheer","Zeshan"};
+    String[] women_str={
+            "AYESHA","FATIMA","MARIAM","AQSA","LAIBA","AIZA","RABIA","ZAINAB","Hina","SABA","AMNA","ALEENA","MARIA","Qurat","IQRA",
+            "SHAZIA","ZOYA","SADIA","ANAM","ESHAAL","MEHWISH","ASMA","HANIYA",
+            "AIMAN","ALISHBA","HAREEM","SIDRA"};
     Calendar myCalendar = Calendar.getInstance();
     private PopupWindow pw;
     private View popUpView;
@@ -123,6 +129,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         adp=new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,str);
+
 
         childName.setThreshold(1);
         childName.setAdapter(adp);
@@ -179,13 +186,14 @@ public class RegisterChildActivity extends AppCompatActivity {
                 startActivityForResult(intent, CALENDAR_CODE);
             }
         });
-
+        adp_wm=new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,women_str);
         motherName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildMotherName);
         motherName.setTokenizer(new SpaceTokenizer());
 
 
         motherName.setThreshold(1);
-        motherName.setAdapter(adp);
+        motherName.setAdapter(adp_wm);
 
         guardianName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildGuardianName);
         guardianName.setTokenizer(new SpaceTokenizer());

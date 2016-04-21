@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                         // validator.setVisibility(View.VISIBLE);
                         inputValidate();
                     } else {
-                        String error = "غلط پاس ورڈ";
+                        String error = "برائےمہربانی درست پاس ورڈ درج کریں";
                         showError(password, error);
                     }
 
@@ -264,7 +264,7 @@ public class LoginActivity extends AppCompatActivity {
     public boolean inputValidate() {
 
         if (password.getText().length() < 1) {
-            String error = "پاس ورڈ خالی ہے";
+            String error = "برائےمہربانی پاس ورڈ درج کریں";
             showError(password, error);
 
             return false;
