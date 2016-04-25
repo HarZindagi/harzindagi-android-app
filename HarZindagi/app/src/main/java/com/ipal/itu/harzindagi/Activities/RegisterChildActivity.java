@@ -28,9 +28,13 @@ import android.widget.TextView;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.Towns;
+import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.GJson.GAreasList;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -79,10 +83,9 @@ public class RegisterChildActivity extends AppCompatActivity {
     FileOutputStream fo;
     ArrayAdapter<String> adp;
     ArrayAdapter<String> adp_wm;
-
-   // String[] array_age_yrs = {"A", "B", "C", "D", "E", "F"};
-
-  String[] str={
+    int phn_nm=1000;
+    List<ChildInfo> data;
+    String[] str={
           "Ahmed","Ali","Babar","Butt","Bilal","Danial","Farhan","Gulzar","Hina","Khizir","Mehmood","Nasir","Pathan","Hassan","Saad",
           "Tahir","Umer","Khawer","Yasir","Jhangir","Usman","Osman","Waseem",
           "Mannan","Imran","Zaheer","Zeshan"};
@@ -204,7 +207,83 @@ public class RegisterChildActivity extends AppCompatActivity {
         guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
 
         guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
+        Button txt_data=(Button)findViewById(R.id.text);
+        txt_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<ChildInfo> test=new ArrayList<>();
+                for (int i=1;i<=1000;i++)
+                {
+                    phn_nm=phn_nm+i;
+                    ChildInfo chInfo =new ChildInfo();
+                    chInfo.epi_number="1000"+i;
+                    chInfo.epi_name="uc"+i;
+                    chInfo.kid_name="ali"+i;
+                    chInfo.gender=1;
+                    chInfo.mobile_id=1L+i;
 
+                    chInfo.image_path="image_"+chInfo.epi_number;
+                    chInfo.date_of_birth="01-jun-2015";
+                    chInfo.guardian_name="Hassan"+1;
+                    if(i>0&&i<10)
+                    {
+                        chInfo.guardian_cnic="12345-567891"+i+"-4";
+                    }
+                    if(i>9&&i<100)
+                    {
+                        chInfo.guardian_cnic="12345-56789"+i+"-4";
+                    }
+                    if(i>99&&i<1000)
+                    {
+                        chInfo.guardian_cnic="12345-5678"+i+"-4";
+                    }
+                    if(i==1000)
+                    {
+                        chInfo.guardian_cnic="12345-567"+i+"-4";
+                    }
+                    chInfo.phone_number="1234-567"+phn_nm;
+                    chInfo.mother_name="ABC"+i;
+                    chInfo.child_address="Street"+i;
+                    test.add(chInfo);
+                }
+                ChildInfoDao childInfoDao = new ChildInfoDao();
+                childInfoDao.deleteTable();
+                childInfoDao.bulkInsert(test);
+                String imei = Constants.getIMEI(RegisterChildActivity.this);
+                List<KidVaccinations> items = new ArrayList<KidVaccinations>();
+                for (int i=1;i<=50;i++){
+
+                    for (int j = 1; j < 4; j++) {
+
+
+                        Calendar calendar = Calendar.getInstance();
+
+                        long time = calendar.getTimeInMillis() / 1000;
+
+
+                        long kId  =1L+i;
+                        KidVaccinations kidVaccinations = new KidVaccinations();
+
+                        kidVaccinations.location = "00000,00000";
+                        kidVaccinations.mobile_id = kId;
+
+                        kidVaccinations.vaccination_id = j;
+                        kidVaccinations.image = "image_"+"1000"+i;
+                        kidVaccinations.created_timestamp = time;
+                        kidVaccinations.is_sync = false;
+                        kidVaccinations.imei_number = imei;
+                        kidVaccinations.guest_imei_number = imei;
+                        items.add(kidVaccinations);
+
+                    }
+
+                }
+                KidVaccinationDao kd = new KidVaccinationDao();
+                kd.deleteTable();
+                kd.bulkInsert(items);
+
+            }
+        });
 
         childPicture = (Button) findViewById(R.id.registerChildTakePicture);
         childPicture.setOnClickListener(new View.OnClickListener() {

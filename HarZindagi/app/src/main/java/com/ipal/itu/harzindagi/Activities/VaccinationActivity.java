@@ -124,8 +124,9 @@ public class VaccinationActivity extends AppCompatActivity {
         ChildInfoDao childInfoDao = new ChildInfoDao();
 
         data = childInfoDao.getByEPINum(bundle.getString("childid").toString());
-       // fpath = data.get(0).image_path;
-
+        if(data.size()>0) {
+            fpath = data.get(0).image_path;
+        }
         //setTitleImage(toolbar,fpath);
         ((TextView) findViewById(R.id.ChildName)).setText(data.get(0).kid_name);
         ((TextView) findViewById(R.id.EPINumber)).setText(data.get(0).epi_number + "");

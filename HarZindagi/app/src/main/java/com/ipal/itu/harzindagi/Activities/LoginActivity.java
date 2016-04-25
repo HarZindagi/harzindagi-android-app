@@ -579,6 +579,10 @@ public class LoginActivity extends AppCompatActivity {
         GVisitAry gVisitAry = gson.fromJson("{\"visits\":" + array.toString() + "}", GVisitAry.class);
         VisitsDao visitsDao = new VisitsDao();
         ArrayList<Visit> visits = new ArrayList<>();
+        if(gVisitAry.visits.size()==0){
+            Toast.makeText(getApplicationContext(),"Internet Error: visits", Toast.LENGTH_LONG).show();
+            return;
+        }
         for (int i = 0; i < gVisitAry.visits.size(); i++) {
             Visit visit = new Visit();
             visit.id = gVisitAry.visits.get(i).id;
@@ -586,6 +590,7 @@ public class LoginActivity extends AppCompatActivity {
             visit.description = gVisitAry.visits.get(i).description;
             visits.add(visit);
         }
+
         visitsDao.bulkInsert(visits);
         loadInjections();
     }
@@ -638,6 +643,10 @@ public class LoginActivity extends AppCompatActivity {
         GInjectionAry gInjection = gson.fromJson("{\"injections\":" + array.toString() + "}", GInjectionAry.class);
         InjectionsDao injectionsDao = new InjectionsDao();
         ArrayList<Injections> visits = new ArrayList<>();
+        if(gInjection.injections.size()==0){
+            Toast.makeText(getApplicationContext(),"Internet Error: injections", Toast.LENGTH_LONG).show();
+            return;
+        }
         for (int i = 0; i < gInjection.injections.size(); i++) {
             Injections injections = new Injections();
             injections.id = gInjection.injections.get(i).id;
@@ -697,6 +706,10 @@ public class LoginActivity extends AppCompatActivity {
         GVaccinationAry gInjection = gson.fromJson("{\"vaccinations\":" + array.toString() + "}", GVaccinationAry.class);
         VaccinationsDao vaccinationsDao = new VaccinationsDao();
         ArrayList<Vaccinations> vac = new ArrayList<>();
+        if(gInjection.vaccinations.size()==0){
+            Toast.makeText(getApplicationContext(),"Internet Error: vaccinations", Toast.LENGTH_LONG).show();
+            return;
+        }
         for (int i = 0; i < gInjection.vaccinations.size(); i++) {
             Vaccinations vacs = new Vaccinations();
             vacs.id = gInjection.vaccinations.get(i).id;

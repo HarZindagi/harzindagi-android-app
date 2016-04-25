@@ -63,6 +63,8 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
             Bitmap bmpRotate = Bitmap.createBitmap(realImage, 0, 0, realImage.getWidth(), realImage.getHeight(), matrix, true);
+           /* Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                    bmpRotate, realImage.getWidth()/2,realImage.getHeight()/2, false);*/
             if (detactFace(bmpRotate)) {
                 saveImage(bmpRotate, camera);
             } else {
