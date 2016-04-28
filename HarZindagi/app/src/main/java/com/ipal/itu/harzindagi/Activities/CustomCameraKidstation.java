@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Wahab on 2/3/2016.
@@ -123,6 +124,21 @@ public class CustomCameraKidstation extends Activity implements SurfaceHolder.Ca
     private void getCameraInstance() {
         try {
             mCamera = Camera.open();
+            Camera.Parameters params = mCamera.getParameters();
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            List<Camera.Size> sizes = params.getSupportedPictureSizes();
+            int index = 0;
+            for (Camera.Size size : sizes) {
+
+                if(index==2){
+                    params.setPictureSize(size.width, size.height);
+                    break;
+                }
+                index++;
+            }
+
+
+            mCamera.setParameters(params);
             mCamera.setDisplayOrientation(90);
         } catch (Exception e) {
             // cannot get camera or does not exist

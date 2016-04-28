@@ -14,6 +14,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Size;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Wahab on 2/3/2016.
@@ -126,8 +128,26 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
     private void getCameraInstance() {
         try {
             mCamera = Camera.open();
+
+            Camera.Parameters params = mCamera.getParameters();
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            List<Camera.Size> sizes = params.getSupportedPictureSizes();
+            int index = 0;
+            for (Camera.Size size : sizes) {
+
+                if(index==2){
+                    params.setPictureSize(size.width, size.height);
+                    break;
+                }
+                index++;
+            }
+
+
+            mCamera.setParameters(params);
             mCamera.setDisplayOrientation(90);
-        } catch (Exception e) {
+        }
+
+         catch (Exception e) {
             // cannot get camera or does not exist
         }
     }

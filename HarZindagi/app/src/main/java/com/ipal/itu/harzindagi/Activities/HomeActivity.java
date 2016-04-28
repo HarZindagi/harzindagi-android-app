@@ -2,6 +2,8 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,11 +21,18 @@ import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
-public class HomeActivity extends AppCompatActivity {
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Calendar;
 
+public class HomeActivity extends AppCompatActivity {
+    private static final int CAMERA_REQUEST = 1887;
     Button evaccsButton;
     Button harZindagiButton;
+    Button kidStationPicture;
     String location = "0.0000,0.0000";
+    FileOutputStream fo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         getLocation();
+    kidStationPicture=(Button)findViewById(R.id.homeActivitykidstationiButton);
+        kidStationPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(HomeActivity.this, CustomCameraKidstation.class);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
     }
 
     private void getLocation() {
@@ -67,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
       //  pDialog.show();
     }
 
-    public void locationCb(String url, final Location loc, AjaxStatus status) {
+  /*  public void locationCb(String url, final Location loc, AjaxStatus status) {
 
         if (loc != null) {
 
@@ -86,6 +103,74 @@ public class HomeActivity extends AppCompatActivity {
             });
 
         }
+    }*/
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == 1887) {
+            Bitmap photo, resizedImage;
+            CustomCameraKidstation.progress.dismiss();
+            String path = data.getStringExtra("path");
+            photo = BitmapFactory.decodeFile(path);
+            resizedImage = getResizedBitmap(photo, 256);
+            saveBitmap(resizedImage);
+           /* try {
+                photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                resizedImage = getResizedBitmap(photo, 256);
+                saveBitmap(resizedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+            Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+
+            startActivity(intent);
+            finish();
+
+            //imageView.setImageBitmap(photo);
+            int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            if (Constants.getCheckIn(this).equals("") || !Constants.getDay(this).equals(day + "")) {
+                Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+                Constants.setDay(this, day + "");
+                Constants.setCheckOut(this, "");
+
+            }
+        }
+
+    }
+
+    public void saveBitmap(Bitmap bitmap) {
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
+
+        //Create a new file in sdcard folder.
+        File f = new File("abcd.jpg"); // this needs to be set
+        try {
+            try {
+                f.createNewFile();
+                fo = new FileOutputStream(f);
+                fo.write(bytes.toByteArray()); //write the bytes in file
+            } finally {
+                if (fo != null) {
+                    fo.close(); // remember close the FileOutput
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
 }

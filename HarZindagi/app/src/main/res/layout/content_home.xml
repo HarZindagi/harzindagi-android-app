@@ -39,5 +39,19 @@
         android:textStyle="bold"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/homeActivitykidstationiButton"
+        android:layout_weight="1"
+        android:background="@drawable/roundbutton"
+        android:text="کٹ اسٹیشن کی تصویر بھیجیں"
+        android:textColor="@color/white"
+        android:padding="5dp"
+        android:layout_marginTop="20dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        />
+
 
 </LinearLayout>

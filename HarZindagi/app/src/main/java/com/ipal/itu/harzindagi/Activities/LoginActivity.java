@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -84,8 +85,9 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final int CAMERA_REQUEST = 1887;
+
     private static final String TAG = "Volly";
+    private static final int MY_SOCKET_TIMEOUT_MS = 5000;
 
     public GUserInfo obj;
     TextView userName;
@@ -99,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     Boolean isFolderExists;
-    FileOutputStream fo;
+
     String rec_response;
     String passwordTxt;
 
@@ -168,8 +170,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (Constants.getToken(LoginActivity.this).length() > 0) {
                     if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
-                        Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+
                     } else if (password.getText().toString().equals("")) {
 
                         // validator.setVisibility(View.VISIBLE);
@@ -275,6 +279,7 @@ public class LoginActivity extends AppCompatActivity {
     private void getUserInfo() {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
+
         String url = Constants.get_device_info + "?" + "device[imei_number]=" + Constants.getIMEI(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
@@ -313,6 +318,10 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
@@ -378,7 +387,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -422,80 +434,19 @@ public class LoginActivity extends AppCompatActivity {
         if (!Constants.getIsTableLoaded(this)) {
             loadVisits();
         } else {
-            Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
-        }
-    }
-
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
-
-    public void saveBitmap(Bitmap bitmap) {
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
-
-        //Create a new file in sdcard folder.
-        File f = new File("abcd.jpg"); // this needs to be set
-        try {
-            try {
-                f.createNewFile();
-                fo = new FileOutputStream(f);
-                fo.write(bytes.toByteArray()); //write the bytes in file
-            } finally {
-                if (fo != null) {
-                    fo.close(); // remember close the FileOutput
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == 1887) {
-            Bitmap photo, resizedImage;
-            CustomCameraKidstation.progress.dismiss();
-            String path = data.getStringExtra("path");
-            photo = BitmapFactory.decodeFile(path);
-            resizedImage = getResizedBitmap(photo, 256);
-            saveBitmap(resizedImage);
-           /* try {
-                photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                resizedImage = getResizedBitmap(photo, 256);
-                saveBitmap(resizedImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 
             startActivity(intent);
             finish();
 
-            //imageView.setImageBitmap(photo);
-            int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            if (Constants.getCheckIn(this).equals("") || !Constants.getDay(this).equals(day + "")) {
-                Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-                Constants.setDay(this, day + "");
-                Constants.setCheckOut(this, "");
-
-            }
         }
-
     }
+
+
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -569,7 +520,10 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -633,7 +587,10 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -674,6 +631,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         pDialog.hide();
+
                         parseVaccinations(response);
 
                     }
@@ -696,7 +654,11 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         };
-        loadAreas();
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -721,8 +683,8 @@ public class LoginActivity extends AppCompatActivity {
         vaccinationsDao.deleteTable();
         vaccinationsDao.bulkInsert(vac);
 
+        loadAreas();
 
-        loadChildData();
 
     }
 
@@ -928,6 +890,13 @@ public class LoginActivity extends AppCompatActivity {
         kidVaccinationDao.bulkInsert(childInfoArrayList);
         kidVaccinationDao.bulkInsert(noSync);
 
+        Toast.makeText(LoginActivity.this, "ڈاونلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
+
+        Constants.setIsTableLoaded(this, true);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 
     private void loadAreas() {
@@ -1006,11 +975,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         Towns.deleteTable();
         Towns.bulkInsert(townses);
-        Toast.makeText(LoginActivity.this, "ڈاونلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
 
-        Constants.setIsTableLoaded(this, true);
-        Intent cameraIntent = new Intent(LoginActivity.this, CustomCameraKidstation.class);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
+        loadChildData();
     }
 }

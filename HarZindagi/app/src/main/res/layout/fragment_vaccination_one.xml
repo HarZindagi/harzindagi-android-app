@@ -27,7 +27,46 @@
             android:layout_height="10dp"
             android:background="@android:color/darker_gray"
             android:visibility="invisible" />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+          <CheckBox
+              android:id="@+id/dont_care"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="I don't care"
+              android:textSize="15sp"
+              android:textStyle="bold"
+              android:visibility="visible"
+              android:paddingLeft="5dp"
+              android:layout_marginLeft="5dp"
+              android:button="@drawable/customdrawablecheckbox"
+              android:textColor="#4d4d4d"
 
+              />
+          <TextView
+
+              android:id="@+id/date_vac"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_alignParentRight="true"
+              android:gravity="center|center_vertical"
+              android:text="DD-MM-YYYY"
+              android:visibility="invisible"
+              android:textColor="#4d4d4d"
+              android:textSize="16dp" />
+      </LinearLayout>
+<Button
+    android:id="@+id/nxt_tab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Next"
+    android:background="@color/Button_Theme_color"
+    android:layout_gravity="center_horizontal"
+    android:textColor="@color/white"
+    android:textSize="22sp"
+    android:visibility="gone"/>
         <Button
             android:id="@+id/btn_v1"
             android:layout_width="wrap_content"

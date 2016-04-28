@@ -286,9 +286,6 @@
 
             <include layout="@layout/content_vaccination" />
 
-       <CheckBox
-           android:layout_width="match_parent"
-           android:layout_height="30dp" />
 
 
         </LinearLayout>

@@ -18,6 +18,7 @@ import com.ipal.itu.harzindagi.Adapters.CustomViewPager;
 import com.ipal.itu.harzindagi.Adapters.ViewPagerAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Fragments.VaccinationOneFragment;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -48,7 +49,7 @@ public class VaccinationActivity extends AppCompatActivity {
             R.drawable.vactab_fill4,
             R.drawable.vactab_fill5,
             R.drawable.vactab_fill6};
-    boolean isVaccCompleted = false;
+    public boolean isVaccCompleted = false;
     private CustomViewPager mViewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private View firstTab;
@@ -115,7 +116,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
                 vaccs_done = bundle.getString("vacc_details").toString();
             } catch (Exception e) {
-                Toast.makeText(this, "Card Corrupted", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Card Corrupted"+e, Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -213,6 +214,7 @@ public class VaccinationActivity extends AppCompatActivity {
         });
     }
 
+
     public void setTitleImage(Toolbar toolbar, String fpath) {
         String imagePath = "/sdcard/" + app_name + "/" + fpath + ".jpg";
         // Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
@@ -227,6 +229,7 @@ public class VaccinationActivity extends AppCompatActivity {
             //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
             // v[i].setVisibility(View.VISIBLE);
             vt[i].setVisibility(View.GONE);
+
         }
         if (!isVaccCompleted) {
             v[load_frag].setBackgroundResource(array[load_frag]);
@@ -280,6 +283,10 @@ public class VaccinationActivity extends AppCompatActivity {
             startActivity(intent);
             //imageView.setImageBitmap(photo);*/
         }
+
+
+
+
 
 
     }

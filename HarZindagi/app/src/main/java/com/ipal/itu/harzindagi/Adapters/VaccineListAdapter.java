@@ -61,6 +61,16 @@ public class VaccineListAdapter {
 
         return s;
     }
+    public String get_comp_vaccs_details() {
+
+        String s = "" + 1;
+        for (int i = 1; i < data.size(); i++) {
+            s = s + "," + 1;
+            data.get(i).is_done=1;
+        }
+
+        return s;
+    }
 
 
     public void getView(final int position, View convertView, LinearLayout parent) {
