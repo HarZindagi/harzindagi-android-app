@@ -84,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
       //  pDialog.show();
     }
 
-  /*  public void locationCb(String url, final Location loc, AjaxStatus status) {
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
 
         if (loc != null) {
 
@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
             });
 
         }
-    }*/
+    }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == 1887) {
             Bitmap photo, resizedImage;

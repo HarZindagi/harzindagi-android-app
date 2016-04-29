@@ -196,6 +196,7 @@ public class VaccinationOneFragment extends Fragment {
                                                 DateFormat dff = new SimpleDateFormat("dd-MMM-yyyy");
                                                 String dd = dff.format(pDate);
                                                 date_vac.setText(dd);
+                                                nxt_tab.setVisibility(View.VISIBLE);
                                             } catch (ParseException e) {
                                                 e.printStackTrace();
                                             }
@@ -208,7 +209,7 @@ public class VaccinationOneFragment extends Fragment {
 
                         }
                     });
-                    nxt_tab.setVisibility(View.VISIBLE);
+
                     nxt_tab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

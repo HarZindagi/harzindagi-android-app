@@ -65,6 +65,10 @@
         <meta-data
             android:name="Evaccs"
             android:value="com.ipal.itu.harzindagi.Entity.Evaccs" />
+
+        <meta-data
+            android:name="EvaccsNonEPI"
+            android:value="com.ipal.itu.harzindagi.Entity.EvaccsNonEPI" />
         <meta-data
             android:name="Towns"
             android:value="com.ipal.itu.harzindagi.Entity.Towns" />

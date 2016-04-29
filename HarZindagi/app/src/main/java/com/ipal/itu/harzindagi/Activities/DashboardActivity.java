@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,9 +26,12 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.EvaccsDao;
+import com.ipal.itu.harzindagi.Dao.EvaccsNonEPIDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.*;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
@@ -37,8 +41,10 @@ import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.ChildInfoSyncHandler;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.EvaccsNonEPISyncHandler;
 import com.ipal.itu.harzindagi.Utils.EvaccsSyncHandler;
 import com.ipal.itu.harzindagi.Utils.EvacssImageUploadHandler;
+import com.ipal.itu.harzindagi.Utils.EvacssNonEPIImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.ImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.KidVaccinatioHandler;
 import com.ipal.itu.harzindagi.Utils.MultipartUtility;
@@ -60,7 +66,7 @@ public class DashboardActivity extends AppCompatActivity {
     Button scanChildButton;
     Button searchChildButton;
     Button allChildrenInUCButton;
-
+    String location = "0.0000,0.0000";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -137,7 +143,12 @@ public class DashboardActivity extends AppCompatActivity {
             // logout();
             Constants.setCheckOut(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
             if (!Constants.getCheckIn(this).equals("")) {
-                sendCheckIn();
+                LocationAjaxCallback cb = new LocationAjaxCallback();
+                //  final ProgressDialog pDialog = new ProgressDialog(this);
+                //  pDialog.setMessage("Getting Location");
+
+                cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000*30*5).async(this);
+
             } else {
                 Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
             }
@@ -154,6 +165,7 @@ public class DashboardActivity extends AppCompatActivity {
         }
         if (id == R.id.action_sync) {
             if (Constants.isOnline(this)) {
+
                 syncData();
             }
         }
@@ -164,6 +176,21 @@ public class DashboardActivity extends AppCompatActivity {
         }*/
 
         return super.onOptionsItemSelected(item);
+    }
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
+
+        if (loc != null) {
+
+            double lat = loc.getLatitude();
+            double log = loc.getLongitude();
+            location = lat + "," + log;
+            Constants.setLocationSync(this,location);
+            sendCheckIn();
+        } else {
+            Constants.setLocationSync(this,"0.0000:0.0000");
+            sendCheckIn();
+
+        }
     }
    private  void  showAlertDialog(){
        AlertDialog.Builder adb = new AlertDialog.Builder(this);
@@ -230,6 +257,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onUpload(boolean success, String reponse) {
                 syncEvaccsData();
+                syncEvaccsNonEPIData();
             }
         });
         kidVaccinatioHandler.execute();
@@ -248,6 +276,20 @@ public class DashboardActivity extends AppCompatActivity {
         });
         childInfoSyncHandler.execute();
     }
+    public void syncEvaccsNonEPIData() {
+
+        List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfo = EvaccsNonEPIDao.getAll();
+
+        EvaccsNonEPISyncHandler childInfoSyncHandler = new EvaccsNonEPISyncHandler(DashboardActivity.this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String response) {
+
+                androidEvaccsNonEPIImageUpload();
+            }
+        });
+        childInfoSyncHandler.execute();
+    }
+
     public void androidEvaccsImageUpload() {
         List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
         List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfoDistinc = new ArrayList<>();
@@ -259,6 +301,29 @@ public class DashboardActivity extends AppCompatActivity {
             }
         }
         EvacssImageUploadHandler  imageUploadHandler = new EvacssImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String reponse) {
+                List<Evaccs> list = EvaccsDao.getAll();
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).delete();
+                }
+                Toast.makeText(DashboardActivity.this,"آپلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
+            }
+        });
+        imageUploadHandler.execute();
+
+    }
+    public void androidEvaccsNonEPIImageUpload() {
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfoDistinc = new ArrayList<>();
+        String preEpi = "";
+        for (int i = 0; i <childInfo.size() ; i++) {
+            if(!preEpi.equals(childInfo.get(i).epi_number)){
+                childInfoDistinc.add(childInfo.get(i));
+                preEpi = childInfo.get(i).epi_number;
+            }
+        }
+        EvacssNonEPIImageUploadHandler  imageUploadHandler = new EvacssNonEPIImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
                 List<Evaccs> list = EvaccsDao.getAll();
@@ -404,6 +469,7 @@ public class DashboardActivity extends AppCompatActivity {
             obj.put("imei_number", Constants.getIMEI(this));
             obj.put("location", Constants.getLocation(this));
 
+            obj.put("location_sync", Constants.getLocationSync(this));
 
             obj.put("version_name", Constants.getVersionName(this));
             obj.put("created_timestamp", Constants.getCheckOut(this));
@@ -463,13 +529,80 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onUpload(boolean success, String reponse) {
                 pDialog.hide();
-                Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                sendKitStationData();
+
             }
         });
 
         multipart.execute(imagePath);
     }
+    private void sendKitStationData() {
+        String imagePath  = "/sdcard/" +  Constants.getApplicationName(this) + "/"
+                + "Image_"+ Constants.getUC(this) + ".jpg";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.kitStation;
+        final ProgressDialog pDialog;
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Saving Kit Station...");
+        pDialog.show();
+        JSONObject obj = null;
 
+        try {
+            obj = new JSONObject();
+            JSONObject user = new JSONObject();
+            user.put("auth_token", Constants.getToken(this));
+            obj.put("user", user);
+
+            obj.put("imei_number", Constants.getIMEI(this));
+            obj.put("location", Constants.getLocation(this));
+            obj.put("location_source", Constants.getLocation(this));
+
+            obj.put("image_path ", imagePath);
+
+
+            obj.put("created_timestamp", Constants.getCheckOut(this));
+            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, obj,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Log.d("response",response.toString());
+                        if (!response.toString().equals("")) {
+                            pDialog.hide();
+
+                            Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.hide();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(jsonObjReq);
+    }
     ///Download data from server
 
 

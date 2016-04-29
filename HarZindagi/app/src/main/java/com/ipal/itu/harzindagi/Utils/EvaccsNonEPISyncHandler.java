@@ -12,20 +12,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Dao.EvaccsDao;
-import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Dao.EvaccsNonEPIDao;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
-import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,15 +29,15 @@ import java.util.Map;
 /**
  * Created by Ali on 2/25/2016.
  */
-public class EvaccsSyncHandler {
+public class EvaccsNonEPISyncHandler {
 
     Context context;
-    List<Evaccs> childInfo;
+    List<EvaccsNonEPI> childInfo;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
     int index=0;
     Calendar calendar;
-    public EvaccsSyncHandler(Context context, List<Evaccs> childInfo, OnUploadListner onUploadListner) {
+    public EvaccsNonEPISyncHandler(Context context, List<EvaccsNonEPI> childInfo, OnUploadListner onUploadListner) {
         this.childInfo = childInfo;
         this.context = context;
         this.onUploadListner = onUploadListner;
@@ -89,10 +85,10 @@ public class EvaccsSyncHandler {
 
         return c.getTimeInMillis();
     }
-    private void sendChildData(final Evaccs childInfo) {
+    private void sendChildData(final EvaccsNonEPI childInfo) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Constants.kids_evaccs;
+        String url = Constants.kids_evaccsNonEPI;
 
         JSONObject obj = null;
         final JSONObject kid = new JSONObject();
@@ -103,14 +99,22 @@ public class EvaccsSyncHandler {
             user.put("auth_token", Constants.getToken(context));
             obj.put("user", user);
 
-
-            kid.put("imei_number",Constants.getIMEI(context));
+            kid.put("imei_number", Constants.getIMEI(context));
             kid.put("location", childInfo.location);
             kid.put("location_source", childInfo.location_source);
             kid.put("created_timestamp",childInfo.created_timestamp);
             kid.put("upload_timestamp",tsLong);
-            kid.put("epi_number", childInfo.epi_number);
+            kid.put("child_type", childInfo.child_type);
+            kid.put("name", childInfo.name);
+            kid.put("daily_reg_no",childInfo.daily_reg_no);
             kid.put("vaccination",childInfo.vaccination);
+            kid.put("cnic",childInfo.cnic);
+            kid.put("phone_number",childInfo.phone_number);
+            kid.put("epi_no",childInfo.epi_no);
+            kid.put("date_of_birth",childInfo.date_of_birth);
+            kid.put("child_address",childInfo.child_address);
+            kid.put("birth_place",childInfo.birth_place);
+
 
 
             obj.put("evacc", kid);
@@ -126,8 +130,8 @@ public class EvaccsSyncHandler {
                     public void onResponse(JSONObject response) {
                        // Log.d("response",response.toString());
                         if (response.optString("kid_name").equals(kid.optString("kid_name"))) {
-                            EvaccsDao childInfoDao = new EvaccsDao();
-                            List<Evaccs> child = childInfoDao.getByEPINum(childInfo.epi_number);
+                            EvaccsNonEPIDao childInfoDao = new EvaccsNonEPIDao();
+                            List<EvaccsNonEPI> child = childInfoDao.getByEPINum(childInfo.epi_no);
                             child.get(0).record_update_flag = true;
                             child.get(0).save();
 

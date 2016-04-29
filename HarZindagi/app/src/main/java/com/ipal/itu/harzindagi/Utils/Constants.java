@@ -34,7 +34,8 @@ public class Constants {
     public static final String injections = "http://103.226.216.170:3000/admin/injections.json";
     public static final String vaccinations = "http://103.226.216.170:3000/admin/vaccinations.json";
     public static final String kids = "http://103.226.216.170:3000/admin/kids.json";
-    public static final String kids_evaccs = "http://103.226.216.170:3000/admin/evaccs.json";
+    public static final String kids_evaccs = "http://103.226.216.170:3000/admin/evacs_epis";
+    public static final String kids_evaccsNonEPI = "http://103.226.216.170:3000/admin/evacs_nonepis";
     public static final String kid_vaccinations = "http://103.226.216.170:3000/admin/kid_vaccinations.json";
 
     public static final String login = "http://103.226.216.170:3000/login";
@@ -47,6 +48,7 @@ public class Constants {
     public static final String imageDownload =  "http://103.226.216.170:3000/images/";
 
     public static final String checkouts   = "http://103.226.216.170:3000/admin/checkouts";
+    public static final String kitStation   = "http://103.226.216.170:3000/admin/kid_stations";
     public static final String checkins   = "http://103.226.216.170:3000/admin/checkins";
 
     public static final String areas   = "http://103.226.216.170:3000/admin/areas.json";
@@ -59,6 +61,8 @@ public class Constants {
     public static final String isTableLoaded = "isTableLoaded";
 
     public static final String checkIn = "checkIn";
+    public static final String locationSource = "locationSource";
+    public static final String locationSync = "locationSync";
     public static final String checkOut = "checkOut";
 
     public static final String location = "location";
@@ -136,6 +140,22 @@ public class Constants {
         prefs.edit().putBoolean(Constants.isTableLoaded, isLoaded).commit();
     }
 
+   /* public static String getLocationSource(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getString(Constants.locationSource, "0.0000,0.0000");
+    }
+    public static void setLocationSource(Context c, String location_source) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putString(Constants.locationSource, location_source).commit();
+    }*/
+    public static String getLocationSync(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getString(Constants.locationSync, "");
+    }
+    public static void setLocationSync(Context c, String location_sync) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putString(Constants.locationSync, location_sync).commit();
+    }
     public static String getCheckIn(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         return prefs.getString(Constants.checkIn, "");
