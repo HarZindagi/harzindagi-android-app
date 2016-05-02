@@ -55,7 +55,7 @@ public class EvacssImageUploadHandler {
     }
 
     private void sendChildData(final Evaccs childInfo) {
-        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/Evac/" + childInfo.image_path + ".jpg";
+        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/Evac/" + childInfo.epi_number+Constants.getUCID(context) + ".jpg";
         MultipartUtility multipart = new MultipartUtility(Constants.photos_evaccs, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {

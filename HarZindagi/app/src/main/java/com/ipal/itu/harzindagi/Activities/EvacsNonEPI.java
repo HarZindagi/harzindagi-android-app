@@ -30,7 +30,8 @@ import java.util.Calendar;
 
 public class EvacsNonEPI extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
-    EditText Non_Epi_reg_num_txt;
+    EditText Non_Epi_reg_num_txt,Non_Epi_reg_cnic_txt,Non_Epi_phone_num_txt,Non_Epi_number_txt,Non_Epi_reg_date_birth_txt
+            ,Non_Epi_adress_txt,Non_Epi_birth_place_txt;
     
     FileOutputStream fo;
     String Fpath;
@@ -38,14 +39,15 @@ public class EvacsNonEPI extends AppCompatActivity {
     String Evac;
     Button non_mahfooz_Karain;
     CheckBox[] nonEPIv_box;
-    String non_epiNumber;
+    String non_epiReg_Number;
     String non_epiName;
+    String child_typ;
     EditText non_Epi_name;
     Context context;
     ArrayList<Integer> selectedCheckboxes_nonEPI = new ArrayList<Integer>();
     ArrayList<String> nonEPI_chkBox_txt = new ArrayList<String>();
     CheckBox non_bx_BCG,non_bx_OPV,non_bx_OPV1,non_bx_Pentavalent,non_bx_Pneumococcal,non_bx_OPV2,non_bx_Pentavalent2
-            ,non_bx_Pneumococcal2,non_bx_OPV3,non_bx_Pentavalent3,non_bx_Pneumococcal3,non_bx_Measles,non_bx_Measles2;
+            ,non_bx_Pneumococcal2,non_bx_OPV3,non_bx_Pentavalent3,non_bx_Pneumococcal3,non_bx_Measles,non_bx_Measles2,child_type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,22 @@ public class EvacsNonEPI extends AppCompatActivity {
         context=this;
         Non_Epi_reg_num_txt=(EditText)findViewById(R.id.Non_Epi_reg_num_txt);
         non_Epi_name=(EditText)findViewById(R.id.non_ep_txt_view);
+
+        Non_Epi_reg_cnic_txt=(EditText)findViewById(R.id.Non_Epi_reg_cnic_txt);
+        Non_Epi_phone_num_txt=(EditText)findViewById(R.id.Non_Epi_phone_num_txt);
+        Non_Epi_number_txt=(EditText)findViewById(R.id.Non_Epi_number_txt);
+        Non_Epi_reg_date_birth_txt=(EditText)findViewById(R.id.Non_Epi_reg_date_birth_txt);
+        Non_Epi_adress_txt=(EditText)findViewById(R.id.Non_Epi_adress_txt);
+        Non_Epi_birth_place_txt=(EditText)findViewById(R.id.Non_Epi_birth_place_txt);
+
+        child_type=(CheckBox)findViewById(R.id.child_type);
+        if(child_type.isChecked())
+        {
+            child_typ="1";
+        }
+        else {
+            child_typ="0";
+        }
         non_bx_BCG=(CheckBox)findViewById(R.id.non_bx_BCG);
         non_bx_OPV=(CheckBox)findViewById(R.id.non_bx_OPV);
         non_bx_OPV1=(CheckBox)findViewById(R.id.non_bx_OPV1);
@@ -82,20 +100,33 @@ public class EvacsNonEPI extends AppCompatActivity {
                    }
                }
                for (int i = 0; i < selectedCheckboxes_nonEPI.size(); i++) {
-                   com.ipal.itu.harzindagi.Entity.Evaccs evaccs = new com.ipal.itu.harzindagi.Entity.Evaccs();
-                   evaccs.created_timestamp = Calendar.getInstance().getTimeInMillis()/1000;
-                   evaccs.epi_number = Non_Epi_reg_num_txt.getText().toString();
-                   evaccs.kid_name = "";
-                   evaccs.is_guest = 1;
-                   evaccs.image_path = "image_"+ evaccs.epi_number;
-                   evaccs.imei_number = Constants.getIMEI(context);
-                   evaccs.image_update_flag = false;
-                   evaccs.name_of_guest_kid = non_Epi_name.getText().toString();
-                   evaccs.record_update_flag = false;
-                   evaccs.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
-                   evaccs.vacc_name =""+nonEPI_chkBox_txt.get(i);
-                   evaccs.location= location;
-                   evaccs.save();
+                   com.ipal.itu.harzindagi.Entity.EvaccsNonEPI evaccsNonepi = new com.ipal.itu.harzindagi.Entity.EvaccsNonEPI();
+
+                   evaccsNonepi.imei_number = Constants.getIMEI(context);
+                   evaccsNonepi.location= location;
+                   evaccsNonepi.location_source=location;
+                   evaccsNonepi.created_timestamp = Calendar.getInstance().getTimeInMillis()/1000;
+                   evaccsNonepi.child_type=child_typ;
+                   evaccsNonepi.name = non_Epi_name.getText().toString();
+                   evaccsNonepi.daily_reg_no = Non_Epi_reg_num_txt.getText().toString();
+                   evaccsNonepi.cnic=Non_Epi_reg_cnic_txt.getText().toString();
+                   evaccsNonepi.phone_number=Non_Epi_phone_num_txt.getText().toString();
+                   evaccsNonepi.epi_no=Non_Epi_number_txt.getText().toString();
+                   evaccsNonepi.date_of_birth=Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
+                   evaccsNonepi.child_address=Non_Epi_adress_txt.getText().toString();
+                   evaccsNonepi.birth_place=Non_Epi_birth_place_txt.getText().toString();
+                  // evaccsNonepi.is_guest = 1;
+                  // evaccsNonepi.image_path = "image_"+ evaccs.epi_number;
+
+                  // evaccsNonepi.image_update_flag = false;
+                   //evaccsNonepi.name_of_guest_kid = non_Epi_name.getText().toString();
+                   evaccsNonepi.record_update_flag = false;
+                  // evaccsNonepi.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
+
+
+
+
+                   evaccsNonepi.save();
                }
                finish();
            }
@@ -108,7 +139,7 @@ public class EvacsNonEPI extends AppCompatActivity {
     public void opencam(View v)
     {
         Intent cameraIntent = new Intent(EvacsNonEPI.this, CustomCamera.class);
-        cameraIntent.putExtra("image_", Non_Epi_reg_num_txt.getText().toString());
+        cameraIntent.putExtra("image_", Non_Epi_reg_num_txt.getText().toString() + Calendar.getInstance().getTimeInMillis()/1000);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 
@@ -167,7 +198,7 @@ public class EvacsNonEPI extends AppCompatActivity {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
     public void readEditTexts() {
-        non_epiNumber = Non_Epi_reg_num_txt.getText().toString();
+        non_epiReg_Number = Non_Epi_reg_num_txt.getText().toString();
         non_epiName= non_Epi_name.getText().toString();
 
     }

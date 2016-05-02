@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.ipal.itu.harzindagi.Entity.Evaccs;
+import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import java.util.List;
@@ -13,12 +14,12 @@ import java.util.List;
  */
 public class EvacssNonEPIImageUploadHandler {
     Context context;
-    List<Evaccs> childInfo;
+    List<EvaccsNonEPI> childInfo;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
     int index=0;
 
-    public EvacssNonEPIImageUploadHandler(Context context, List<Evaccs> childInfo, OnUploadListner onUploadListner) {
+    public EvacssNonEPIImageUploadHandler(Context context, List<EvaccsNonEPI> childInfo, OnUploadListner onUploadListner) {
         this.childInfo = childInfo;
         this.context = context;
         this.onUploadListner = onUploadListner;
@@ -54,8 +55,8 @@ public class EvacssNonEPIImageUploadHandler {
         }
     }
 
-    private void sendChildData(final Evaccs childInfo) {
-        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/Evac/" + childInfo.image_path + ".jpg";
+    private void sendChildData(final EvaccsNonEPI childInfo) {
+        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/Evac/" + childInfo.epi_no+childInfo.phone_number + ".jpg";
         MultipartUtility multipart = new MultipartUtility(Constants.photos_evaccs, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {

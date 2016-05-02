@@ -219,6 +219,7 @@ public class VaccinationOneFragment extends Fragment {
                         }
                     });
                 }
+
             }
         });
 

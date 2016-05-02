@@ -314,19 +314,19 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
     public void androidEvaccsNonEPIImageUpload() {
-        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
-        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfoDistinc = new ArrayList<>();
+        List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfo = EvaccsNonEPIDao.getAll();
+        List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfoDistinc = new ArrayList<>();
         String preEpi = "";
         for (int i = 0; i <childInfo.size() ; i++) {
-            if(!preEpi.equals(childInfo.get(i).epi_number)){
+            if(!preEpi.equals(childInfo.get(i).epi_no)){
                 childInfoDistinc.add(childInfo.get(i));
-                preEpi = childInfo.get(i).epi_number;
+                preEpi = childInfo.get(i).epi_no;
             }
         }
         EvacssNonEPIImageUploadHandler  imageUploadHandler = new EvacssNonEPIImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                List<Evaccs> list = EvaccsDao.getAll();
+                List<EvaccsNonEPI> list = EvaccsNonEPIDao.getAll();
                 for (int i = 0; i < list.size(); i++) {
                     list.get(i).delete();
                 }

@@ -113,7 +113,7 @@ public class EvaccsSyncHandler {
             kid.put("vaccination",childInfo.vaccination);
 
 
-            obj.put("evacc", kid);
+            obj.put("evacs_epi", kid);
 
         } catch (JSONException e) {
             e.printStackTrace();

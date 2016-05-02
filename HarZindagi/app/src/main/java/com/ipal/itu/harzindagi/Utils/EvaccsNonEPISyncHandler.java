@@ -117,7 +117,7 @@ public class EvaccsNonEPISyncHandler {
 
 
 
-            obj.put("evacc", kid);
+            obj.put("evacs_nonepi", kid);
 
         } catch (JSONException e) {
             e.printStackTrace();

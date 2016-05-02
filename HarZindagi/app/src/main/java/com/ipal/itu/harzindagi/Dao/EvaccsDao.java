@@ -29,19 +29,17 @@ public class EvaccsDao {
         return new Select()
                 .from(Evaccs.class)
                 .where("epi_number = ?", epi_number)
-                .orderBy("kid_name ASC")
+
                 .execute();
     }
     public static List<Evaccs> getAll() {
         return new Select()
                 .from(Evaccs.class)
-                .orderBy("kid_name ASC")
                 .execute();
     }
     public static List<Evaccs> getDistinct() {
         return new Select("epi_number").distinct()
                 .from(Evaccs.class)
-                .orderBy("kid_name ASC")
                 .execute();
     }
 }

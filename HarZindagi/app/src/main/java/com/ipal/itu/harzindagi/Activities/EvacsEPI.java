@@ -84,18 +84,23 @@ public class EvacsEPI extends AppCompatActivity {
 
                 for (int i = 0; i < selectedCheckboxes.size(); i++) {
                     com.ipal.itu.harzindagi.Entity.Evaccs evaccs = new Evaccs();
+                    evaccs.imei_number = Constants.getIMEI(context);
+                    evaccs.location = location;
+                    evaccs.location_source = location;
                     evaccs.created_timestamp = Calendar.getInstance().getTimeInMillis()/1000;
                     evaccs.epi_number = ep_txt_view.getText().toString();
-                    evaccs.kid_name = "";
-                    evaccs.is_guest = 0;
-                    evaccs.image_path = "image_"+ evaccs.epi_number;
-                    evaccs.imei_number = Constants.getIMEI(context);
-                    evaccs.image_update_flag = false;
-                    evaccs.name_of_guest_kid = "";
+                    evaccs.vaccination =""+chkBox_txt.get(i);
                     evaccs.record_update_flag = false;
-                    evaccs.vacc_id =""+selectedCheckboxes.get(i);
-                    evaccs.vacc_name =""+chkBox_txt.get(i);
-                    evaccs.location = location;
+                    //evaccs.kid_name = "";
+                    //evaccs.is_guest = 0;
+                    //evaccs.image_path = "image_"+ evaccs.epi_number;
+
+                    //evaccs.image_update_flag = false;
+                    //evaccs.name_of_guest_kid = "";
+
+                   // evaccs.vacc_id =""+selectedCheckboxes.get(i);
+
+
                     evaccs.save();
                 }
                 finish();
@@ -109,7 +114,7 @@ public class EvacsEPI extends AppCompatActivity {
 
 
         Intent cameraIntent = new Intent(EvacsEPI.this, CustomCamera.class);
-        cameraIntent.putExtra("image_", ep_txt_view.getText().toString());
+        cameraIntent.putExtra("image_", ep_txt_view.getText().toString() + Calendar.getInstance().getTimeInMillis()/1000);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }

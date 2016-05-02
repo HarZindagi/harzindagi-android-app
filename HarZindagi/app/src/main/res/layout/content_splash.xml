@@ -60,7 +60,8 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="15dp"
+
         android:src="@drawable/har_zingdagi_fw" />
 </RelativeLayout>

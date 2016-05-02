@@ -28,20 +28,20 @@ public class EvaccsNonEPIDao {
     public List<EvaccsNonEPI> getByEPINum(String epi_number) {
         return new Select()
                 .from(EvaccsNonEPI.class)
-                .where("epi_number = ?", epi_number)
-                .orderBy("kid_name ASC")
+                .where("epi_no = ?", epi_number)
+                .orderBy("name ASC")
                 .execute();
     }
     public static List<EvaccsNonEPI> getAll() {
         return new Select()
                 .from(EvaccsNonEPI.class)
-                .orderBy("kid_name ASC")
+                .orderBy("name ASC")
                 .execute();
     }
     public static List<EvaccsNonEPI> getDistinct() {
-        return new Select("epi_number").distinct()
+        return new Select("epi_no").distinct()
                 .from(EvaccsNonEPI.class)
-                .orderBy("kid_name ASC")
+                .orderBy("name ASC")
                 .execute();
     }
 }

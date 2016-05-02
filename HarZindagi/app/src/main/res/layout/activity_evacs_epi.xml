@@ -60,14 +60,165 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:id="@+id/Non_Epi_reg_num_txt"
-                android:layout_below="@+id/Non_Epi_reg_num"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+
+
+                />
+            <TextView
+                android:text="CNIC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Non_Epi_cnic"
+                android:layout_marginTop="10dp"
+
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:ems="10"
+                android:background="@drawable/txtbx"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/Non_Epi_reg_cnic_txt"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+
+
+                />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guest"
+                android:id="@+id/child_type"
+                android:textSize="18dp"
+                android:layout_below="@+id/non_used_vac"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <TextView
+                android:text="Phone Number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Non_Epi_phone_num"
+                android:layout_marginTop="10dp"
+
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:ems="10"
+                android:background="@drawable/txtbx"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/Non_Epi_phone_num_txt"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+
+
+                />
+            <TextView
+                android:text="EPI number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Non_Epi_number"
+                android:layout_marginTop="10dp"
+
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:ems="10"
+                android:background="@drawable/txtbx"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/Non_Epi_number_txt"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+
+
+                />
+            <TextView
+                android:text="Date Of Birth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Non_Epi_date_birth"
+                android:layout_marginTop="10dp"
+
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:ems="10"
+                android:background="@drawable/txtbx"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/Non_Epi_reg_date_birth_txt"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+
+
+                />
+            <TextView
+                android:text="Child Address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Non_Epi_address"
+                android:layout_marginTop="10dp"
+
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:ems="10"
+                android:background="@drawable/txtbx"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/Non_Epi_adress_txt"
+
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
 
 
                 />
 
+            <TextView
+                android:text="Birth Place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Non_Epi_birth_place"
+                android:layout_marginTop="10dp"
 
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:ems="10"
+                android:background="@drawable/txtbx"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/Non_Epi_birth_place_txt"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+
+
+                />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
