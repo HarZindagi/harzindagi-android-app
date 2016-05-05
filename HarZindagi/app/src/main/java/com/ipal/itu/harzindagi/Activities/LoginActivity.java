@@ -292,7 +292,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         //Log.d(TAG, response.toString());
-                        pDialog.hide();
+                        pDialog.dismiss();
                         if (response.optBoolean("success")) {
                             JSONObject json = response.optJSONObject("data");
                             parseUserResponse(json);
@@ -305,7 +305,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -356,7 +356,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
-                        pDialog.hide();
+                        pDialog.dismiss();
                         if (response.optBoolean("success")) {
                             JSONObject json = response.optJSONObject("data");
                             if (!json.toString().equals("{}")) {
@@ -373,7 +373,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -497,7 +497,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         //  Log.d(TAG, response.toString());
-                        pDialog.hide();
+                        pDialog.dismiss();
                         parseVisits(response);
 
                     }
@@ -507,7 +507,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -566,7 +566,7 @@ public class LoginActivity extends AppCompatActivity {
                         //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
                         parseInjections(response);
-                        pDialog.hide();
+                        pDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
 
@@ -574,7 +574,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -630,7 +630,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONArray response) {
-                        pDialog.hide();
+                        pDialog.dismiss();
 
                         parseVaccinations(response);
 
@@ -641,7 +641,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -704,7 +704,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        pDialog.hide();
+                        pDialog.dismiss();
                         if (response.toString().contains("Invalid User")) {
                             Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
                             return;
@@ -724,7 +724,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -818,7 +818,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        pDialog.hide();
+                        pDialog.dismiss();
                         if (response.toString().contains("Invalid User")) {
                             Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
                             return;
@@ -838,7 +838,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -915,7 +915,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        pDialog.hide();
+                        pDialog.dismiss();
                         if (response.toString().contains("Invalid User")) {
                             Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
                             return;
@@ -935,7 +935,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 

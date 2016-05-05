@@ -135,7 +135,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             int index = 0;
             for (Camera.Size size : sizes) {
 
-                if(index==2){
+                if( size.height==720 ){
                     params.setPictureSize(size.width, size.height);
                     break;
                 }

@@ -351,7 +351,7 @@ public class DashboardActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         //Log.d(TAG, response.toString());
-                        pDialog.hide();
+                        pDialog.dismiss();
                         if (response.optBoolean("success")) {
                             Constants.setToken(getApplication(), "");
                             finish();
@@ -363,7 +363,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -417,7 +417,7 @@ public class DashboardActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
-                            pDialog.hide();
+                            pDialog.dismiss();
 
                             if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
                                 sendCheckOut();
@@ -430,7 +430,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(DashboardActivity.this, "Error" + error.getMessage(), Toast.LENGTH_LONG).show();
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -487,7 +487,7 @@ public class DashboardActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
-                            pDialog.hide();
+                            pDialog.dismiss();
 
                             Constants.setCheckOut(DashboardActivity.this, "");
                             Constants.setCheckIn(DashboardActivity.this, "");
@@ -499,7 +499,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -528,7 +528,7 @@ public class DashboardActivity extends AppCompatActivity {
         MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                pDialog.hide();
+                pDialog.dismiss();
                 sendKitStationData();
 
             }
@@ -575,7 +575,7 @@ public class DashboardActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
-                            pDialog.hide();
+                            pDialog.dismiss();
 
                             Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                         }
@@ -585,7 +585,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
