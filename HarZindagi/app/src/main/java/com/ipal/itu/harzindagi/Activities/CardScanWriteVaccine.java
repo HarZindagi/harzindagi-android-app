@@ -108,7 +108,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         data = childInfo.getByEPINum(Child_id);
 
 
-        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#" + data.get(0).gender + "#" + data.get(0).date_of_birth + "#" + data.get(0).mother_name + "#" + data.get(0).guardian_name + "#" + data.get(0).guardian_cnic + "#" + data.get(0).phone_number + "#" + data.get(0).created_timestamp + "#" + data.get(0).location + "#" + data.get(0).epi_name + "#" + bundle.getString("next_date") + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
+        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#"+"#"+Constants.getUCID(this)+"#"+ 12345+"#"  + data.get(0).guardian_cnic + "#" + data.get(0).phone_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
 //filter work
@@ -133,13 +133,13 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
 
 //end
-        btn.setOnClickListener(new View.OnClickListener() {
+       /* btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Push_into_NFC();
+              //  Push_into_NFC();
             }
         });
-
+*/
 
     }
     private void enableTagWriteMode() {
@@ -154,7 +154,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     public int Push_into_NFC() {
 
 
-        Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "بچے کی معلومات محفوظ کر دی گئی ہیں", Toast.LENGTH_LONG).show();
 
 
         VaccDetailBook vdb=new VaccDetailBook();
@@ -256,10 +256,12 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             if (writeTag(message, detectedTag)) {
                 //   Toast.makeText(this, "Success: Wrotgme placeid to nfc tag", Toast.LENGTH_LONG)
                 //.show();
-                btn.setText("آگے چلیں");
+            /*    btn.setText("آگے چلیں");
                 btn.setVisibility(View.VISIBLE);
-                btn.setEnabled(true);
+                btn.setEnabled(true);*/
+
                 mWriteMode = false;
+                Push_into_NFC();
 
 
             }
@@ -356,8 +358,9 @@ public class CardScanWriteVaccine extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-            btn.setText("Tap Again To Write");
-            btn.setEnabled(false);
+            //btn.setText("Tap Again To Write");
+            Toast.makeText(this,"برائے مہربانی کارڈ کو دوبارہ سکین کریں",Toast.LENGTH_LONG).show();
+            //btn.setEnabled(false);
 
             return false;
         }

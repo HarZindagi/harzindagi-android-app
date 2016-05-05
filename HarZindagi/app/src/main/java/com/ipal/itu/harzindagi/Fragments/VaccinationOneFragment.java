@@ -61,6 +61,7 @@ public class VaccinationOneFragment extends Fragment {
     private int mParam2;
     TextView date_vac;
     Button nxt_tab;
+    LinearLayout skip_vst;
     private ArrayList<GInjection> injection;
     List<ChildInfo> data;
     Button btn;
@@ -109,7 +110,8 @@ public class VaccinationOneFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_vaccination_one, container, false);
-
+        btn = (Button) v.findViewById(R.id.btn_v1);
+        skip_vst=(LinearLayout)v.findViewById(R.id.skip_visit);
         // have to this dynamic in future
 
         List<Injections> data = InjectionsDao.getInjectionsByVisit(1);
@@ -129,21 +131,22 @@ public class VaccinationOneFragment extends Fragment {
                 }
             });
         }
-        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection, 0);
+        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection, 0,btn,skip_vst);
 
         for (int i = 0; i < injection.size(); i++) {
             adapter.getView(i, null, list);
             if (injection.get(i).is_done == 0) {
                 isActive = true;
+
             }
             if (injection.get(i).is_done == 1) {
                 ch.setVisibility(View.GONE);
+
             }
         }
         // list.setAdapter(adapter);
 
 
-        btn = (Button) v.findViewById(R.id.btn_v1);
         date_vac = (TextView) v.findViewById(R.id.date_vac);
         nxt_tab = (Button) v.findViewById(R.id.nxt_tab);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +175,6 @@ public class VaccinationOneFragment extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     date_vac.setVisibility(View.VISIBLE);
-                    btn.setVisibility(View.GONE);
                     date_vac.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -218,6 +220,12 @@ public class VaccinationOneFragment extends Fragment {
                             writeToDB(mParam2 + 1, det_vacs);
                         }
                     });
+                }
+                else {
+                    ch.setChecked(false);
+                    date_vac.setVisibility(View.INVISIBLE);
+                    nxt_tab.setVisibility(View.GONE);
+
                 }
 
             }

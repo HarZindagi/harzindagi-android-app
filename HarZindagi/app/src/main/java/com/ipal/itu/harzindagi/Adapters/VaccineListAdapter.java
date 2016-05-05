@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -33,8 +34,11 @@ public class VaccineListAdapter {
     ArrayList<GInjection> data;
     int curr_frag;
     int aarr[];
+    Button bn;
+    LinearLayout skp_vst;
 
-    public VaccineListAdapter(Context context, ArrayList<GInjection> _injections, int Curr_frag) {
+
+    public VaccineListAdapter(Context context, ArrayList<GInjection> _injections, int Curr_frag, Button bn,LinearLayout skp_vst) {
 
         this.context = context;
 
@@ -42,6 +46,8 @@ public class VaccineListAdapter {
 
 
         curr_frag = Curr_frag;
+        this.bn=bn;
+        this.skp_vst=skp_vst;
         aarr=new int[_injections.size()];
         for(int i=0;i<aarr.length;i++)
         {
@@ -86,6 +92,7 @@ public class VaccineListAdapter {
         if (data.get(position).is_done == 1) {
             cb.setEnabled(false);
             cb.setChecked(true);
+
             // isChecked[position] = 1;
             // Log.e("" + position + "|" + curr_frag, isChecked[position] + "");
 
@@ -104,10 +111,14 @@ public class VaccineListAdapter {
                 if (_isChecked) {
                     data.get(currentPost).is_done = 1;
                     aarr[position]=1;
+                    bn.setVisibility(View.VISIBLE);
+                    skp_vst.setVisibility(View.GONE);
                 } else {
 
                     data.get(currentPost).is_done = 0;
                     aarr[position]=0;
+                    bn.setVisibility(View.GONE);
+                    skp_vst.setVisibility(View.VISIBLE);
                 }
             }
         });

@@ -113,7 +113,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
 
                     } else if (data.size() == 0) {
-                        Toast.makeText(SearchActivity.this, "اس ای پی آئی کے مطابق کوئی رکوڈ نہیں ہے", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
                     }
                     /* else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
 
@@ -271,7 +271,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
                             parseKidReponse(response);
                         }else{
-                            Toast.makeText(SearchActivity.this, "اس ای پی آئی کے مطابق کوئی رکوڈ نہیں ہے", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -306,7 +306,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         String data = "{\"childInfoArrayList\":" + response + "}";
         GChildInfoAry obj = gson.fromJson(data, GChildInfoAry.class);
         if (obj.childInfoArrayList.size() == 0) {
-            Toast.makeText(SearchActivity.this, "No Record Found!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
             return;
         }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
@@ -438,7 +438,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                 if (SearchActivity.data.size() != 0) {
                     startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false).putExtra("isOnline", true));
                 } else {
-                    Toast.makeText(SearchActivity.this, "No Record Found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
                 }
             }
         });

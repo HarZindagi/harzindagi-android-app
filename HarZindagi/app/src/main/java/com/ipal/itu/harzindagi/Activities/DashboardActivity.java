@@ -546,23 +546,23 @@ public class DashboardActivity extends AppCompatActivity {
         pDialog.setMessage("Saving Kit Station...");
         pDialog.show();
         JSONObject obj = null;
-
+        final JSONObject kitStation = new JSONObject();
         try {
             obj = new JSONObject();
             JSONObject user = new JSONObject();
             user.put("auth_token", Constants.getToken(this));
             obj.put("user", user);
 
-            obj.put("imei_number", Constants.getIMEI(this));
-            obj.put("location", Constants.getLocation(this));
-            obj.put("location_source", Constants.getLocation(this));
+            kitStation.put("imei_number", Constants.getIMEI(this));
+            kitStation.put("location", Constants.getLocation(this));
+            kitStation.put("location_source", Constants.getLocation(this));
 
-            obj.put("image_path ", imagePath);
+            kitStation.put("image_path ", imagePath);
 
 
-            obj.put("created_timestamp", Constants.getCheckOut(this));
-            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-
+            kitStation.put("created_timestamp", Constants.getCheckOut(this));
+            kitStation.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+            obj.put("kid_station",kitStation);
 
         } catch (JSONException e) {
             e.printStackTrace();

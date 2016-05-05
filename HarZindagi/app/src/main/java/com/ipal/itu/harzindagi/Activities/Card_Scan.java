@@ -93,6 +93,7 @@ public class Card_Scan extends AppCompatActivity {
         String myData = intent.getStringExtra("mType");
         Parcelable[] data = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         if (data != null) {
+
             try {
                 for (int i = 0; i < data.length; i++) {
                     NdefRecord[] recs = ((NdefMessage) data[i]).getRecords();

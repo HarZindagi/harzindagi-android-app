@@ -40,9 +40,11 @@
                     <TextView
                         android:id="@+id/ChildEPINumberText"
                         android:layout_width="wrap_content"
+                        android:layout_marginRight="10dp"
                         android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
                         android:gravity="center_vertical"
-                        android:text="EPI #:"
+                        android:text="ای پی آئی نمبر:"
                         android:textColor="@android:color/black"
                         android:textSize="17sp" />
 
@@ -51,7 +53,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="70dp"
-                        android:layout_toRightOf="@+id/ChildUCNumberText"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/ChildEPINumberText"
                         android:gravity="center_vertical"
                         android:text="103"
 
@@ -78,17 +81,20 @@
                         android:id="@+id/ChildNameText"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentRight="true"
                         android:gravity="center_vertical"
-                        android:text="Name:"
+                        android:text="بچےکا نام :"
                         android:textColor="@android:color/black"
                         android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/ChildName"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="19dp"
-                        android:layout_toRightOf="@+id/ChildNameText"
+                        android:layout_marginRight="35dp"
+                        android:layout_toLeftOf="@+id/ChildNameText"
                         android:gravity="center_vertical"
                         android:text="Asad"
                         android:textColor="@android:color/black"
@@ -120,6 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
+
                         <TextView
                             android:id="@+id/vaccinationActivityFirstTabTick"
                             android:layout_width="wrap_content"
@@ -128,6 +135,7 @@
                             android:text="1"
                             android:textColor="@android:color/black"
                             android:visibility="visible" />
+
                         <View
                             android:id="@+id/vaccinationActivityFirstTab"
                             android:layout_width="40dp"
@@ -152,14 +160,14 @@
                         android:layout_height="wrap_content">
 
 
-
                         <TextView
                             android:id="@+id/vaccinationActivitySecondTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="2"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@android:color/black" />
+
                         <View
                             android:id="@+id/vaccinationActivitySecondTab"
                             android:layout_width="40dp"
@@ -181,14 +189,14 @@
                         android:layout_height="wrap_content">
 
 
-
                         <TextView
                             android:id="@+id/vaccinationActivityThirdTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/black"
                             android:layout_gravity="center"
-                            android:text="3" />
+                            android:text="3"
+                            android:textColor="@android:color/black" />
+
                         <View
                             android:id="@+id/vaccinationActivityThirdTab"
                             android:layout_width="40dp"
@@ -208,15 +216,14 @@
                         android:layout_height="wrap_content">
 
 
-
                         <TextView
                             android:id="@+id/vaccinationActivityFourthTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="4"
-                            android:textColor="@android:color/black"
-                             />
+                            android:textColor="@android:color/black" />
+
                         <View
                             android:id="@+id/vaccinationActivityFourthTab"
                             android:layout_width="40dp"
@@ -236,15 +243,14 @@
                         android:layout_height="wrap_content">
 
 
-
                         <TextView
                             android:id="@+id/vaccinationActivityFifthTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="5"
-                            android:textColor="@android:color/black"
-                            />
+                            android:textColor="@android:color/black" />
+
                         <View
                             android:id="@+id/vaccinationActivityFifthTab"
                             android:layout_width="40dp"
@@ -265,14 +271,14 @@
                         android:layout_height="wrap_content">
 
 
-
                         <TextView
                             android:id="@+id/vaccinationActivitySixthTabTick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="6"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@android:color/black" />
+
                         <View
                             android:id="@+id/vaccinationActivitySixthTab"
                             android:layout_width="40dp"
@@ -285,7 +291,6 @@
             </LinearLayout>
 
             <include layout="@layout/content_vaccination" />
-
 
 
         </LinearLayout>

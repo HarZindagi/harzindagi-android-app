@@ -399,7 +399,7 @@
             android:layout_height="40dp"
 
             android:background="@drawable/roundbutton"
-            android:text="محفوظ کریں"
+            android:text="بچے کی معلومات اپ ڈیٹ کریں"
             android:textColor="@color/white"
             android:textSize="20dp" />
 

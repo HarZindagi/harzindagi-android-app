@@ -72,7 +72,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             } else {
                 mCamera.startPreview();
                 progress.hide();
-                Toast t = Toast.makeText(getApplicationContext(), "Face Not Detected", Toast.LENGTH_LONG);
+                Toast t = Toast.makeText(getApplicationContext(), "بچے کی تصویردوبارہ کھینچیں", Toast.LENGTH_LONG);
                 t.setGravity(Gravity.CENTER, 0, 0);
                 t.show();
 
@@ -114,7 +114,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             public void onClick(View v) {
                 mCamera.takePicture(null, null, mPicture);
                 progress = new ProgressDialog(ctx);
-                progress.setTitle("Detecting Child Face...");
+                progress.setTitle("بچے کی شناخت کی جارہی ہے");
 
                 progress.show();
 

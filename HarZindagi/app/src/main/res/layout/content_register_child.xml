@@ -47,7 +47,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="ای پی آئی نمبر"
-                android:drawableLeft="@drawable/required_field"
+                android:drawableLeft="@drawable/circle"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
         </RelativeLayout>
@@ -67,6 +67,7 @@
                 android:layout_toLeftOf="@+id/registerChildEPICenterName_TV"
                 android:layout_weight=".10"
                 android:hint=""
+                android:nextFocusDown="@+id/registerChildName"
                 android:inputType="textCapWords"
                 android:singleLine="true"
                 />
@@ -77,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/required_field"
+                android:drawableLeft="@drawable/circle"
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="سینٹر کا نام"
@@ -106,6 +107,7 @@
                 android:gravity="left|center"
 
                 android:hint=""
+                android:nextFocusDown="@+id/registerChildGuardianName"
 
                 android:inputType="textCapWords"
                 android:singleLine="true" />
@@ -115,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/required_field"
+                android:drawableLeft="@drawable/circle"
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="بچے کا نام"
@@ -172,7 +174,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center|right"
                 android:paddingLeft="16dp"
-                android:drawableLeft="@drawable/required_field"
+                android:drawableLeft="@drawable/circle"
                 android:singleLine="true"
                 android:layout_alignParentRight="true"
                 android:text="تاریخ پیدائش"
@@ -182,15 +184,17 @@
             <TextView
 
                 android:id="@+id/registerChildDOBText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/registerChildDOB"
                 android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
+                android:gravity="left|center"
                 android:text="DD/MM/YYYY"
-
+                android:background="@drawable/textfield_default_mtrl_alpha"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="16dp" />
+
 
         </RelativeLayout>
 
@@ -212,6 +216,7 @@
                 android:layout_weight=".10"
 
                 android:hint=""
+                android:nextFocusDown="@+id/registerChildGuardianCNIC"
 
                 android:inputType="textCapWords"
 
@@ -227,7 +232,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="سرپرست کا نام"
-                android:drawableLeft="@drawable/required_field"
+                android:drawableLeft="@drawable/circle"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -267,6 +272,8 @@
                 android:numeric="decimal"
                 android:singleLine="true"
                 android:textSize="16sp"
+                android:nextFocusDown="@+id/registerChildGuardianMobileNumber"
+
                 mask:mask="#####-########-#" />
         </RelativeLayout>
 
@@ -301,7 +308,9 @@
                 android:numeric="decimal"
                 android:singleLine="true"
                 android:textSize="16sp"
-                mask:mask="####-#######" />
+                mask:mask="####-#######"
+                android:nextFocusDown="@+id/registerChildMotherName"
+                />
         </RelativeLayout>
 
 
@@ -322,7 +331,9 @@
                 android:layout_weight=".10"
                 android:hint=""
                 android:inputType="textCapWords"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:nextFocusDown="@+id/registerChildTown_ET"
+                />
 
             <TextView
 
@@ -352,7 +363,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="علاقہ کانام"
-                android:drawableLeft="@drawable/required_field"
+                android:drawableLeft="@drawable/circle"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -366,7 +377,8 @@
                 android:imeOptions="actionDone"
                 android:background="@drawable/spinner_default_holo_light_am"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:nextFocusDown="@+id/registerChildTakePicture"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -384,7 +396,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="گھر کا پتہ"
-                android:drawableLeft="@drawable/required_field"
+                android:drawableLeft="@drawable/circle"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -417,7 +429,8 @@
             android:background="@drawable/roundbutton"
             android:text="Text DataBase"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

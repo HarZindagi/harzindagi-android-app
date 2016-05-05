@@ -27,46 +27,59 @@
             android:layout_height="10dp"
             android:background="@android:color/darker_gray"
             android:visibility="invisible" />
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal">
-          <CheckBox
-              android:id="@+id/dont_care"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="I don't care"
-              android:textSize="15sp"
-              android:textStyle="bold"
-              android:visibility="visible"
-              android:paddingLeft="5dp"
-              android:layout_marginLeft="5dp"
-              android:button="@drawable/customdrawablecheckbox"
-              android:textColor="#4d4d4d"
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:orientation="vertical"
+     android:id="@+id/skip_visit">
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:weightSum="100">
 
-              />
-          <TextView
+         <TextView
 
-              android:id="@+id/date_vac"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_alignParentRight="true"
-              android:gravity="center|center_vertical"
-              android:text="DD-MM-YYYY"
-              android:visibility="invisible"
-              android:textColor="#4d4d4d"
-              android:textSize="16dp" />
-      </LinearLayout>
-<Button
-    android:id="@+id/nxt_tab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Next"
-    android:background="@color/Button_Theme_color"
-    android:layout_gravity="center_horizontal"
-    android:textColor="@color/white"
-    android:textSize="22sp"
-    android:visibility="gone"/>
+             android:id="@+id/date_vac"
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:hint="DD-MM-YYYY"
+             android:layout_weight="40"
+             android:gravity="center"
+             android:layout_marginLeft="5dp"
+             android:visibility="invisible"
+             android:textColor="#4d4d4d"
+             android:textSize="16dp"
+             />
+         <CheckBox
+             android:id="@+id/dont_care"
+             android:button="@null"
+             android:layout_weight="60"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:text="بچے کو حفاظتی ٹیکہ لگ چکا ہے"
+             android:textSize="15sp"
+             android:gravity="right|center_vertical"
+             android:textStyle="bold"
+             android:layout_alignParentRight="true"
+             android:visibility="visible"
+             android:drawableRight="@drawable/customdrawablecheckboxnxt"
+             android:textColor="#4d4d4d"
+
+             />
+     </LinearLayout>
+     <Button
+         android:id="@+id/nxt_tab"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="آگے جائے"
+         android:background="@color/Button_Theme_color"
+         android:layout_gravity="center_horizontal"
+         android:textColor="@color/white"
+         android:textSize="22sp"
+         android:visibility="gone"/>
+ </LinearLayout>
+
         <Button
             android:id="@+id/btn_v1"
             android:layout_width="wrap_content"
@@ -78,6 +91,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="5dp"
+            android:visibility="gone"
             android:text="تصویر کھینچیں"
             android:textColor="@color/white"
             android:textSize="22sp" />

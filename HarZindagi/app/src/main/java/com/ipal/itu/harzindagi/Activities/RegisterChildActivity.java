@@ -6,15 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,9 +28,11 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
+import com.ipal.itu.harzindagi.CustomeViews.MaskedEditText;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
@@ -65,8 +70,8 @@ public class RegisterChildActivity extends AppCompatActivity {
     TextView DOBText;
     MultiAutoCompleteTextView motherName;
     MultiAutoCompleteTextView guardianName;
-    EditText guardianCNIC;
-    EditText guardianMobileNumber;
+    MaskedEditText guardianCNIC;
+    MaskedEditText guardianMobileNumber;
     String Fpath;
     EditText houseAddress;
     EditText EPINumber;
@@ -116,7 +121,11 @@ public class RegisterChildActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         app_name = getResources().getString(R.string.app_name);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -139,7 +148,6 @@ public class RegisterChildActivity extends AppCompatActivity {
         childName.setAdapter(adp);
         DOB = (View) findViewById(R.id.registerChildDOB);
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
-
         EPINumber = (EditText) findViewById(R.id.registerChildUCNumber);
 
         CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
@@ -205,9 +213,9 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         guardianName.setThreshold(1);
         guardianName.setAdapter(adp);
-        guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
+        guardianCNIC = (MaskedEditText) findViewById(R.id.registerChildGuardianCNIC);
 
-        guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
+        guardianMobileNumber = (MaskedEditText) findViewById(R.id.registerChildGuardianMobileNumber);
         Button txt_data=(Button)findViewById(R.id.text);
         txt_data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,7 +293,43 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             }
         });
+        childName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN){
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            guardianName.requestFocus();
+                            return true;
+                        default:
+                            break;
+                    }
 
+                }
+                return false;
+            }
+        });
+
+        guardianName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN){
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            guardianCNIC.requestFocus();
+                            return true;
+                        default:
+                            break;
+                    }
+
+                }
+                return false;
+            }
+        });
         childPicture = (Button) findViewById(R.id.registerChildTakePicture);
         childPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -296,7 +340,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 }
                 List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
                 if (childInfo.size() > 0) {
-                    showError(EPINumber, "ڈوپلیکیٹ ریکارڈ");
+                    showError(EPINumber, "نیا ای پی ای نمبر درج کریں");
                     return;
                 }
 
@@ -323,7 +367,9 @@ public class RegisterChildActivity extends AppCompatActivity {
         Towns town=new Towns();
         list_Towns= town.getAll();
        ArrayList<String> items = new ArrayList<>();
+        items.add("Select Town");
         for (int i = 0; i <list_Towns.size() ; i++) {
+
             items.add(list_Towns.get(i).name);
         }
 
@@ -435,6 +481,15 @@ public class RegisterChildActivity extends AppCompatActivity {
             showError(motherName, error);
             return error;
         }*/
+        String 	town=String.valueOf(registerChildTown_ET.getSelectedItem());
+
+        if (town.equals("Select Town")){
+            town="";
+            error = "Select Town";
+            showError(houseAddress, error);
+            return error;
+        }
+
         if (houseAddress.getText().length() < 1) {
             error = "خالی گھر کا ایڈریس";
             showError(houseAddress, error);

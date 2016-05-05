@@ -87,7 +87,7 @@ public class CalenderActivity extends Activity {
             try {
                 Date date = sdf.parse(dayText.getText().toString() + "-" + monthText.getText().toString() + "-" + yearText.getText().toString());
                 if (date.after(Calendar.getInstance().getTime())) {
-                    Toast.makeText(this, "Please Select Correct date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "برائے مہربانی درست تاریخ پیدائش درج کریں", Toast.LENGTH_LONG).show();
                 } else {
                     setResult(100, i);
                     finish();

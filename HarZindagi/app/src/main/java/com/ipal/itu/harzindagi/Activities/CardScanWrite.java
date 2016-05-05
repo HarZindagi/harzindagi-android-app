@@ -99,7 +99,7 @@ public class CardScanWrite extends AppCompatActivity {
         tsLong = System.currentTimeMillis() / 1000;
 
 
-        push_NFC = Child_id + "#" + bundle.getString("Name") + "#" + bundle.getInt("Gender") + "#" + bundle.getString("DOB") + "#" + bundle.getString("mName") + "#" + bundle.getString("gName") + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + tsLong + "#" + "" + RegisterChildActivity.location + "#" + bundle.getString("EPIname") + "#" + Calendar.getInstance().getTimeInMillis() + "#1#0,0,0";
+        push_NFC = Child_id + "#" + bundle.getString("Name") + "#"+Constants.getUCID(this)+"#"+ 12345+"#"  + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#"  + "#1#0,0,0";
 
 // intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -125,7 +125,7 @@ public class CardScanWrite extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Push_into_DB();
+
             }
         });
 
@@ -148,7 +148,7 @@ public class CardScanWrite extends AppCompatActivity {
     public int Push_into_DB() {
 
 
-        Toast.makeText(this, "Saved in NFC", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "بچے کی معلومات محفوظ کر دی گئی ہیں", Toast.LENGTH_LONG).show();
         Calendar calendar = Calendar.getInstance();
         Long tsLong = calendar.getTimeInMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
@@ -181,10 +181,11 @@ public class CardScanWrite extends AppCompatActivity {
             if (writeTag(message, detectedTag)) {
                 //   Toast.makeText(this, "Success: Wrotgme placeid to nfc tag", Toast.LENGTH_LONG)
                 //.show();
-                btn.setText("آگے چلیں");
+               /* btn.setText("آگے چلیں");
                 btn.setVisibility(View.VISIBLE);
-                btn.setEnabled(true);
+                btn.setEnabled(true);*/
                 mWriteMode = false;
+                Push_into_DB();
 
 
             }
@@ -261,8 +262,8 @@ public class CardScanWrite extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-            btn.setText("Tap Again To Write");
-            btn.setEnabled(false);
+            btn.setText("برائے مہربانی کارڈ کو دوبارہ سکین کریں");
+           // btn.setEnabled(false);
 
             return false;
         }

@@ -213,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent gpsOptionsIntent = new Intent(
                     android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsOptionsIntent);
-            Toast.makeText(this, "اون کریں GPS", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "GPS آن کریں", Toast.LENGTH_LONG).show();
         }
         receiver = new BroadcastReceiver() {
             @Override
