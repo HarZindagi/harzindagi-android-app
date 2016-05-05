@@ -134,6 +134,7 @@ public class Card_Scan extends AppCompatActivity {
         {
 
         String Arry[] = s.split("#");
+
             if(Arry.length>3) {
                 Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
                 i.putExtra("childid", Arry[0]);
@@ -142,12 +143,13 @@ public class Card_Scan extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }else{
-                Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
+             /*   Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
                 i.putExtra("childid", s.replace("0",""));
                 i.putExtra("visit_num", "1");
                 i.putExtra("vacc_details", "1,1,1");
                 startActivity(i);
-                finish();
+                finish();*/
+                Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
             }
 
         }

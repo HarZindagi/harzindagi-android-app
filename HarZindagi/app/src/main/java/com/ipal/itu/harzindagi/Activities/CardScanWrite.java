@@ -262,7 +262,9 @@ public class CardScanWrite extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-            btn.setText("برائے مہربانی کارڈ کو دوبارہ سکین کریں");
+           // btn.setText("برائے مہربانی کارڈ کو دوبارہ سکین کریں");
+            Toast.makeText(ctx, "برائے مہربانی کارڈ کو دوبارہ سکین کریں", Toast.LENGTH_LONG).show();
+
            // btn.setEnabled(false);
 
             return false;

@@ -88,7 +88,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
-        app_name = "Har Zindagi";
+        app_name = getResources().getString(R.string.app_name);
 
         ctx = this;
 

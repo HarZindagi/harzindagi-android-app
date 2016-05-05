@@ -130,6 +130,11 @@ public class VaccinationActivity extends AppCompatActivity {
         if(data.size()>0) {
             fpath = data.get(0).image_path;
         }
+        if(data.size()==0){
+            finish();
+            Toast.makeText(this,"Try again!",Toast.LENGTH_LONG).show();
+            return;
+        }
         //setTitleImage(toolbar,fpath);
         ((TextView) findViewById(R.id.ChildName)).setText(data.get(0).kid_name);
         ((TextView) findViewById(R.id.EPINumber)).setText(data.get(0).epi_number + "");
