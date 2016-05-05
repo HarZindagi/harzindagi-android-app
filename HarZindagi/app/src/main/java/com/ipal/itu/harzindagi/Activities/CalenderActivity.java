@@ -177,13 +177,13 @@ public class CalenderActivity extends Activity {
                 showDays();
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.jan);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.feb:
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.feb);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 leapYear();
                 checkAndFinishActivity();
                 break;
@@ -191,7 +191,7 @@ public class CalenderActivity extends Activity {
                 showDays();
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.mar);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.apr:
@@ -199,14 +199,14 @@ public class CalenderActivity extends Activity {
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.apr);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.may:
                 showDays();
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.may);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.jun:
@@ -214,21 +214,21 @@ public class CalenderActivity extends Activity {
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.jun);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.jul:
                 showDays();
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.jul);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.aug:
                 showDays();
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.aug);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.sep:
@@ -236,14 +236,14 @@ public class CalenderActivity extends Activity {
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.sep);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.oct:
                 showDays();
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.oct);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.nov:
@@ -251,14 +251,14 @@ public class CalenderActivity extends Activity {
                 findViewById(R.id.thirtyone).setVisibility(View.GONE);
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.nov);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.dec:
                 showDays();
                 clearMonthBackground();
                 monthText = (TextView) findViewById(R.id.dec);
-                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                monthText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
         }
@@ -276,187 +276,187 @@ public class CalenderActivity extends Activity {
             case R.id.one:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.one);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.two:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.two);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.three:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.three);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.four:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.four);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.five:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.five);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.six:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.six);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.seven:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.seven);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.eight:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.eight);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.nine:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.nine);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.ten:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.ten);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.eleven:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.eleven);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twelve:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twelve);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.thirteen:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.thirteen);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.fourteen:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.fourteen);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.fifteen:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.fifteen);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.sixteen:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.sixteen);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.seventeen:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.seventeen);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.eighteen:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.eighteen);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.nineteen:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.nineteen);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twenty:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twenty);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentyone:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentyone);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentytwo:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentytwo);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentythree:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentythree);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentyfour:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentyfour);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentyfive:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentyfive);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentysix:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentysix);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentyseven:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentyseven);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentyeight:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentyeight);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.twentynine:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.twentynine);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.thirty:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.thirty);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
             case R.id.thirtyone:
                 clearDayBackground();
                 dayText = (TextView) findViewById(R.id.thirtyone);
-                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle));
+                dayText.setBackgroundDrawable(getResources().getDrawable(R.drawable.circle_date));
                 checkAndFinishActivity();
                 break;
         }

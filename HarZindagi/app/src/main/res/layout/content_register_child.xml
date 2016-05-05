@@ -332,7 +332,7 @@
                 android:hint=""
                 android:inputType="textCapWords"
                 android:singleLine="true"
-                android:nextFocusDown="@+id/registerChildTown_ET"
+                android:nextFocusDown="@+id/registerChildAddress"
                 />
 
             <TextView
@@ -378,7 +378,7 @@
                 android:background="@drawable/spinner_default_holo_light_am"
                 android:singleLine="true"
                 android:textSize="16sp"
-                android:nextFocusDown="@+id/registerChildTakePicture"/>
+                />
         </RelativeLayout>
 
         <RelativeLayout
