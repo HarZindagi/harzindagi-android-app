@@ -77,7 +77,7 @@ public class CardScanWrite extends AppCompatActivity {
     private String card_data = "";
     private ImageView imgV;
     boolean mWriteMode = true;
-
+    String bookID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +98,8 @@ public class CardScanWrite extends AppCompatActivity {
 
         tsLong = System.currentTimeMillis() / 1000;
 
-
-        push_NFC = Child_id + "#" + bundle.getString("Name") + "#"+Constants.getUCID(this)+"#"+ 12345+"#"  + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#"  + "#1#0,0,0";
+        bookID =  bundle.getString("bookid");
+        push_NFC = Child_id + "#" + bundle.getString("Name") + "#"+Constants.getUCID(this)+"#"+bookID+"#"  + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#"  + "#1#0,0,0";
 
 // intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -154,7 +154,7 @@ public class CardScanWrite extends AppCompatActivity {
         ChildInfoDao childInfoDao = new ChildInfoDao();
         List<ChildInfo> item = childInfoDao.getByEPINum(Child_id);
         if (item.size() == 0) {
-            childInfoDao.save(Child_id + "_" + Calendar.getInstance().getTimeInMillis(), Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this));
+            childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this));
 
         } else {
             childInfoDao.save(item.get(0), bundle.getString("Name"), bundle.getString("cnic"), bundle.getString("pnum"));

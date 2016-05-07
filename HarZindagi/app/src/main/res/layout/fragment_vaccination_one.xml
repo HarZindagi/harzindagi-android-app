@@ -44,7 +44,7 @@
              android:layout_width="0dp"
              android:layout_height="match_parent"
              android:hint="DD-MM-YYYY"
-             android:layout_weight="40"
+             android:layout_weight="30"
              android:gravity="center"
              android:layout_marginLeft="5dp"
              android:visibility="invisible"
@@ -54,7 +54,7 @@
          <CheckBox
              android:id="@+id/dont_care"
              android:button="@null"
-             android:layout_weight="60"
+             android:layout_weight="70"
              android:layout_width="0dp"
              android:layout_height="wrap_content"
              android:text="بچے کو حفاظتی ٹیکہ لگ چکا ہے"

@@ -35,7 +35,40 @@
 
         android:background="@android:color/holo_red_dark" />
 
+    <RelativeLayout
+        android:id="@+id/bookSearchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/textview_height"
+        android:layout_marginTop="10dp"
 
+        >
+
+        <EditText
+            android:id="@+id/newbookText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/newBookTV"
+            android:hint=""
+            android:inputType="number"
+            android:singleLine="true" />
+
+        <TextView
+
+            android:id="@+id/newBookTV"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right|center_horizontal"
+            android:gravity="right|center"
+            android:text="نئی کتاب کا نمبر"
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
+
+
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/epiSearchLayout"
         android:layout_width="match_parent"
@@ -64,7 +97,7 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="right|center_horizontal"
             android:gravity="right|center"
-            android:text="بچے کی EPI"
+            android:text="بچے کا ای پی ائی نمبر"
             android:textColor="@android:color/black"
             android:textSize="20dp" />
 
@@ -147,12 +180,12 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toLeftOf="@+id/searchActivityCNIC_TV"
                 android:layout_toStartOf="@+id/searchActivityCNIC_TV"
-                android:hint="#####-########-#"
+                android:hint="#####-#######-#"
                 android:inputType="number"
                 android:numeric="decimal"
                 android:singleLine="true"
                 android:textSize="16dp"
-                mask:mask="#####-########-#" />
+                mask:mask="#####-#######-#" />
         </RelativeLayout>
     </LinearLayout>
 

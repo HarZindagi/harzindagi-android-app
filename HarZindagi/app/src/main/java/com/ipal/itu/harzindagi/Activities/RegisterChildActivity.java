@@ -77,7 +77,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText EPINumber;
     Button childPicture;
     String epiNumber;
-    String EPICenterName,TownName;
+    String EPICenterName, TownName;
     String ChildName, childID;
     String DateOfBirth;
     String MotherName;
@@ -89,17 +89,18 @@ public class RegisterChildActivity extends AppCompatActivity {
     FileOutputStream fo;
     ArrayAdapter<String> adp;
     ArrayAdapter<String> adp_wm;
-    int phn_nm=1000;
+    int phn_nm = 1000;
     List<ChildInfo> data;
-    String[] str={
-          "Ahmed","Ali","Babar","Butt","Bilal","Danial","Farhan","Gulzar","Hina","Khizir","Mehmood","Nasir","Pathan","Hassan","Saad",
-          "Tahir","Umer","Khawer","Yasir","Jhangir","Usman","Osman","Waseem",
-          "Mannan","Imran","Zaheer","Zeshan"};
-    String[] women_str={
-            "AYESHA","FATIMA","MARIAM","AQSA","LAIBA","AIZA","RABIA","ZAINAB","Hina","SABA","AMNA","ALEENA","MARIA","Qurat","IQRA",
-            "SHAZIA","ZOYA","SADIA","ANAM","ESHAAL","MEHWISH","ASMA","HANIYA",
-            "AIMAN","ALISHBA","HAREEM","SIDRA"};
+    String[] str = {
+            "Ali", "Ahmed", "Babar", "Butt", "Bilal", "Danial", "Farhan", "Gulzar", "Hina", "Khizir", "Mehmood", "Nasir", "Pathan", "Hassan", "Saad",
+            "Tahir", "Umer", "Khawer", "Yasir", "Jhangir", "Usman", "Osman", "Waseem",
+            "Mannan", "Imran", "Zaheer", "Zeshan"};
+    String[] women_str = {
+            "AYESHA", "FATIMA", "MARIAM", "AQSA", "LAIBA", "AIZA", "RABIA", "ZAINAB", "Hina", "SABA", "AMNA", "ALEENA", "MARIA", "Qurat", "IQRA",
+            "SHAZIA", "ZOYA", "SADIA", "ANAM", "ESHAAL", "MEHWISH", "ASMA", "HANIYA",
+            "AIMAN", "ALISHBA", "HAREEM", "SIDRA"};
     Calendar myCalendar = Calendar.getInstance();
+    EditText registerboodid;
     private PopupWindow pw;
     private View popUpView;
 
@@ -123,7 +124,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         app_name = getResources().getString(R.string.app_name);
@@ -136,12 +137,12 @@ public class RegisterChildActivity extends AppCompatActivity {
                 updateLabel();
             }
         };
-
+        registerboodid = (EditText) findViewById(R.id.registerboodid);
         childName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildName);
         childName.setTokenizer(new SpaceTokenizer());
 
-        adp=new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,str);
+        adp = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, str);
 
 
         childName.setThreshold(1);
@@ -198,8 +199,8 @@ public class RegisterChildActivity extends AppCompatActivity {
                 startActivityForResult(intent, CALENDAR_CODE);
             }
         });
-        adp_wm=new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,women_str);
+        adp_wm = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, women_str);
         motherName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildMotherName);
         motherName.setTokenizer(new SpaceTokenizer());
 
@@ -216,43 +217,38 @@ public class RegisterChildActivity extends AppCompatActivity {
         guardianCNIC = (MaskedEditText) findViewById(R.id.registerChildGuardianCNIC);
 
         guardianMobileNumber = (MaskedEditText) findViewById(R.id.registerChildGuardianMobileNumber);
-        Button txt_data=(Button)findViewById(R.id.text);
+        Button txt_data = (Button) findViewById(R.id.text);
         txt_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<ChildInfo> test=new ArrayList<>();
-                for (int i=1;i<=1000;i++)
-                {
-                    phn_nm=phn_nm+i;
-                    ChildInfo chInfo =new ChildInfo();
-                    chInfo.epi_number="1000"+i;
-                    chInfo.epi_name="uc"+i;
-                    chInfo.kid_name="ali"+i;
-                    chInfo.gender=1;
-                    chInfo.mobile_id=1L+i;
+                ArrayList<ChildInfo> test = new ArrayList<>();
+                for (int i = 1; i <= 1000; i++) {
+                    phn_nm = phn_nm + i;
+                    ChildInfo chInfo = new ChildInfo();
+                    chInfo.epi_number = "1000" + i;
+                    chInfo.epi_name = "uc" + i;
+                    chInfo.kid_name = "ali" + i;
+                    chInfo.gender = 1;
+                    chInfo.mobile_id = 1L + i;
 
-                    chInfo.image_path="image_"+chInfo.epi_number;
-                    chInfo.date_of_birth="01-jun-2015";
-                    chInfo.guardian_name="Hassan"+1;
-                    if(i>0&&i<10)
-                    {
-                        chInfo.guardian_cnic="12345-567891"+i+"-4";
+                    chInfo.image_path = "image_" + chInfo.epi_number;
+                    chInfo.date_of_birth = "01-jun-2015";
+                    chInfo.guardian_name = "Hassan" + 1;
+                    if (i > 0 && i < 10) {
+                        chInfo.guardian_cnic = "12345-567891" + i + "-4";
                     }
-                    if(i>9&&i<100)
-                    {
-                        chInfo.guardian_cnic="12345-56789"+i+"-4";
+                    if (i > 9 && i < 100) {
+                        chInfo.guardian_cnic = "12345-56789" + i + "-4";
                     }
-                    if(i>99&&i<1000)
-                    {
-                        chInfo.guardian_cnic="12345-5678"+i+"-4";
+                    if (i > 99 && i < 1000) {
+                        chInfo.guardian_cnic = "12345-5678" + i + "-4";
                     }
-                    if(i==1000)
-                    {
-                        chInfo.guardian_cnic="12345-567"+i+"-4";
+                    if (i == 1000) {
+                        chInfo.guardian_cnic = "12345-567" + i + "-4";
                     }
-                    chInfo.phone_number="1234-567"+phn_nm;
-                    chInfo.mother_name="ABC"+i;
-                    chInfo.child_address="Street"+i;
+                    chInfo.phone_number = "1234-567" + phn_nm;
+                    chInfo.mother_name = "ABC" + i;
+                    chInfo.child_address = "Street" + i;
                     test.add(chInfo);
                 }
                 ChildInfoDao childInfoDao = new ChildInfoDao();
@@ -260,7 +256,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 childInfoDao.bulkInsert(test);
                 String imei = Constants.getIMEI(RegisterChildActivity.this);
                 List<KidVaccinations> items = new ArrayList<KidVaccinations>();
-                for (int i=1;i<=50;i++){
+                for (int i = 1; i <= 50; i++) {
 
                     for (int j = 1; j < 4; j++) {
 
@@ -270,14 +266,14 @@ public class RegisterChildActivity extends AppCompatActivity {
                         long time = calendar.getTimeInMillis() / 1000;
 
 
-                        long kId  =1L+i;
+                        long kId = 1L + i;
                         KidVaccinations kidVaccinations = new KidVaccinations();
 
                         kidVaccinations.location = "00000,00000";
                         kidVaccinations.mobile_id = kId;
 
                         kidVaccinations.vaccination_id = j;
-                        kidVaccinations.image = "image_"+"1000"+i;
+                        kidVaccinations.image = "image_" + "1000" + i;
                         kidVaccinations.created_timestamp = time;
                         kidVaccinations.is_sync = false;
                         kidVaccinations.imei_number = imei;
@@ -296,9 +292,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         childName.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN){
-                    switch (keyCode)
-                    {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             guardianName.requestFocus();
@@ -315,9 +310,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         guardianName.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN){
-                    switch (keyCode)
-                    {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             guardianCNIC.requestFocus();
@@ -363,17 +357,17 @@ public class RegisterChildActivity extends AppCompatActivity {
     public void addItemsOnSpinnerAge_yr() {
 
 
-        registerChildTown_ET=(Spinner)findViewById(R.id.registerChildTown_ET);
-        Towns town=new Towns();
-        list_Towns= town.getAll();
-       ArrayList<String> items = new ArrayList<>();
-        items.add("Select Town");
-        for (int i = 0; i <list_Towns.size() ; i++) {
+        registerChildTown_ET = (Spinner) findViewById(R.id.registerChildTown_ET);
+        Towns town = new Towns();
+        list_Towns = town.getAll();
+        ArrayList<String> items = new ArrayList<>();
+        items.add("- - -");
+        for (int i = 0; i < list_Towns.size(); i++) {
 
             items.add(list_Towns.get(i).name);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.selected_item,items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.selected_item, items);
         adapter.setDropDownViewResource(R.layout.spinner_row);
         registerChildTown_ET.setAdapter(adapter);
         registerChildTown_ET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -419,6 +413,14 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     public String inputValidate() {
         String error = "";
+
+        if(registerboodid.getText().length()<1){
+            error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
+            showError(registerboodid, error);
+
+            return error;
+        }
+
         if (EPINumber.getText().length() < 1) {
             error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
             showError(EPINumber, error);
@@ -460,7 +462,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         String cnic = guardianCNIC.getText().toString().trim();
         if (!cnic.equals("")) {
-            if (cnic.length() < 16) {
+            if (cnic.length() < 15) {
                 error = "برائی مہربانی سرپرست کا درست شناختی کارڈ نمبر درج کریں۔";
                 showError(guardianCNIC, error);
 
@@ -481,10 +483,10 @@ public class RegisterChildActivity extends AppCompatActivity {
             showError(motherName, error);
             return error;
         }*/
-        String 	town=String.valueOf(registerChildTown_ET.getSelectedItem());
+        String town = String.valueOf(registerChildTown_ET.getSelectedItem());
 
-        if (town.equals("Select Town")){
-            town="";
+        if (town.equals("Select Town")) {
+            town = "";
             error = "Select Town";
             showError(houseAddress, error);
             return error;
@@ -529,6 +531,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             intent.putExtra("pnum", GuardianMobileNumber);
             intent.putExtra("img", Fpath);
             intent.putExtra("EPIname", EPICenterName);
+            intent.putExtra("bookid", registerboodid.getText().toString());
             intent.putExtra("address", houseAddress.getText().toString());
 
             this.finish();

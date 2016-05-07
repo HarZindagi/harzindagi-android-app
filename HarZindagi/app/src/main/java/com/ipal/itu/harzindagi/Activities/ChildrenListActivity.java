@@ -1,10 +1,16 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -45,8 +51,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ChildrenListActivity extends AppCompatActivity {
+    private static final int REQUEST_SMS = 1;
+    private static String[] PERMISSIONS_SMS = {Manifest.permission.READ_SMS,
+            Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};
     String app_name;
     int selectedPosition = 0;
+    boolean child_data = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +67,7 @@ public class ChildrenListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         app_name = getResources().getString(R.string.app_name);
         boolean fromSMS = getIntent().getBooleanExtra("fromSMS", false);
+        child_data = getIntent().getBooleanExtra("child_data", false);
         final boolean isOnline = getIntent().getBooleanExtra("isOnline", false);
 
         if (!fromSMS) {
@@ -75,32 +86,40 @@ public class ChildrenListActivity extends AppCompatActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+
                         selectedPosition = position;
-                        Intent intent = new Intent(getApplication(), VaccinationActivity.class);
-                        long kid = 0;
-                        int size = 0;
-                        if (SearchActivity.data.get(position).kid_id != null) {
-                            kid = SearchActivity.data.get(position).kid_id;
-                            size = ChildInfoDao.getByKId(kid).size();
-                        } else {
-                            kid = SearchActivity.data.get(position).mobile_id;
-                            size = ChildInfoDao.getById(kid).size();
-                        }
-
-                        if (size != 0) {
-                            if (isOnline) {
-                                getVaccinations(kid);
+                        if (!child_data) {
+                            Intent intent = new Intent(getApplication(), VaccinationActivity.class);
+                            long kid = 0;
+                            int size = 0;
+                            if (SearchActivity.data.get(position).kid_id != null) {
+                                kid = SearchActivity.data.get(position).kid_id;
+                                size = ChildInfoDao.getByKId(kid).size();
                             } else {
-                                Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
-                                intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
-                                intent.putExtras(bnd);
-                                startActivity(intent);
+                                kid = SearchActivity.data.get(position).mobile_id;
+                                size = ChildInfoDao.getById(kid).size();
                             }
+
+                            if (size != 0) {
+                                if (isOnline) {
+                                    getVaccinations(kid);
+                                } else {
+                                    Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+                                    intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
+                                    intent.putExtras(bnd);
+                                    startActivity(intent);
+                                }
+                            } else {
+                                Toast.makeText(ChildrenListActivity.this, "No Record Found", Toast.LENGTH_LONG).show();
+                            }
+
+
                         } else {
-                            Toast.makeText(ChildrenListActivity.this, "No Record Found", Toast.LENGTH_LONG).show();
+
+                            sendSMS("hz %id%" + SearchActivity.data.get(position).mobile_id);
+                            Toast.makeText(ChildrenListActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
+
                         }
-
-
                     }
                 });
             }
@@ -156,6 +175,86 @@ public class ChildrenListActivity extends AppCompatActivity {
 
     }
 
+    public void sendSMS(String msg) {
+
+
+        if (ActivityCompat.checkSelfPermission(ChildrenListActivity.this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(ChildrenListActivity.this, Manifest.permission.READ_SMS)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(ChildrenListActivity.this, Manifest.permission.RECEIVE_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Contacts permissions have not been granted.
+            //   Log.i(TAG, "SMS permissions has NOT been granted. Requesting permissions.");
+            requestContactsPermissions();
+
+        } else {
+
+            // Contact permissions have been granted. Show the contacts fragment.
+         /*   Log.i(TAG,
+                    "SMS permissions have already been granted. send SMS");*/
+            sendSMSMessage(msg);
+        }
+
+
+    }
+
+    protected void sendSMSMessage(String msg) {
+        Log.i("Send SMS", "");
+
+        String txt = msg;
+        String number = "9100";
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(number, null, txt, null, null);
+  /*  Toast.makeText(getApplicationContext(), "SMS Sent", Toast.LENGTH_LONG).show();
+    finish();*/
+            // finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+            displayExceptionMessage(e.getMessage());
+        }
+
+
+    }
+
+    public void displayExceptionMessage(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void requestContactsPermissions() {
+        // BEGIN_INCLUDE(contacts_permission_request)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_SMS)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.SEND_SMS)
+                || ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.RECEIVE_SMS)) {
+
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For example, if the request has been denied previously.
+            /*Log.i(TAG,
+                    "Displaying SMS permission rationale to provide additional context.");*/
+
+            // Display a SnackBar with an explanation and a button to trigger the request.
+          /*  Snackbar.make(mLayout, "SMS permissions are needed to demonstrate access",
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.ok, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ActivityCompat.requestPermissions(SearchActivity.this, PERMISSIONS_SMS,
+                                    REQUEST_SMS);
+                        }
+                    })
+                    .show();*/
+        } else {
+            // Contact permissions have not been granted yet. Request them directly.
+            ActivityCompat.requestPermissions(this, PERMISSIONS_SMS, REQUEST_SMS);
+        }
+        // END_INCLUDE(contacts_permission_request)
+    }
+
     public void getVaccinations(final long kid) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -203,7 +302,7 @@ public class ChildrenListActivity extends AppCompatActivity {
 
         Gson gson = new Gson();
         GKidTransactionAry gVisitAry = gson.fromJson("{\"kidVaccinations\":" + response.toString() + "}", GKidTransactionAry.class);
-        String imei =Constants.getIMEI(this);
+        String imei = Constants.getIMEI(this);
         ArrayList<KidVaccinations> vaccsList = new ArrayList<>();
         for (int i = 0; i < gVisitAry.kidVaccinations.size(); i++) {
             KidVaccinations vaccs = new KidVaccinations();
@@ -214,9 +313,9 @@ public class ChildrenListActivity extends AppCompatActivity {
             vaccs.vaccination_id = gVisitAry.kidVaccinations.get(i).vaccination_id;
             vaccs.created_timestamp = gVisitAry.kidVaccinations.get(i).created_timestamp;
             vaccs.imei_number = gVisitAry.kidVaccinations.get(i).imei_number;
-            if(imei.equals(gVisitAry.kidVaccinations.get(i).imei_number)){
+            if (imei.equals(gVisitAry.kidVaccinations.get(i).imei_number)) {
                 vaccs.guest_imei_number = "";
-            }else{
+            } else {
                 vaccs.guest_imei_number = imei;
             }
 
@@ -228,7 +327,7 @@ public class ChildrenListActivity extends AppCompatActivity {
         KidVaccinationDao kidVaccinationDao = new KidVaccinationDao();
         List<KidVaccinations> items = kidVaccinationDao.getById(kid);
         for (int i = 0; i < items.size(); i++) {
-            if(items.get(i).is_sync==true){
+            if (items.get(i).is_sync == true) {
                 items.get(i).delete();
             }
         }

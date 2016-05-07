@@ -78,6 +78,7 @@ public class VaccineList extends AppCompatActivity {
         setContentView(R.layout.vacc_list_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         context=this;
         top_header = (LinearLayout) findViewById(R.id.topHeader);
         time_period_txt = (TextView) findViewById(R.id.time_period_txt);

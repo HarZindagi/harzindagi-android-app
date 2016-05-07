@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -113,7 +114,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
 
                     } else if (data.size() == 0) {
-                        Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SearchActivity.this,getString(R.string.no_record), Toast.LENGTH_LONG).show();
                     }
                     /* else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
 
@@ -139,7 +140,13 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
                         } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
                             if (isAdvanceSearch) {
-                                sendSMS("%" + CellPhone + "%" + CNIC);
+                                if(cellPhone.length()==12) {
+                                    sendSMS("hz %m%" + CellPhone);
+                                }else
+                                if(CNIC.length()==15){
+                                    sendSMS("hz %c%" + CNIC);
+                                }
+                                Toast.makeText(SearchActivity.this,"Please Wait",Toast.LENGTH_LONG).show();
                             }
 
                         } else {
@@ -219,7 +226,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             error = "برائے مہربانی سرپرست کا موبائل نمبر درج کریں۔";
             showError(cellPhone, error);
             return false;
-        } else if (CNIC.trim().length() < 16 && CellPhone.length() == 0) {
+        } else if (CNIC.trim().length() < 15 && CellPhone.length() == 0) {
             CNIC = "N/A";
             error = "برائی مہربانی سرپرست کا شناختی کارڈ نمبر درج کریں۔";
             showError(cnic, error);
@@ -266,12 +273,12 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        pDialog.hide();
-                        if (response.toString().length() > 5) {
+                        pDialog.dismiss();
+                        if (response.toString().length() > 20) {
 
                             parseKidReponse(response);
                         }else{
-                            Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SearchActivity.this,getString(R.string.no_record), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -281,7 +288,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             public void onErrorResponse(VolleyError error) {
                 //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -295,7 +302,9 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -306,7 +315,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         String data = "{\"childInfoArrayList\":" + response + "}";
         GChildInfoAry obj = gson.fromJson(data, GChildInfoAry.class);
         if (obj.childInfoArrayList.size() == 0) {
-            Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
+            Toast.makeText(SearchActivity.this, getString(R.string.no_record), Toast.LENGTH_LONG).show();
             return;
         }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
@@ -378,7 +387,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         Log.i("Send SMS", "");
 
         String txt = msg;
-        number = "03214180972";
+        number = "9100";
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(number, null, txt, null, null);
@@ -438,7 +447,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                 if (SearchActivity.data.size() != 0) {
                     startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false).putExtra("isOnline", true));
                 } else {
-                    Toast.makeText(SearchActivity.this, "ان معلومات کےمطابق رکارڈ موجودنہیں ہے", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SearchActivity.this, getString(R.string.no_record), Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -23,7 +23,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:visibility="gone">
 
 
             <TextView
@@ -33,12 +34,12 @@
 
                 android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/registerChildUCNumber_TV"
-                android:inputType="number"
-                android:textSize="20dp"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:inputType="number"
                 android:nextFocusDown="@+id/registerChildEPICenterName"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
 
 
             <TextView
@@ -56,7 +57,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height">
+            android:layout_height="@dimen/textview_height"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/registerChildEPICenterName"
@@ -64,14 +66,14 @@
                 android:layout_height="match_parent"
 
                 android:layout_marginRight="15dp"
-                android:gravity="center"
                 android:layout_toLeftOf="@+id/registerChildEPICenterName_TV"
                 android:layout_weight=".10"
+                android:gravity="center"
                 android:hint=""
-                android:textColor="@android:color/black"
-                android:textSize="20dp"
                 android:inputType="textCapWords"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
 
             <TextView
 
@@ -123,9 +125,11 @@
                 android:textSize="20dp" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
+            android:visibility="gone"
 
             >
 
@@ -133,15 +137,15 @@
                 android:id="@+id/ChildGender"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/ChildGenderText"
                 android:layout_weight=".10"
+                android:gravity="center"
                 android:hint=""
-                android:textColor="@android:color/black"
-                android:textSize="20dp"
                 android:inputType="textCapWords"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/ChildGenderText"
@@ -166,12 +170,12 @@
                 android:id="@+id/registerChildDOB"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
                 android:gravity="center|right"
                 android:paddingLeft="16dp"
                 android:singleLine="true"
-                android:layout_alignParentRight="true"
                 android:text="تاریخ پیدائش"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
@@ -194,6 +198,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
+            android:visibility="gone"
 
             >
 
@@ -201,16 +206,16 @@
                 android:id="@+id/registerChildGuardianName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/registerChildGuardianName_TV"
                 android:layout_weight=".10"
+                android:gravity="center"
 
                 android:hint=""
 
                 android:inputType="textCapWords"
-                android:textSize="20dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="20dp" />
 
 
             <TextView
@@ -256,12 +261,12 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_toLeftOf="@+id/registerChildGuardianCNIC_TV"
                 android:layout_toStartOf="@+id/registerChildGuardianCNIC_TV"
-                android:hint="#####-########-#"
+                android:hint="#####-#######-#"
                 android:inputType="number"
                 android:numeric="decimal"
                 android:singleLine="true"
                 android:textSize="16sp"
-                mask:mask="#####-########-#" />
+                mask:mask="#####-#######-#" />
         </RelativeLayout>
 
 
@@ -302,6 +307,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
+            android:visibility="gone"
 
             >
 
@@ -309,14 +315,14 @@
                 android:id="@+id/registerChildMotherName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-              android:gravity="center"
                 android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/registerChildMotherName_TV"
                 android:layout_weight=".10"
+                android:gravity="center"
                 android:hint=""
-                android:textSize="20dp"
                 android:inputType="textCapWords"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="20dp" />
 
             <TextView
 
@@ -331,9 +337,11 @@
                 android:textSize="20dp" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
+            android:visibility="gone"
 
             >
 
@@ -353,20 +361,20 @@
                 android:id="@+id/registerChildTown_ET"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/registerChildTown"
                 android:layout_toStartOf="@+id/registerChildTown"
+                android:gravity="center"
+                android:hint=""
                 android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:hint=""
-                android:layout_marginRight="15dp"
                 android:textSize="20sp" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
-
-            >
+            android:visibility="gone">
 
 
             <TextView
@@ -397,9 +405,9 @@
             android:id="@+id/registerChildTakePicture"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-
+android:layout_marginTop="40dp"
             android:background="@drawable/roundbutton"
-            android:text="بچے کی معلومات اپ ڈیٹ کریں"
+            android:text="اپ ڈیٹ کریں"
             android:textColor="@color/white"
             android:textSize="20dp" />
 

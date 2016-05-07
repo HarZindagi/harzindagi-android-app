@@ -22,6 +22,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
+                android:visibility="gone"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -49,6 +50,8 @@
                 android:background="@drawable/title_bg"
                 android:padding="5dp"
                 android:paddingTop="5dp"
+                android:textSize="15sp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/padaish_forun_baad"
                 android:textColor="@android:color/black" />
 

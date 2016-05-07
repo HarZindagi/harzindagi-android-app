@@ -107,8 +107,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         ChildInfoDao childInfo = new ChildInfoDao();
         data = childInfo.getByEPINum(Child_id);
 
-
-        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#"+"#"+Constants.getUCID(this)+"#"+ 12345+"#"  + data.get(0).guardian_cnic + "#" + data.get(0).phone_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
+        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#"+"#"+Constants.getUCID(this)+"#"+  data.get(0).book_id +"#"  + data.get(0).guardian_cnic + "#" + data.get(0).phone_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
 //filter work
