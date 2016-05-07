@@ -25,7 +25,7 @@ public class KidVaccinationDao {
     public static List<KidVaccinations> getById(long id) {
         return new Select()
                 .from(KidVaccinations.class)
-                .where("mobile_id = ?", id)
+                .where("kid_id = ?", id)
                 .orderBy("created_timestamp ASC")
                 .execute();
     }
@@ -38,7 +38,7 @@ public class KidVaccinationDao {
                 .from(Vaccinations.class)
                 .innerJoin(KidVaccinations.class)
                 .on(" Vaccinations._id=KidVaccinations.vaccination_id")
-                .where("KidVaccinations.mobile_id =?", kid)
+                .where("KidVaccinations.kid_id =?", kid)
                 .orderBy("Vaccinations.visit_id DESC");
 
 
@@ -57,7 +57,7 @@ public class KidVaccinationDao {
                 .on(" Injections._id=Vaccinations.injection_id")
                 .leftJoin(KidVaccinations.class)
                 .on(" Vaccinations._id=KidVaccinations.vaccination_id")
-                .where("KidVaccinations.mobile_id =?", kid).and("Vaccinations.visit_id =?", max_visit)
+                .where("KidVaccinations.kid_id =?", kid).and("Vaccinations.visit_id =?", max_visit)
                 .orderBy("Injections._id");
 
 
@@ -73,7 +73,7 @@ public class KidVaccinationDao {
                 .from(Vaccinations.class)
                 .innerJoin(KidVaccinations.class)
                 .on(" Vaccinations._id=KidVaccinations.vaccination_id")
-                .where("KidVaccinations.mobile_id =?", kid)
+                .where("KidVaccinations.kid_id =?", kid)
                 .and("Vaccinations.visit_id =?", max_visit)
                 .orderBy("Vaccinations._id")
                 .execute();
@@ -164,8 +164,8 @@ public class KidVaccinationDao {
 
                 KidVaccinations item = new KidVaccinations();
                 item.location = items.get(i).location;
-                item.mobile_id = items.get(i).mobile_id;
                 item.kid_id = items.get(i).kid_id;
+
 
                 item.vaccination_id = items.get(i).vaccination_id;
 

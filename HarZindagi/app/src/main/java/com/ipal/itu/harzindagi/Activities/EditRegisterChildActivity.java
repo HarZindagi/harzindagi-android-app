@@ -60,10 +60,10 @@ public class EditRegisterChildActivity extends AppCompatActivity {
     String Fpath;
     TextView houseAddress;
     TextView EPINumber;
-    Button childPicture;
+    Button registerEditChildRecord;
 
     String epiNumber;
-    String epiNum;
+    long kid_id;
     String EPICenterName,TownName;
     String ChildName, childID;
     String DateOfBirth;
@@ -122,8 +122,8 @@ public class EditRegisterChildActivity extends AppCompatActivity {
         CenterName=(TextView)findViewById(R.id.registerChildEPICenterName);
         ChildGender=(TextView)findViewById(R.id.ChildGender);
 
-        childPicture = (Button) findViewById(R.id.registerChildTakePicture);
-        childPicture.setOnClickListener(new View.OnClickListener() {
+        registerEditChildRecord = (Button) findViewById(R.id.registerEditChildRecord);
+        registerEditChildRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String msg = inputValidate();
@@ -138,7 +138,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
                 childInfo.get(0).save();
                 DateOfBirth = DOBText.getText().toString();
                 Intent intent = new Intent(EditRegisterChildActivity.this, CardScanWrite.class);
-                intent.putExtra("ID", epiNum);
+                intent.putExtra("kid_id", kid_id);
                 intent.putExtra("Name", ChildName);
                 intent.putExtra("Gender", Gender);
                 intent.putExtra("DOB", DateOfBirth);
@@ -158,10 +158,10 @@ public class EditRegisterChildActivity extends AppCompatActivity {
             }
         });
         createContexMenu();
-        if (getIntent().hasExtra("epiNumber")) {
-            epiNum = getIntent().getStringExtra("epiNumber");
+        if (getIntent().hasExtra("childid")) {
+            kid_id = getIntent().getLongExtra("childid",0);
 
-            fillValues(epiNum);
+            fillValues(kid_id);
         }
         getLocation();
 
@@ -178,8 +178,8 @@ public class EditRegisterChildActivity extends AppCompatActivity {
         v.startAnimation(shake);
     }
 
-    public void fillValues(String epiNumber) {
-        List<ChildInfo> chidInfo = ChildInfoDao.getByEpiNum(epiNumber);
+    public void fillValues(long kid_id) {
+        List<ChildInfo> chidInfo = ChildInfoDao.getByKId(kid_id);
         if (chidInfo.size() > 0) {
             EPINumber.setText(chidInfo.get(0).epi_number);
             CenterName.setText(chidInfo.get(0).epi_name);
@@ -212,7 +212,7 @@ public class EditRegisterChildActivity extends AppCompatActivity {
 
         String cnic = guardianCNIC.getText().toString().trim();
         if (!cnic.equals("")) {
-            if (cnic.length() < 16) {
+            if (cnic.length() < 15) {
                 error = "برائی مہربانی سرپرست کا درست شناختی کارڈ نمبر درج کریں۔";
                 showError(guardianCNIC, error);
 

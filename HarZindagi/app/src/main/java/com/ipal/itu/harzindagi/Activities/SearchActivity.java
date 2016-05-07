@@ -321,7 +321,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();
-            c.mobile_id = obj.childInfoArrayList.get(i).id;
+            c.kid_id = obj.childInfoArrayList.get(i).id;
 
             c.imei_number =  obj.childInfoArrayList.get(i).imei_number;
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;

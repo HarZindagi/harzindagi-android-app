@@ -229,7 +229,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                     chInfo.epi_name = "uc" + i;
                     chInfo.kid_name = "ali" + i;
                     chInfo.gender = 1;
-                    chInfo.mobile_id = 1L + i;
+                    chInfo.kid_id = 1L + i;
 
                     chInfo.image_path = "image_" + chInfo.epi_number;
                     chInfo.date_of_birth = "01-jun-2015";
@@ -270,7 +270,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                         KidVaccinations kidVaccinations = new KidVaccinations();
 
                         kidVaccinations.location = "00000,00000";
-                        kidVaccinations.mobile_id = kId;
+                        kidVaccinations.kid_id = kId;
 
                         kidVaccinations.vaccination_id = j;
                         kidVaccinations.image = "image_" + "1000" + i;
@@ -522,6 +522,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             DateOfBirth = DOBText.getText().toString();
             Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
             intent.putExtra("ID", childID);
+            intent.putExtra("kid_id",-1l);
             intent.putExtra("Name", ChildName);
             intent.putExtra("Gender", Gender);
             intent.putExtra("DOB", DateOfBirth);

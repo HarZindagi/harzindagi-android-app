@@ -33,7 +33,7 @@ public class VaccinationActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST = 1888;
 
     public String fpath;
-    public String childID;
+    public long childID;
     public int load_frag;
     public String vaccs_done;
     public TextView sixthTabTickMark;
@@ -97,7 +97,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
         try {
-            childID = bundle.getString("childid");
+            childID = bundle.getLong("childid");
         } catch (Exception e) {
             Toast.makeText(this, "ID not found", Toast.LENGTH_LONG).show();
             finish();
@@ -124,9 +124,9 @@ public class VaccinationActivity extends AppCompatActivity {
 
         }
 
-        ChildInfoDao childInfoDao = new ChildInfoDao();
 
-        data = childInfoDao.getByEPINum(bundle.getString("childid").toString());
+
+        data = ChildInfoDao.getByKId(bundle.getLong("childid"));
         if(data.size()>0) {
             fpath = data.get(0).image_path;
         }

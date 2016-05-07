@@ -3,7 +3,6 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
@@ -22,28 +21,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class CardScanWrite extends AppCompatActivity {
@@ -72,12 +59,15 @@ public class CardScanWrite extends AppCompatActivity {
     private String Tehsil;
     private String address;
     private String Child_id;
+    private long kid_id;
     private int VisitNum;
     private String NextDueDate;
     private String card_data = "";
     private ImageView imgV;
     boolean mWriteMode = true;
     String bookID;
+    String visitNum = "1";
+    String vaccsDetails= "0,0,0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,14 +82,18 @@ public class CardScanWrite extends AppCompatActivity {
 
 
         bundle = getIntent().getExtras();
-        Child_id = bundle.getString("ID");
+
+        Child_id = bundle.getString("ID","-1");
+        kid_id = bundle.getLong("kid_id");
 
         address = bundle.getString("address");
 
         tsLong = System.currentTimeMillis() / 1000;
 
         bookID =  bundle.getString("bookid");
-        push_NFC = Child_id + "#" + bundle.getString("Name") + "#"+Constants.getUCID(this)+"#"+bookID+"#"  + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#"  + "#1#0,0,0";
+        writeDataToDB();
+
+        push_NFC = kid_id + "#" + bundle.getString("Name") + "#"+Constants.getUCID(this)+"#"+bookID+"#"  + bundle.getString("cnic") + "#" + bundle.getString("pnum")  + "#"+visitNum+"#"+vaccsDetails;
 
 // intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -145,28 +139,44 @@ public class CardScanWrite extends AppCompatActivity {
     }
 
 
-    public int Push_into_DB() {
+    public int startNewActivity() {
 
 
         Toast.makeText(this, "بچے کی معلومات محفوظ کر دی گئی ہیں", Toast.LENGTH_LONG).show();
-        Calendar calendar = Calendar.getInstance();
-        Long tsLong = calendar.getTimeInMillis() / 1000;
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> item = childInfoDao.getByEPINum(Child_id);
-        if (item.size() == 0) {
-            childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this));
 
-        } else {
-            childInfoDao.save(item.get(0), bundle.getString("Name"), bundle.getString("cnic"), bundle.getString("pnum"));
-
-        }
 
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
-        myintent.putExtra("childid", Child_id);
+        myintent.putExtra("childid", kid_id);
         myintent.putExtra("EPIname", bundle.getString("EPIname"));
         startActivity(myintent);
         finish();
         return 0;
+    }
+    private  void writeDataToDB(){
+        Calendar calendar = Calendar.getInstance();
+        Long tsLong = calendar.getTimeInMillis() / 1000;
+        ChildInfoDao childInfoDao = new ChildInfoDao();
+        List<ChildInfo> item = ChildInfoDao.getByKId(kid_id);
+        long mkid_id = -1l;
+        if (item.size() == 0) {
+            mkid_id = childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this));
+
+        }
+         else {
+            childInfoDao.save(item.get(0), bundle.getString("Name"), bundle.getString("cnic"), bundle.getString("pnum"));
+            mkid_id = kid_id;
+        }
+        item = ChildInfoDao.getByKId(mkid_id);
+        Bundle bnd= KidVaccinationDao.get_visit_details_db(mkid_id);
+        if(bnd!=null) {
+            visitNum = bnd.getString("visit_num", "1");
+            vaccsDetails = bnd.getString("vacc_details", "0,0,0");
+        }
+        kid_id =  item.get(0).kid_id;
+        bookID = item.get(0).book_id;
+
+
+
     }
 
     @Override
@@ -185,7 +195,7 @@ public class CardScanWrite extends AppCompatActivity {
                 btn.setVisibility(View.VISIBLE);
                 btn.setEnabled(true);*/
                 mWriteMode = false;
-                Push_into_DB();
+                startNewActivity();
 
 
             }
@@ -286,83 +296,5 @@ public class CardScanWrite extends AppCompatActivity {
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
-    private void sendChildData(String childID) {
-        // Instantiate the RequestQueue.
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childInfo = childInfoDao.getByEPINum(childID);
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.kids;
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Saving Child data...");
-        pDialog.show();
-        JSONObject obj = null;
-        try {
-            obj = new JSONObject();
-            JSONObject user = new JSONObject();
-            user.put("auth_token", Constants.getToken(this));
-            obj.put("user", user);
-
-            JSONObject kid = new JSONObject();
-            kid.put("mobile_id", childInfo.get(0).mobile_id);
-            kid.put("imei_number", Constants.getIMEI(this));
-            kid.put("kid_name", childInfo.get(0).kid_name);
-            kid.put("father_name", childInfo.get(0).guardian_name);
-            kid.put("mother_name", childInfo.get(0).mother_name);
-            kid.put("father_cnic", childInfo.get(0).guardian_cnic);
-            kid.put("mother_cnic", "");
-            kid.put("phone_number", childInfo.get(0).phone_number);
-            kid.put("date_of_birth", childInfo.get(0).date_of_birth);
-            kid.put("location", "00000,000000");
-            kid.put("child_address", "");
-            kid.put("gender", childInfo.get(0).gender);
-            kid.put("epi_number", childInfo.get(0).epi_number);
-            kid.put("itu_epi_number", childInfo.get(0).epi_number + "_itu");
-
-            obj.put("kid", kid);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, obj,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        pDialog.hide();
-                        if (response.optBoolean("success")) {
-                            JSONObject json = response.optJSONObject("data");
-                            parseKidReponse(json);
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.hide();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-
-        };
-
-// Add the request to the RequestQueue.
-        queue.add(jsonObjReq);
-    }
-
-    public void parseKidReponse(JSONObject response) {
-        Gson gson = new Gson();
-        // obj = gson.fromJson(response.toString(), GUserInfo.class);
-    }
 
 }

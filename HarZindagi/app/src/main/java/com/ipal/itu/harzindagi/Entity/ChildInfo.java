@@ -11,8 +11,8 @@ import com.ipal.itu.harzindagi.Utils.TruncatableModel;
 public class ChildInfo extends TruncatableModel {
 
 
-    @Column(name = "mobile_id")
-    public Long mobile_id;
+/*    @Column(name = "mobile_id")
+    public Long mobile_id;*/
 
     @Column(name = "kid_id")
     public Long kid_id;

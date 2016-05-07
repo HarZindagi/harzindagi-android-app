@@ -96,8 +96,8 @@ public class ChildrenListActivity extends AppCompatActivity {
                                 kid = SearchActivity.data.get(position).kid_id;
                                 size = ChildInfoDao.getByKId(kid).size();
                             } else {
-                                kid = SearchActivity.data.get(position).mobile_id;
-                                size = ChildInfoDao.getById(kid).size();
+                                kid = SearchActivity.data.get(position).kid_id;
+                                size = ChildInfoDao.getByKId(kid).size();
                             }
 
                             if (size != 0) {
@@ -116,7 +116,7 @@ public class ChildrenListActivity extends AppCompatActivity {
 
                         } else {
 
-                            sendSMS("hz %id%" + SearchActivity.data.get(position).mobile_id);
+                            sendSMS("hz %id%" + SearchActivity.data.get(position).kid_id);
                             Toast.makeText(ChildrenListActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
 
                         }
@@ -142,7 +142,7 @@ public class ChildrenListActivity extends AppCompatActivity {
 
             final List<ChildInfo> list = new ArrayList<>();
             ChildInfo childInfo = new ChildInfo();
-            childInfo.mobile_id = Long.parseLong(ID);
+            childInfo.kid_id = Long.parseLong(ID);
             childInfo.kid_name = CHILD_NAME;
             childInfo.guardian_name = guardian_name;
             childInfo.child_address = Address;
@@ -161,7 +161,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                     if (list.get(position).kid_id != null) {
                         kid = list.get(position).kid_id;
                     } else {
-                        kid = list.get(position).mobile_id;
+                        kid = list.get(position).kid_id;
                     }
                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                     intent.putExtra("childid", list.get(position).epi_number);
@@ -308,7 +308,6 @@ public class ChildrenListActivity extends AppCompatActivity {
             KidVaccinations vaccs = new KidVaccinations();
             vaccs.location = gVisitAry.kidVaccinations.get(i).location;
             vaccs.kid_id = gVisitAry.kidVaccinations.get(i).kid_id;
-            vaccs.mobile_id = gVisitAry.kidVaccinations.get(i).kid_id;
             vaccs.image = gVisitAry.kidVaccinations.get(i).image_path;
             vaccs.vaccination_id = gVisitAry.kidVaccinations.get(i).vaccination_id;
             vaccs.created_timestamp = gVisitAry.kidVaccinations.get(i).created_timestamp;

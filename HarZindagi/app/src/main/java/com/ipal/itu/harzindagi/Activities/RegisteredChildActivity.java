@@ -42,7 +42,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
     double latitude;
     ChildInfoDao dao;
     Calendar calendar;
-    String childID;
+    long childID;
    final Context curr=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +70,14 @@ public class RegisteredChildActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent=new Intent(RegisteredChildActivity.this,EditRegisterChildActivity.class);
-                intent.putExtra("epiNumber",childID);
+                intent.putExtra("childid",childID);
                 startActivity(intent);
                 finish();
             }
         });
 
        Bundle bundle = getIntent().getExtras();
-       childID = bundle.getString("childid");
+       childID = bundle.getLong("childid");
 
         vaccination_btn = (Button) findViewById(R.id.NFCWrite);
         vaccination_btn.setOnClickListener(new View.OnClickListener() {
@@ -89,25 +89,24 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
                 myintent.putExtra("childid", childID);
                 startActivity(myintent);*/
-                final List<ChildInfo> data = dao.getByEPINum(childID);
+                final List<ChildInfo> data = ChildInfoDao.getByKId(childID);
                 Intent intent = new Intent(curr, VaccinationActivity.class);
                 long kid = 0;
                 if(data.get(0).kid_id!=null){
                     kid = data.get(0).kid_id;
                 }else{
-                    kid = data.get(0).mobile_id;
+                    finish();
+                    return;
                 }
                 Bundle bnd= KidVaccinationDao.get_visit_details_db(kid);
-                intent.putExtra("childid", data.get(0).epi_number);
+                intent.putExtra("childid", data.get(0).kid_id);
                 intent.putExtras(bnd);
                 startActivity(intent);
                 finish();
             }
         });
 
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-
-        List<ChildInfo> data = childInfoDao.getByEPINum(childID);
+        List<ChildInfo> data = ChildInfoDao.getByKId(childID);
 
         if(data!=null) {
             ucNumber.setText("" + Constants.getUCID(this));

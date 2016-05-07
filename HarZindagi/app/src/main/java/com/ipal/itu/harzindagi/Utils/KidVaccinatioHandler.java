@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -91,7 +92,6 @@ public class KidVaccinatioHandler {
             vaccination.put("imei_number", kidVaccinations.imei_number);
             vaccination.put("guest_imei_number", kidVaccinations.guest_imei_number);
             vaccination.put("location", kidVaccinations.location);
-            vaccination.put("mobile_id", kidVaccinations.mobile_id);
             vaccination.put("kid_id", kidVaccinations.kid_id);
             vaccination.put("vaccination_id", kidVaccinations.vaccination_id);
             vaccination.put("version_name", "");
@@ -144,7 +144,9 @@ public class KidVaccinatioHandler {
 
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }

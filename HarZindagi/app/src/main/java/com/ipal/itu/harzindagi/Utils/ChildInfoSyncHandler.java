@@ -106,7 +106,7 @@ public class ChildInfoSyncHandler {
             obj.put("user", user);
 
 
-            kid.put("mobile_id", childInfo.mobile_id);
+            kid.put("mobile_id", childInfo.kid_id);
             kid.put("imei_number",childInfo.imei_number);
             kid.put("kid_name", childInfo.kid_name);
             kid.put("father_name", childInfo.guardian_name);
@@ -148,18 +148,17 @@ public class ChildInfoSyncHandler {
                     public void onResponse(JSONObject response) {
                        // Log.d("response",response.toString());
                         if (response.optString("kid_name").equals(kid.optString("kid_name"))) {
-                            ChildInfoDao childInfoDao = new ChildInfoDao();
-                            List<ChildInfo> child = childInfoDao.getById(childInfo.mobile_id);
+
+                            List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
                             child.get(0).record_update_flag = true;
                             child.get(0).kid_id = response.optLong("id");
                             child.get(0).image_path ="image_"+child.get(0).kid_id;
                             child.get(0).save();
                             long kidID =   child.get(0).kid_id;
                             renameFile(child.get(0).kid_name+child.get(0).epi_number,"image_"+kidID);
-                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(childInfo.mobile_id);
+                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(childInfo.kid_id);
                             for (int i = 0; i < kidVaccines.size(); i++) {
                                 kidVaccines.get(i).kid_id = kidID;
-                                kidVaccines.get(i).mobile_id = kidID;
                                 kidVaccines.get(i).save();
                             }
 
@@ -188,7 +187,7 @@ public class ChildInfoSyncHandler {
 
 
         };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);

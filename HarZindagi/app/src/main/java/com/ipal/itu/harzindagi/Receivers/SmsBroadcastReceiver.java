@@ -71,7 +71,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         childInfo.kid_name = name;
         childInfo.epi_number = "";
         childInfo.kid_id = kid;
-        childInfo.mobile_id = kid;
+        childInfo.kid_id = kid;
         childInfo.child_address = "";
         childInfo.guardian_name = "";
         childInfo.next_due_date = Calendar.getInstance().getTimeInMillis() / 1000;
@@ -80,14 +80,14 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         childInfo.image_path = "image_" + kid;//obj.childInfoArrayList.get(i).image_path;
         childInfo.imei_number = imei;
 
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childRec = childInfoDao.getById(kid);
+
+        List<ChildInfo> childRec = ChildInfoDao.getByKId(kid);
         for (int i = 0; i < childRec.size(); i++) {
             childRec.get(i).delete();
         }
 
         childInfo.save();
-        SearchActivity.data = childInfoDao.getById(childInfo.mobile_id);
+        SearchActivity.data = ChildInfoDao.getByKId(childInfo.kid_id);
         if (SearchActivity.data.size() != 0) {
 
             mContext.startActivity(new Intent(mContext, ChildrenListActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -98,8 +98,8 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void insertVaccinationToDB(String imei, int visitNum, String vaccinations, String epi, Long kid) {
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childRec = childInfoDao.getById(kid);
+
+        List<ChildInfo> childRec = ChildInfoDao.getByKId(kid);
         childRec.get(0).epi_number = epi;
         childRec.get(0).save();
         List<Vaccinations> vaccs = getVacIds(visitNum);
@@ -117,7 +117,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             kidVaccinations.is_sync = true;
             kidVaccinations.imei_number = imei;
             kidVaccinations.kid_id = kid;
-            kidVaccinations.mobile_id = kid;
             kidVaccinations.vaccination_id = vaccs.get(j).id;
             kidVaccinations.location = "";
             kidVaccinations.image = "image_" + kid;

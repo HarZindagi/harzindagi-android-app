@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private static final String TAG = "Volly";
-    private static final int MY_SOCKET_TIMEOUT_MS = 5000;
+    private static final int MY_SOCKET_TIMEOUT_MS = 10000;
 
     public GUserInfo obj;
     TextView userName;
@@ -754,7 +754,7 @@ public class LoginActivity extends AppCompatActivity {
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();
-            c.mobile_id = obj.childInfoArrayList.get(i).id;
+            c.kid_id = obj.childInfoArrayList.get(i).id;
 
 
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
@@ -869,8 +869,6 @@ public class LoginActivity extends AppCompatActivity {
             KidVaccinations c = new KidVaccinations();
             c.location = obj.kidVaccinations.get(i).location;
 
-
-            c.mobile_id = obj.kidVaccinations.get(i).kid_id;
             c.kid_id = obj.kidVaccinations.get(i).kid_id;
 
             c.vaccination_id = obj.kidVaccinations.get(i).vaccination_id;

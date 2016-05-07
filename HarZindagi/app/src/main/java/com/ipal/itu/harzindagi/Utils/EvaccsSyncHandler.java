@@ -157,7 +157,7 @@ public class EvaccsSyncHandler {
 
 
         };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
