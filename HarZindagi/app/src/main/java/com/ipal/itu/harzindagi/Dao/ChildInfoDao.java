@@ -17,6 +17,7 @@ public class ChildInfoDao {
         item.setChildInfo(book_id,childID, name, gender, dob, motherName, guardianName, CNIC, phoneNum, createdTime, Location, EpiName, kidStation, imageName, nfcNumber, bookFlag, recordFlag, address, imei);
         item.save(); // to get system generated id we have to save it first
         item.kid_id = item.getId();
+        item.mobile_id = item.getId();
         item.save();
         return item.kid_id;
 
@@ -98,6 +99,13 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                 .where("kid_id = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static  List<ChildInfo> getByLocalKId(long id) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("mobile_id = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
     }

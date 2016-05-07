@@ -68,6 +68,7 @@ public class CardScanWrite extends AppCompatActivity {
     String bookID;
     String visitNum = "1";
     String vaccsDetails= "0,0,0";
+    String isSync = "0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +94,7 @@ public class CardScanWrite extends AppCompatActivity {
         bookID =  bundle.getString("bookid");
         writeDataToDB();
 
-        push_NFC = kid_id + "#" + bundle.getString("Name") + "#"+Constants.getUCID(this)+"#"+bookID+"#"  + bundle.getString("cnic") + "#" + bundle.getString("pnum")  + "#"+visitNum+"#"+vaccsDetails;
+        push_NFC = kid_id + "#" + isSync +"#"+bundle.getString("Name") + "#"+Constants.getUCID(this)+"#"+bookID+"#"  + bundle.getString("cnic") + "#" + bundle.getString("pnum")  + "#"+visitNum+"#"+vaccsDetails;
 
 // intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -165,6 +166,11 @@ public class CardScanWrite extends AppCompatActivity {
          else {
             childInfoDao.save(item.get(0), bundle.getString("Name"), bundle.getString("cnic"), bundle.getString("pnum"));
             mkid_id = kid_id;
+            if(item.get(0).record_update_flag==true){
+                isSync = "1";
+            }else{
+                isSync = "0";
+            }
         }
         item = ChildInfoDao.getByKId(mkid_id);
         Bundle bnd= KidVaccinationDao.get_visit_details_db(mkid_id);

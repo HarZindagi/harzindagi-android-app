@@ -37,6 +37,7 @@ public class VaccinationActivity extends AppCompatActivity {
     public int load_frag;
     public String vaccs_done;
     public TextView sixthTabTickMark;
+    public boolean isVaccCompleted = false;
     String app_name = "Har Zindagi";
     FileOutputStream fo;
     List<ChildInfo> data;
@@ -50,7 +51,6 @@ public class VaccinationActivity extends AppCompatActivity {
             R.drawable.vactab_fill4,
             R.drawable.vactab_fill5,
             R.drawable.vactab_fill6};
-    public boolean isVaccCompleted = false;
     private CustomViewPager mViewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private View firstTab;
@@ -110,7 +110,7 @@ public class VaccinationActivity extends AppCompatActivity {
                 if (Constants.isVaccOfVisitCompleted(bundle.getString("vacc_details").toString())) {
 
                     load_frag = Integer.parseInt(bundle.getString("visit_num").toString());
-                    if(load_frag==6) {
+                    if (load_frag == 6) {
                         isVaccCompleted = true;
                     }
 
@@ -118,21 +118,26 @@ public class VaccinationActivity extends AppCompatActivity {
 
                 vaccs_done = bundle.getString("vacc_details").toString();
             } catch (Exception e) {
-                Toast.makeText(this, "Card Corrupted"+e, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Card Corrupted" + e, Toast.LENGTH_LONG).show();
                 finish();
             }
 
         }
 
+        if (bundle.getBoolean("isSync",false) == true) {
+            data = ChildInfoDao.getByKId(bundle.getLong("childid"));
+
+        } else {
+            data = ChildInfoDao.getByLocalKId(bundle.getLong("childid"));
+        }
 
 
-        data = ChildInfoDao.getByKId(bundle.getLong("childid"));
-        if(data.size()>0) {
+        if (data.size() > 0) {
             fpath = data.get(0).image_path;
         }
-        if(data.size()==0){
+        if (data.size() == 0) {
             finish();
-            Toast.makeText(this,"Try again!",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
             return;
         }
         //setTitleImage(toolbar,fpath);
@@ -292,10 +297,6 @@ public class VaccinationActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
     }
 
 
@@ -344,6 +345,7 @@ public class VaccinationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -105,7 +106,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                                     getVaccinations(kid);
                                 } else {
                                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
-                                    intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
+                                    intent.putExtra("childid", SearchActivity.data.get(position).kid_id);
                                     intent.putExtras(bnd);
                                     startActivity(intent);
                                 }
@@ -164,7 +165,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                         kid = list.get(position).kid_id;
                     }
                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
-                    intent.putExtra("childid", list.get(position).epi_number);
+                    intent.putExtra("childid", list.get(position).kid_id);
                     intent.putExtras(bnd);
                     startActivity(intent);
 
@@ -293,7 +294,9 @@ public class ChildrenListActivity extends AppCompatActivity {
             }
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -333,7 +336,8 @@ public class ChildrenListActivity extends AppCompatActivity {
         kidVaccinationDao.bulkInsert(vaccsList);
         Intent intent = new Intent(getApplication(), VaccinationActivity.class);
         Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
-        intent.putExtra("childid", SearchActivity.data.get(selectedPosition).epi_number);
+        intent.putExtra("childid", SearchActivity.data.get(selectedPosition).kid_id);
+        intent.putExtra("isSync", true);
         intent.putExtras(bnd);
         startActivity(intent);
 

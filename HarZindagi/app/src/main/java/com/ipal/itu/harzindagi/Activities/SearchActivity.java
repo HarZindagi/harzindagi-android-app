@@ -302,7 +302,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
 
         };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
