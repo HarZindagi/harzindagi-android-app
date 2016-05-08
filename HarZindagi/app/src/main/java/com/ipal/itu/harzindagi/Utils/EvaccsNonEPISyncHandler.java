@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ipal.itu.harzindagi.Activities.LoginActivity;
 import com.ipal.itu.harzindagi.Dao.EvaccsDao;
 import com.ipal.itu.harzindagi.Dao.EvaccsNonEPIDao;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
@@ -162,7 +163,7 @@ public class EvaccsNonEPISyncHandler {
 
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }

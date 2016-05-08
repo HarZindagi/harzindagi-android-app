@@ -89,6 +89,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "Volly";
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
 
+    public static final int MAX_RETRY = 2;
+
     public GUserInfo obj;
     TextView userName;
     EditText password;
@@ -168,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 boolean isTableLoaded = Constants.getIsTableLoaded(LoginActivity.this);
 
-                if (Constants.getToken(LoginActivity.this).length() > 0) {
+                if (Constants.getToken(LoginActivity.this).length() > 0 && isTableLoaded) {
                     if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
@@ -320,7 +322,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
                 MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 // Add the request to the RequestQueue.
@@ -389,7 +391,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
                 MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
@@ -431,15 +433,9 @@ public class LoginActivity extends AppCompatActivity {
         Token token = gson.fromJson(response.toString(), Token.class);
         Constants.setToken(this, token.auth_token);
         Constants.setPassword(this, password.getText().toString());
-        if (!Constants.getIsTableLoaded(this)) {
-            loadVisits();
-        } else {
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 
-            startActivity(intent);
-            finish();
+        loadVisits();
 
-        }
     }
 
 
@@ -522,7 +518,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
                 MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
@@ -544,7 +540,7 @@ public class LoginActivity extends AppCompatActivity {
             visit.description = gVisitAry.visits.get(i).description;
             visits.add(visit);
         }
-
+        visitsDao.deleteTable();
         visitsDao.bulkInsert(visits);
         loadInjections();
     }
@@ -589,7 +585,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
                 MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
@@ -612,6 +608,7 @@ public class LoginActivity extends AppCompatActivity {
             injections.is_drop = gInjection.injections.get(i).is_drop;
             visits.add(injections);
         }
+        injectionsDao.deleteTable();
         injectionsDao.bulkInsert(visits);
         loadVaccinations();
     }
@@ -656,7 +653,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
                 MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 // Add the request to the RequestQueue.
@@ -687,7 +684,83 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+    private void loadAreas() {
+        // Instantiate the RequestQueue.
 
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constants.areas + "?" + "user[auth_token]=" + Constants.getToken(this);
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading Areas...");
+        pDialog.show();
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                url, new JSONObject(),
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        pDialog.dismiss();
+                        if (response.toString().contains("Invalid User")) {
+                            Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject("{\"areasList\":" + response + "}");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        parseAreasResponse(json);
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.dismiss();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+
+
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    public void parseAreasResponse(JSONObject response) {
+
+        Gson gson = new Gson();
+        GAreasList obj = gson.fromJson(response.toString(), GAreasList.class);
+
+        ArrayList<Towns> townses = new ArrayList<>();
+        for (int i = 0; i < obj.areasList.size(); i++) {
+            Towns c = new Towns();
+            c.name = obj.areasList.get(i).name;
+
+
+            c.tId = obj.areasList.get(i).id;
+
+
+            townses.add(c);
+
+        }
+        Towns.deleteTable();
+        Towns.bulkInsert(townses);
+
+        loadChildData();
+    }
     private void loadChildData() {
         // Instantiate the RequestQueue.
 
@@ -747,10 +820,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Gson gson = new Gson();
         GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
-        if (obj.childInfoArrayList.size() == 0) {
 
-            return;
-        }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();
@@ -861,9 +931,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Gson gson = new Gson();
         GKidTransactionAry obj = gson.fromJson(response.toString(), GKidTransactionAry.class);
-        if (obj.kidVaccinations.size() == 0) {
-            return;
-        }
+
         ArrayList<KidVaccinations> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.kidVaccinations.size(); i++) {
             KidVaccinations c = new KidVaccinations();
@@ -897,83 +965,5 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void loadAreas() {
-        // Instantiate the RequestQueue.
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.areas + "?" + "user[auth_token]=" + Constants.getToken(this);
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading Areas...");
-        pDialog.show();
-
-        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
-                url, new JSONObject(),
-                new Response.Listener<JSONArray>() {
-
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        pDialog.dismiss();
-                        if (response.toString().contains("Invalid User")) {
-                            Toast.makeText(LoginActivity.this, "Token Expired", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        JSONObject json = null;
-                        try {
-                            json = new JSONObject("{\"areasList\":" + response + "}");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        parseAreasResponse(json);
-
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-
-        };
-
-// Add the request to the RequestQueue.
-        queue.add(jsonObjReq);
-    }
-
-    public void parseAreasResponse(JSONObject response) {
-
-        Gson gson = new Gson();
-        GAreasList obj = gson.fromJson(response.toString(), GAreasList.class);
-        if (obj.areasList.size() == 0) {
-            return;
-        }
-        ArrayList<Towns> townses = new ArrayList<>();
-        for (int i = 0; i < obj.areasList.size(); i++) {
-            Towns c = new Towns();
-            c.name = obj.areasList.get(i).name;
-
-
-            c.tId = obj.areasList.get(i).id;
-
-
-            townses.add(c);
-
-        }
-        Towns.deleteTable();
-        Towns.bulkInsert(townses);
-
-        loadChildData();
-    }
 }

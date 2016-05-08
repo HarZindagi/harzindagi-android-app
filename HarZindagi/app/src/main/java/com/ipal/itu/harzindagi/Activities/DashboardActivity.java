@@ -71,7 +71,7 @@ public class DashboardActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-
+    long uploadTime;
     public static String getApplicationName(Context context) {
         int stringId = context.getApplicationInfo().labelRes;
         return context.getString(stringId);
@@ -165,7 +165,7 @@ public class DashboardActivity extends AppCompatActivity {
         }
         if (id == R.id.action_sync) {
             if (Constants.isOnline(this)) {
-
+                uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
                 syncData();
             }
         }
@@ -330,6 +330,8 @@ public class DashboardActivity extends AppCompatActivity {
                 for (int i = 0; i < list.size(); i++) {
                     list.get(i).delete();
                 }
+                uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
+                Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
                 Toast.makeText(DashboardActivity.this,"آپلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
             }
         });
@@ -445,7 +447,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }
@@ -513,7 +515,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }
@@ -599,7 +601,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }

@@ -92,14 +92,14 @@ public class VaccineListAdapter {
         if (data.get(position).is_done == 1) {
             cb.setEnabled(false);
             cb.setChecked(true);
-
+            aarr[position]=1;
             // isChecked[position] = 1;
             // Log.e("" + position + "|" + curr_frag, isChecked[position] + "");
 
         } else {
             cb.setChecked(false);
             // isChecked[position] = 0;
-
+            aarr[position]=0;
             // Log.e("" + position + "|" + curr_frag, isChecked[position] + "");
 
         }

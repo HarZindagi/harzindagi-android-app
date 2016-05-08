@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ipal.itu.harzindagi.Activities.LoginActivity;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
@@ -93,7 +94,7 @@ public class ChildInfoSyncHandler {
         return c.getTimeInMillis();
     }
     private void sendChildData(final ChildInfo childInfo) {
-
+        final long oldKidID = childInfo.kid_id;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Constants.kids;
 
@@ -155,8 +156,9 @@ public class ChildInfoSyncHandler {
                             child.get(0).image_path ="image_"+child.get(0).kid_id;
                             child.get(0).save();
                             long kidID =   child.get(0).kid_id;
+
                             renameFile(child.get(0).kid_name+child.get(0).epi_number,"image_"+kidID);
-                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(childInfo.kid_id);
+                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
                             for (int i = 0; i < kidVaccines.size(); i++) {
                                 kidVaccines.get(i).kid_id = kidID;
                                 kidVaccines.get(i).save();
@@ -188,7 +190,7 @@ public class ChildInfoSyncHandler {
 
         };
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }
