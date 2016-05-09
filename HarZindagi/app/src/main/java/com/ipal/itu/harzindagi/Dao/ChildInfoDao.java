@@ -102,10 +102,24 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
+    public  static  List<ChildInfo> getByKIdAndIMEI(long id,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("kid_id = ?", id).and("imei_number = ?",imei)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
     public  static  List<ChildInfo> getByLocalKId(long id) {
         return new Select()
                 .from(ChildInfo.class)
                 .where("mobile_id = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static  List<ChildInfo> getByLocalKIdandIMEI(long id,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("mobile_id = ?", id).and("imei_number = ?",imei)
                 .orderBy("kid_name ASC")
                 .execute();
     }
@@ -127,6 +141,13 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                 .where("epi_number = ?", epi_number)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static List<ChildInfo> getByEpiNumAndIMEI(String epi_number,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("epi_number = ?", epi_number).and("imei_number = ?",imei)
                 .orderBy("kid_name ASC")
                 .execute();
     }

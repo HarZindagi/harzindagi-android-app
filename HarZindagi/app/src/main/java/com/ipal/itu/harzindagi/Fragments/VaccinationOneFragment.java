@@ -263,6 +263,7 @@ public class VaccinationOneFragment extends Fragment {
         getActivity().finish();
         Bundle b = new Bundle();
         b.putLong("childid", ((VaccinationActivity) getActivity()).childID);
+        b.putString("imei", ((VaccinationActivity) getActivity()).imei);
         b.putString("visit_num", (mParam2 + 1 + ""));
         b.putString("vacc_details", vacc_details);
         Intent i = new Intent(getActivity(), VaccinationActivity.class);

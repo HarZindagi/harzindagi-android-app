@@ -139,7 +139,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         Intent act = new Intent(mContext, VaccinationActivity.class);
         Bundle bnd = new Bundle();
         //  act.putExtra("childid", data[1]);
-
+        bnd.putString("imei", imei);
         bnd.putLong("childid", kid);
         bnd.putString("visit_num", visitNum + "");
         bnd.putString("vacc_details", vaccinations);

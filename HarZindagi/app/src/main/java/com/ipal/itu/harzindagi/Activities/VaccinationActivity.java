@@ -64,6 +64,7 @@ public class VaccinationActivity extends AppCompatActivity {
     private TextView thirdTabTickMark;
     private TextView fourthTabTickMark;
     private TextView fifthTabTickMark;
+    public String imei;
     private int[] toolbar_color = {
 
             R.color.dark_red,
@@ -98,6 +99,7 @@ public class VaccinationActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         try {
             childID = bundle.getLong("childid");
+            imei =  bundle.getString("imei");
         } catch (Exception e) {
             Toast.makeText(this, "ID not found", Toast.LENGTH_LONG).show();
             finish();
@@ -125,10 +127,10 @@ public class VaccinationActivity extends AppCompatActivity {
         }
 
         if (bundle.getBoolean("isSync",false) == true) {
-            data = ChildInfoDao.getByKId(bundle.getLong("childid"));
+            data = ChildInfoDao.getByKIdAndIMEI(bundle.getLong("childid"),bundle.getString("imei"));
 
         } else {
-            data = ChildInfoDao.getByLocalKId(bundle.getLong("childid"));
+            data = ChildInfoDao.getByLocalKIdandIMEI(bundle.getLong("childid"),bundle.getString("imei"));
         }
 
 

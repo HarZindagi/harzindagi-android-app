@@ -120,10 +120,12 @@ public class ChildInfoSyncHandler {
             Long tsLong =calendar.getTimeInMillis() / 1000;
             kid.put("upload_timestamp",tsLong);
             DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
-            Date date  = dfm.parse(childInfo.date_of_birth);
-            dfm.getCalendar().setTime(date);
-           // date.getTime();
-            kid.put("date_of_birth", (date.getTime()/1000)+"");
+            if(childInfo.date_of_birth!=null) {
+                Date date = dfm.parse(childInfo.date_of_birth);
+                dfm.getCalendar().setTime(date);
+                // date.getTime();
+                kid.put("date_of_birth", (date.getTime() / 1000) + "");
+            }
             kid.put("location", childInfo.location);
             kid.put("child_address", childInfo.child_address);
             kid.put("gender", childInfo.gender);

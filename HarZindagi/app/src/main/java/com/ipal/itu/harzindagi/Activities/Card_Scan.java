@@ -23,23 +23,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.nio.charset.CharsetEncoder;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class Card_Scan extends AppCompatActivity {
 
-    private NfcAdapter mNfcAdapter;
-    private PendingIntent mPendingIntent;
     TextView Scan_txt;
-
-    private IntentFilter[] mIntentFilters;
-    private String[][] mNFCTechLists;
     Tag mytag;
     Context ctx;
     ImageView imgV;
+    private NfcAdapter mNfcAdapter;
+    private PendingIntent mPendingIntent;
+    private IntentFilter[] mIntentFilters;
+    private String[][] mNFCTechLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,6 @@ public class Card_Scan extends AppCompatActivity {
         ctx = this;
 
         imgV = (ImageView) findViewById(R.id.scan_image_view);
-
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -102,15 +105,14 @@ public class Card_Scan extends AppCompatActivity {
 
                        /* if (recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN &&
                                 Arrays.equals(recs[j].getType(), NdefRecord.RTD_TEXT)) */
-                        if (recs[j].getTnf() == NdefRecord.TNF_MIME_MEDIA || recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN )
-                        {
+                        if (recs[j].getTnf() == NdefRecord.TNF_MIME_MEDIA || recs[j].getTnf() == NdefRecord.TNF_WELL_KNOWN) {
                             byte[] payload = recs[j].getPayload();
                             String textEncoding = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
 
                             int langCodeLen = payload[0] & 0077;
                            /* s = new String(payload, langCodeLen + 1, payload.length - langCodeLen - 1,
                                     textEncoding);*/
-                             s = new String(payload, 0, payload.length,
+                            s = new String(payload, 0, payload.length,
                                     textEncoding);
                             if (s.equals("0")) {
                                 // Intent myintent = new Intent(this, RegisterChild.class);
@@ -130,31 +132,26 @@ public class Card_Scan extends AppCompatActivity {
         }
 
 
-        if(s.length()>2)
-        {
+        if (s.length() > 2) {
 
-        String Arry[] = s.split("#");
-
-            if(Arry.length>3) {
+            String Arry[] = s.split("#");
+            if (!Constants.getIMEI(Card_Scan.this).equals(Arry[Arry.length - 3])) {
+                addNewRecord(Arry);
+            }
+            if (Arry.length > 3) {
                 Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
                 i.putExtra("childid", Long.parseLong(Arry[0]));
-                if( Arry[1].equals("1")) {
+                if (Arry[1].equals("1")) {
                     i.putExtra("isSync", true);
-                }else{
+                } else {
                     i.putExtra("isSync", false);
                 }
-
+                i.putExtra("imei", Arry[Arry.length - 3]);
                 i.putExtra("visit_num", Arry[Arry.length - 2]);
                 i.putExtra("vacc_details", Arry[Arry.length - 1]);
                 startActivity(i);
                 finish();
-            }else{
-             /*   Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
-                i.putExtra("childid", s.replace("0",""));
-                i.putExtra("visit_num", "1");
-                i.putExtra("vacc_details", "1,1,1");
-                startActivity(i);
-                finish();*/
+            } else {
                 Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
             }
 
@@ -162,6 +159,40 @@ public class Card_Scan extends AppCompatActivity {
 
 
     }
+
+    private void addNewRecord(String[] array) {
+
+        List<ChildInfo> childRec = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(array[0]), array[array.length - 3]);
+        if(childRec.size()>0){
+            return;
+        }
+        ChildInfo childInfo = new ChildInfo();
+        childInfo.kid_name = array[2];
+        childInfo.epi_number = array[array.length - 4];
+        childInfo.kid_id = Long.parseLong(array[0]);
+        childInfo.book_id = array[4];
+        childInfo.mobile_id = Long.parseLong(array[0]);
+        childInfo.child_address = "";
+        childInfo.guardian_name = "";
+        childInfo.next_due_date = Calendar.getInstance().getTimeInMillis() / 1000;
+        if (array[1].equals("1")) {
+            childInfo.record_update_flag = true;
+        } else {
+            childInfo.record_update_flag = false;
+        }
+        childInfo.record_update_flag = false;
+        childInfo.book_update_flag = false;
+        childInfo.image_path = "image_" + Long.parseLong(array[0]);
+        childInfo.imei_number = array[array.length - 3];
+
+
+      /*  for (int i = 0; i < childRec.size(); i++) {
+            childRec.get(i).delete();
+        }*/
+
+        childInfo.save();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

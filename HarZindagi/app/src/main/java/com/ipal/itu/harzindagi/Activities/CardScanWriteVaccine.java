@@ -115,7 +115,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         }else{
             isSync = "0";
         }
-        push_NFC = data.get(0).kid_id+ "#" + isSync +"#"+ data.get(0).kid_name + "#"+Constants.getUCID(this)+"#"+  data.get(0).book_id +"#"  + data.get(0).guardian_cnic + "#" + data.get(0).phone_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
+        push_NFC = data.get(0).kid_id+ "#" + isSync +"#"+ data.get(0).kid_name + "#"+Constants.getUCID(this)+"#"+  data.get(0).book_id +"#"  + data.get(0).epi_number + "#" + data.get(0).imei_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
 //filter work

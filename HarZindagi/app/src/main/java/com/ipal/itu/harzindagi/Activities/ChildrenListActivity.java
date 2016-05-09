@@ -93,19 +93,17 @@ public class ChildrenListActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplication(), VaccinationActivity.class);
                             long kid = 0;
                             int size = 0;
-                            if (SearchActivity.data.get(position).kid_id != null) {
-                                kid = SearchActivity.data.get(position).kid_id;
-                                size = ChildInfoDao.getByKId(kid).size();
-                            } else {
-                                kid = SearchActivity.data.get(position).kid_id;
-                                size = ChildInfoDao.getByKId(kid).size();
-                            }
+
+                            kid = SearchActivity.data.get(position).kid_id;
+                            size = ChildInfoDao.getByKId(kid).size();
+
 
                             if (size != 0) {
                                 if (isOnline) {
                                     getVaccinations(kid);
                                 } else {
                                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+                                    intent.putExtra("imei", SearchActivity.data.get(position).imei_number);
                                     intent.putExtra("childid", SearchActivity.data.get(position).kid_id);
                                     intent.putExtras(bnd);
                                     startActivity(intent);
@@ -159,12 +157,11 @@ public class ChildrenListActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplication(), VaccinationActivity.class);
                     long kid = 0;
-                    if (list.get(position).kid_id != null) {
-                        kid = list.get(position).kid_id;
-                    } else {
-                        kid = list.get(position).kid_id;
-                    }
+
+                    kid = list.get(position).kid_id;
+
                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+                    intent.putExtra("imei", list.get(position).imei_number);
                     intent.putExtra("childid", list.get(position).kid_id);
                     intent.putExtras(bnd);
                     startActivity(intent);

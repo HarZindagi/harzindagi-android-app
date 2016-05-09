@@ -335,7 +335,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 if (!msg.equals("")) {
                     return;
                 }
-                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
+                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(),Constants.getIMEI(RegisterChildActivity.this));
                 if (childInfo.size() > 0) {
                     showError(EPINumber, "نیا ای پی ای نمبر درج کریں");
                     return;
