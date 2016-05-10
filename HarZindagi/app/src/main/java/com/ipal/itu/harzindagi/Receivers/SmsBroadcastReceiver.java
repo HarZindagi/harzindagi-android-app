@@ -45,8 +45,26 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                     //smsMessageStr += smsBody + "\n";
                     String[] data = smsBody.split("%");
                     if (data[1].equals("c") || data[1].equals("m")) {
+                        if(SearchActivity.data!=null) {
+                            SearchActivity.data.clear();
+                        }
                         insertChillInfoToDB(data[2], Long.parseLong(data[3]), data[4]);
+                        if(data.length>=8){
+                            insertChillInfoToDB(data[5], Long.parseLong(data[6]), data[7]);
+                        }
+                        if(data.length>=11){
+                            insertChillInfoToDB(data[9], Long.parseLong(data[10]), data[11]);
+                        }
+                        if(data.length>=14){
+                            insertChillInfoToDB(data[12], Long.parseLong(data[13]), data[14]);
+                        }
+                        if (SearchActivity.data.size() != 0) {
 
+                            mContext.startActivity(new Intent(mContext, ChildrenListActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                                    .putExtra("fromSMS", false).putExtra("child_data",true));
+
+                        }
                     } else if (data[1].equals("id")) {
                         insertVaccinationToDB(data[2], Integer.parseInt(data[3]), data[4], data[5], Long.parseLong(data[6]));
                     }
@@ -71,7 +89,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         childInfo.kid_name = name;
         childInfo.epi_number = "";
         childInfo.kid_id = kid;
-        childInfo.mobile_id = kid;
         childInfo.child_address = "";
         childInfo.guardian_name = "";
         childInfo.next_due_date = Calendar.getInstance().getTimeInMillis() / 1000;
@@ -80,26 +97,20 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         childInfo.image_path = "image_" + kid;//obj.childInfoArrayList.get(i).image_path;
         childInfo.imei_number = imei;
 
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childRec = childInfoDao.getById(kid);
+
+        List<ChildInfo> childRec = ChildInfoDao.getByKId(kid);
         for (int i = 0; i < childRec.size(); i++) {
             childRec.get(i).delete();
         }
 
         childInfo.save();
-        SearchActivity.data = childInfoDao.getById(childInfo.mobile_id);
-        if (SearchActivity.data.size() != 0) {
+        SearchActivity.data.add(ChildInfoDao.getByKId(childInfo.kid_id).get(0));
 
-            mContext.startActivity(new Intent(mContext, ChildrenListActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-                    .putExtra("fromSMS", false).putExtra("child_data",true));
-
-        }
     }
 
     private void insertVaccinationToDB(String imei, int visitNum, String vaccinations, String epi, Long kid) {
-        ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childRec = childInfoDao.getById(kid);
+
+        List<ChildInfo> childRec = ChildInfoDao.getByKId(kid);
         childRec.get(0).epi_number = epi;
         childRec.get(0).save();
         List<Vaccinations> vaccs = getVacIds(visitNum);
@@ -117,7 +128,6 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             kidVaccinations.is_sync = true;
             kidVaccinations.imei_number = imei;
             kidVaccinations.kid_id = kid;
-            kidVaccinations.mobile_id = kid;
             kidVaccinations.vaccination_id = vaccs.get(j).id;
             kidVaccinations.location = "";
             kidVaccinations.image = "image_" + kid;
@@ -129,10 +139,11 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         Intent act = new Intent(mContext, VaccinationActivity.class);
         Bundle bnd = new Bundle();
         //  act.putExtra("childid", data[1]);
-
-        bnd.putString("childid", epi);
+        bnd.putString("imei", imei);
+        bnd.putLong("childid", kid);
         bnd.putString("visit_num", visitNum + "");
         bnd.putString("vacc_details", vaccinations);
+        bnd.putBoolean("isSync",true);
         act.putExtras(bnd);
         act.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(act);

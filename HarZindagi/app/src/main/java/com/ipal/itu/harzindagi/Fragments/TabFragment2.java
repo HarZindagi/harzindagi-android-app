@@ -56,7 +56,7 @@ public class TabFragment2 extends Fragment {
                     startActivity(intent);*/
 
                     Intent myintent = new Intent(getActivity(), RegisteredChildActivity.class);
-                    myintent.putExtra("childid", data.get(position).epi_number);
+                    myintent.putExtra("childid", data.get(position).kid_id);
                     myintent.putExtra("EPIname",data.get(position).epi_name );
                     startActivity(myintent);
 

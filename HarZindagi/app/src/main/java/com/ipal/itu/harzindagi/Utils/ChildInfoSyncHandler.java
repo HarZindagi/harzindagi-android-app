@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ipal.itu.harzindagi.Activities.LoginActivity;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
@@ -93,7 +94,7 @@ public class ChildInfoSyncHandler {
         return c.getTimeInMillis();
     }
     private void sendChildData(final ChildInfo childInfo) {
-
+        final long oldKidID = childInfo.kid_id;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Constants.kids;
 
@@ -106,7 +107,7 @@ public class ChildInfoSyncHandler {
             obj.put("user", user);
 
 
-            kid.put("mobile_id", childInfo.mobile_id);
+            kid.put("mobile_id", childInfo.kid_id);
             kid.put("imei_number",childInfo.imei_number);
             kid.put("kid_name", childInfo.kid_name);
             kid.put("father_name", childInfo.guardian_name);
@@ -119,10 +120,12 @@ public class ChildInfoSyncHandler {
             Long tsLong =calendar.getTimeInMillis() / 1000;
             kid.put("upload_timestamp",tsLong);
             DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
-            Date date  = dfm.parse(childInfo.date_of_birth);
-            dfm.getCalendar().setTime(date);
-           // date.getTime();
-            kid.put("date_of_birth", (date.getTime()/1000)+"");
+            if(childInfo.date_of_birth!=null) {
+                Date date = dfm.parse(childInfo.date_of_birth);
+                dfm.getCalendar().setTime(date);
+                // date.getTime();
+                kid.put("date_of_birth", (date.getTime() / 1000) + "");
+            }
             kid.put("location", childInfo.location);
             kid.put("child_address", childInfo.child_address);
             kid.put("gender", childInfo.gender);
@@ -148,18 +151,18 @@ public class ChildInfoSyncHandler {
                     public void onResponse(JSONObject response) {
                        // Log.d("response",response.toString());
                         if (response.optString("kid_name").equals(kid.optString("kid_name"))) {
-                            ChildInfoDao childInfoDao = new ChildInfoDao();
-                            List<ChildInfo> child = childInfoDao.getById(childInfo.mobile_id);
+
+                            List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
                             child.get(0).record_update_flag = true;
                             child.get(0).kid_id = response.optLong("id");
                             child.get(0).image_path ="image_"+child.get(0).kid_id;
                             child.get(0).save();
                             long kidID =   child.get(0).kid_id;
+
                             renameFile(child.get(0).kid_name+child.get(0).epi_number,"image_"+kidID);
-                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(childInfo.mobile_id);
+                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
                             for (int i = 0; i < kidVaccines.size(); i++) {
                                 kidVaccines.get(i).kid_id = kidID;
-                                kidVaccines.get(i).mobile_id = kidID;
                                 kidVaccines.get(i).save();
                             }
 
@@ -188,8 +191,8 @@ public class ChildInfoSyncHandler {
 
 
         };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+                LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }

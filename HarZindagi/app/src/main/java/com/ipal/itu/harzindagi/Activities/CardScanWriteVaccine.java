@@ -81,7 +81,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     private String childAddress;
     private String District;
     private String Tehsil;
-    private String Child_id;
+    private long Child_id;
     private int VisitNum;
     private String NextDueDate;
     private String card_data = "";
@@ -101,13 +101,21 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
 
         bundle = getIntent().getExtras();
-        Child_id = bundle.getString("childid");
+        Child_id = bundle.getLong("childid");
 
 
-        ChildInfoDao childInfo = new ChildInfoDao();
-        data = childInfo.getByEPINum(Child_id);
 
-        push_NFC = data.get(0).epi_number + "#" + data.get(0).kid_name + "#"+"#"+Constants.getUCID(this)+"#"+  data.get(0).book_id +"#"  + data.get(0).guardian_cnic + "#" + data.get(0).phone_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
+        data = ChildInfoDao.getByKId(Child_id);
+        if(data.size()==0){
+            data = ChildInfoDao.getByLocalKId(Child_id);
+        }
+        String isSync = "0";
+        if( data.get(0).record_update_flag){
+            isSync = "1";
+        }else{
+            isSync = "0";
+        }
+        push_NFC = data.get(0).kid_id+ "#" + isSync +"#"+ data.get(0).kid_name + "#"+Constants.getUCID(this)+"#"+  data.get(0).book_id +"#"  + data.get(0).epi_number + "#" + data.get(0).imei_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
 //filter work
@@ -169,12 +177,8 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             KidVaccinationDao kd = new KidVaccinationDao();
 
 
-                long kId  =0;
-                if( data.get(0).kid_id!=null){
-                    kId = data.get(0).kid_id;
-                }else{
-                    kId = data.get(0).mobile_id;
-                }
+                long kId  =data.get(0).kid_id;
+
                 if(imei.equals(data.get(0).imei_number)) {
                     kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path,time, false, data.get(0).imei_number);
                 }else{
@@ -184,8 +188,8 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         }
 
 
-       ChildInfoDao childInfoDao = new ChildInfoDao();
-        List<ChildInfo> childInfo = childInfoDao.getById(data.get(0).mobile_id);
+
+        List<ChildInfo> childInfo = ChildInfoDao.getByKId(data.get(0).kid_id);
         DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         Date date = new Date();
         try {
@@ -463,7 +467,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
                             KidVaccinationDao kd = new KidVaccinationDao();
                             Calendar calendar = Calendar.getInstance();
                             String imei = Constants.getIMEI(CardScanWriteVaccine.this);
-                            kd.save(data.get(0).location, data.get(0).mobile_id, (int) lst.get(index), data.get(0).image_path, calendar.getTimeInMillis(),true,imei);
+                            kd.save(data.get(0).location, data.get(0).kid_id, (int) lst.get(index), data.get(0).image_path, calendar.getTimeInMillis(),true,imei);
 
 
 

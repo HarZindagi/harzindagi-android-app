@@ -1,6 +1,8 @@
 package com.ipal.itu.harzindagi.Activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,12 +12,16 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.ipal.itu.harzindagi.Application.HarZindagiApp;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.R;
@@ -37,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        Constants.sendGAScrenn(this,this.getClass().getName()+"Opened");
         evaccsButton = (Button) findViewById(R.id.homeActivityEVACCSButton);
         evaccsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 Intent intent=new Intent(HomeActivity.this,Evaccs.class);
                 startActivity(intent);
+                Constants.sendGAEvent(HomeActivity.this,"Button","Click","EVVACCS",0);
                // finish();
             }
         });
@@ -59,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
                /* Snackbar.make(view, "Har Zindagi Button Clicked!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 startActivity(new Intent(HomeActivity.this, DashboardActivity.class));
+                Constants.sendGAEvent(HomeActivity.this,"Button","Click","Har Zindagi",0);
                // finish();
             }
         });
@@ -69,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(HomeActivity.this, CustomCameraKidstation.class);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                Constants.sendGAEvent(HomeActivity.this,"Button","Click","Kit Station",0);
             }
         });
     }

@@ -12,12 +12,14 @@ import java.util.List;
  */
 public class ChildInfoDao {
 
-    public void save(String book_id,String childID, String name, int gender, String dob,  String motherName,String  guardianName, String CNIC, String phoneNum,long createdTime,String Location,String EpiName,String kidStation,String imageName, String nfcNumber,boolean bookFlag,boolean recordFlag ,String address,String imei) {
+    public long save(String book_id,String childID, String name, int gender, String dob,  String motherName,String  guardianName, String CNIC, String phoneNum,long createdTime,String Location,String EpiName,String kidStation,String imageName, String nfcNumber,boolean bookFlag,boolean recordFlag ,String address,String imei) {
         ChildInfo item = new ChildInfo();
         item.setChildInfo(book_id,childID, name, gender, dob, motherName, guardianName, CNIC, phoneNum, createdTime, Location, EpiName, kidStation, imageName, nfcNumber, bookFlag, recordFlag, address, imei);
         item.save(); // to get system generated id we have to save it first
+        item.kid_id = item.getId();
         item.mobile_id = item.getId();
         item.save();
+        return item.kid_id;
 
     }
     public void save( ChildInfo item,String name,String cnic,String phoneNum) {
@@ -46,7 +48,7 @@ public class ChildInfoDao {
             for (int i = 0; i < items.size(); i++) {
 
                 ChildInfo item = new ChildInfo();
-                item.mobile_id = items.get(i).mobile_id;
+                item.kid_id = items.get(i).kid_id;
                 item.epi_name = items.get(i).epi_name;
                 item.kid_name = items.get(i).kid_name;
                 item.epi_number = items.get(i).epi_number;
@@ -92,17 +94,32 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-    public  static  List<ChildInfo> getById(long id) {
+
+    public  static  List<ChildInfo> getByKId(long id) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("kid_id = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static  List<ChildInfo> getByKIdAndIMEI(long id,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("kid_id = ?", id).and("imei_number = ?",imei)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static  List<ChildInfo> getByLocalKId(long id) {
         return new Select()
                 .from(ChildInfo.class)
                 .where("mobile_id = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
     }
-    public  static  List<ChildInfo> getByKId(long id) {
+    public  static  List<ChildInfo> getByLocalKIdandIMEI(long id,String imei) {
         return new Select()
                 .from(ChildInfo.class)
-                .where("kid_id = ?", id)
+                .where("mobile_id = ?", id).and("imei_number = ?",imei)
                 .orderBy("kid_name ASC")
                 .execute();
     }
@@ -124,6 +141,13 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                 .where("epi_number = ?", epi_number)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static List<ChildInfo> getByEpiNumAndIMEI(String epi_number,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("epi_number = ?", epi_number).and("imei_number = ?",imei)
                 .orderBy("kid_name ASC")
                 .execute();
     }

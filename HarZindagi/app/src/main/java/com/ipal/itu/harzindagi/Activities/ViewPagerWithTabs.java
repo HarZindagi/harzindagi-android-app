@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -239,7 +240,9 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+                LoginActivity.MAX_RETRY,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -254,8 +257,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
         for (int i = 0; i < obj.childInfoArrayList.size(); i++) {
             ChildInfo c = new ChildInfo();
-            c.mobile_id = obj.childInfoArrayList.get(i).id;
-
+            c.kid_id = obj.childInfoArrayList.get(i).id;
 
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
             c.guardian_name = obj.childInfoArrayList.get(i).father_name;
@@ -264,8 +266,9 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
             c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
-
-            c.date_of_birth = Constants.getFortmattedDate( Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
+            if(obj.childInfoArrayList.get(i).date_of_birth!=null) {
+                c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
+            }
             c.location = obj.childInfoArrayList.get(i).location;
             c.child_address = obj.childInfoArrayList.get(i).child_address;
             if (obj.childInfoArrayList.get(i).gender == true) {
@@ -340,7 +343,9 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
 
         };
-
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+                LoginActivity.MAX_RETRY,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
     }
@@ -358,7 +363,6 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             c.location = obj.kidVaccinations.get(i).location;
 
 
-            c.mobile_id = obj.kidVaccinations.get(i).kid_id;
             c.kid_id = obj.kidVaccinations.get(i).kid_id;
 
             c.vaccination_id = obj.kidVaccinations.get(i).vaccination_id;

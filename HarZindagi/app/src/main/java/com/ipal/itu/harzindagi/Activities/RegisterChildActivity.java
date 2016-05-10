@@ -101,6 +101,8 @@ public class RegisterChildActivity extends AppCompatActivity {
             "AIMAN", "ALISHBA", "HAREEM", "SIDRA"};
     Calendar myCalendar = Calendar.getInstance();
     EditText registerboodid;
+    long activityTime;
+
     private PopupWindow pw;
     private View popUpView;
 
@@ -117,6 +119,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         setContentView(R.layout.activity_register_child);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -229,7 +232,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                     chInfo.epi_name = "uc" + i;
                     chInfo.kid_name = "ali" + i;
                     chInfo.gender = 1;
-                    chInfo.mobile_id = 1L + i;
+                    chInfo.kid_id = 1L + i;
 
                     chInfo.image_path = "image_" + chInfo.epi_number;
                     chInfo.date_of_birth = "01-jun-2015";
@@ -270,7 +273,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                         KidVaccinations kidVaccinations = new KidVaccinations();
 
                         kidVaccinations.location = "00000,00000";
-                        kidVaccinations.mobile_id = kId;
+                        kidVaccinations.kid_id = kId;
 
                         kidVaccinations.vaccination_id = j;
                         kidVaccinations.image = "image_" + "1000" + i;
@@ -332,7 +335,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 if (!msg.equals("")) {
                     return;
                 }
-                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
+                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(),Constants.getIMEI(RegisterChildActivity.this));
                 if (childInfo.size() > 0) {
                     showError(EPINumber, "نیا ای پی ای نمبر درج کریں");
                     return;
@@ -389,7 +392,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
         pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this, 10));
-
+        Constants.sendGAEvent(RegisterChildActivity.this, "Error", Constants.getUserName(RegisterChildActivity.this), error, 0);
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         v.startAnimation(shake);
     }
@@ -414,7 +417,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     public String inputValidate() {
         String error = "";
 
-        if(registerboodid.getText().length()<1){
+        if (registerboodid.getText().length() < 1) {
             error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
             showError(registerboodid, error);
 
@@ -522,6 +525,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             DateOfBirth = DOBText.getText().toString();
             Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
             intent.putExtra("ID", childID);
+            intent.putExtra("kid_id", -1l);
             intent.putExtra("Name", ChildName);
             intent.putExtra("Gender", Gender);
             intent.putExtra("DOB", DateOfBirth);
@@ -535,6 +539,8 @@ public class RegisterChildActivity extends AppCompatActivity {
             intent.putExtra("address", houseAddress.getText().toString());
 
             this.finish();
+            activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+            Constants.sendGAEvent(RegisterChildActivity.this, "RegisterChild", Constants.getUserName(this), "Time", activityTime);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }

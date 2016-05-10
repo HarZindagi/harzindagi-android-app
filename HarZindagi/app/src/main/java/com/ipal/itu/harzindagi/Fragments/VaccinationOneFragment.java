@@ -238,7 +238,7 @@ public class VaccinationOneFragment extends Fragment {
         VaccDetailBook vdb = new VaccDetailBook();
         List<Integer> lst = VaccinationsDao.get_VaccinationID_Vaccs_details(visitnum, vacc_details, vdb);
         ChildInfoDao childInfo = new ChildInfoDao();
-        data = childInfo.getByEPINum(((VaccinationActivity) getActivity()).childID);
+        data = ChildInfoDao.getByKId(((VaccinationActivity) getActivity()).childID);
         calendar = Calendar.getInstance();
         String imei = Constants.getIMEI(getActivity());
         long time = getLongDate(date_vac.getText().toString());
@@ -251,7 +251,7 @@ public class VaccinationOneFragment extends Fragment {
             if (data.get(0).kid_id != null) {
                 kId = data.get(0).kid_id;
             } else {
-                kId = data.get(0).mobile_id;
+                kId = data.get(0).kid_id;
             }
             if (imei.equals(data.get(0).imei_number)) {
                 kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number);
@@ -262,7 +262,8 @@ public class VaccinationOneFragment extends Fragment {
         }
         getActivity().finish();
         Bundle b = new Bundle();
-        b.putString("childid", ((VaccinationActivity) getActivity()).childID);
+        b.putLong("childid", ((VaccinationActivity) getActivity()).childID);
+        b.putString("imei", ((VaccinationActivity) getActivity()).imei);
         b.putString("visit_num", (mParam2 + 1 + ""));
         b.putString("vacc_details", vacc_details);
         Intent i = new Intent(getActivity(), VaccinationActivity.class);

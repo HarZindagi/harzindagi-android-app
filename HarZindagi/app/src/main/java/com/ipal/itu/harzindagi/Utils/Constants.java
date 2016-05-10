@@ -14,6 +14,10 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.ipal.itu.harzindagi.Application.HarZindagiApp;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.sql.Time;
@@ -310,5 +314,22 @@ public class Constants {
         }
         String nextDate = df.format(c.getTime());
         return  nextDate;
+    }
+    public static void sendGAScrenn( Activity c,String screen) {
+        HarZindagiApp myApp = (HarZindagiApp) c.getApplication();
+        Tracker mTracker = myApp.getDefaultTracker();
+        mTracker.setScreenName(screen);
+
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }
+
+    public static void sendGAEvent(Activity c,String category,String  action,String lable,long value){
+        HarZindagiApp myApp = (HarZindagiApp) c.getApplication();
+        Tracker mTracker = myApp.getDefaultTracker();
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory(category)
+                .setAction(action).setLabel(lable).setValue(value)
+                .build());
     }
 }

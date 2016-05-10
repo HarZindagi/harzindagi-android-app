@@ -33,10 +33,11 @@ public class VaccinationActivity extends AppCompatActivity {
     public static final int CAMERA_REQUEST = 1888;
 
     public String fpath;
-    public String childID;
+    public long childID;
     public int load_frag;
     public String vaccs_done;
     public TextView sixthTabTickMark;
+    public boolean isVaccCompleted = false;
     String app_name = "Har Zindagi";
     FileOutputStream fo;
     List<ChildInfo> data;
@@ -50,7 +51,6 @@ public class VaccinationActivity extends AppCompatActivity {
             R.drawable.vactab_fill4,
             R.drawable.vactab_fill5,
             R.drawable.vactab_fill6};
-    public boolean isVaccCompleted = false;
     private CustomViewPager mViewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private View firstTab;
@@ -64,6 +64,7 @@ public class VaccinationActivity extends AppCompatActivity {
     private TextView thirdTabTickMark;
     private TextView fourthTabTickMark;
     private TextView fifthTabTickMark;
+    public String imei;
     private int[] toolbar_color = {
 
             R.color.dark_red,
@@ -97,7 +98,8 @@ public class VaccinationActivity extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
         try {
-            childID = bundle.getString("childid");
+            childID = bundle.getLong("childid");
+            imei =  bundle.getString("imei");
         } catch (Exception e) {
             Toast.makeText(this, "ID not found", Toast.LENGTH_LONG).show();
             finish();
@@ -110,7 +112,7 @@ public class VaccinationActivity extends AppCompatActivity {
                 if (Constants.isVaccOfVisitCompleted(bundle.getString("vacc_details").toString())) {
 
                     load_frag = Integer.parseInt(bundle.getString("visit_num").toString());
-                    if(load_frag==6) {
+                    if (load_frag == 6) {
                         isVaccCompleted = true;
                     }
 
@@ -118,21 +120,26 @@ public class VaccinationActivity extends AppCompatActivity {
 
                 vaccs_done = bundle.getString("vacc_details").toString();
             } catch (Exception e) {
-                Toast.makeText(this, "Card Corrupted"+e, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Card Corrupted" + e, Toast.LENGTH_LONG).show();
                 finish();
             }
 
         }
 
-        ChildInfoDao childInfoDao = new ChildInfoDao();
+        if (bundle.getBoolean("isSync",false) == true) {
+            data = ChildInfoDao.getByKIdAndIMEI(bundle.getLong("childid"),bundle.getString("imei"));
 
-        data = childInfoDao.getByEPINum(bundle.getString("childid").toString());
-        if(data.size()>0) {
+        } else {
+            data = ChildInfoDao.getByLocalKIdandIMEI(bundle.getLong("childid"),bundle.getString("imei"));
+        }
+
+
+        if (data.size() > 0) {
             fpath = data.get(0).image_path;
         }
-        if(data.size()==0){
+        if (data.size() == 0) {
             finish();
-            Toast.makeText(this,"Try again!",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
             return;
         }
         //setTitleImage(toolbar,fpath);
@@ -292,10 +299,6 @@ public class VaccinationActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
     }
 
 
@@ -344,6 +347,7 @@ public class VaccinationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
