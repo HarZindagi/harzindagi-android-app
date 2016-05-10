@@ -20,6 +20,7 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.util.Calendar;
 import java.util.List;
@@ -56,6 +57,7 @@ public class TabFragment1 extends Fragment {
 
                     Intent myintent = new Intent(getActivity(), RegisteredChildActivity.class);
                     myintent.putExtra("childid", data.get(position).kid_id);
+                    myintent.putExtra("imei", data.get(position).imei_number);
                     myintent.putExtra("EPIname",data.get(position).epi_name );
                     startActivity(myintent);
 

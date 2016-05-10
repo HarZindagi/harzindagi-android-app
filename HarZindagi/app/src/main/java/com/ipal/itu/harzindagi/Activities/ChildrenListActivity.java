@@ -102,19 +102,20 @@ public class ChildrenListActivity extends AppCompatActivity {
                                 if (isOnline) {
                                     getVaccinations(kid);
                                 } else {
-<<<<<<< HEAD
+
                                    /* Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                                     intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
-=======
+
                                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                                     intent.putExtra("imei", SearchActivity.data.get(position).imei_number);
                                     intent.putExtra("childid", SearchActivity.data.get(position).kid_id);
->>>>>>> 0f6c3f11c2e3c0087c3d13fd3e0aef6600336714
+
                                     intent.putExtras(bnd);
                                     startActivity(intent);*/
                                     Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
-                                    myintent.putExtra("childid", SearchActivity.data.get(position).epi_number);
-                                    myintent.putExtra("EPIname",SearchActivity.data.get(position).epi_name );
+                                    myintent.putExtra("imei", SearchActivity.data.get(position).imei_number);
+                                    myintent.putExtra("childid", SearchActivity.data.get(position).kid_id);
+
                                     startActivity(myintent);
                                 }
                             } else {
@@ -175,7 +176,9 @@ public class ChildrenListActivity extends AppCompatActivity {
                     intent.putExtras(bnd);
                     startActivity(intent);*/
                     Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
-                    myintent.putExtra("childid", list.get(position).epi_number);
+                    myintent.putExtra("imei", list.get(position).imei_number);
+                    myintent.putExtra("childid", list.get(position).kid_id);
+                    //myintent.putExtra("childid", list.get(position).epi_number);
                     myintent.putExtra("EPIname",list.get(position).epi_name );
                     startActivity(myintent);
 
@@ -351,8 +354,8 @@ public class ChildrenListActivity extends AppCompatActivity {
         intent.putExtras(bnd);
         startActivity(intent);*/
         Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
-        myintent.putExtra("childid",  SearchActivity.data.get(selectedPosition).epi_number);
-        myintent.putExtra("EPIname",SearchActivity.data.get(selectedPosition).epi_name );
+        myintent.putExtra("childid",  SearchActivity.data.get(selectedPosition).kid_id);
+        myintent.putExtra("imei",  SearchActivity.data.get(selectedPosition).imei_number);
         startActivity(myintent);
 
     }

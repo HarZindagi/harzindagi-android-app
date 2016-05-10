@@ -540,7 +540,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             this.finish();
             activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-            Constants.sendGAEvent(RegisterChildActivity.this, "RegisterChild", Constants.getUserName(this), "Time", activityTime);
+            Constants.sendGAEvent(RegisterChildActivity.this, "Register Child Time", Constants.getUserName(this), activityTime+" S", activityTime);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
