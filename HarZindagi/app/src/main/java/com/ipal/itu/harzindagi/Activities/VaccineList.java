@@ -31,7 +31,7 @@ public class VaccineList extends AppCompatActivity {
     LinearLayout top_header;
     String compelte1="مبارک ہو آپ کےبچے کا حفاظتی ٹیکوں کا کورس مکمل ہو چکا ہے";
     String compelte2="برائے مہربانی اس ٹیکے کے بعد یاد سے ویکسینیٹر سے اپنےبچےکا";
-    String compelte3=" سرٹیفیکیٹ برائے تکمیل فاظتی ٹیکہ جات";
+    String compelte3=" سرٹیفیکیٹ برائے تکمیل حفاظتی ٹیکہ جات";
     String compelte4="ہمراہ لیتے جائیں";
     private int[] vacc_period = {
 

@@ -31,8 +31,8 @@ public class ForgetActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-                sendIntent.setData(Uri.parse("sms:0321-8395161"));
-                sendIntent.putExtra("sms_body", "Testing: please don't message me.");
+                sendIntent.setData(Uri.parse("sms:9100"));
+                sendIntent.putExtra("sms_body", "مجھےاپناپاس ورڈ بھول گیاہے۔اس لیےبرائےمہربانی مجھے اپناپاس ورڈ بھیج دیں۔");
                 startActivity(sendIntent);
             }
         });
@@ -42,7 +42,7 @@ public class ForgetActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0321-8395161"));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0321-418972"));
                 startActivity(intent);
             }
         });

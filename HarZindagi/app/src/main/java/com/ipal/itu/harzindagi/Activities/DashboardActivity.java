@@ -307,7 +307,7 @@ public class DashboardActivity extends AppCompatActivity {
                 for (int i = 0; i < list.size(); i++) {
                     list.get(i).delete();
                 }
-                Toast.makeText(DashboardActivity.this,"آپلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
+                Toast.makeText(DashboardActivity.this,"ڈیٹا اپ لوڈ  ہو گیا ہے",Toast.LENGTH_LONG).show();
             }
         });
         imageUploadHandler.execute();

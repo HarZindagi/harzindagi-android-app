@@ -104,10 +104,14 @@ public class ChildrenListActivity extends AppCompatActivity {
                                 if (isOnline) {
                                     getVaccinations(kid);
                                 } else {
-                                    Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+                                   /* Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                                     intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
                                     intent.putExtras(bnd);
-                                    startActivity(intent);
+                                    startActivity(intent);*/
+                                    Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
+                                    myintent.putExtra("childid", SearchActivity.data.get(position).epi_number);
+                                    myintent.putExtra("EPIname",SearchActivity.data.get(position).epi_name );
+                                    startActivity(myintent);
                                 }
                             } else {
                                 Toast.makeText(ChildrenListActivity.this, "No Record Found", Toast.LENGTH_LONG).show();
@@ -156,7 +160,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
-                    Intent intent = new Intent(getApplication(), VaccinationActivity.class);
+                  /*  Intent intent = new Intent(getApplication(), VaccinationActivity.class);
                     long kid = 0;
                     if (list.get(position).kid_id != null) {
                         kid = list.get(position).kid_id;
@@ -166,7 +170,11 @@ public class ChildrenListActivity extends AppCompatActivity {
                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                     intent.putExtra("childid", list.get(position).epi_number);
                     intent.putExtras(bnd);
-                    startActivity(intent);
+                    startActivity(intent);*/
+                    Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
+                    myintent.putExtra("childid", list.get(position).epi_number);
+                    myintent.putExtra("EPIname",list.get(position).epi_name );
+                    startActivity(myintent);
 
                 }
 
@@ -332,11 +340,15 @@ public class ChildrenListActivity extends AppCompatActivity {
             }
         }
         kidVaccinationDao.bulkInsert(vaccsList);
-        Intent intent = new Intent(getApplication(), VaccinationActivity.class);
+       /* Intent intent = new Intent(getApplication(), VaccinationActivity.class);
         Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
         intent.putExtra("childid", SearchActivity.data.get(selectedPosition).epi_number);
         intent.putExtras(bnd);
-        startActivity(intent);
+        startActivity(intent);*/
+        Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
+        myintent.putExtra("childid",  SearchActivity.data.get(selectedPosition).epi_number);
+        myintent.putExtra("EPIname",SearchActivity.data.get(selectedPosition).epi_name );
+        startActivity(myintent);
 
     }
 
