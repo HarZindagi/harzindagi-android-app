@@ -102,14 +102,14 @@ public class ChildrenListActivity extends AppCompatActivity {
                                 if (isOnline) {
                                     getVaccinations(kid);
                                 } else {
-<<<<<<< HEAD
+
                                    /* Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                                     intent.putExtra("childid", SearchActivity.data.get(position).epi_number);
-=======
+
                                     Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                                     intent.putExtra("imei", SearchActivity.data.get(position).imei_number);
                                     intent.putExtra("childid", SearchActivity.data.get(position).kid_id);
->>>>>>> 0f6c3f11c2e3c0087c3d13fd3e0aef6600336714
+
                                     intent.putExtras(bnd);
                                     startActivity(intent);*/
                                     Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
