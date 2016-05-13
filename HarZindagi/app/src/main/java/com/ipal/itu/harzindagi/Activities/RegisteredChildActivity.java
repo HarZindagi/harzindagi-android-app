@@ -26,6 +26,7 @@ import java.util.List;
 
 public class RegisteredChildActivity extends AppCompatActivity {
 
+    final Context curr = this;
     TextView ucNumber;
     TextView epiCenterName;
     TextView childName;
@@ -37,13 +38,13 @@ public class RegisteredChildActivity extends AppCompatActivity {
     TextView guardianMobileNumber;
     ImageView childPic;
     String app_name;
-    Button vaccination_btn,editChild;
+    Button vaccination_btn, editChild;
     double longitude;
     double latitude;
     ChildInfoDao dao;
     Calendar calendar;
     long childID;
-   final Context curr=this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dao = new ChildInfoDao();
 
-        calendar= Calendar.getInstance();
+        calendar = Calendar.getInstance();
         ucNumber = (TextView) findViewById(R.id.ChildUCNumber);
         epiCenterName = (TextView) findViewById(R.id.ChildEPICenterName);
         childName = (TextView) findViewById(R.id.ChildName);
@@ -64,20 +65,21 @@ public class RegisteredChildActivity extends AppCompatActivity {
         guardianCNIC = (TextView) findViewById(R.id.ChildGuardianCNIC);
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
         childPic = (ImageView) findViewById(R.id.ChildPic);
-        editChild=(Button)findViewById(R.id.edit_child);
+        editChild = (Button) findViewById(R.id.edit_child);
         editChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(RegisteredChildActivity.this,EditRegisterChildActivity.class);
-                intent.putExtra("childid",childID);
+                Intent intent = new Intent(RegisteredChildActivity.this, EditRegisterChildActivity.class);
+                intent.putExtra("childid", childID);
                 startActivity(intent);
                 finish();
             }
         });
 
-       Bundle bundle = getIntent().getExtras();
-       childID = bundle.getLong("childid");
+        Bundle bundle = getIntent().getExtras();
+        childID = bundle.getLong("childid");
+        final String imei = bundle.getString("imei");
 
         vaccination_btn = (Button) findViewById(R.id.NFCWrite);
         vaccination_btn.setOnClickListener(new View.OnClickListener() {
@@ -89,18 +91,18 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
                 myintent.putExtra("childid", childID);
                 startActivity(myintent);*/
-                final List<ChildInfo> data = ChildInfoDao.getByKId(childID);
+                final List<ChildInfo> data = ChildInfoDao.getByKIdAndIMEI(childID, imei);
                 Intent intent = new Intent(curr, VaccinationActivity.class);
                 long kid = 0;
-                if(data.get(0).kid_id!=null){
+                if (data.get(0).kid_id != null) {
                     kid = data.get(0).kid_id;
-                }else{
+                } else {
                     finish();
                     return;
                 }
-                Bundle bnd= KidVaccinationDao.get_visit_details_db(kid);
+                Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
                 intent.putExtra("childid", data.get(0).kid_id);
-                intent.putExtra("imei",  data.get(0).imei_number);
+                intent.putExtra("imei", data.get(0).imei_number);
                 intent.putExtra("isSync", data.get(0).record_update_flag);
                 intent.putExtras(bnd);
                 startActivity(intent);
@@ -110,7 +112,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
         List<ChildInfo> data = ChildInfoDao.getByKId(childID);
 
-        if(data!=null) {
+        if (data != null) {
             ucNumber.setText("" + Constants.getUCID(this));
             epiCenterName.setText("" + data.get(0).epi_name);
             childName.setText("" + data.get(0).kid_name);
@@ -130,9 +132,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
             String imagePath = "/sdcard/" + app_name + "/" + data.get(0).image_path + ".jpg";
             Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
             childPic.setImageBitmap(bmp_read);
-        }
-        else
-        {
+        } else {
 
             Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
 
@@ -146,7 +146,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
 
 
         if (id == android.R.id.home) {
-           // startActivity(new Intent(getApplication(),RegisterChildActivity.class).putExtra("epiNumber",childID));
+            // startActivity(new Intent(getApplication(),RegisterChildActivity.class).putExtra("epiNumber",childID));
             finish();
             return true;
         }

@@ -148,6 +148,7 @@ public class CardScanWrite extends AppCompatActivity {
 
         Intent myintent = new Intent(this, RegisteredChildActivity.class);
         myintent.putExtra("childid", kid_id);
+        myintent.putExtra("imei", Constants.getIMEI(this));
         myintent.putExtra("EPIname", bundle.getString("EPIname"));
         startActivity(myintent);
         finish();
