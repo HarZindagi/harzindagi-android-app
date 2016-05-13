@@ -72,6 +72,7 @@ public class DashboardActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     long uploadTime;
+
     public static String getApplicationName(Context context) {
         int stringId = context.getApplicationInfo().labelRes;
         return context.getString(stringId);
@@ -147,7 +148,7 @@ public class DashboardActivity extends AppCompatActivity {
                 //  final ProgressDialog pDialog = new ProgressDialog(this);
                 //  pDialog.setMessage("Getting Location");
 
-                cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000*30*5).async(this);
+                cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(this);
 
             } else {
                 Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
@@ -167,6 +168,8 @@ public class DashboardActivity extends AppCompatActivity {
             if (Constants.isOnline(this)) {
                 uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
                 syncData();
+            } else {
+                Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();
             }
         }
       /*  if (id == R.id.action_download) {
@@ -177,6 +180,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     public void locationCb(String url, final Location loc, AjaxStatus status) {
 
         if (loc != null) {
@@ -184,38 +188,42 @@ public class DashboardActivity extends AppCompatActivity {
             double lat = loc.getLatitude();
             double log = loc.getLongitude();
             location = lat + "," + log;
-            Constants.setLocationSync(this,location);
+            Constants.setLocationSync(this, location);
             sendCheckIn();
         } else {
-            Constants.setLocationSync(this,"0.0000:0.0000");
+            Constants.setLocationSync(this, "0.0000:0.0000");
             sendCheckIn();
 
         }
     }
-   private  void  showAlertDialog(){
-       AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-       adb.setTitle("کیا آپ ڈیٹا ڈاونلوڈ کرنا چاہحتے ہیں؟");
+    private void showAlertDialog() {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-
-       adb.setIcon(R.drawable.info_circle);
+        adb.setTitle("کیا آپ ڈیٹا ڈاونلوڈ کرنا چاہحتے ہیں؟");
 
 
-       adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int which) {
-
-               dialog.dismiss();
-
-           } });
+        adb.setIcon(R.drawable.info_circle);
 
 
-       adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int which) {
+        adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
 
-               dialog.dismiss();
-           } });
-       adb.show();
-   }
+                dialog.dismiss();
+
+            }
+        });
+
+
+        adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        adb.show();
+    }
+
     @Override
     public void onBackPressed() {
         //  startActivity(new Intent(this, HomeActivity.class));
@@ -276,6 +284,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
         childInfoSyncHandler.execute();
     }
+
     public void syncEvaccsNonEPIData() {
 
         List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfo = EvaccsNonEPIDao.getAll();
@@ -294,36 +303,37 @@ public class DashboardActivity extends AppCompatActivity {
         List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
         List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfoDistinc = new ArrayList<>();
         String preEpi = "";
-        for (int i = 0; i <childInfo.size() ; i++) {
-            if(!preEpi.equals(childInfo.get(i).epi_number)){
+        for (int i = 0; i < childInfo.size(); i++) {
+            if (!preEpi.equals(childInfo.get(i).epi_number)) {
                 childInfoDistinc.add(childInfo.get(i));
                 preEpi = childInfo.get(i).epi_number;
             }
         }
-        EvacssImageUploadHandler  imageUploadHandler = new EvacssImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
+        EvacssImageUploadHandler imageUploadHandler = new EvacssImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
                 List<Evaccs> list = EvaccsDao.getAll();
                 for (int i = 0; i < list.size(); i++) {
                     list.get(i).delete();
                 }
-                Toast.makeText(DashboardActivity.this,"ڈیٹا اپ لوڈ  ہو گیا ہے",Toast.LENGTH_LONG).show();
+                Toast.makeText(DashboardActivity.this, "ڈیٹا اپ لوڈ  ہو گیا ہے", Toast.LENGTH_LONG).show();
             }
         });
         imageUploadHandler.execute();
 
     }
+
     public void androidEvaccsNonEPIImageUpload() {
         List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfo = EvaccsNonEPIDao.getAll();
         List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfoDistinc = new ArrayList<>();
         String preEpi = "";
-        for (int i = 0; i <childInfo.size() ; i++) {
-            if(!preEpi.equals(childInfo.get(i).epi_no)){
+        for (int i = 0; i < childInfo.size(); i++) {
+            if (!preEpi.equals(childInfo.get(i).epi_no)) {
                 childInfoDistinc.add(childInfo.get(i));
                 preEpi = childInfo.get(i).epi_no;
             }
         }
-        EvacssNonEPIImageUploadHandler  imageUploadHandler = new EvacssNonEPIImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
+        EvacssNonEPIImageUploadHandler imageUploadHandler = new EvacssNonEPIImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
                 List<EvaccsNonEPI> list = EvaccsNonEPIDao.getAll();
@@ -332,12 +342,67 @@ public class DashboardActivity extends AppCompatActivity {
                 }
                 uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
                 Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
-                Toast.makeText(DashboardActivity.this,"آپلوڈ مکمل ہو گیا ہے",Toast.LENGTH_LONG).show();
+
+               showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
+               // Toast.makeText(DashboardActivity.this, "آپلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
             }
         });
         imageUploadHandler.execute();
 
     }
+    private void showCompletDialog(String title) {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+        adb.setTitle(title);
+
+
+        adb.setIcon(R.drawable.info_circle);
+
+
+        adb.setPositiveButton("ٹھیک ہے", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+        adb.show();
+    }
+    private void showErrorDialog() {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+        adb.setTitle("دوبارہ کوشش کریں");
+
+
+        adb.setIcon(R.drawable.info_circle);
+
+
+        adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                if (Constants.isOnline(DashboardActivity.this)) {
+                    uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
+                    syncData();
+                } else {
+                    Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();
+                }
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+        adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        adb.show();
+    }
+
     public void logout() {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -521,8 +586,8 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void uploadKitStationImage() {
-        String imagePath  = "/sdcard/" +  Constants.getApplicationName(this) + "/"
-                + "Image_"+ Constants.getUC(this) + ".jpg";
+        String imagePath = "/sdcard/" + Constants.getApplicationName(this) + "/"
+                + "Image_" + Constants.getUC(this) + ".jpg";
         final ProgressDialog pDialog;
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Saving Kit Station Image...");
@@ -538,9 +603,10 @@ public class DashboardActivity extends AppCompatActivity {
 
         multipart.execute(imagePath);
     }
+
     private void sendKitStationData() {
-        String imagePath  = "/sdcard/" +  Constants.getApplicationName(this) + "/"
-                + "Image_"+ Constants.getUC(this) + ".jpg";
+        String imagePath = "/sdcard/" + Constants.getApplicationName(this) + "/"
+                + "Image_" + Constants.getUC(this) + ".jpg";
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.kitStation;
         final ProgressDialog pDialog;
@@ -564,7 +630,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             kitStation.put("created_timestamp", Constants.getCheckOut(this));
             kitStation.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-            obj.put("kid_station",kitStation);
+            obj.put("kid_station", kitStation);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -578,7 +644,7 @@ public class DashboardActivity extends AppCompatActivity {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
                             pDialog.dismiss();
-
+                            showCompletDialog("چیک آوُٹ ہو گیا ہے");
                             Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                         }
 
