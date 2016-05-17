@@ -110,7 +110,7 @@ public class EvaccsSyncHandler {
             kid.put("location_source", childInfo.location_source);
             kid.put("created_timestamp",childInfo.created_timestamp);
             kid.put("upload_timestamp",tsLong);
-            kid.put("epi_number", childInfo.epi_number);
+            kid.put("epi_no", childInfo.epi_number);
             kid.put("vaccination",childInfo.vaccination);
 
 
@@ -144,6 +144,7 @@ public class EvaccsSyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                nextUpload(false);
                 pDialog.hide();
             }
         }) {

@@ -37,6 +37,13 @@ public class EvaccsDao {
                 .from(Evaccs.class)
                 .execute();
     }
+    public static List<Evaccs> getNoSync() {
+        return new Select()
+                .from(Evaccs.class).where("record_update_flag = ?", false)
+                .execute();
+
+
+    }
     public static List<Evaccs> getDistinct() {
         return new Select("epi_number").distinct()
                 .from(Evaccs.class)

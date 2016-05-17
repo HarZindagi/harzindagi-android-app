@@ -177,6 +177,7 @@ public class ChildInfoSyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                nextUpload(false);
                 pDialog.hide();
             }
         }) {

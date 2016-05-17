@@ -148,6 +148,7 @@ public class EvaccsNonEPISyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                nextUpload(false);
                 pDialog.hide();
             }
         }) {

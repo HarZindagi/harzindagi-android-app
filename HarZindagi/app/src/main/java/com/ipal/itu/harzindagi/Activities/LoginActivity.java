@@ -285,6 +285,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.get_device_info + "?" + "device[imei_number]=" + Constants.getIMEI(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
         pDialog.show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 url, new JSONObject(),
@@ -335,6 +336,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.login;
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Wait...");
+        pDialog.setCancelable(false);
         pDialog.show();
         JSONObject obj = null;
         try {
@@ -484,6 +486,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.visits + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading Visits");
+        pDialog.setCancelable(false);
         pDialog.show();
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
                 url, new JSONObject(),
@@ -552,6 +555,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.injections + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading Injections...");
+        pDialog.setCancelable(false);
         pDialog.show();
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
                 url, new JSONObject(),
@@ -620,6 +624,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading Vaccinations...");
+        pDialog.setCancelable(false);
         pDialog.show();
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
                 url, new JSONObject(),
@@ -691,6 +696,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.areas + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading Areas...");
+        pDialog.setCancelable(false);
         pDialog.show();
 
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
@@ -768,6 +774,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.kids + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading Child data...");
+        pDialog.setCancelable(false);
         pDialog.show();
 
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
@@ -881,6 +888,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = Constants.kid_vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading Vaccination data...");
+        pDialog.setCancelable(false);
         pDialog.show();
 
         JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,

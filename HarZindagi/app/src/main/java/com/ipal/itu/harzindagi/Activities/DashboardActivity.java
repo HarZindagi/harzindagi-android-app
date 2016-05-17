@@ -237,8 +237,12 @@ public class DashboardActivity extends AppCompatActivity {
         ChildInfoSyncHandler childInfoSyncHandler = new ChildInfoSyncHandler(this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String response) {
-
-                androidImageUpload();
+                if (success) {
+                    androidImageUpload();
+                }else{
+                    Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Child Record",0);
+                    showErrorDialog();
+                }
             }
         });
         childInfoSyncHandler.execute();
@@ -249,8 +253,12 @@ public class DashboardActivity extends AppCompatActivity {
         ImageUploadHandler imageUploadHandler = new ImageUploadHandler(this, childInfos, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-
-                syncVaccinaition();
+                if(success) {
+                    syncVaccinaition();
+                }else{
+                    Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Images Upload",0);
+                    showErrorDialog();
+                }
             }
         });
         imageUploadHandler.execute();
@@ -264,8 +272,13 @@ public class DashboardActivity extends AppCompatActivity {
         KidVaccinatioHandler kidVaccinatioHandler = new KidVaccinatioHandler(this, kids, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                syncEvaccsData();
-                syncEvaccsNonEPIData();
+                if(success) {
+                    syncEvaccsData();
+                }else{
+                    Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Vaccinations",0);
+                    showErrorDialog();
+                }
+
             }
         });
         kidVaccinatioHandler.execute();
@@ -273,13 +286,20 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void syncEvaccsData() {
 
-        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
+        List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getNoSync();
 
         EvaccsSyncHandler childInfoSyncHandler = new EvaccsSyncHandler(DashboardActivity.this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String response) {
+                if(success) {
 
-                androidEvaccsImageUpload();
+                    syncEvaccsNonEPIData();
+
+                }else{
+                    Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Evaccs",0);
+                    showErrorDialog();
+                }
+
             }
         });
         childInfoSyncHandler.execute();
@@ -287,13 +307,21 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void syncEvaccsNonEPIData() {
 
-        List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfo = EvaccsNonEPIDao.getAll();
+        List<com.ipal.itu.harzindagi.Entity.EvaccsNonEPI> childInfo = EvaccsNonEPIDao.getNoSync();
 
         EvaccsNonEPISyncHandler childInfoSyncHandler = new EvaccsNonEPISyncHandler(DashboardActivity.this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String response) {
+                if(success) {
 
-                androidEvaccsNonEPIImageUpload();
+                    androidEvaccsImageUpload();
+                }else{
+                    Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Evaccs Non EPI",0);
+                    showErrorDialog();
+                }
+
+
+
             }
         });
         childInfoSyncHandler.execute();
@@ -302,8 +330,9 @@ public class DashboardActivity extends AppCompatActivity {
     public void androidEvaccsImageUpload() {
         List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfo = EvaccsDao.getAll();
         List<com.ipal.itu.harzindagi.Entity.Evaccs> childInfoDistinc = new ArrayList<>();
-        String preEpi = "";
+        String preEpi="";
         for (int i = 0; i < childInfo.size(); i++) {
+
             if (!preEpi.equals(childInfo.get(i).epi_number)) {
                 childInfoDistinc.add(childInfo.get(i));
                 preEpi = childInfo.get(i).epi_number;
@@ -312,11 +341,19 @@ public class DashboardActivity extends AppCompatActivity {
         EvacssImageUploadHandler imageUploadHandler = new EvacssImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                List<Evaccs> list = EvaccsDao.getAll();
-                for (int i = 0; i < list.size(); i++) {
-                    list.get(i).delete();
+
+                if(success) {
+                    List<Evaccs> list2 = EvaccsDao.getAll();
+                    for (int i = 0; i < list2.size(); i++) {
+                        list2.get(i).delete();
+                    }
+                    androidEvaccsNonEPIImageUpload();
+                }else{
+                    Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Evaccs Images",0);
+                    showErrorDialog();
                 }
-                Toast.makeText(DashboardActivity.this, "ڈیٹا اپ لوڈ  ہو گیا ہے", Toast.LENGTH_LONG).show();
+
+
             }
         });
         imageUploadHandler.execute();
@@ -336,20 +373,27 @@ public class DashboardActivity extends AppCompatActivity {
         EvacssNonEPIImageUploadHandler imageUploadHandler = new EvacssNonEPIImageUploadHandler(this, childInfoDistinc, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                List<EvaccsNonEPI> list = EvaccsNonEPIDao.getAll();
-                for (int i = 0; i < list.size(); i++) {
-                    list.get(i).delete();
-                }
-                uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
-                Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
+               if(success) {
 
-               showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
-               // Toast.makeText(DashboardActivity.this, "آپلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
+                   List<EvaccsNonEPI> list = EvaccsNonEPIDao.getAll();
+                   for (int i = 0; i < list.size(); i++) {
+                       list.get(i).delete();
+                   }
+                   uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
+                   Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
+
+                   showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
+               }else{
+                   Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Evaccs Non EPI Images",0);
+                   showErrorDialog();
+               }
+
             }
         });
         imageUploadHandler.execute();
 
     }
+
     private void showCompletDialog(String title) {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
@@ -369,6 +413,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         adb.show();
     }
+
     private void showErrorDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
@@ -383,6 +428,7 @@ public class DashboardActivity extends AppCompatActivity {
 
                 if (Constants.isOnline(DashboardActivity.this)) {
                     uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
+
                     syncData();
                 } else {
                     Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();

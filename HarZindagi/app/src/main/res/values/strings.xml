@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_logout">چیک آؤٹ</string>
 
-    <string name="edid_data" >ترمیم ڈیٹا</string>
+    <string name="edid_data">ترمیم ڈیٹا</string>
     <string name="action_app_refresh">اپ ڈیٹ کریں</string>
     <string name="action_reset_card">Reset Card</string>
     <string name="action_sync_text">اپ لوڈکریں</string>
@@ -11,6 +11,7 @@
     <string name="title_activity_splash">Har Zindagi</string>
   <string name="no_record">"ان معلومات کےمطابق ریکارڈ موجود نہیں ہے"</string>
 <string name="evac">Evac</string>
+    <string name="evacnonepi">EvacNonEpi</string>
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
 
@@ -38,8 +39,10 @@
     <string name="fourtheen_huftay">14 ہفتے بعد</string>
     <string name="nine_month_baad">9 ماہ بعد</string>
     <string name="fifteen_month_baad">15 ماہ بعد</string>
-    <string name="search_two" >تلاش کا دوسرا طریقہ</string>
+    <string name="search_two">تلاش کا دوسرا طریقہ</string>
     <string name="search_one">تلاش کا پہلا طریقہ</string>
+    <string name="title_activity_custom_camer_evac">CustomCamerEvac</string>
+    <string name="title_activity_custom_camer_evac_non_epi">CustomCamerEvacNonEPI</string>
 
 
 </resources>

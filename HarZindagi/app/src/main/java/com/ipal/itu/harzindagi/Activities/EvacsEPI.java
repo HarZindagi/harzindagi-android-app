@@ -31,7 +31,7 @@ public class EvacsEPI extends AppCompatActivity {
     FileOutputStream fo;
     String Fpath;
     String app_name;
-    String Evac;
+    String Evac="Evac";
     TextView ep_txt_view;
     String epiNumber;
     Context context;
@@ -91,6 +91,7 @@ public class EvacsEPI extends AppCompatActivity {
                     evaccs.epi_number = ep_txt_view.getText().toString();
                     evaccs.vaccination =""+chkBox_txt.get(i);
                     evaccs.record_update_flag = false;
+
                     //evaccs.kid_name = "";
                     //evaccs.is_guest = 0;
                     //evaccs.image_path = "image_"+ evaccs.epi_number;
@@ -113,8 +114,9 @@ public class EvacsEPI extends AppCompatActivity {
         startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
 
 
-        Intent cameraIntent = new Intent(EvacsEPI.this, CustomCamera.class);
-        cameraIntent.putExtra("image_", ep_txt_view.getText().toString() + Calendar.getInstance().getTimeInMillis()/1000);
+        Intent cameraIntent = new Intent(EvacsEPI.this, CustomCamerEvacEPI.class);
+        cameraIntent.putExtra("filename",  "epi_"+ Constants.getIMEI(this)+"_"+ep_txt_view.getText().toString());
+
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }
@@ -123,7 +125,9 @@ public class EvacsEPI extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
-            CustomCamera.progress.dismiss();
+            if(CustomCamerEvacEPI.progress!=null){
+                CustomCamerEvacEPI.progress.dismiss();
+            }
             Bitmap photo, resizedImage;
             readEditTexts();
 

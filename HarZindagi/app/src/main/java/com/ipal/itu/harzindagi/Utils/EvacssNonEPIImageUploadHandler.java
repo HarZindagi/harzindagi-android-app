@@ -56,8 +56,8 @@ public class EvacssNonEPIImageUploadHandler {
     }
 
     private void sendChildData(final EvaccsNonEPI childInfo) {
-        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/Evac/" + childInfo.epi_no+childInfo.phone_number + ".jpg";
-        MultipartUtility multipart = new MultipartUtility(Constants.photos_evaccs, "UTF-8", new OnUploadListner() {
+        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/EvacNonEpi/"+ "nonepi_"+ Constants.getIMEI(context)+"_"+ childInfo.epi_no + ".jpg";
+        MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
 

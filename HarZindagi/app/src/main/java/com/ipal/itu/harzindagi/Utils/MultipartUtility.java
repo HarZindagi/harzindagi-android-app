@@ -173,9 +173,10 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
 
         return response;
     }
-
+     boolean success = true;
     @Override
     protected String doInBackground(String... params) {
+        success = true;
         List<String> response= new ArrayList<>();
         init();
         try {
@@ -186,6 +187,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
             // multipart.addFormField("filename","Hh22.jpg");
             response =  finish();
         } catch (IOException e) {
+            success = false;
             e.printStackTrace();
         }
 
@@ -195,7 +197,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        onUploadListner.onUpload(true,s);
+        onUploadListner.onUpload(success,s);
         super.onPostExecute(s);
     }
 }

@@ -131,7 +131,8 @@ public class KidVaccinatioHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                // pDialog.hide();
+                nextUpload(false);
+                pDialog.dismiss();
             }
         }) {
 

@@ -5,4 +5,5 @@ package com.ipal.itu.harzindagi.Handlers;
  */
 public interface OnUploadListner {
     public  void onUpload(boolean success,String reponse);
+
 }
