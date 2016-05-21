@@ -166,7 +166,7 @@ public class ChildInfoSyncHandler {
                                 kidVaccines.get(i).kid_id = kidID;
                                 kidVaccines.get(i).save();
                             }
-                            List<Books> book = Books.getByBookId(oldKidID);
+                            List<Books> book = Books.getByBookId( Long.parseLong(child.get(0).book_id));
                             book.get(0).kid_id = kidID;
                             book.get(0).save();
                             nextUpload(true);
