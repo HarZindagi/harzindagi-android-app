@@ -44,6 +44,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
     ChildInfoDao dao;
     Calendar calendar;
     long childID;
+    private int bookid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,11 @@ public class RegisteredChildActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         childID = bundle.getLong("childid");
         final String imei = bundle.getString("imei");
-
+        if(getIntent().hasExtra("bookid")){
+            bookid = bundle.getInt("bookid");
+        }else{
+            bookid=0;
+        }
         vaccination_btn = (Button) findViewById(R.id.NFCWrite);
         vaccination_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +109,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
                 intent.putExtra("childid", data.get(0).kid_id);
                 intent.putExtra("imei", data.get(0).imei_number);
                 intent.putExtra("isSync", data.get(0).record_update_flag);
+                intent.putExtra("bookid",bookid);
+
                 intent.putExtras(bnd);
                 startActivity(intent);
                 finish();

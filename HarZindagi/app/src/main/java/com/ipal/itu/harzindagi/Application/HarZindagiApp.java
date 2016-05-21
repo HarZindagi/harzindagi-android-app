@@ -11,6 +11,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
@@ -58,6 +59,7 @@ public class HarZindagiApp extends android.app.Application {
         configurationBuilder.addModelClass(Evaccs.class);
         configurationBuilder.addModelClass(EvaccsNonEPI.class);
         configurationBuilder.addModelClass(Towns.class);
+        configurationBuilder.addModelClass(Books.class);
         ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
 

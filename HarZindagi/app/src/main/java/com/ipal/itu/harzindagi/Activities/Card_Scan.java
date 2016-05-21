@@ -132,29 +132,39 @@ public class Card_Scan extends AppCompatActivity {
         }
 
 
-        if (s.length() > 2) {
-
-            String Arry[] = s.split("#");
+        String Arry[] = s.split("#");
+        if (Arry.length > 3) {
             if (!Constants.getIMEI(Card_Scan.this).equals(Arry[Arry.length - 3])) {
                 addNewRecord(Arry);
             }
-            if (Arry.length > 3) {
-                Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
-                i.putExtra("childid", Long.parseLong(Arry[0]));
-                if (Arry[1].equals("1")) {
-                    i.putExtra("isSync", true);
-                } else {
-                    i.putExtra("isSync", false);
-                }
-                i.putExtra("imei", Arry[Arry.length - 3]);
-                i.putExtra("visit_num", Arry[Arry.length - 2]);
-                i.putExtra("vacc_details", Arry[Arry.length - 1]);
-                startActivity(i);
-                finish();
+
+            Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
+            List<ChildInfo> child;
+            if (Arry[1].equals("1")) {
+                child = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(Arry[0]), Arry[Arry.length - 3]);
+
             } else {
-                Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
+                child = ChildInfoDao.getByLocalKIdandIMEI(Long.parseLong(Arry[0]), Arry[Arry.length - 3]);
             }
 
+            if(!child.get(0).book_id.equals(Arry[Arry.length - 5])){
+                Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            i.putExtra("childid", Long.parseLong(Arry[0]));
+            if (Arry[1].equals("1")) {
+                i.putExtra("isSync", true);
+            } else {
+                i.putExtra("isSync", false);
+            }
+            i.putExtra("imei", Arry[Arry.length - 3]);
+            i.putExtra("visit_num", Arry[Arry.length - 2]);
+            i.putExtra("vacc_details", Arry[Arry.length - 1]);
+            startActivity(i);
+            finish();
+        } else {
+            Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
         }
 
 
@@ -163,14 +173,14 @@ public class Card_Scan extends AppCompatActivity {
     private void addNewRecord(String[] array) {
 
         List<ChildInfo> childRec = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(array[0]), array[array.length - 3]);
-        if(childRec.size()>0){
+        if (childRec.size() > 0) {
             return;
         }
         ChildInfo childInfo = new ChildInfo();
         childInfo.kid_name = array[2];
         childInfo.epi_number = array[array.length - 4];
         childInfo.kid_id = Long.parseLong(array[0]);
-        childInfo.book_id = array[4];
+        childInfo.book_id = array[5];
         childInfo.mobile_id = Long.parseLong(array[0]);
         childInfo.child_address = "";
         childInfo.guardian_name = "";
@@ -180,8 +190,7 @@ public class Card_Scan extends AppCompatActivity {
         } else {
             childInfo.record_update_flag = false;
         }
-        childInfo.record_update_flag = false;
-        childInfo.book_update_flag = false;
+
         childInfo.image_path = "image_" + Long.parseLong(array[0]);
         childInfo.imei_number = array[array.length - 3];
 

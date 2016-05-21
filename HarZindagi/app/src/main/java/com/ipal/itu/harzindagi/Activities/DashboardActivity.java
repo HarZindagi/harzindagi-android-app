@@ -39,6 +39,7 @@ import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.BooksSyncHandler;
 import com.ipal.itu.harzindagi.Utils.ChildInfoSyncHandler;
 import com.ipal.itu.harzindagi.Utils.Constants;
 import com.ipal.itu.harzindagi.Utils.EvaccsNonEPISyncHandler;
@@ -238,9 +239,26 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onUpload(boolean success, String response) {
                 if (success) {
-                    androidImageUpload();
+                    books();
                 }else{
                     Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Child Record",0);
+                    showErrorDialog();
+                }
+            }
+        });
+        childInfoSyncHandler.execute();
+    }
+    public void books() {
+
+        List<Books> childInfo = Books.getNotSync();
+
+        BooksSyncHandler childInfoSyncHandler = new BooksSyncHandler(this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String response) {
+                if (success) {
+                    androidImageUpload();
+                }else{
+                    Constants.sendGAEvent(DashboardActivity.this,"Error","Uploading Failed","Child Books",0);
                     showErrorDialog();
                 }
             }

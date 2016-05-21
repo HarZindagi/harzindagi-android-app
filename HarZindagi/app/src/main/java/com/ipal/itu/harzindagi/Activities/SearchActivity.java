@@ -76,6 +76,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
     private View mLayout;
     private PopupWindow pw;
     private View popUpView;
+    private EditText newbookText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         searchTwoLayout = findViewById(R.id.advanceSearchLayout);
 
         childID = (EditText) findViewById(R.id.searchActivityChildID);
-
+        newbookText = (EditText) findViewById(R.id.newbookText);
 
         cellPhone = (EditText) findViewById(R.id.searchActivityCellPhone);
 
@@ -110,7 +111,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
                         startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
 
-                                .putExtra("fromSMS", false));
+                                .putExtra("fromSMS", false).putExtra("bookid",Integer.parseInt(newbookText.getText().toString())));
 
 
                     } else if (data.size() == 0) {
@@ -135,8 +136,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
                         if (data.size() != 0) {
 
-                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
-
+                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false).putExtra("bookid",Integer.parseInt(newbookText.getText().toString())));
 
                         } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
                             if (isAdvanceSearch) {
@@ -343,7 +343,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             c.epi_number = obj.childInfoArrayList.get(i).epi_number;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
-            c.book_update_flag = true;
+
 
             c.image_path = "image_" + obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
             childInfoArrayList.add(c);

@@ -63,7 +63,9 @@
         <meta-data
             android:name="Towns"
             android:value="com.ipal.itu.harzindagi.Entity.Towns" />
-
+        <meta-data
+            android:name="Books"
+            android:value="com.ipal.itu.harzindagi.Entity.Books" />
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/title_activity_splash"

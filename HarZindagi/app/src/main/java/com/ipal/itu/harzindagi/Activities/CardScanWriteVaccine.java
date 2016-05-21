@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.R;
@@ -88,6 +89,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     private ImageView imgV;
     List<Integer> lst;
     boolean mWriteMode = true;
+    private int bookid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
         Child_id = bundle.getLong("childid");
-
+        bookid = bundle.getInt("bookid",0);
 
 
         data = ChildInfoDao.getByKId(Child_id);
@@ -115,7 +117,18 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         }else{
             isSync = "0";
         }
-        push_NFC = data.get(0).kid_id+ "#" + isSync +"#"+ data.get(0).kid_name + "#"+Constants.getUCID(this)+"#"+  data.get(0).book_id +"#"  + data.get(0).epi_number + "#" + data.get(0).imei_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
+        if(bookid==0){
+            bookid = Integer.parseInt(data.get(0).book_id);
+        }else{
+            Books books = new Books();
+            books.book_number = bookid;
+            books.kid_id= data.get(0).kid_id;
+            books.date = Calendar.getInstance().getTimeInMillis()/1000;
+            books.save();
+            data.get(0).book_id = bookid+"";
+            data.get(0).save();
+        }
+        push_NFC = data.get(0).kid_id+ "#" + isSync +"#"+ data.get(0).kid_name + "#"+Constants.getUCID(this)+"#"+  bookid +"#"  + data.get(0).epi_number + "#" + data.get(0).imei_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
 //filter work

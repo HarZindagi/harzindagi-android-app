@@ -14,41 +14,39 @@ import java.util.List;
 @Table(name = "Books")
 public class Books extends TruncatableModel {
 
-    @Column(name = "bookId")
-    public int bookId;
+    @Column(name = "book_number")
+    public int book_number;
 
-    @Column(name = "epi")
-    public String epi;
+    @Column(name = "kid_id")
+    public long kid_id;
 
     @Column(name = "date")
     public long date;
 
-    @Column(name = "book_update_flag")
-    public boolean book_update_flag;
+    @Column(name = "is_sync")
+    public boolean is_sync;
 
     public List<Books> getAll() {
         return new Select()
                 .from(Books.class)
-                .orderBy("epi ASC")
                 .execute();
     }
-
+    public  static List<Books> getNotSync() {
+        return new Select()
+                .from(Books.class)
+                .where("is_sync = ?", false)
+                .execute();
+    }
     public Books() {
         super();
     }
-
-    public static  void bulkInsert(List<Books> items) {
-        ActiveAndroid.beginTransaction();
-        try {
-            for (int i = 0; i < items.size(); i++) {
-
-                items.get(i).save();
-            }
-            ActiveAndroid.setTransactionSuccessful();
-        } finally {
-            ActiveAndroid.endTransaction();
-        }
+    public  static  List<Books> getByBookId(long id) {
+        return new Select()
+                .from(Books.class)
+                .where("book_number = ?", id)
+                .execute();
     }
+
     public static void deleteTable(){
         Books.truncate(Books.class);
     }

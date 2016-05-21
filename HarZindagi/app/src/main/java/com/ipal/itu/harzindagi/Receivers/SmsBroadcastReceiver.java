@@ -93,7 +93,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         childInfo.guardian_name = "";
         childInfo.next_due_date = Calendar.getInstance().getTimeInMillis() / 1000;
         childInfo.record_update_flag = true;
-        childInfo.book_update_flag = true;
+       // childInfo.book_update_flag = true;
         childInfo.image_path = "image_" + kid;//obj.childInfoArrayList.get(i).image_path;
         childInfo.imei_number = imei;
 

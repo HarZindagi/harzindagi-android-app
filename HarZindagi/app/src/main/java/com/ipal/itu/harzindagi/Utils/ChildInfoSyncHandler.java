@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Activities.LoginActivity;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
@@ -165,7 +166,9 @@ public class ChildInfoSyncHandler {
                                 kidVaccines.get(i).kid_id = kidID;
                                 kidVaccines.get(i).save();
                             }
-
+                            List<Books> book = Books.getByBookId(oldKidID);
+                            book.get(0).kid_id = kidID;
+                            book.get(0).save();
                             nextUpload(true);
 
                         } else {

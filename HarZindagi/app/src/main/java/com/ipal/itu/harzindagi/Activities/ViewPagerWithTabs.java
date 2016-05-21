@@ -279,7 +279,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             c.epi_number = obj.childInfoArrayList.get(i).epi_number;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
-            c.book_update_flag = true;
+            //c.book_update_flag = true;
             c.image_path ="image_"+obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
 
             childInfoArrayList.add(c);

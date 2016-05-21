@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -162,7 +163,12 @@ public class CardScanWrite extends AppCompatActivity {
         long mkid_id = -1l;
         if (item.size() == 0) {
             mkid_id = childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this));
-
+            Books books = new Books();
+            books.date = Calendar.getInstance().getTimeInMillis()/1000;
+            books.kid_id = Long.parseLong(Child_id);
+            books.book_number = Integer.parseInt(bookID);
+            books.is_sync =false;
+            books.save();
         }
          else {
             childInfoDao.save(item.get(0), bundle.getString("Name"), bundle.getString("cnic"), bundle.getString("pnum"));

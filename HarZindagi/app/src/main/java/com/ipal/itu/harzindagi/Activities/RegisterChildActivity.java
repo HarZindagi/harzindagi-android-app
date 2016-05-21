@@ -63,7 +63,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText CenterName;
     List<Towns> list_Towns;
     MultiAutoCompleteTextView childName;
-    Spinner registerChildTown_ET;
+    MultiAutoCompleteTextView registerChildTown_ET;
     Button boy;
     Button girl;
     View DOB;
@@ -105,6 +105,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
     private PopupWindow pw;
     private View popUpView;
+
 
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -218,6 +219,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         guardianName.setThreshold(1);
         guardianName.setAdapter(adp);
         guardianCNIC = (MaskedEditText) findViewById(R.id.registerChildGuardianCNIC);
+
+
 
         guardianMobileNumber = (MaskedEditText) findViewById(R.id.registerChildGuardianMobileNumber);
         Button txt_data = (Button) findViewById(R.id.text);
@@ -358,20 +361,25 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     public void addItemsOnSpinnerAge_yr() {
+        registerChildTown_ET = (MultiAutoCompleteTextView) findViewById(R.id.registerChildTown_ET);
+        registerChildTown_ET.setTokenizer(new SpaceTokenizer());
 
 
-        registerChildTown_ET = (Spinner) findViewById(R.id.registerChildTown_ET);
+        registerChildTown_ET.setThreshold(1);
+
+
+
         Towns town = new Towns();
         list_Towns = town.getAll();
         ArrayList<String> items = new ArrayList<>();
-        items.add("- - -");
+
         for (int i = 0; i < list_Towns.size(); i++) {
 
             items.add(list_Towns.get(i).name);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.selected_item, items);
-        adapter.setDropDownViewResource(R.layout.spinner_row);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
+
         registerChildTown_ET.setAdapter(adapter);
         registerChildTown_ET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -486,7 +494,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             showError(motherName, error);
             return error;
         }*/
-        String town = String.valueOf(registerChildTown_ET.getSelectedItem());
+        String town = String.valueOf(registerChildTown_ET.getText());
 
         if (town.equals("Select Town")) {
             town = "";

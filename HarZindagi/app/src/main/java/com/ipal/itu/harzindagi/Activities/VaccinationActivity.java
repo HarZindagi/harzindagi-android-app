@@ -83,6 +83,7 @@ public class VaccinationActivity extends AppCompatActivity {
             R.drawable.blue_cir,
             R.drawable.dark_green_cir
     };
+    private int bookid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +101,10 @@ public class VaccinationActivity extends AppCompatActivity {
         try {
             childID = bundle.getLong("childid");
             imei =  bundle.getString("imei");
+            bookid =  bundle.getInt("bookid");
+          
         } catch (Exception e) {
-            Toast.makeText(this, "ID not found", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
             finish();
             e.printStackTrace();
         }
@@ -120,7 +123,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
                 vaccs_done = bundle.getString("vacc_details").toString();
             } catch (Exception e) {
-                Toast.makeText(this, "Card Corrupted" + e, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -283,6 +286,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
             Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
             intent.putExtra("childid", childID);
+            intent.putExtra("bookid", bookid);
             if (bndl.size() >= 3) {
 
                 intent.putExtra("vacc_details", bndl.getString("vacc_details"));

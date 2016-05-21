@@ -224,7 +224,6 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         }
         finishActivity();
     }
-
     private File getOutputMediaFile() {
         Path = "/sdcard/" + app_name + "/"
                 + fpath + ".jpg";

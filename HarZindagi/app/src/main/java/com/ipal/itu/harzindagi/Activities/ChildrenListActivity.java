@@ -58,7 +58,7 @@ public class ChildrenListActivity extends AppCompatActivity {
     String app_name;
     int selectedPosition = 0;
     boolean child_data = false;
-
+    int bookid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +68,9 @@ public class ChildrenListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         app_name = getResources().getString(R.string.app_name);
         boolean fromSMS = getIntent().getBooleanExtra("fromSMS", false);
+        if(getIntent().hasExtra("bookid")){
+            bookid = getIntent().getIntExtra("bookid", 0);
+        }
         child_data = getIntent().getBooleanExtra("child_data", false);
         final boolean isOnline = getIntent().getBooleanExtra("isOnline", false);
 
@@ -115,7 +118,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                                     Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
                                     myintent.putExtra("imei", SearchActivity.data.get(position).imei_number);
                                     myintent.putExtra("childid", SearchActivity.data.get(position).kid_id);
-
+                                    myintent.putExtra("bookid",bookid);
                                     startActivity(myintent);
                                 }
                             } else {
