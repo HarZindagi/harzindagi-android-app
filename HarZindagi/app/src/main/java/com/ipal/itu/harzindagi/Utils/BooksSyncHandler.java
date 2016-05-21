@@ -87,7 +87,7 @@ public class BooksSyncHandler {
     private void sendChildData(final Books books) {
         final long oldKidID = books.kid_id;
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Constants.kids;
+        String url = Constants.books;
 
         JSONObject obj = null;
         final JSONObject book = new JSONObject();
@@ -100,9 +100,10 @@ public class BooksSyncHandler {
 
             book.put("kid_id", books.kid_id);
             book.put("book_number",books.book_number);
+            book.put("nfc_chip_id","00000000");
 
 
-            obj.put("books", book);
+            obj.put("book", book);
 
         } catch (JSONException e) {
             e.printStackTrace();
