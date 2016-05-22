@@ -7,9 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -25,7 +22,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -41,8 +37,6 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.LocationAjaxCallback;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.InjectionsDao;
@@ -51,12 +45,13 @@ import com.ipal.itu.harzindagi.Dao.UserInfoDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Dao.VisitsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.FemaleName;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.MaleName;
 import com.ipal.itu.harzindagi.Entity.Towns;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
-import com.ipal.itu.harzindagi.GJson.GAreas;
 import com.ipal.itu.harzindagi.GJson.GAreasList;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GInjectionAry;
@@ -74,24 +69,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-
-
+    public static final int MAX_RETRY = 2;
     private static final String TAG = "Volly";
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
-
-    public static final int MAX_RETRY = 2;
-
     public GUserInfo obj;
+    String[] str = {
+            "Ali", "Ahmed","Adil","Ashraf","Akmal","Azam","Arif","Akhtar", "Babar", "Butt", "Bilal", "Danial", "Farhan", "Gulzar", "Hakim","Haji", "Khizir", "Mehmood", "Nasir", "Pathan", "Hassan", "Saad",
+            "Tahir", "Umer", "Khawer", "Yasir", "Jhangir", "Usman", "Osman", "Waseem",
+            "Mannan","Muhammad","Majeed","Manzoor","Muneeb", "Imran", "Zaheer", "Zeshan"};
+    String[] women_str = {
+            "Aysha", "Fatima", "Mariam", "Aqsa", "Laiba", "Aiza", "Rabia", "Zainab", "Hina", "Saba", "Amna", "Aleena", "Maria", "Qurat", "IQRA",
+            "Shazia", "Zoya", "Sadia", "Anam", "Eshaal", "Mehwish", "Asma", "Haniya",
+            "Aiman", "Alishba", "Hareem", "Sidra"};
     TextView userName;
     EditText password;
     String UserName;
@@ -441,11 +437,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -532,8 +523,8 @@ public class LoginActivity extends AppCompatActivity {
         GVisitAry gVisitAry = gson.fromJson("{\"visits\":" + array.toString() + "}", GVisitAry.class);
         VisitsDao visitsDao = new VisitsDao();
         ArrayList<Visit> visits = new ArrayList<>();
-        if(gVisitAry.visits.size()==0){
-            Toast.makeText(getApplicationContext(),"Internet Error: visits", Toast.LENGTH_LONG).show();
+        if (gVisitAry.visits.size() == 0) {
+            Toast.makeText(getApplicationContext(), "Internet Error: visits", Toast.LENGTH_LONG).show();
             return;
         }
         for (int i = 0; i < gVisitAry.visits.size(); i++) {
@@ -600,8 +591,8 @@ public class LoginActivity extends AppCompatActivity {
         GInjectionAry gInjection = gson.fromJson("{\"injections\":" + array.toString() + "}", GInjectionAry.class);
         InjectionsDao injectionsDao = new InjectionsDao();
         ArrayList<Injections> visits = new ArrayList<>();
-        if(gInjection.injections.size()==0){
-            Toast.makeText(getApplicationContext(),"Internet Error: injections", Toast.LENGTH_LONG).show();
+        if (gInjection.injections.size() == 0) {
+            Toast.makeText(getApplicationContext(), "Internet Error: injections", Toast.LENGTH_LONG).show();
             return;
         }
         for (int i = 0; i < gInjection.injections.size(); i++) {
@@ -670,8 +661,8 @@ public class LoginActivity extends AppCompatActivity {
         GVaccinationAry gInjection = gson.fromJson("{\"vaccinations\":" + array.toString() + "}", GVaccinationAry.class);
         VaccinationsDao vaccinationsDao = new VaccinationsDao();
         ArrayList<Vaccinations> vac = new ArrayList<>();
-        if(gInjection.vaccinations.size()==0){
-            Toast.makeText(getApplicationContext(),"Internet Error: vaccinations", Toast.LENGTH_LONG).show();
+        if (gInjection.vaccinations.size() == 0) {
+            Toast.makeText(getApplicationContext(), "Internet Error: vaccinations", Toast.LENGTH_LONG).show();
             return;
         }
         for (int i = 0; i < gInjection.vaccinations.size(); i++) {
@@ -689,6 +680,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
     private void loadAreas() {
         // Instantiate the RequestQueue.
 
@@ -767,6 +759,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loadChildData();
     }
+
     private void loadChildData() {
         // Instantiate the RequestQueue.
 
@@ -842,7 +835,7 @@ public class LoginActivity extends AppCompatActivity {
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
             c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
 
-            if(obj.childInfoArrayList.get(i).date_of_birth!=null) {
+            if (obj.childInfoArrayList.get(i).date_of_birth != null) {
                 c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             }
             c.location = obj.childInfoArrayList.get(i).location;
@@ -965,7 +958,7 @@ public class LoginActivity extends AppCompatActivity {
         kidVaccinationDao.deleteTable();
         kidVaccinationDao.bulkInsert(childInfoArrayList);
         kidVaccinationDao.bulkInsert(noSync);
-
+        loadNameLists();
         Toast.makeText(LoginActivity.this, "ڈاونلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
 
         Constants.setIsTableLoaded(this, true);
@@ -973,6 +966,26 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    private void loadNameLists() {
+        MaleName.deleteTable();
+        FemaleName.deleteTable();
+        ArrayList<MaleName> maleNames = new ArrayList<>();
+        for (int i = 0; i < str.length; i++) {
+            MaleName maleName = new MaleName();
+            maleName.name = str[i];
+            maleNames.add(maleName);
+        }
+        MaleName.bulkInsert(maleNames);
+        ArrayList<FemaleName> femaleNames = new ArrayList<>();
+
+        for (int i = 0; i < women_str.length; i++) {
+            FemaleName femaleName = new FemaleName();
+            femaleName.name = women_str[i];
+            femaleNames.add(femaleName);
+        }
+        FemaleName.bulkInsert(femaleNames);
     }
 
 
