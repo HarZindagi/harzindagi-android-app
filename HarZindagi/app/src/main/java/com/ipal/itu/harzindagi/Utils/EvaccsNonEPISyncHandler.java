@@ -12,9 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Activities.LoginActivity;
-import com.ipal.itu.harzindagi.Dao.EvaccsDao;
 import com.ipal.itu.harzindagi.Dao.EvaccsNonEPIDao;
-import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
@@ -48,6 +46,7 @@ public class EvaccsNonEPISyncHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Saving Child data...");
+        pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
             sendChildData(childInfo.get(index));

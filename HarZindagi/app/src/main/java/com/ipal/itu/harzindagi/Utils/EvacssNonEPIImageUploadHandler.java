@@ -3,7 +3,6 @@ package com.ipal.itu.harzindagi.Utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
@@ -28,7 +27,7 @@ public class EvacssNonEPIImageUploadHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Uploading Images...");
-
+        pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
             sendChildData(childInfo.get(index));

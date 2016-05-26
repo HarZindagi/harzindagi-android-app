@@ -45,6 +45,7 @@ public class KidVaccinatioHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Saving Child data...");
+        pDialog.setCancelable(false);
         pDialog.show();
         if (kidVaccinations.size() != 0) {
             sendVaccinationsData(kidVaccinations.get(index));

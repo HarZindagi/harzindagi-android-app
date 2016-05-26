@@ -27,7 +27,7 @@ public class EvacssImageUploadHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Uploading Images...");
-
+        pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
             sendChildData(childInfo.get(index));

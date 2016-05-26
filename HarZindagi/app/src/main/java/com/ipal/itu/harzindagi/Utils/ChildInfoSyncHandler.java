@@ -2,7 +2,6 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Environment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -24,13 +23,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-
-
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +53,7 @@ public class ChildInfoSyncHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Saving Child data...");
+        pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
             sendChildData(childInfo.get(index));

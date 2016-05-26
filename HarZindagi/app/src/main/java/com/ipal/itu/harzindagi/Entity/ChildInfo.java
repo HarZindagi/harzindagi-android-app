@@ -71,6 +71,7 @@ public class ChildInfo extends TruncatableModel {
     @Column(name = "record_update_flag")
     public boolean record_update_flag;
 
+
     @Column(name = "image_update_flag")
     public boolean image_update_flag;
 

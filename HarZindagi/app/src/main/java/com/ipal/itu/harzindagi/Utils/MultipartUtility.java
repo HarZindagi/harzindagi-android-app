@@ -14,7 +14,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -180,12 +179,21 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
         List<String> response= new ArrayList<>();
         init();
         try {
-            addFilePart( "image",new File(params[0]));
-            addHeaderField("Accept", "application/json");
-            // multipart.addHeaderField("Content-Type", "application/json");
-            // multipart.addFormField("name", "image");
-            // multipart.addFormField("filename","Hh22.jpg");
-            response =  finish();
+            if(params[0]!=null) {
+                File f = new File(params[0]);
+                if (f != null) {
+                    addFilePart("image", f);
+                    addHeaderField("Accept", "application/json");
+                    // multipart.addHeaderField("Content-Type", "application/json");
+                    // multipart.addFormField("name", "image");
+                    // multipart.addFormField("filename","Hh22.jpg");
+                    response = finish();
+                } else {
+                    success = false;
+                }
+            }else{
+                success = false;
+            }
         } catch (IOException e) {
             success = false;
             e.printStackTrace();

@@ -1,11 +1,9 @@
 package com.ipal.itu.harzindagi.Activities;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -13,23 +11,19 @@ import android.nfc.Tag;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
-import java.nio.charset.CharsetEncoder;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -135,10 +129,19 @@ public class Card_Scan extends AppCompatActivity {
         String Arry[] = s.split("#");
         if (Arry.length > 3) {
             if (!Constants.getIMEI(Card_Scan.this).equals(Arry[Arry.length - 3])) {
+                Intent intent1 = new Intent(this,SearchActivity.class);
+                intent1.putExtra("book_num",Arry[Arry.length - 5]);
+                startActivity(intent1);
                 addNewRecord(Arry);
+                Toast.makeText(ctx,"بچا دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
+
+            }else{
+                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5]);
+                //   Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
+
             }
 
-            Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
+      /*      Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
             List<ChildInfo> child;
             if (Arry[1].equals("1")) {
                 child = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(Arry[0]), Arry[Arry.length - 3]);
@@ -148,7 +151,8 @@ public class Card_Scan extends AppCompatActivity {
             }
 
             if(!child.get(0).book_id.equals(Arry[Arry.length - 5])){
-                Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
+                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5]);
+             //   Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -162,12 +166,33 @@ public class Card_Scan extends AppCompatActivity {
             i.putExtra("visit_num", Arry[Arry.length - 2]);
             i.putExtra("vacc_details", Arry[Arry.length - 1]);
             startActivity(i);
-            finish();
+            finish();*/
         } else {
             Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
         }
 
 
+    }
+
+    private  void openVaccinationActivity(String childID,String imei,String bookid){
+        final List<ChildInfo> data = ChildInfoDao.getByKIdAndIMEI(Integer.parseInt(childID), imei);
+        Intent intent = new Intent(this, VaccinationActivity.class);
+        long kid = 0;
+        if (data.get(0).kid_id != null) {
+            kid = data.get(0).kid_id;
+        } else {
+            finish();
+            return;
+        }
+        Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+        intent.putExtra("childid", data.get(0).kid_id);
+        intent.putExtra("imei", data.get(0).imei_number);
+        intent.putExtra("isSync", data.get(0).record_update_flag);
+        intent.putExtra("bookid",Integer.parseInt(bookid));
+
+        intent.putExtras(bnd);
+        startActivity(intent);
+        finish();
     }
 
     private void addNewRecord(String[] array) {

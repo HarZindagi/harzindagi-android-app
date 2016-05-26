@@ -94,7 +94,13 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-
+    public  List<ChildInfo> getByBookNum(String id) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("epi_number = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
     public  static  List<ChildInfo> getByKId(long id) {
         return new Select()
                 .from(ChildInfo.class)

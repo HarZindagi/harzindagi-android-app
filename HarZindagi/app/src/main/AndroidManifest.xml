@@ -70,8 +70,11 @@
             android:name="MaleName"
             android:value="com.ipal.itu.harzindagi.Entity.MaleName" />
         <meta-data
-            android:name="FemaleName"
-            android:value="com.ipal.itu.harzindagi.Entity.FemaleName" />
+        android:name="FemaleName"
+        android:value="com.ipal.itu.harzindagi.Entity.FemaleName" />
+        <meta-data
+            android:name="Images"
+            android:value="com.ipal.itu.harzindagi.Entity.Images" />
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/title_activity_splash"
