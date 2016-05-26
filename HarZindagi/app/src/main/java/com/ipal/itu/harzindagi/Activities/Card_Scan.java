@@ -136,7 +136,7 @@ public class Card_Scan extends AppCompatActivity {
                 Toast.makeText(ctx,"بچا دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
 
             }else{
-                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5]);
+                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5],Arry[1]);
                 //   Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
 
             }
@@ -174,10 +174,20 @@ public class Card_Scan extends AppCompatActivity {
 
     }
 
-    private  void openVaccinationActivity(String childID,String imei,String bookid){
-        final List<ChildInfo> data = ChildInfoDao.getByKIdAndIMEI(Integer.parseInt(childID), imei);
+    private  void openVaccinationActivity(String childID,String imei,String bookid,String isSync){
+        final List<ChildInfo> data;
+        if (isSync.equals("1")) {
+            data = ChildInfoDao.getByKIdAndIMEI(Integer.parseInt(childID), imei);
+        } else {
+            data = ChildInfoDao.getByLocalKIdandIMEI(Integer.parseInt(childID), imei);
+        }
+
         Intent intent = new Intent(this, VaccinationActivity.class);
         long kid = 0;
+        if(data.size()==0){
+            Toast.makeText(ctx, "No Record Found!", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (data.get(0).kid_id != null) {
             kid = data.get(0).kid_id;
         } else {

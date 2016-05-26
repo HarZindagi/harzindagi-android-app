@@ -39,10 +39,16 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 String smsBody = smsMessage.getMessageBody().toString();
                 String address = smsMessage.getOriginatingAddress();
                 if (smsBody.startsWith("%")) {
+                    if (SearchActivity.pDialog != null) {
+                        SearchActivity.pDialog.dismiss();
+                    }
+                    if (ChildrenListActivity.pDialog != null) {
+                        ChildrenListActivity.pDialog.dismiss();
+                    }
                     //smsMessageStr += "SMS From: " + address + "\n";
                     //smsMessageStr += smsBody + "\n";
                     String[] data = smsBody.split("%");
-                    if (data[1].equals("c") || data[1].equals("m")) {
+                    if (data[1].equals("c") || data[1].equals("m") || data[1].equals("b")) {
                         if (SearchActivity.data != null) {
                             SearchActivity.data.clear();
                         }
@@ -73,6 +79,9 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 } else if (smsBody.equals("false")) {
                     if (SearchActivity.pDialog != null) {
                         SearchActivity.pDialog.dismiss();
+                    }
+                    if (ChildrenListActivity.pDialog != null) {
+                        ChildrenListActivity.pDialog.dismiss();
                     }
                     Toast.makeText(mContext, mContext.getString(R.string.no_record), Toast.LENGTH_LONG).show();
                 }

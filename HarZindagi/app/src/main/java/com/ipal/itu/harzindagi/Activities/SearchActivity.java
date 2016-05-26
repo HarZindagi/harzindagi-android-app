@@ -84,11 +84,10 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         setContentView(R.layout.activity_search);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Searching with SMS, Please Wait...");
-        String book_num = "";
-        if (getIntent().hasExtra("book_num")) {
-            book_num = getIntent().getStringExtra("book_num");
-        }
         pDialog.setCancelable(false);
+        String book_num = "";
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,9 +102,16 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
         cnic = (EditText) findViewById(R.id.searchActivityCNIC);
         bookNumber = (EditText) findViewById(R.id.searchActivityBookNumber);
-        bookNumber.setText(book_num);
+
 
         searchButton = (Button) findViewById(R.id.searchActivitySearchButton);
+
+        if (getIntent().hasExtra("book_num")) {
+            book_num = getIntent().getStringExtra("book_num");
+            bookNumber.setText(book_num);
+            newbookText.setText(book_num);
+
+        }
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
