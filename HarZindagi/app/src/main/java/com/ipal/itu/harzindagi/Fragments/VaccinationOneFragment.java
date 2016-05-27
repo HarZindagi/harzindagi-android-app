@@ -3,8 +3,6 @@ package com.ipal.itu.harzindagi.Fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,21 +12,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ipal.itu.harzindagi.Activities.CalenderActivity;
-import com.ipal.itu.harzindagi.Activities.CardScanWrite;
 import com.ipal.itu.harzindagi.Activities.CustomCamera;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.VaccineListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
-import com.ipal.itu.harzindagi.Dao.InjectionsDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.GJson.GInjection;
 import com.ipal.itu.harzindagi.R;
@@ -41,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -114,7 +105,7 @@ public class VaccinationOneFragment extends Fragment {
         skip_vst=(LinearLayout)v.findViewById(R.id.skip_visit);
         // have to this dynamic in future
 
-        List<Injections> data = InjectionsDao.getInjectionsByVisit(1);
+        //List<Injections> data = InjectionsDao.getInjectionsByVisit(1);
         // Injections ij=new Injections();
         //ij.SetInjections(1,"abc","aaaaaa",true);
         //data.add(ij);

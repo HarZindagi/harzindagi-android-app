@@ -465,7 +465,7 @@ public class LoginActivity extends AppCompatActivity {
 
         DownloadManager.Request request = new DownloadManager.Request(
                 Uri.parse("http://centsolapps.com/api/apk/app.apk"));
-        request.setDestinationInExternalPublicDir("/sdcard/" + app_name + "/", "app.apk");
+        request.setDestinationInExternalPublicDir("/sdcard/" + "Download" + "/", "app.apk");
         enqueue = dm.enqueue(request);
 
     }

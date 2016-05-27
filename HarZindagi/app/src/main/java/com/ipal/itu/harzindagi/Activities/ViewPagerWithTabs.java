@@ -70,6 +70,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[0], R.drawable.yellew_rectangle)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[1], R.drawable.red_rectangle)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[2], R.drawable.green_rectangle)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[3], R.drawable.blue_rectangle)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
@@ -98,7 +99,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ"};
+    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ","اج کا کام"};
     public View getCustView(String string,int res){
         View v = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
         TextView tv = (TextView) v.findViewById(R.id.item);

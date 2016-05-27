@@ -130,6 +130,10 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         data.get(0).image_update_flag = false;
         data.get(0).save();
 
+    /*    if(!bundle.getString("visit_num").equals("1")){
+            btn.setVisibility(View.VISIBLE);
+        }*/
+
         push_NFC = data.get(0).kid_id + "#" + isSync + "#" + data.get(0).kid_name + "#" + Constants.getUCID(this) + "#" + bookid + "#" + data.get(0).epi_number + "#" + data.get(0).imei_number + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
@@ -154,14 +158,13 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         mNFCTechLists = new String[][]{new String[]{NfcF.class.getName()}};
 
 
-//end
-       /* btn.setOnClickListener(new View.OnClickListener() {
+ /*  btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Push_into_NFC();
+                Push_into_NFC();
             }
-        });
-*/
+        });*/
+
 
     }
 
@@ -201,7 +204,6 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             }
 
         }
-
 
         List<ChildInfo> childInfo = ChildInfoDao.getByKId(data.get(0).kid_id);
         DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
