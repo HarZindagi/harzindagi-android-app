@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,12 +37,9 @@ import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
-import com.ipal.itu.harzindagi.GJson.GKidTransaction;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
-import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
-import com.ipal.itu.harzindagi.Utils.ImageDownloader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,9 +48,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +70,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[0], R.drawable.yellew_rectangle)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[1], R.drawable.red_rectangle)));
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[2], R.drawable.green_rectangle)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[3], R.drawable.blue_rectangle)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
@@ -104,7 +99,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ"};
+    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ","اج کا کام"};
     public View getCustView(String string,int res){
         View v = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
         TextView tv = (TextView) v.findViewById(R.id.item);
@@ -266,6 +261,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
             c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
+            c.image_update_flag = true;
             if(obj.childInfoArrayList.get(i).date_of_birth!=null) {
                 c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             }
@@ -279,7 +275,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             c.epi_number = obj.childInfoArrayList.get(i).epi_number;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
-            c.book_update_flag = true;
+            //c.book_update_flag = true;
             c.image_path ="image_"+obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
 
             childInfoArrayList.add(c);

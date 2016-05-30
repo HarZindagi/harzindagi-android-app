@@ -397,7 +397,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
-            <Spinner
+            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
                 android:id="@+id/registerChildTown_ET"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -405,7 +405,6 @@
                 android:layout_toLeftOf="@+id/registerChildTown"
                 android:layout_toStartOf="@+id/registerChildTown"
                 android:imeOptions="actionDone"
-                android:background="@drawable/spinner_default_holo_light_am"
                 android:singleLine="true"
                 android:textSize="16sp"
                 />

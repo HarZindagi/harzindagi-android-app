@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,30 +15,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
-import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
-import com.ipal.itu.harzindagi.Dao.VisitsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
-import com.ipal.itu.harzindagi.Entity.Vaccinations;
-import com.ipal.itu.harzindagi.Entity.Visit;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
-import com.ipal.itu.harzindagi.GJson.GVaccinationAry;
-import com.ipal.itu.harzindagi.GJson.GVisitAry;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -58,7 +48,8 @@ public class ChildrenListActivity extends AppCompatActivity {
     String app_name;
     int selectedPosition = 0;
     boolean child_data = false;
-
+    int bookid;
+    public static ProgressDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +59,9 @@ public class ChildrenListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         app_name = getResources().getString(R.string.app_name);
         boolean fromSMS = getIntent().getBooleanExtra("fromSMS", false);
+        if(getIntent().hasExtra("bookid")){
+            bookid = getIntent().getIntExtra("bookid", 0);
+        }
         child_data = getIntent().getBooleanExtra("child_data", false);
         final boolean isOnline = getIntent().getBooleanExtra("isOnline", false);
 
@@ -115,7 +109,7 @@ public class ChildrenListActivity extends AppCompatActivity {
                                     Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
                                     myintent.putExtra("imei", SearchActivity.data.get(position).imei_number);
                                     myintent.putExtra("childid", SearchActivity.data.get(position).kid_id);
-
+                                    myintent.putExtra("bookid",bookid);
                                     startActivity(myintent);
                                 }
                             } else {
@@ -124,7 +118,9 @@ public class ChildrenListActivity extends AppCompatActivity {
 
 
                         } else {
-
+                            pDialog = new ProgressDialog(ChildrenListActivity.this);
+                            pDialog.setMessage("Searching with SMS, Please Wait...");
+                            pDialog.setCancelable(false);
                             sendSMS("hz %id%" + SearchActivity.data.get(position).kid_id);
                             Toast.makeText(ChildrenListActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
 

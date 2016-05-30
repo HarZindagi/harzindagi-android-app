@@ -63,7 +63,8 @@ public class ChildInfoDao {
                 item.next_due_date = items.get(i).next_due_date;
                 item.image_path = items.get(i).image_path;
                 item.record_update_flag = items.get(i).record_update_flag;
-                item.book_update_flag =  items.get(i).book_update_flag;
+                item.image_update_flag = items.get(i).image_update_flag;
+               // item.book_update_flag =  items.get(i).book_update_flag;
                 item.imei_number =  items.get(i).imei_number;;
 
 
@@ -94,7 +95,13 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-
+    public  List<ChildInfo> getByBookNum(String id) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("epi_number = ?", id)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
     public  static  List<ChildInfo> getByKId(long id) {
         return new Select()
                 .from(ChildInfo.class)
@@ -172,7 +179,7 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                 .where("next_due_date >? and next_due_date < ?",curr_date-((86400000)*5),curr_date+((86400000)*5))
-                .orderBy("kid_name ASC")
+
                 .execute();
 
     }
@@ -182,7 +189,7 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                 .where("next_due_date < ? OR next_due_date =?",curr_date-((86400000)*5),curr_date-((86400000)*5))
-                .orderBy("kid_name ASC")
+
                 .execute();
     }
 
@@ -191,9 +198,18 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                 .where("next_due_date > ? OR next_due_date =?",curr_date+((86400000)*5),curr_date+((86400000)*5))
-                .orderBy("kid_name ASC")
+
                 .execute();
     }
+    public List<ChildInfo> getTodayCompleted(long curr_date){
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("created_timestamp >?",curr_date)
+                .execute();
+    }
+
+
     public  void deleteTable(){
         ChildInfo.truncate(ChildInfo.class);
     }

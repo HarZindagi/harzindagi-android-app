@@ -1,11 +1,9 @@
 package com.ipal.itu.harzindagi.Activities;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -13,23 +11,19 @@ import android.nfc.Tag;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
-import java.nio.charset.CharsetEncoder;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -132,45 +126,96 @@ public class Card_Scan extends AppCompatActivity {
         }
 
 
-        if (s.length() > 2) {
-
-            String Arry[] = s.split("#");
+        String Arry[] = s.split("#");
+        if (Arry.length > 3) {
             if (!Constants.getIMEI(Card_Scan.this).equals(Arry[Arry.length - 3])) {
+                Intent intent1 = new Intent(this,SearchActivity.class);
+                intent1.putExtra("book_num",Arry[Arry.length - 5]);
+                startActivity(intent1);
                 addNewRecord(Arry);
-            }
-            if (Arry.length > 3) {
-                Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
-                i.putExtra("childid", Long.parseLong(Arry[0]));
-                if (Arry[1].equals("1")) {
-                    i.putExtra("isSync", true);
-                } else {
-                    i.putExtra("isSync", false);
-                }
-                i.putExtra("imei", Arry[Arry.length - 3]);
-                i.putExtra("visit_num", Arry[Arry.length - 2]);
-                i.putExtra("vacc_details", Arry[Arry.length - 1]);
-                startActivity(i);
-                finish();
-            } else {
-                Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx,"بچا دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
+
+            }else{
+                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5],Arry[1]);
+                //   Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
+
             }
 
+      /*      Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
+            List<ChildInfo> child;
+            if (Arry[1].equals("1")) {
+                child = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(Arry[0]), Arry[Arry.length - 3]);
+
+            } else {
+                child = ChildInfoDao.getByLocalKIdandIMEI(Long.parseLong(Arry[0]), Arry[Arry.length - 3]);
+            }
+
+            if(!child.get(0).book_id.equals(Arry[Arry.length - 5])){
+                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5]);
+             //   Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            i.putExtra("childid", Long.parseLong(Arry[0]));
+            if (Arry[1].equals("1")) {
+                i.putExtra("isSync", true);
+            } else {
+                i.putExtra("isSync", false);
+            }
+            i.putExtra("imei", Arry[Arry.length - 3]);
+            i.putExtra("visit_num", Arry[Arry.length - 2]);
+            i.putExtra("vacc_details", Arry[Arry.length - 1]);
+            startActivity(i);
+            finish();*/
+        } else {
+            Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
         }
 
 
     }
 
+    private  void openVaccinationActivity(String childID,String imei,String bookid,String isSync){
+        final List<ChildInfo> data;
+        if (isSync.equals("1")) {
+            data = ChildInfoDao.getByKIdAndIMEI(Integer.parseInt(childID), imei);
+        } else {
+            data = ChildInfoDao.getByLocalKIdandIMEI(Integer.parseInt(childID), imei);
+        }
+
+        Intent intent = new Intent(this, VaccinationActivity.class);
+        long kid = 0;
+        if(data.size()==0){
+            Toast.makeText(ctx, "No Record Found!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (data.get(0).kid_id != null) {
+            kid = data.get(0).kid_id;
+        } else {
+            finish();
+            return;
+        }
+        Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+        intent.putExtra("childid", data.get(0).kid_id);
+        intent.putExtra("imei", data.get(0).imei_number);
+        intent.putExtra("isSync", data.get(0).record_update_flag);
+        intent.putExtra("bookid",Integer.parseInt(bookid));
+
+        intent.putExtras(bnd);
+        startActivity(intent);
+        finish();
+    }
+
     private void addNewRecord(String[] array) {
 
         List<ChildInfo> childRec = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(array[0]), array[array.length - 3]);
-        if(childRec.size()>0){
+        if (childRec.size() > 0) {
             return;
         }
         ChildInfo childInfo = new ChildInfo();
         childInfo.kid_name = array[2];
         childInfo.epi_number = array[array.length - 4];
         childInfo.kid_id = Long.parseLong(array[0]);
-        childInfo.book_id = array[4];
+        childInfo.book_id = array[5];
         childInfo.mobile_id = Long.parseLong(array[0]);
         childInfo.child_address = "";
         childInfo.guardian_name = "";
@@ -180,8 +225,7 @@ public class Card_Scan extends AppCompatActivity {
         } else {
             childInfo.record_update_flag = false;
         }
-        childInfo.record_update_flag = false;
-        childInfo.book_update_flag = false;
+
         childInfo.image_path = "image_" + Long.parseLong(array[0]);
         childInfo.imei_number = array[array.length - 3];
 

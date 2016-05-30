@@ -14,11 +14,9 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -34,6 +32,7 @@ import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.R;
@@ -47,7 +46,6 @@ import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -68,6 +66,8 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     Bundle bundle;
     Long tsLong;
     List<ChildInfo> data;
+    List<Integer> lst;
+    boolean mWriteMode = true;
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
     private IntentFilter[] mIntentFilters;
@@ -86,8 +86,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     private String NextDueDate;
     private String card_data = "";
     private ImageView imgV;
-    List<Integer> lst;
-    boolean mWriteMode = true;
+    private int bookid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,20 +101,40 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
         Child_id = bundle.getLong("childid");
-
+        bookid = bundle.getInt("bookid", 0);
 
 
         data = ChildInfoDao.getByKId(Child_id);
-        if(data.size()==0){
+        if (data.size() == 0) {
             data = ChildInfoDao.getByLocalKId(Child_id);
         }
         String isSync = "0";
-        if( data.get(0).record_update_flag){
+        if (data.get(0).record_update_flag) {
             isSync = "1";
-        }else{
+        } else {
             isSync = "0";
         }
-        push_NFC = data.get(0).kid_id+ "#" + isSync +"#"+ data.get(0).kid_name + "#"+Constants.getUCID(this)+"#"+  data.get(0).book_id +"#"  + data.get(0).epi_number + "#" + data.get(0).imei_number +    "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
+        if (bookid == 0) {
+            bookid = Integer.parseInt(data.get(0).book_id);
+        } else {
+            List<Books> booksList = Books.getByBookId(bookid);
+            if (booksList.size() == 0) {
+                Books books = new Books();
+                books.book_number = bookid;
+                books.kid_id = data.get(0).kid_id;
+                books.date = Calendar.getInstance().getTimeInMillis() / 1000;
+                books.save();
+            }
+        }
+        data.get(0).book_id = bookid + "";
+        data.get(0).image_update_flag = false;
+        data.get(0).save();
+
+    /*    if(!bundle.getString("visit_num").equals("1")){
+            btn.setVisibility(View.VISIBLE);
+        }*/
+
+        push_NFC = data.get(0).kid_id + "#" + isSync + "#" + data.get(0).kid_name + "#" + Constants.getUCID(this) + "#" + bookid + "#" + data.get(0).epi_number + "#" + data.get(0).imei_number + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
 
 
 //filter work
@@ -139,16 +158,16 @@ public class CardScanWriteVaccine extends AppCompatActivity {
         mNFCTechLists = new String[][]{new String[]{NfcF.class.getName()}};
 
 
-//end
-       /* btn.setOnClickListener(new View.OnClickListener() {
+ /*  btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Push_into_NFC();
+                Push_into_NFC();
             }
-        });
-*/
+        });*/
+
 
     }
+
     private void enableTagWriteMode() {
         mWriteMode = true;
 
@@ -157,16 +176,15 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     }
 
 
-
     public int Push_into_NFC() {
 
 
         Toast.makeText(this, "بچے کی معلومات محفوظ کر دی گئی ہیں", Toast.LENGTH_LONG).show();
 
 
-        VaccDetailBook vdb=new VaccDetailBook();
+        VaccDetailBook vdb = new VaccDetailBook();
 
-       lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"),vdb);
+        lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"), vdb);
 
 
         Calendar calendar = Calendar.getInstance();
@@ -177,64 +195,58 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             KidVaccinationDao kd = new KidVaccinationDao();
 
 
-                long kId  =data.get(0).kid_id;
+            long kId = data.get(0).kid_id;
 
-                if(imei.equals(data.get(0).imei_number)) {
-                    kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path,time, false, data.get(0).imei_number);
-                }else{
-                    kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number,imei);
-                }
+            if (imei.equals(data.get(0).imei_number)) {
+                kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number);
+            } else {
+                kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number, imei);
+            }
 
         }
-
-
 
         List<ChildInfo> childInfo = ChildInfoDao.getByKId(data.get(0).kid_id);
         DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         Date date = new Date();
         try {
-             date =sdf.parse(bundle.getString("next_date"));
+            date = sdf.parse(bundle.getString("next_date"));
 
-            childInfo.get(0).next_due_date =   date.getTime();
+            childInfo.get(0).next_due_date = date.getTime();
             childInfo.get(0).save();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
+        String[] ayy = bundle.getString("vacc_details").toString().split(",");
+        for (int i = 0; i < vdb.vaccinfo.size(); i++) {
 
+            if (ayy[i].equals("0")) {
 
-        String [] ayy=bundle.getString("vacc_details").toString().split(",");
-        for(int i=0;i<vdb.vaccinfo.size();i++)
-        {
+                vdb.vaccinfo.get(i).day = "--";
+                vdb.vaccinfo.get(i).month = "--";
+                vdb.vaccinfo.get(i).year = "--";
+            } else {
 
-            if(ayy[i].equals("0"))
-            {
-
-            vdb.vaccinfo.get(i).day= "--";
-            vdb.vaccinfo.get(i).month= "--";
-            vdb.vaccinfo.get(i).year= "--";}
-            else
-            {
-
-                vdb.vaccinfo.get(i).day= String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-                vdb.vaccinfo.get(i).month= String.valueOf(calendar.get(Calendar.MONTH));
-                vdb.vaccinfo.get(i).year= String.valueOf(calendar.get(Calendar.YEAR));
+                vdb.vaccinfo.get(i).day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+                vdb.vaccinfo.get(i).month = String.valueOf(calendar.get(Calendar.MONTH));
+                vdb.vaccinfo.get(i).year = String.valueOf(calendar.get(Calendar.YEAR));
 
             }
 
         }
 
         Intent myintent = new Intent(this, VaccineList.class);
-        myintent.putExtra("VaccDetInfo",vdb);
-        myintent.putExtra("next_due_date",bundle.getString("next_date"));
-        myintent.putExtra("visit_num_",bundle.getInt("curr_visit_num"));
+        myintent.putExtra("VaccDetInfo", vdb);
+        myintent.putExtra("next_due_date", bundle.getString("next_date"));
+        myintent.putExtra("visit_num_", bundle.getInt("curr_visit_num"));
 
         startActivity(myintent);
         finish();
 
         return 0;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -325,7 +337,6 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     }
 
 
-
     public boolean writeTag(NdefMessage message, Tag tag) {
         int size = message.toByteArray().length;
         try {
@@ -362,16 +373,12 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             }
         } catch (Exception e) {
             //btn.setText("Tap Again To Write");
-            Toast.makeText(this,"برائے مہربانی کارڈ کو دوبارہ سکین کریں",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "برائے مہربانی کارڈ کو دوبارہ سکین کریں", Toast.LENGTH_LONG).show();
             //btn.setEnabled(false);
 
             return false;
         }
     }
-
-
-
-
 
 
     // Functions onwards are for NFC ignore them
@@ -409,7 +416,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-      enableTagWriteMode();
+        enableTagWriteMode();
     }
 
     @Override
@@ -420,15 +427,15 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             mNfcAdapter.disableForegroundDispatch(this);
     }
 
-    private void sendVaccinationsData(String Location, int KidID, int VaccinationID, long CreateTime,final int index) {
+    private void sendVaccinationsData(String Location, int KidID, int VaccinationID, long CreateTime, final int index) {
         // Instantiate the RequestQueue.
         KidVaccinationDao kidVac = new KidVaccinationDao();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.kid_vaccinations;
-       // final ProgressDialog pDialog = new ProgressDialog(this);
-      //  pDialog.setMessage("Saving Vaccination data...");
-      //  pDialog.show();
+        // final ProgressDialog pDialog = new ProgressDialog(this);
+        //  pDialog.setMessage("Saving Vaccination data...");
+        //  pDialog.show();
         JSONObject obj = null;
 
         try {
@@ -442,10 +449,10 @@ public class CardScanWriteVaccine extends AppCompatActivity {
             vaccination.put("imei_number", Constants.getIMEI(this));
             vaccination.put("location", Location);
             vaccination.put("kid_id", KidID);
-            vaccination.put("vaccination_id",VaccinationID);
+            vaccination.put("vaccination_id", VaccinationID);
             vaccination.put("version_name", "");
-            vaccination.put("location_source","");
-            vaccination.put("vac_time",CreateTime);
+            vaccination.put("location_source", "");
+            vaccination.put("vac_time", CreateTime);
 
 
             obj.put("kid_vaccination", vaccination);
@@ -461,20 +468,17 @@ public class CardScanWriteVaccine extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
-                       // pDialog.hide();
-                        if(response!=null)
-                        {
+                        // pDialog.hide();
+                        if (response != null) {
                             KidVaccinationDao kd = new KidVaccinationDao();
                             Calendar calendar = Calendar.getInstance();
                             String imei = Constants.getIMEI(CardScanWriteVaccine.this);
-                            kd.save(data.get(0).location, data.get(0).kid_id, (int) lst.get(index), data.get(0).image_path, calendar.getTimeInMillis(),true,imei);
-
-
+                            kd.save(data.get(0).location, data.get(0).kid_id, (int) lst.get(index), data.get(0).image_path, calendar.getTimeInMillis(), true, imei);
 
 
                         }
                         if (response.optBoolean("success")) {
-                           // JSONObject json = response.optJSONObject("data");
+                            // JSONObject json = response.optJSONObject("data");
                             //parseKidReponse(json);
                         }
 
@@ -484,7 +488,7 @@ public class CardScanWriteVaccine extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-               // pDialog.hide();
+                // pDialog.hide();
             }
         }) {
 

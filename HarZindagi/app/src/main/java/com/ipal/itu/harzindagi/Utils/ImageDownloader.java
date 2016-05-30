@@ -37,7 +37,7 @@ public class ImageDownloader {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Downloading Images...");
-
+        pDialog.setCancelable(false);
         pDialog.show();
         if (childInfo.size() != 0) {
             sendChildData(childInfo.get(index));

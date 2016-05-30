@@ -28,17 +28,33 @@ import java.util.List;
 public class TabFragment1 extends Fragment {
 
     String app_name;
-
+    List<ChildInfo> data;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_frag_layout, container, false);
+        final View rootView = inflater.inflate(R.layout.tab_frag_layout, container, false);
 
         app_name = getResources().getString(R.string.app_name);
 
-        ChildInfoDao dao = new ChildInfoDao();
-        Calendar calendar= Calendar.getInstance();
+        final ChildInfoDao dao = new ChildInfoDao();
+        final Calendar calendar= Calendar.getInstance();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                data = dao.getToday(calendar.getTimeInMillis());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setListView(rootView);
+                    }
+                });
 
-        final List<ChildInfo> data = dao.getToday(calendar.getTimeInMillis());
+            }
+        }).start();
+
+
+        return rootView;
+    }
+    private  void setListView(View rootView){
         if (data.size() != 0) {
 
             ListView listView = (ListView) rootView.findViewById(R.id.tab_list);
@@ -64,6 +80,5 @@ public class TabFragment1 extends Fragment {
                 }
             });
         }
-        return rootView;
     }
 }

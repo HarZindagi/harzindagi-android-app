@@ -54,12 +54,12 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/ChildUCNumberText"
+                    android:id="@+id/ChildEPINumber"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:text="یو سی نمبر :"
+                    android:text="ای پی ائی نمبر:"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="28dp"
-                    android:layout_toLeftOf="@+id/ChildUCNumberText"
+                    android:layout_toLeftOf="@+id/ChildEPINumber"
                     android:gravity="center_vertical"
                     android:text="103"
                     android:textColor="@android:color/black"
@@ -88,12 +88,12 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/ChildEPICenterNameText"
+                    android:id="@+id/ChildBookNumberText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:text="سینٹر :"
+                    android:text="کتاب کا نمبر:"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@+id/ChildEPICenterNameText"
+                    android:layout_toLeftOf="@+id/ChildBookNumberText"
                     android:gravity="center_vertical"
                     android:text="132"
                     android:textColor="@android:color/black"

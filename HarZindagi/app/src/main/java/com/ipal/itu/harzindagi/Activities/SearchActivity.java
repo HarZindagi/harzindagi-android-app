@@ -32,14 +32,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
-import com.ipal.itu.harzindagi.Dao.UserInfoDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
-import com.ipal.itu.harzindagi.GJson.GUserInfo;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -60,6 +58,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
     public static final String TAG = "MainActivity";
     private static final int REQUEST_SMS = 1;
     public static List<ChildInfo> data;
+    public static ProgressDialog pDialog;
     private static String[] PERMISSIONS_SMS = {Manifest.permission.READ_SMS,
             Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};
     EditText childID;
@@ -71,16 +70,23 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
     View searchOneLayout;
     View searchTwoLayout;
     String number;
-    String ChildID, CellPhone, CNIC, ChildName, GuardianName;
+    String ChildID = "", CellPhone, CNIC, ChildName, GuardianName;
     boolean isAdvanceSearch = false;
     private View mLayout;
     private PopupWindow pw;
     private View popUpView;
+    private EditText newbookText;
+    private EditText bookNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Searching with SMS, Please Wait...");
+        pDialog.setCancelable(false);
+        String book_num = "";
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,13 +96,22 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         searchTwoLayout = findViewById(R.id.advanceSearchLayout);
 
         childID = (EditText) findViewById(R.id.searchActivityChildID);
-
+        newbookText = (EditText) findViewById(R.id.newbookText);
 
         cellPhone = (EditText) findViewById(R.id.searchActivityCellPhone);
 
         cnic = (EditText) findViewById(R.id.searchActivityCNIC);
+        bookNumber = (EditText) findViewById(R.id.searchActivityBookNumber);
+
 
         searchButton = (Button) findViewById(R.id.searchActivitySearchButton);
+
+        if (getIntent().hasExtra("book_num")) {
+            book_num = getIntent().getStringExtra("book_num");
+            bookNumber.setText(book_num);
+            newbookText.setText(book_num);
+
+        }
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,17 +119,31 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                 ChildInfoDao childInfoDao = new ChildInfoDao();
                 if (inputValid && !isAdvanceSearch) {
 
-
+                    if (bookNumber.getText().length() > 0) {
+                        data = childInfoDao.getByEPINum(ChildID);
+                    } else {
+                        data = childInfoDao.getByBookNum(bookNumber.getText().toString());
+                    }
                     data = childInfoDao.getByEPINum(ChildID);
                     if (data.size() != 0) {
 
-                        startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
+                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
 
-                                .putExtra("fromSMS", false));
+                                    .putExtra("fromSMS", false).putExtra("bookid", Integer.parseInt(newbookText.getText().toString())));
+
+                    } else if (data.size() == 0 && bookNumber.getText().length() > 0) {
+                        if (!Constants.isOnline(SearchActivity.this)) {
+                            pDialog.show();
+                            sendSMS("hz %b%" + bookNumber.getText().toString());
+
+                            Toast.makeText(SearchActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
 
 
+                        } else {
+                            onlineSearch(ChildID, CellPhone, CNIC, bookNumber.getText().toString());
+                        }
                     } else if (data.size() == 0) {
-                        Toast.makeText(SearchActivity.this,getString(R.string.no_record), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SearchActivity.this, getString(R.string.no_record), Toast.LENGTH_LONG).show();
                     }
                     /* else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
 
@@ -135,22 +164,23 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
 
                         if (data.size() != 0) {
 
-                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false));
-
+                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class).putExtra("fromSMS", false).putExtra("bookid", Integer.parseInt(newbookText.getText().toString())));
 
                         } else if (data.size() == 0 && !Constants.isOnline(SearchActivity.this)) {
                             if (isAdvanceSearch) {
-                                if(cellPhone.length()==12) {
+                                if (cellPhone.length() == 12) {
+                                    pDialog.show();
                                     sendSMS("hz %m%" + CellPhone);
-                                }else
-                                if(CNIC.length()==15){
+                                } else if (CNIC.length() == 15) {
+                                    pDialog.show();
+
                                     sendSMS("hz %c%" + CNIC);
                                 }
-                                Toast.makeText(SearchActivity.this,"Please Wait",Toast.LENGTH_LONG).show();
+                                Toast.makeText(SearchActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
                             }
 
                         } else {
-                            onlineSearch(ChildID, CellPhone, CNIC);
+                            onlineSearch(ChildID, CellPhone, CNIC, bookNumber.getText().toString());
                         }
                     }
                 }
@@ -202,19 +232,39 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
     public boolean validateInput(boolean isAdvanceSearch) {
         boolean isValid = true;
         String error = "";
+
+
+        if(newbookText.getText().toString().equals("")) {
+            isValid = false;
+            error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
+            showError(childID, error);
+            return isValid;
+        }else {
+            String bookID = newbookText.getText().toString();
+            List<Books> bookList = Books.getByBookId(Integer.parseInt(bookID));
+            if(bookList.size()!=0){
+                error = "برائے مہربانی نئی کتاب کا نمبر درج کریں۔";
+                showError(childID, error);
+                return isValid;
+            }
+        }
+
         if (isAdvanceSearch) {
             ((EditText) findViewById(R.id.searchActivityChildID)).setText("");
         } else {
             ((EditText) findViewById(R.id.searchActivityCellPhone)).setText("");
             ((EditText) findViewById(R.id.searchActivityCNIC)).setText("");
         }
+
         ChildID = childID.getText().toString();
-        if (ChildID.equals("") && !isAdvanceSearch) {
+        if (ChildID.equals("") && !isAdvanceSearch && bookNumber.getText().length() == 0) {
             ChildID = "N/A";
             isValid = false;
             error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
             showError(childID, error);
             return isValid;
+        } else if (bookNumber.getText().length() > 0) {
+            return true;
         } else if (!ChildID.equals("") && !isAdvanceSearch) {
             return true;
         }
@@ -243,7 +293,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void onlineSearch(String epi, String phone, String cnic) {
+    public void onlineSearch(String epi, String phone, String cnic, String bookId) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.search;
@@ -261,6 +311,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             kid.put("epi_number", epi);
             kid.put("phone_number", phone);
             kid.put("father_cnic", cnic);
+            kid.put("book_id", bookId);
             obj.put("kid", kid);
 
         } catch (JSONException e) {
@@ -277,8 +328,8 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                         if (response.toString().length() > 20) {
 
                             parseKidReponse(response);
-                        }else{
-                            Toast.makeText(SearchActivity.this,getString(R.string.no_record), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(SearchActivity.this, getString(R.string.no_record), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -323,7 +374,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             ChildInfo c = new ChildInfo();
             c.kid_id = obj.childInfoArrayList.get(i).id;
 
-            c.imei_number =  obj.childInfoArrayList.get(i).imei_number;
+            c.imei_number = obj.childInfoArrayList.get(i).imei_number;
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
             c.guardian_name = obj.childInfoArrayList.get(i).father_name;
 
@@ -343,7 +394,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
             c.epi_number = obj.childInfoArrayList.get(i).epi_number;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
-            c.book_update_flag = true;
+
 
             c.image_path = "image_" + obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
             childInfoArrayList.add(c);
@@ -354,7 +405,6 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         SearchActivity.data = childInfoArrayList;
 
         downloadImages(childInfoArrayList);
-
 
 
     }
@@ -439,7 +489,7 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         // END_INCLUDE(contacts_permission_request)
     }
 
-    private  void downloadImages( List<ChildInfo> childInfo){
+    private void downloadImages(List<ChildInfo> childInfo) {
 
         ImageDownloader imageDownloader = new ImageDownloader(this, childInfo, new OnUploadListner() {
             @Override

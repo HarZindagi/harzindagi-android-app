@@ -10,15 +10,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -30,12 +26,10 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="face" />
-
         <meta-data
             android:name="HarZindagiDatabase"
             android:value="HarZindagiDatabase.db" />
@@ -48,7 +42,6 @@
         <meta-data
             android:name="UserInfo"
             android:value="com.ipal.itu.harzindagi.Entity.UserInfo" />
-
         <meta-data
             android:name="Visit"
             android:value="com.ipal.itu.harzindagi.Entity.Visit" />
@@ -61,17 +54,27 @@
         <meta-data
             android:name="KidVaccinations"
             android:value="com.ipal.itu.harzindagi.Entity.KidVaccinations" />
-
         <meta-data
             android:name="Evaccs"
             android:value="com.ipal.itu.harzindagi.Entity.Evaccs" />
-
         <meta-data
             android:name="EvaccsNonEPI"
             android:value="com.ipal.itu.harzindagi.Entity.EvaccsNonEPI" />
         <meta-data
             android:name="Towns"
             android:value="com.ipal.itu.harzindagi.Entity.Towns" />
+        <meta-data
+            android:name="Books"
+            android:value="com.ipal.itu.harzindagi.Entity.Books" />
+        <meta-data
+            android:name="MaleName"
+            android:value="com.ipal.itu.harzindagi.Entity.MaleName" />
+        <meta-data
+        android:name="FemaleName"
+        android:value="com.ipal.itu.harzindagi.Entity.FemaleName" />
+        <meta-data
+            android:name="Images"
+            android:value="com.ipal.itu.harzindagi.Entity.Images" />
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/title_activity_splash"
@@ -97,7 +100,6 @@
         <activity
             android:name=".Activities.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.DashboardActivity"
             android:label="@string/title_activity_dashboard"
@@ -128,7 +130,6 @@
             android:label="بچے کے کوائف"
             android:parentActivityName=".Activities.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar"
-
             android:windowSoftInputMode="stateHidden|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -139,7 +140,6 @@
             android:label="Vaccination"
             android:parentActivityName=".Activities.DashboardActivity"
             android:theme="@style/AppTheme.NoActionBar"
-
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -154,7 +154,8 @@
         <activity
             android:name=".Activities.Evaccs"
             android:label="Evaccs-II" />
-        <activity android:name=".Activities.Act" />VaccineList
+        <activity android:name=".Activities.Act" />
+        VaccineList
         <activity
             android:name=".Activities.VaccineList"
             android:label="حفا ظتی ٹیکوں کا شیڈیول کتاب پر درج کریں"
@@ -166,7 +167,6 @@
         <activity
             android:name=".Activities.CalenderActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-
         <activity
             android:name=".Activities.RegisteredChildActivity"
             android:label="رجسٹرڈ معلومات"
@@ -193,11 +193,22 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".Activities.CustomCamerEvacEPI"
+            android:label="@string/title_activity_custom_camer_evac"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.CustomCamerEvacNonEPI"
+            android:label="@string/title_activity_custom_camer_evac_non_epi"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -30,13 +30,12 @@ import java.util.Calendar;
 
 public class EvacsNonEPI extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
-    EditText Non_Epi_reg_num_txt,Non_Epi_reg_cnic_txt,Non_Epi_phone_num_txt,Non_Epi_number_txt,Non_Epi_reg_date_birth_txt
-            ,Non_Epi_adress_txt,Non_Epi_birth_place_txt;
-    
+    EditText Non_Epi_reg_num_txt, Non_Epi_reg_cnic_txt, Non_Epi_phone_num_txt, Non_Epi_number_txt, Non_Epi_reg_date_birth_txt, Non_Epi_adress_txt, Non_Epi_birth_place_txt;
+
     FileOutputStream fo;
     String Fpath;
     String app_name;
-    String Evac;
+    String Evac = "EvacNonEpi";
     Button non_mahfooz_Karain;
     CheckBox[] nonEPIv_box;
     String non_epiReg_Number;
@@ -46,110 +45,106 @@ public class EvacsNonEPI extends AppCompatActivity {
     Context context;
     ArrayList<Integer> selectedCheckboxes_nonEPI = new ArrayList<Integer>();
     ArrayList<String> nonEPI_chkBox_txt = new ArrayList<String>();
-    CheckBox non_bx_BCG,non_bx_OPV,non_bx_OPV1,non_bx_Pentavalent,non_bx_Pneumococcal,non_bx_OPV2,non_bx_Pentavalent2
-            ,non_bx_Pneumococcal2,non_bx_OPV3,non_bx_Pentavalent3,non_bx_Pneumococcal3,non_bx_Measles,non_bx_Measles2,child_type;
+    CheckBox non_bx_BCG, non_bx_OPV, non_bx_OPV1, non_bx_Pentavalent, non_bx_Pneumococcal, non_bx_OPV2, non_bx_Pentavalent2, non_bx_Pneumococcal2, non_bx_OPV3, non_bx_Pentavalent3, non_bx_Pneumococcal3, non_bx_Measles, non_bx_Measles2, child_type;
+    String location = "0.00000,0.00000";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evacs_epi);
-        context=this;
-        Non_Epi_reg_num_txt=(EditText)findViewById(R.id.Non_Epi_reg_num_txt);
-        non_Epi_name=(EditText)findViewById(R.id.non_ep_txt_view);
+        context = this;
+        Non_Epi_reg_num_txt = (EditText) findViewById(R.id.Non_Epi_reg_num_txt);
+        non_Epi_name = (EditText) findViewById(R.id.non_ep_txt_view);
 
-        Non_Epi_reg_cnic_txt=(EditText)findViewById(R.id.Non_Epi_reg_cnic_txt);
-        Non_Epi_phone_num_txt=(EditText)findViewById(R.id.Non_Epi_phone_num_txt);
-        Non_Epi_number_txt=(EditText)findViewById(R.id.Non_Epi_number_txt);
-        Non_Epi_reg_date_birth_txt=(EditText)findViewById(R.id.Non_Epi_reg_date_birth_txt);
-        Non_Epi_adress_txt=(EditText)findViewById(R.id.Non_Epi_adress_txt);
-        Non_Epi_birth_place_txt=(EditText)findViewById(R.id.Non_Epi_birth_place_txt);
+        Non_Epi_reg_cnic_txt = (EditText) findViewById(R.id.Non_Epi_reg_cnic_txt);
+        Non_Epi_phone_num_txt = (EditText) findViewById(R.id.Non_Epi_phone_num_txt);
+        Non_Epi_number_txt = (EditText) findViewById(R.id.Non_Epi_number_txt);
+        Non_Epi_reg_date_birth_txt = (EditText) findViewById(R.id.Non_Epi_reg_date_birth_txt);
+        Non_Epi_adress_txt = (EditText) findViewById(R.id.Non_Epi_adress_txt);
+        Non_Epi_birth_place_txt = (EditText) findViewById(R.id.Non_Epi_birth_place_txt);
 
-        child_type=(CheckBox)findViewById(R.id.child_type);
-        if(child_type.isChecked())
-        {
-            child_typ="1";
+        child_type = (CheckBox) findViewById(R.id.child_type);
+        if (child_type.isChecked()) {
+            child_typ = "1";
+        } else {
+            child_typ = "0";
         }
-        else {
-            child_typ="0";
-        }
-        non_bx_BCG=(CheckBox)findViewById(R.id.non_bx_BCG);
-        non_bx_OPV=(CheckBox)findViewById(R.id.non_bx_OPV);
-        non_bx_OPV1=(CheckBox)findViewById(R.id.non_bx_OPV1);
-        non_bx_Pentavalent=(CheckBox)findViewById(R.id.non_bx_Pentavalent);
-        non_bx_Pneumococcal=(CheckBox)findViewById(R.id.non_bx_Pneumococcal);
-        non_bx_OPV2=(CheckBox)findViewById(R.id.non_bx_OPV2);
-        non_bx_Pentavalent2=(CheckBox)findViewById(R.id.non_bx_Pentavalent2);
-        non_bx_Pneumococcal2=(CheckBox)findViewById(R.id.non_bx_Pneumococcal2);
-        non_bx_OPV3=(CheckBox)findViewById(R.id.non_bx_OPV3);
-        non_bx_Pentavalent3=(CheckBox)findViewById(R.id.non_bx_Pentavalent3);
-        non_bx_Pneumococcal3=(CheckBox)findViewById(R.id.non_bx_Pneumococcal3);
-        non_bx_Measles=(CheckBox)findViewById(R.id.non_bx_Measles);
-        non_bx_Measles2=(CheckBox)findViewById(R.id.non_bx_Measles2);
-        non_mahfooz_Karain=(Button)findViewById(R.id.non_Mahfooz_Karain);
-        nonEPIv_box = new CheckBox[]{ non_bx_BCG,non_bx_OPV,non_bx_OPV1,non_bx_Pentavalent,non_bx_Pneumococcal,non_bx_OPV2,non_bx_Pentavalent2
-                ,non_bx_Pneumococcal2,non_bx_OPV3,non_bx_Pentavalent3,non_bx_Pneumococcal3,non_bx_Measles,non_bx_Measles2};
+        non_bx_BCG = (CheckBox) findViewById(R.id.non_bx_BCG);
+        non_bx_OPV = (CheckBox) findViewById(R.id.non_bx_OPV);
+        non_bx_OPV1 = (CheckBox) findViewById(R.id.non_bx_OPV1);
+        non_bx_Pentavalent = (CheckBox) findViewById(R.id.non_bx_Pentavalent);
+        non_bx_Pneumococcal = (CheckBox) findViewById(R.id.non_bx_Pneumococcal);
+        non_bx_OPV2 = (CheckBox) findViewById(R.id.non_bx_OPV2);
+        non_bx_Pentavalent2 = (CheckBox) findViewById(R.id.non_bx_Pentavalent2);
+        non_bx_Pneumococcal2 = (CheckBox) findViewById(R.id.non_bx_Pneumococcal2);
+        non_bx_OPV3 = (CheckBox) findViewById(R.id.non_bx_OPV3);
+        non_bx_Pentavalent3 = (CheckBox) findViewById(R.id.non_bx_Pentavalent3);
+        non_bx_Pneumococcal3 = (CheckBox) findViewById(R.id.non_bx_Pneumococcal3);
+        non_bx_Measles = (CheckBox) findViewById(R.id.non_bx_Measles);
+        non_bx_Measles2 = (CheckBox) findViewById(R.id.non_bx_Measles2);
+        non_mahfooz_Karain = (Button) findViewById(R.id.non_Mahfooz_Karain);
+        nonEPIv_box = new CheckBox[]{non_bx_BCG, non_bx_OPV, non_bx_OPV1, non_bx_Pentavalent, non_bx_Pneumococcal, non_bx_OPV2, non_bx_Pentavalent2
+                , non_bx_Pneumococcal2, non_bx_OPV3, non_bx_Pentavalent3, non_bx_Pneumococcal3, non_bx_Measles, non_bx_Measles2};
 
 
         non_mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-               for (int i = 0; i < nonEPIv_box.length; i++) {
-                   if (nonEPIv_box[i].isChecked()) {
-                       selectedCheckboxes_nonEPI.add(i + 1);
-                       nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
-                   }
-               }
-               for (int i = 0; i < selectedCheckboxes_nonEPI.size(); i++) {
-                   com.ipal.itu.harzindagi.Entity.EvaccsNonEPI evaccsNonepi = new com.ipal.itu.harzindagi.Entity.EvaccsNonEPI();
+                for (int i = 0; i < nonEPIv_box.length; i++) {
+                    if (nonEPIv_box[i].isChecked()) {
+                        selectedCheckboxes_nonEPI.add(i + 1);
+                        nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
+                    }
+                }
+                for (int i = 0; i < selectedCheckboxes_nonEPI.size(); i++) {
+                    com.ipal.itu.harzindagi.Entity.EvaccsNonEPI evaccsNonepi = new com.ipal.itu.harzindagi.Entity.EvaccsNonEPI();
 
-                   evaccsNonepi.imei_number = Constants.getIMEI(context);
-                   evaccsNonepi.location= location;
-                   evaccsNonepi.location_source=location;
-                   evaccsNonepi.created_timestamp = Calendar.getInstance().getTimeInMillis()/1000;
-                   evaccsNonepi.child_type=child_typ;
-                   evaccsNonepi.name = non_Epi_name.getText().toString();
-                   evaccsNonepi.daily_reg_no = Non_Epi_reg_num_txt.getText().toString();
-                   evaccsNonepi.cnic=Non_Epi_reg_cnic_txt.getText().toString();
-                   evaccsNonepi.phone_number=Non_Epi_phone_num_txt.getText().toString();
-                   evaccsNonepi.epi_no=Non_Epi_number_txt.getText().toString();
-                   evaccsNonepi.date_of_birth=Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
-                   evaccsNonepi.child_address=Non_Epi_adress_txt.getText().toString();
-                   evaccsNonepi.birth_place=Non_Epi_birth_place_txt.getText().toString();
-                  // evaccsNonepi.is_guest = 1;
-                  // evaccsNonepi.image_path = "image_"+ evaccs.epi_number;
+                    evaccsNonepi.imei_number = Constants.getIMEI(context);
+                    evaccsNonepi.location = location;
+                    evaccsNonepi.location_source = location;
+                    evaccsNonepi.created_timestamp = Calendar.getInstance().getTimeInMillis() / 1000;
+                    evaccsNonepi.child_type = child_typ;
+                    evaccsNonepi.name = non_Epi_name.getText().toString();
+                    evaccsNonepi.daily_reg_no = Non_Epi_reg_num_txt.getText().toString();
+                    evaccsNonepi.cnic = Non_Epi_reg_cnic_txt.getText().toString();
+                    evaccsNonepi.phone_number = Non_Epi_phone_num_txt.getText().toString();
+                    evaccsNonepi.epi_no = Non_Epi_number_txt.getText().toString();
+                    evaccsNonepi.date_of_birth = Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
+                    evaccsNonepi.child_address = Non_Epi_adress_txt.getText().toString();
+                    evaccsNonepi.birth_place = Non_Epi_birth_place_txt.getText().toString();
+                    // evaccsNonepi.is_guest = 1;
+                    // evaccsNonepi.image_path = "image_"+ evaccs.epi_number;
 
-                  // evaccsNonepi.image_update_flag = false;
-                   //evaccsNonepi.name_of_guest_kid = non_Epi_name.getText().toString();
-                   evaccsNonepi.record_update_flag = false;
-                  // evaccsNonepi.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
-
-
+                    // evaccsNonepi.image_update_flag = false;
+                    //evaccsNonepi.name_of_guest_kid = non_Epi_name.getText().toString();
+                    evaccsNonepi.record_update_flag = false;
+                    // evaccsNonepi.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
 
 
-                   evaccsNonepi.save();
-               }
-               finish();
-           }
-       });
-
-
+                    evaccsNonepi.save();
+                }
+                finish();
+            }
+        });
 
 
     }
-    public void opencam(View v)
-    {
-        Intent cameraIntent = new Intent(EvacsNonEPI.this, CustomCamera.class);
-        cameraIntent.putExtra("image_", Non_Epi_reg_num_txt.getText().toString() + Calendar.getInstance().getTimeInMillis()/1000);
+
+    public void opencam(View v) {
+        Intent cameraIntent = new Intent(EvacsNonEPI.this, CustomCamerEvacNonEPI.class);
+        cameraIntent.putExtra("filename", "nonepi_"+ Constants.getIMEI(this)+"_"+Non_Epi_reg_num_txt.getText().toString());
+
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 
-
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == 1888) {
-            CustomCamera.progress.dismiss();
+            if (CustomCamerEvacNonEPI.progress != null) {
+                CustomCamerEvacNonEPI.progress.dismiss();
+            }
             Bitmap photo, resizedImage;
             readEditTexts();
             Fpath = data.getStringExtra("fpath");
@@ -158,10 +153,9 @@ public class EvacsNonEPI extends AppCompatActivity {
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
 
-
-
         }
     }
+
     public void saveBitmap(Bitmap bitmap) {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -182,6 +176,7 @@ public class EvacsNonEPI extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -197,22 +192,24 @@ public class EvacsNonEPI extends AppCompatActivity {
 
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
+
     public void readEditTexts() {
         non_epiReg_Number = Non_Epi_reg_num_txt.getText().toString();
-        non_epiName= non_Epi_name.getText().toString();
+        non_epiName = non_Epi_name.getText().toString();
 
     }
+
     private void getLocation() {
 
         LocationAjaxCallback cb = new LocationAjaxCallback();
         //  final ProgressDialog pDialog = new ProgressDialog(this);
         //  pDialog.setMessage("Getting Location");
 
-        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000*30*5).async(this);
+        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(this);
         //  pDialog.setCancelable(false);
         //  pDialog.show();
     }
-    String location = "0.00000,0.00000";
+
     public void locationCb(String url, final Location loc, AjaxStatus status) {
 
         if (loc != null) {

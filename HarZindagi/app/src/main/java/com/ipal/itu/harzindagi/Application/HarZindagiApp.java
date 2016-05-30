@@ -1,21 +1,20 @@
 package com.ipal.itu.harzindagi.Application;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
+import com.ipal.itu.harzindagi.Entity.FemaleName;
+import com.ipal.itu.harzindagi.Entity.Images;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.MaleName;
 import com.ipal.itu.harzindagi.Entity.Towns;
 import com.ipal.itu.harzindagi.Entity.UserInfo;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
@@ -58,6 +57,10 @@ public class HarZindagiApp extends android.app.Application {
         configurationBuilder.addModelClass(Evaccs.class);
         configurationBuilder.addModelClass(EvaccsNonEPI.class);
         configurationBuilder.addModelClass(Towns.class);
+        configurationBuilder.addModelClass(Books.class);
+        configurationBuilder.addModelClass(MaleName.class);
+        configurationBuilder.addModelClass(FemaleName.class);
+        configurationBuilder.addModelClass(Images.class);
         ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
 

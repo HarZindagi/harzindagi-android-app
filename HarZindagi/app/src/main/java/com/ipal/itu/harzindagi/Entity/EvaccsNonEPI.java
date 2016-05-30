@@ -47,7 +47,7 @@ public class EvaccsNonEPI extends TruncatableModel {
     public String epi_no;
 
     @Column(name = "date_of_birth")
-    public int date_of_birth ;
+    public long date_of_birth ;
 
     @Column(name = "child_address")
     public String child_address ;

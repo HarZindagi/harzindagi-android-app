@@ -65,11 +65,12 @@ public class ChildInfo extends TruncatableModel {
     public String nfc_number;
 
 
-    @Column(name = "book_update_flag")
-    public boolean book_update_flag;
+/*    @Column(name = "book_update_flag")
+    public boolean book_update_flag;*/
 
     @Column(name = "record_update_flag")
     public boolean record_update_flag;
+
 
     @Column(name = "image_update_flag")
     public boolean image_update_flag;
@@ -112,7 +113,7 @@ public class ChildInfo extends TruncatableModel {
         this.kids_station = kidStation;
         this.image_path = imageName;
         this.nfc_number = nfcNumber;
-        this.book_update_flag = bookFlag;
+       // this.book_update_flag = bookFlag;
         this.record_update_flag = recordFlag;
         this.child_address = address;
         this.book_id =book_id;

@@ -1,28 +1,18 @@
 package com.ipal.itu.harzindagi.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.GJson.GInjection;
 import com.ipal.itu.harzindagi.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Ali on 1/14/2016.
@@ -112,13 +102,24 @@ public class VaccineListAdapter {
                     data.get(currentPost).is_done = 1;
                     aarr[position]=1;
                     bn.setVisibility(View.VISIBLE);
+
                     skp_vst.setVisibility(View.GONE);
+
                 } else {
 
                     data.get(currentPost).is_done = 0;
                     aarr[position]=0;
                     bn.setVisibility(View.GONE);
-                    skp_vst.setVisibility(View.VISIBLE);
+                    boolean isAllFalse = true;
+                    for (int i = 0; i <aarr.length ; i++) {
+                        if(aarr[i]==1){
+                            isAllFalse = false;
+                        }
+                    }
+                    if(isAllFalse) {
+                        skp_vst.setVisibility(View.VISIBLE);
+                    }
+
                 }
             }
         });

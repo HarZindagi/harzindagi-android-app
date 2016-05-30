@@ -12,9 +12,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.Size;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -26,8 +28,8 @@ import android.widget.Toast;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
-import com.ipal.itu.harzindagi.GJson.Token;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,10 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by Wahab on 2/3/2016.
- */
-public class CustomCamera extends Activity implements SurfaceHolder.Callback {
+public class CustomCamerEvacNonEPI extends Activity implements SurfaceHolder.Callback {
     public static ProgressDialog progress;
     SurfaceHolder surfaceHolder;
     File mediaFile;
@@ -147,7 +146,7 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
             mCamera.setDisplayOrientation(90);
         }
 
-         catch (Exception e) {
+        catch (Exception e) {
             // cannot get camera or does not exist
         }
     }
@@ -224,9 +223,9 @@ public class CustomCamera extends Activity implements SurfaceHolder.Callback {
         }
         finishActivity();
     }
+
     private File getOutputMediaFile() {
-        Path = "/sdcard/" + app_name + "/"
-                + fpath + ".jpg";
+        Path ="/sdcard/" + app_name + "/" + "EvacNonEpi" + "/" + fpath + ".jpg";
         mediaFile = new File(Path);
 
         return mediaFile;

@@ -1,6 +1,5 @@
 package com.ipal.itu.harzindagi.Entity;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
@@ -11,43 +10,40 @@ import java.util.List;
 /**
  * Created by Ahmed on 3/31/2016.
  */
-@Table(name = "Books")
-public class Books extends TruncatableModel {
-
-    @Column(name = "book_number")
-    public int book_number;
+@Table(name = "Images")
+public class Images extends TruncatableModel {
 
     @Column(name = "kid_id")
-    public long kid_id;
+    public int kid_id;
 
-    @Column(name = "date")
-    public long date;
+    @Column(name = "name")
+    public int name;
 
     @Column(name = "is_sync")
     public boolean is_sync;
 
-    public List<Books> getAll() {
+    public List<Images> getAll() {
         return new Select()
-                .from(Books.class)
+                .from(Images.class)
                 .execute();
     }
-    public  static List<Books> getNotSync() {
+    public  static List<Images> getNotSync() {
         return new Select()
-                .from(Books.class)
+                .from(Images.class)
                 .where("is_sync = ?", false)
                 .execute();
     }
-    public Books() {
+    public Images() {
         super();
     }
-    public  static  List<Books> getByBookId(long id) {
+    public  static  List<Images> getById(long id) {
         return new Select()
-                .from(Books.class)
-                .where("book_number = ?", id)
+                .from(Images.class)
+                .where("kid_id = ?", id)
                 .execute();
     }
 
     public static void deleteTable(){
-        Books.truncate(Books.class);
+        Images.truncate(Images.class);
     }
 }

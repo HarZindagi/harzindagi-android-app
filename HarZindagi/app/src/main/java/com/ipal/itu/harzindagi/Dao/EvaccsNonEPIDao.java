@@ -25,22 +25,31 @@ public class EvaccsNonEPIDao {
 
     }*/
 
-    public List<EvaccsNonEPI> getByEPINum(String epi_number) {
-        return new Select()
-                .from(EvaccsNonEPI.class)
-                .where("epi_no = ?", epi_number)
-                .orderBy("name ASC")
-                .execute();
-    }
     public static List<EvaccsNonEPI> getAll() {
         return new Select()
                 .from(EvaccsNonEPI.class)
                 .orderBy("name ASC")
                 .execute();
     }
+
+    public static List<EvaccsNonEPI> getNoSync() {
+        return new Select()
+                .from(EvaccsNonEPI.class)
+                .orderBy("name ASC").where("record_update_flag = ?", false)
+                .execute();
+    }
+
     public static List<EvaccsNonEPI> getDistinct() {
         return new Select("epi_no").distinct()
                 .from(EvaccsNonEPI.class)
+                .orderBy("name ASC")
+                .execute();
+    }
+
+    public List<EvaccsNonEPI> getByEPINum(String epi_number) {
+        return new Select()
+                .from(EvaccsNonEPI.class)
+                .where("epi_no = ?", epi_number)
                 .orderBy("name ASC")
                 .execute();
     }

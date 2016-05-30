@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Adapters.CustomViewPager;
 import com.ipal.itu.harzindagi.Adapters.ViewPagerAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
@@ -83,7 +86,35 @@ public class VaccinationActivity extends AppCompatActivity {
             R.drawable.blue_cir,
             R.drawable.dark_green_cir
     };
+    private int bookid;
+    public static String location;
 
+    private void getLocation() {
+
+        LocationAjaxCallback cb = new LocationAjaxCallback();
+        //  final ProgressDialog pDialog = new ProgressDialog(this);
+        //  pDialog.setMessage("Getting Location");
+
+        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(this);
+        //  pDialog.setCancelable(false);
+        //  pDialog.show();
+    }
+
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
+
+        if (loc != null) {
+
+            double lat = loc.getLatitude();
+            double log = loc.getLongitude();
+            location = lat + "," + log;
+
+
+        } else {
+            location = "0.0000:0.0000";
+
+
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +122,7 @@ public class VaccinationActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getLocation();
         load_frag = 0;
         vaccs_done = "0,0,0";
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -100,8 +131,10 @@ public class VaccinationActivity extends AppCompatActivity {
         try {
             childID = bundle.getLong("childid");
             imei =  bundle.getString("imei");
+            bookid =  bundle.getInt("bookid");
+          
         } catch (Exception e) {
-            Toast.makeText(this, "ID not found", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
             finish();
             e.printStackTrace();
         }
@@ -120,7 +153,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
                 vaccs_done = bundle.getString("vacc_details").toString();
             } catch (Exception e) {
-                Toast.makeText(this, "Card Corrupted" + e, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -283,6 +316,7 @@ public class VaccinationActivity extends AppCompatActivity {
 
             Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
             intent.putExtra("childid", childID);
+            intent.putExtra("bookid", bookid);
             if (bndl.size() >= 3) {
 
                 intent.putExtra("vacc_details", bndl.getString("vacc_details"));

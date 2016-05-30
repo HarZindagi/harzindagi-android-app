@@ -14,6 +14,7 @@ import java.io.File;
 public class Evaccs extends AppCompatActivity {
     String app_name;
     String Evac;
+    String EvacNonEpi;
     Boolean isFolderExists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,12 @@ public class Evaccs extends AppCompatActivity {
         app_name = getResources().getString(R.string.app_name);
         Evac =getResources().getString(R.string.evac);
         File appFolder = new File("/sdcard/" + app_name +"/"+ Evac+"/");
+        isFolderExists = appFolder.exists();
+        if (!isFolderExists) {
+            appFolder.mkdirs();
+        }
+        EvacNonEpi = getResources().getString(R.string.evacnonepi);
+        appFolder = new File("/sdcard/" + app_name +"/"+ EvacNonEpi+"/");
         isFolderExists = appFolder.exists();
         if (!isFolderExists) {
             appFolder.mkdirs();

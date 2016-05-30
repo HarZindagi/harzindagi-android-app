@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Fragments;
 /**
  * Created by Wahab on 2/17/2016.
  */
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,17 +14,20 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ipal.itu.harzindagi.Activities.RegisteredChildActivity;
-import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
-import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
 
+
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class TabFragment2 extends Fragment {
+public class TabFragment4 extends Fragment {
 
     String app_name;
     List<ChildInfo> data;
@@ -34,13 +38,22 @@ public class TabFragment2 extends Fragment {
         app_name = getResources().getString(R.string.app_name);
 
         final ChildInfoDao dao = new ChildInfoDao();
-
         final Calendar calendar= Calendar.getInstance();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
+        Date today = new Date(calendar.getTimeInMillis());
+        Date todayWithZeroTime=null;
+        try {
+            todayWithZeroTime = formatter.parse(formatter.format(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        final Date finalTodayWithZeroTime = todayWithZeroTime;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                data = dao.getDefaulter(calendar.getTimeInMillis());
+                data = dao.getTodayCompleted(finalTodayWithZeroTime.getTime()/1000);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

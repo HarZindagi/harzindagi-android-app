@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +18,6 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
-import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.util.Calendar;
 import java.util.List;
@@ -27,8 +25,8 @@ import java.util.List;
 public class RegisteredChildActivity extends AppCompatActivity {
 
     final Context curr = this;
-    TextView ucNumber;
-    TextView epiCenterName;
+    TextView ChildEPINumber;
+    TextView ChildBookNumberText;
     TextView childName;
     TextView Gender;
     TextView DOB;
@@ -44,6 +42,7 @@ public class RegisteredChildActivity extends AppCompatActivity {
     ChildInfoDao dao;
     Calendar calendar;
     long childID;
+    private int bookid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +54,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
         dao = new ChildInfoDao();
 
         calendar = Calendar.getInstance();
-        ucNumber = (TextView) findViewById(R.id.ChildUCNumber);
-        epiCenterName = (TextView) findViewById(R.id.ChildEPICenterName);
+        ChildEPINumber = (TextView) findViewById(R.id.ChildEPINumber);
+        ChildBookNumberText = (TextView) findViewById(R.id.ChildBookNumberText);
         childName = (TextView) findViewById(R.id.ChildName);
         DOB = (TextView) findViewById(R.id.ChildDOB);
         Gender = (TextView) findViewById(R.id.ChildGender);
@@ -80,7 +79,11 @@ public class RegisteredChildActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         childID = bundle.getLong("childid");
         final String imei = bundle.getString("imei");
-
+        if(getIntent().hasExtra("bookid")){
+            bookid = bundle.getInt("bookid");
+        }else{
+            bookid=0;
+        }
         vaccination_btn = (Button) findViewById(R.id.NFCWrite);
         vaccination_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +107,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
                 intent.putExtra("childid", data.get(0).kid_id);
                 intent.putExtra("imei", data.get(0).imei_number);
                 intent.putExtra("isSync", data.get(0).record_update_flag);
+                intent.putExtra("bookid",bookid);
+
                 intent.putExtras(bnd);
                 startActivity(intent);
                 finish();
@@ -113,8 +118,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
         List<ChildInfo> data = ChildInfoDao.getByKId(childID);
 
         if (data != null) {
-            ucNumber.setText("" + Constants.getUCID(this));
-            epiCenterName.setText("" + data.get(0).epi_name);
+            ChildEPINumber.setText("" + data.get(0).epi_number);
+            ChildBookNumberText.setText("" + data.get(0).book_id);
             childName.setText("" + data.get(0).kid_name);
 
 

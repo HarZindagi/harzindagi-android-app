@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Adapters;
 /**
  * Created by Wahab on 2/17/2016.
  */
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.ipal.itu.harzindagi.Fragments.TabFragment1;
 import com.ipal.itu.harzindagi.Fragments.TabFragment2;
 import com.ipal.itu.harzindagi.Fragments.TabFragment3;
+import com.ipal.itu.harzindagi.Fragments.TabFragment4;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
@@ -32,6 +34,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 TabFragment3 tab3 = new TabFragment3();
                 return tab3;
+            case 3:
+                TabFragment4 tab4 = new TabFragment4();
+                return tab4;
             default:
                 return null;
         }

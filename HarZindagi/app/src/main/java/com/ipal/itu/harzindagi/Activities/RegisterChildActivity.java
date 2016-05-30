@@ -38,7 +38,9 @@ import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 
+import com.ipal.itu.harzindagi.Entity.FemaleName;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.MaleName;
 import com.ipal.itu.harzindagi.Entity.Towns;
 import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.GJson.GAreasList;
@@ -53,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,7 +66,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     EditText CenterName;
     List<Towns> list_Towns;
     MultiAutoCompleteTextView childName;
-    Spinner registerChildTown_ET;
+    MultiAutoCompleteTextView registerChildTown_ET;
     Button boy;
     Button girl;
     View DOB;
@@ -78,7 +81,7 @@ public class RegisterChildActivity extends AppCompatActivity {
     Button childPicture;
     String epiNumber;
     String EPICenterName, TownName;
-    String ChildName, childID;
+    String ChildName;
     String DateOfBirth;
     String MotherName;
     String GuardianName;
@@ -91,17 +94,15 @@ public class RegisterChildActivity extends AppCompatActivity {
     ArrayAdapter<String> adp_wm;
     int phn_nm = 1000;
     List<ChildInfo> data;
-    String[] str = {
-            "Ali", "Ahmed", "Babar", "Butt", "Bilal", "Danial", "Farhan", "Gulzar", "Hina", "Khizir", "Mehmood", "Nasir", "Pathan", "Hassan", "Saad",
-            "Tahir", "Umer", "Khawer", "Yasir", "Jhangir", "Usman", "Osman", "Waseem",
-            "Mannan", "Imran", "Zaheer", "Zeshan"};
-    String[] women_str = {
-            "AYESHA", "FATIMA", "MARIAM", "AQSA", "LAIBA", "AIZA", "RABIA", "ZAINAB", "Hina", "SABA", "AMNA", "ALEENA", "MARIA", "Qurat", "IQRA",
-            "SHAZIA", "ZOYA", "SADIA", "ANAM", "ESHAAL", "MEHWISH", "ASMA", "HANIYA",
-            "AIMAN", "ALISHBA", "HAREEM", "SIDRA"};
+
     Calendar myCalendar = Calendar.getInstance();
     EditText registerboodid;
     long activityTime;
+    ArrayList<String> mlist = new ArrayList<>();
+    ArrayList<String> flist = new ArrayList<>();
+    HashMap<String, String> mhList = new HashMap<>();
+    HashMap<String, String> fhList = new HashMap<>();
+
 
     private PopupWindow pw;
     private View popUpView;
@@ -116,9 +117,26 @@ public class RegisterChildActivity extends AppCompatActivity {
         pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.pop_up_bg_drawable));
     }
 
+    private void loadNameLists() {
+
+        List<MaleName> mNames = MaleName.getAll();
+        List<FemaleName> fNames = FemaleName.getAll();
+        for (int i = 0; i < mNames.size(); i++) {
+            mlist.add(mNames.get(i).name);
+            mhList.put(mNames.get(i).name, "1");
+        }
+        for (int i = 0; i < fNames.size(); i++) {
+            flist.add(fNames.get(i).name);
+            fhList.put(fNames.get(i).name, "1");
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadNameLists();
+
         activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         setContentView(R.layout.activity_register_child);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -145,7 +163,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         childName.setTokenizer(new SpaceTokenizer());
 
         adp = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, str);
+                android.R.layout.simple_dropdown_item_1line, mlist);
 
 
         childName.setThreshold(1);
@@ -203,7 +221,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             }
         });
         adp_wm = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, women_str);
+                android.R.layout.simple_dropdown_item_1line, flist);
         motherName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildMotherName);
         motherName.setTokenizer(new SpaceTokenizer());
 
@@ -218,6 +236,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         guardianName.setThreshold(1);
         guardianName.setAdapter(adp);
         guardianCNIC = (MaskedEditText) findViewById(R.id.registerChildGuardianCNIC);
+
 
         guardianMobileNumber = (MaskedEditText) findViewById(R.id.registerChildGuardianMobileNumber);
         Button txt_data = (Button) findViewById(R.id.text);
@@ -335,7 +354,7 @@ public class RegisterChildActivity extends AppCompatActivity {
                 if (!msg.equals("")) {
                     return;
                 }
-                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(),Constants.getIMEI(RegisterChildActivity.this));
+                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(), Constants.getIMEI(RegisterChildActivity.this));
                 if (childInfo.size() > 0) {
                     showError(EPINumber, "نیا ای پی ای نمبر درج کریں");
                     return;
@@ -358,20 +377,24 @@ public class RegisterChildActivity extends AppCompatActivity {
     }
 
     public void addItemsOnSpinnerAge_yr() {
+        registerChildTown_ET = (MultiAutoCompleteTextView) findViewById(R.id.registerChildTown_ET);
+        registerChildTown_ET.setTokenizer(new SpaceTokenizer());
 
 
-        registerChildTown_ET = (Spinner) findViewById(R.id.registerChildTown_ET);
+        registerChildTown_ET.setThreshold(1);
+
+
         Towns town = new Towns();
         list_Towns = town.getAll();
         ArrayList<String> items = new ArrayList<>();
-        items.add("- - -");
+
         for (int i = 0; i < list_Towns.size(); i++) {
 
             items.add(list_Towns.get(i).name);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.selected_item, items);
-        adapter.setDropDownViewResource(R.layout.spinner_row);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
+
         registerChildTown_ET.setAdapter(adapter);
         registerChildTown_ET.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -397,7 +420,7 @@ public class RegisterChildActivity extends AppCompatActivity {
         v.startAnimation(shake);
     }
 
-    public void fillValues(String epiNumber) {
+  /*  public void fillValues(String epiNumber) {
         List<ChildInfo> chidInfo = ChildInfoDao.getByEpiNum(epiNumber);
         if (chidInfo.size() > 0) {
             EPINumber.setText(chidInfo.get(0).epi_number);
@@ -412,7 +435,7 @@ public class RegisterChildActivity extends AppCompatActivity {
             houseAddress.setText(chidInfo.get(0).child_address);
         }
 
-    }
+    }*/
 
     public String inputValidate() {
         String error = "";
@@ -481,12 +504,20 @@ public class RegisterChildActivity extends AppCompatActivity {
                 return error;
             }
         }
+        if (cnic.equals("") && phone.equals("")) {
+
+            error = "برائے مہربانی سرپرست کا موبائل نمبر درج کریں۔";
+            showError(guardianMobileNumber, error);
+
+            return error;
+
+        }
       /*  if (motherName.getText().length() < 1) {
             error = "برائے مہربانی والدہ کا نام درج کریں ۔";
             showError(motherName, error);
             return error;
         }*/
-        String town = String.valueOf(registerChildTown_ET.getSelectedItem());
+        String town = String.valueOf(registerChildTown_ET.getText());
 
         if (town.equals("Select Town")) {
             town = "";
@@ -514,7 +545,6 @@ public class RegisterChildActivity extends AppCompatActivity {
             CustomCamera.progress.dismiss();
             Bitmap photo, resizedImage;
             readEditTexts();
-            childID = epiNumber;
             Fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);
@@ -524,7 +554,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             DateOfBirth = DOBText.getText().toString();
             Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
-            intent.putExtra("ID", childID);
+            intent.putExtra("ID", epiNumber);
             intent.putExtra("kid_id", -1l);
             intent.putExtra("Name", ChildName);
             intent.putExtra("Gender", Gender);
@@ -540,7 +570,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
             this.finish();
             activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-            Constants.sendGAEvent(RegisterChildActivity.this, "Register Child Time", Constants.getUserName(this), activityTime+" S", activityTime);
+            Constants.sendGAEvent(RegisterChildActivity.this, "Register Child Time", Constants.getUserName(this), activityTime + " S", activityTime);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
@@ -564,6 +594,30 @@ public class RegisterChildActivity extends AppCompatActivity {
         GuardianCNIC = guardianCNIC.getText().toString();
         GuardianMobileNumber = guardianMobileNumber.getText().toString();
 
+        ArrayList<MaleName> mnlist = new ArrayList<>();
+        ArrayList<FemaleName> fnlist = new ArrayList<>();
+
+        String names = ChildName + " " + GuardianName;
+        String[] cNames = names.split(" ");
+
+        for (int i = 0; i < cNames.length; i++) {
+            if (mhList.get(cNames[i]) == null) {
+                MaleName maleName = new MaleName();
+                maleName.name = cNames[i];
+                mnlist.add(maleName);
+            }
+        }
+        MaleName.bulkInsert(mnlist);
+
+        cNames = MotherName.split(" ");
+        for (int i = 0; i < cNames.length; i++) {
+            if (fhList.get(cNames[i]) == null) {
+                FemaleName femaleName = new FemaleName();
+                femaleName.name = cNames[i];
+                fnlist.add(femaleName);
+            }
+        }
+        FemaleName.bulkInsert(fnlist);
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {

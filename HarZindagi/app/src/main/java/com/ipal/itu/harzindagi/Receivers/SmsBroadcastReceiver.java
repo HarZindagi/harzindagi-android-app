@@ -1,6 +1,5 @@
 package com.ipal.itu.harzindagi.Receivers;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -41,28 +39,34 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 String smsBody = smsMessage.getMessageBody().toString();
                 String address = smsMessage.getOriginatingAddress();
                 if (smsBody.startsWith("%")) {
+                    if (SearchActivity.pDialog != null) {
+                        SearchActivity.pDialog.dismiss();
+                    }
+                    if (ChildrenListActivity.pDialog != null) {
+                        ChildrenListActivity.pDialog.dismiss();
+                    }
                     //smsMessageStr += "SMS From: " + address + "\n";
                     //smsMessageStr += smsBody + "\n";
                     String[] data = smsBody.split("%");
-                    if (data[1].equals("c") || data[1].equals("m")) {
-                        if(SearchActivity.data!=null) {
+                    if (data[1].equals("c") || data[1].equals("m") || data[1].equals("b")) {
+                        if (SearchActivity.data != null) {
                             SearchActivity.data.clear();
                         }
                         insertChillInfoToDB(data[2], Long.parseLong(data[3]), data[4]);
-                        if(data.length>=8){
+                        if (data.length >= 8) {
                             insertChillInfoToDB(data[5], Long.parseLong(data[6]), data[7]);
                         }
-                        if(data.length>=11){
+                        if (data.length >= 11) {
                             insertChillInfoToDB(data[9], Long.parseLong(data[10]), data[11]);
                         }
-                        if(data.length>=14){
+                        if (data.length >= 14) {
                             insertChillInfoToDB(data[12], Long.parseLong(data[13]), data[14]);
                         }
                         if (SearchActivity.data.size() != 0) {
 
                             mContext.startActivity(new Intent(mContext, ChildrenListActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-                                    .putExtra("fromSMS", false).putExtra("child_data",true));
+                                    .putExtra("fromSMS", false).putExtra("child_data", true));
 
                         }
                     } else if (data[1].equals("id")) {
@@ -72,8 +76,14 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                     this.abortBroadcast();
 
 
-                }else if(smsBody.equals("false")){
-                    Toast.makeText(mContext,mContext.getString(R.string.no_record),Toast.LENGTH_LONG).show();
+                } else if (smsBody.equals("false")) {
+                    if (SearchActivity.pDialog != null) {
+                        SearchActivity.pDialog.dismiss();
+                    }
+                    if (ChildrenListActivity.pDialog != null) {
+                        ChildrenListActivity.pDialog.dismiss();
+                    }
+                    Toast.makeText(mContext, mContext.getString(R.string.no_record), Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -93,7 +103,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         childInfo.guardian_name = "";
         childInfo.next_due_date = Calendar.getInstance().getTimeInMillis() / 1000;
         childInfo.record_update_flag = true;
-        childInfo.book_update_flag = true;
+        // childInfo.book_update_flag = true;
         childInfo.image_path = "image_" + kid;//obj.childInfoArrayList.get(i).image_path;
         childInfo.imei_number = imei;
 
@@ -143,7 +153,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         bnd.putLong("childid", kid);
         bnd.putString("visit_num", visitNum + "");
         bnd.putString("vacc_details", vaccinations);
-        bnd.putBoolean("isSync",true);
+        bnd.putBoolean("isSync", true);
         act.putExtras(bnd);
         act.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(act);

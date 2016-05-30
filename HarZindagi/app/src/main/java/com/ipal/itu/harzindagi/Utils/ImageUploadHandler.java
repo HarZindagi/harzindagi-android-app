@@ -3,24 +3,10 @@ package com.ipal.itu.harzindagi.Utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Ali on 2/28/2016.
@@ -41,7 +27,7 @@ public class ImageUploadHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Uploading Images...");
-
+        pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
             sendChildData(childInfo.get(index));

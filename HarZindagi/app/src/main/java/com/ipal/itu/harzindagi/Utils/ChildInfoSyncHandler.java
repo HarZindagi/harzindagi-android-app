@@ -2,7 +2,6 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Environment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -15,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Activities.LoginActivity;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
@@ -23,13 +23,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-
-
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +53,7 @@ public class ChildInfoSyncHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Saving Child data...");
+        pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
             sendChildData(childInfo.get(index));
@@ -165,7 +164,9 @@ public class ChildInfoSyncHandler {
                                 kidVaccines.get(i).kid_id = kidID;
                                 kidVaccines.get(i).save();
                             }
-
+                            List<Books> book = Books.getByBookId( Long.parseLong(child.get(0).book_id));
+                            book.get(0).kid_id = kidID;
+                            book.get(0).save();
                             nextUpload(true);
 
                         } else {
@@ -177,6 +178,7 @@ public class ChildInfoSyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                nextUpload(false);
                 pDialog.hide();
             }
         }) {

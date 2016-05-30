@@ -48,7 +48,7 @@ public class Constants {
     public static final String search = "http://103.226.216.170:3000/admin/kids/kid_search";
 
     public static final String photos = "http://103.226.216.170:3000/photos";
-    public static final String photos_evaccs = "http://103.226.216.170:3000/photos_evaccs";
+
     public static final String imageDownload =  "http://103.226.216.170:3000/images/";
 
     public static final String checkouts   = "http://103.226.216.170:3000/admin/checkouts";
@@ -56,6 +56,8 @@ public class Constants {
     public static final String checkins   = "http://103.226.216.170:3000/admin/checkins";
 
     public static final String areas   = "http://103.226.216.170:3000/admin/areas.json";
+
+    public static final String books =  "http://103.226.216.170:3000/admin/books";
 
     public static final String token = "token";
     public static final String password = "password";

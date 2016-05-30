@@ -3,7 +3,6 @@ package com.ipal.itu.harzindagi.Utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
@@ -28,7 +27,7 @@ public class EvacssNonEPIImageUploadHandler {
     public void execute() {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Uploading Images...");
-
+        pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
             sendChildData(childInfo.get(index));
@@ -56,8 +55,8 @@ public class EvacssNonEPIImageUploadHandler {
     }
 
     private void sendChildData(final EvaccsNonEPI childInfo) {
-        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/Evac/" + childInfo.epi_no+childInfo.phone_number + ".jpg";
-        MultipartUtility multipart = new MultipartUtility(Constants.photos_evaccs, "UTF-8", new OnUploadListner() {
+        String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/EvacNonEpi/"+ "nonepi_"+ Constants.getIMEI(context)+"_"+ childInfo.epi_no + ".jpg";
+        MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
 

@@ -12,14 +12,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Activities.LoginActivity;
-import com.ipal.itu.harzindagi.Dao.EvaccsDao;
-import com.ipal.itu.harzindagi.Entity.Evaccs;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -28,16 +28,16 @@ import java.util.Map;
 /**
  * Created by Ali on 2/25/2016.
  */
-public class EvaccsSyncHandler {
+public class BooksSyncHandler {
 
     Context context;
-    List<Evaccs> childInfo;
+    List<Books> books;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
     int index=0;
     Calendar calendar;
-    public EvaccsSyncHandler(Context context, List<Evaccs> childInfo, OnUploadListner onUploadListner) {
-        this.childInfo = childInfo;
+    public BooksSyncHandler(Context context, List<Books> books, OnUploadListner onUploadListner) {
+        this.books = books;
         this.context = context;
         this.onUploadListner = onUploadListner;
         calendar = Calendar.getInstance();
@@ -45,11 +45,10 @@ public class EvaccsSyncHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Saving Child data...");
-        pDialog.setCancelable(false);
+        pDialog.setMessage("Saving Books data...");
         pDialog.show();
-        if(childInfo.size()!=0){
-            sendChildData(childInfo.get(index));
+        if(books.size()!=0){
+            sendChildData(books.get(index));
         }else{
             pDialog.dismiss();
             onUploadListner.onUpload(true,"");
@@ -60,9 +59,9 @@ public class EvaccsSyncHandler {
     private void nextUpload(boolean isUploaded) {
         if (isUploaded) {
             index++;
-            if (index < childInfo.size()) {
-                sendChildData(childInfo.get(index));
-                pDialog.setMessage("Uploading data... " + index+ " of "+ childInfo.size());
+            if (index < books.size()) {
+                sendChildData(books.get(index));
+                pDialog.setMessage("Uploading books... " + index+ " of "+ books.size());
             } else {
                 onUploadListner.onUpload(true,"");
                 pDialog.dismiss();
@@ -85,14 +84,13 @@ public class EvaccsSyncHandler {
 
         return c.getTimeInMillis();
     }
-    private void sendChildData(final Evaccs childInfo) {
-
+    private void sendChildData(final Books books) {
+        final long oldKidID = books.kid_id;
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Constants.kids_evaccs;
+        String url = Constants.books;
 
         JSONObject obj = null;
-        final JSONObject kid = new JSONObject();
-        Long tsLong =calendar.getTimeInMillis() / 1000;
+        final JSONObject book = new JSONObject();
         try {
             obj = new JSONObject();
             JSONObject user = new JSONObject();
@@ -100,16 +98,12 @@ public class EvaccsSyncHandler {
             obj.put("user", user);
 
 
-            kid.put("imei_number",Constants.getIMEI(context));
-            kid.put("location", childInfo.location);
-            kid.put("location_source", childInfo.location_source);
-            kid.put("created_timestamp",childInfo.created_timestamp);
-            kid.put("upload_timestamp",tsLong);
-            kid.put("epi_no", childInfo.epi_number);
-            kid.put("vaccination",childInfo.vaccination);
+            book.put("kid_id", books.kid_id);
+            book.put("book_number",books.book_number);
+            book.put("nfc_chip_id","00000000");
 
 
-            obj.put("evacs_epi", kid);
+            obj.put("book", book);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -121,13 +115,11 @@ public class EvaccsSyncHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                        // Log.d("response",response.toString());
-                        if (response.optString("kid_name").equals(kid.optString("kid_name"))) {
-                            EvaccsDao childInfoDao = new EvaccsDao();
-                            List<Evaccs> child = childInfoDao.getByEPINum(childInfo.epi_number);
-                            child.get(0).record_update_flag = true;
+                        if (response.optString("book_number").equals(book.optString("book_number"))) {
+
+                            List<Books> child = Books.getByBookId(books.book_number);
+                            child.get(0).is_sync = true;
                             child.get(0).save();
-
-
                             nextUpload(true);
 
                         } else {
@@ -158,14 +150,6 @@ public class EvaccsSyncHandler {
                 LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
-    }
-    public  void renameFile(String oldName,String newName){
-       String Path = "/sdcard/" + Constants.getApplicationName(context) + "/";
-
-
-        File from = new File(Path,oldName+ ".jpg");
-        File to = new File(Path,newName+ ".jpg");
-        from.renameTo(to);
     }
 
 }
