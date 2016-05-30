@@ -41,8 +41,9 @@ public class ChildInfoSyncHandler {
     List<ChildInfo> childInfo;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
-    int index=0;
+    int index = 0;
     Calendar calendar;
+
     public ChildInfoSyncHandler(Context context, List<ChildInfo> childInfo, OnUploadListner onUploadListner) {
         this.childInfo = childInfo;
         this.context = context;
@@ -55,11 +56,11 @@ public class ChildInfoSyncHandler {
         pDialog.setMessage("Saving Child data...");
         pDialog.setCancelable(false);
         pDialog.show();
-        if(childInfo.size()!=0){
+        if (childInfo.size() != 0) {
             sendChildData(childInfo.get(index));
-        }else{
+        } else {
             pDialog.dismiss();
-            onUploadListner.onUpload(true,"");
+            onUploadListner.onUpload(true, "");
         }
 
     }
@@ -69,9 +70,9 @@ public class ChildInfoSyncHandler {
             index++;
             if (index < childInfo.size()) {
                 sendChildData(childInfo.get(index));
-                pDialog.setMessage("Uploading data... " + index+ " of "+ childInfo.size());
+                pDialog.setMessage("Uploading data... " + index + " of " + childInfo.size());
             } else {
-                onUploadListner.onUpload(true,"");
+                onUploadListner.onUpload(true, "");
                 pDialog.dismiss();
             }
         } else {
@@ -79,7 +80,8 @@ public class ChildInfoSyncHandler {
             pDialog.dismiss();
         }
     }
-  public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
+
+    public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
@@ -92,6 +94,7 @@ public class ChildInfoSyncHandler {
 
         return c.getTimeInMillis();
     }
+
     private void sendChildData(final ChildInfo childInfo) {
         final long oldKidID = childInfo.kid_id;
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -107,19 +110,19 @@ public class ChildInfoSyncHandler {
 
 
             kid.put("mobile_id", childInfo.kid_id);
-            kid.put("imei_number",childInfo.imei_number);
+            kid.put("imei_number", childInfo.imei_number);
             kid.put("kid_name", childInfo.kid_name);
             kid.put("father_name", childInfo.guardian_name);
             kid.put("mother_name", childInfo.mother_name);
             kid.put("father_cnic", childInfo.guardian_cnic);
             kid.put("mother_cnic", "");
             kid.put("phone_number", childInfo.phone_number);
-            kid.put("created_timestamp",childInfo.created_timestamp);
+            kid.put("created_timestamp", childInfo.created_timestamp);
 
-            Long tsLong =calendar.getTimeInMillis() / 1000;
-            kid.put("upload_timestamp",tsLong);
+            Long tsLong = calendar.getTimeInMillis() / 1000;
+            kid.put("upload_timestamp", tsLong);
             DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
-            if(childInfo.date_of_birth!=null) {
+            if (childInfo.date_of_birth != null) {
                 Date date = dfm.parse(childInfo.date_of_birth);
                 dfm.getCalendar().setTime(date);
                 // date.getTime();
@@ -130,9 +133,9 @@ public class ChildInfoSyncHandler {
             kid.put("gender", childInfo.gender);
             kid.put("epi_number", childInfo.epi_number);
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");
-            kid.put("image_path",childInfo.image_path);
-            kid.put("next_due_date",childInfo.next_due_date);
-            kid.put("book_id",childInfo.book_id);
+            kid.put("image_path", childInfo.image_path);
+            kid.put("next_due_date", childInfo.next_due_date);
+            kid.put("book_id", childInfo.book_id);
 
 
             obj.put("kid", kid);
@@ -148,26 +151,28 @@ public class ChildInfoSyncHandler {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                       // Log.d("response",response.toString());
+                        // Log.d("response",response.toString());
                         if (response.optString("kid_name").equals(kid.optString("kid_name"))) {
 
                             List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
                             child.get(0).record_update_flag = true;
                             child.get(0).kid_id = response.optLong("id");
-                            child.get(0).image_path ="image_"+child.get(0).kid_id;
+                            child.get(0).image_path = "image_" + child.get(0).kid_id;
                             child.get(0).save();
-                            long kidID =   child.get(0).kid_id;
+                            long kidID = child.get(0).kid_id;
 
-                            renameFile(child.get(0).kid_name+child.get(0).epi_number,"image_"+kidID);
+                            renameFile(child.get(0).kid_name + child.get(0).epi_number, "image_" + kidID);
                             List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
                             for (int i = 0; i < kidVaccines.size(); i++) {
                                 kidVaccines.get(i).kid_id = kidID;
                                 kidVaccines.get(i).save();
                             }
-                            List<Books> book = Books.getByBookId( Long.parseLong(child.get(0).book_id));
-                            book.get(0).kid_id = kidID;
-                            book.get(0).save();
-                            nextUpload(true);
+                            List<Books> book = Books.getByBookId(Long.parseLong(child.get(0).book_id));
+                            if (book.size() > 0) {
+                                book.get(0).kid_id = kidID;
+                                book.get(0).save();
+                                nextUpload(true);
+                            }
 
                         } else {
                             nextUpload(false);
@@ -198,12 +203,13 @@ public class ChildInfoSyncHandler {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjReq);
     }
-    public  void renameFile(String oldName,String newName){
-       String Path = "/sdcard/" + Constants.getApplicationName(context) + "/";
+
+    public void renameFile(String oldName, String newName) {
+        String Path = "/sdcard/" + Constants.getApplicationName(context) + "/";
 
 
-        File from = new File(Path,oldName+ ".jpg");
-        File to = new File(Path,newName+ ".jpg");
+        File from = new File(Path, oldName + ".jpg");
+        File to = new File(Path, newName + ".jpg");
         from.renameTo(to);
     }
 
