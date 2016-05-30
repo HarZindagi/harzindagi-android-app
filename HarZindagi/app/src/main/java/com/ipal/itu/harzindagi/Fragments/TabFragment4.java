@@ -30,15 +30,15 @@ import java.util.List;
 public class TabFragment4 extends Fragment {
 
     String app_name;
-
+    List<ChildInfo> data;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_frag_layout, container, false);
+        final View rootView = inflater.inflate(R.layout.tab_frag_layout, container, false);
 
         app_name = getResources().getString(R.string.app_name);
 
-        ChildInfoDao dao = new ChildInfoDao();
-        Calendar calendar= Calendar.getInstance();
+        final ChildInfoDao dao = new ChildInfoDao();
+        final Calendar calendar= Calendar.getInstance();
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
         Date today = new Date(calendar.getTimeInMillis());
@@ -48,7 +48,24 @@ public class TabFragment4 extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        final List<ChildInfo> data = dao.getTodayCompleted(todayWithZeroTime.getTime()/1000);
+
+        final Date finalTodayWithZeroTime = todayWithZeroTime;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                data = dao.getTodayCompleted(finalTodayWithZeroTime.getTime()/1000);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setListView(rootView);
+                    }
+                });
+
+            }
+        }).start();
+        return rootView;
+    }
+    private  void setListView(View rootView){
         if (data.size() != 0) {
 
             ListView listView = (ListView) rootView.findViewById(R.id.tab_list);
@@ -74,6 +91,5 @@ public class TabFragment4 extends Fragment {
                 }
             });
         }
-        return rootView;
     }
 }

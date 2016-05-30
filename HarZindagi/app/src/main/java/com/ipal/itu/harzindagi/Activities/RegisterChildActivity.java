@@ -123,11 +123,11 @@ public class RegisterChildActivity extends AppCompatActivity {
         List<FemaleName> fNames = FemaleName.getAll();
         for (int i = 0; i < mNames.size(); i++) {
             mlist.add(mNames.get(i).name);
-            mhList.put(mNames.get(i).name,"1");
+            mhList.put(mNames.get(i).name, "1");
         }
         for (int i = 0; i < fNames.size(); i++) {
             flist.add(fNames.get(i).name);
-            fhList.put(fNames.get(i).name,"1");
+            fhList.put(fNames.get(i).name, "1");
         }
     }
 
@@ -504,6 +504,14 @@ public class RegisterChildActivity extends AppCompatActivity {
                 return error;
             }
         }
+        if (cnic.equals("") && phone.equals("")) {
+
+            error = "برائے مہربانی سرپرست کا موبائل نمبر درج کریں۔";
+            showError(guardianMobileNumber, error);
+
+            return error;
+
+        }
       /*  if (motherName.getText().length() < 1) {
             error = "برائے مہربانی والدہ کا نام درج کریں ۔";
             showError(motherName, error);
@@ -592,8 +600,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         String names = ChildName + " " + GuardianName;
         String[] cNames = names.split(" ");
 
-        for (int i = 0; i <cNames.length ; i++) {
-            if(mhList.get(cNames[i])==null){
+        for (int i = 0; i < cNames.length; i++) {
+            if (mhList.get(cNames[i]) == null) {
                 MaleName maleName = new MaleName();
                 maleName.name = cNames[i];
                 mnlist.add(maleName);
@@ -602,8 +610,8 @@ public class RegisterChildActivity extends AppCompatActivity {
         MaleName.bulkInsert(mnlist);
 
         cNames = MotherName.split(" ");
-        for (int i = 0; i <cNames.length ; i++) {
-            if(fhList.get(cNames[i])==null){
+        for (int i = 0; i < cNames.length; i++) {
+            if (fhList.get(cNames[i]) == null) {
                 FemaleName femaleName = new FemaleName();
                 femaleName.name = cNames[i];
                 fnlist.add(femaleName);

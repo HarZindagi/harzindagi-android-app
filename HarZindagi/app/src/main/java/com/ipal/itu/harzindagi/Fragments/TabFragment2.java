@@ -26,32 +26,46 @@ import java.util.List;
 public class TabFragment2 extends Fragment {
 
     String app_name;
-
+    List<ChildInfo> data;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_frag_layout, container, false);
+        final View rootView = inflater.inflate(R.layout.tab_frag_layout, container, false);
 
         app_name = getResources().getString(R.string.app_name);
 
-        ChildInfoDao dao = new ChildInfoDao();
+        final ChildInfoDao dao = new ChildInfoDao();
 
-        Calendar calendar= Calendar.getInstance();
+        final Calendar calendar= Calendar.getInstance();
 
-        final List<ChildInfo> data = dao.getDefaulter(calendar.getTimeInMillis());
-        if( data.size()!=0 ){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                data = dao.getDefaulter(calendar.getTimeInMillis());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setListView(rootView);
+                    }
+                });
+
+            }
+        }).start();
+        return rootView;
+    }
+    private  void setListView(View rootView){
+        if (data.size() != 0) {
 
             ListView listView = (ListView) rootView.findViewById(R.id.tab_list);
-            ChildListAdapter childListAdapter = new ChildListAdapter(getActivity(), R.layout.listactivity_row, data,app_name);
+            ChildListAdapter childListAdapter = new ChildListAdapter(getActivity(), R.layout.listactivity_row, data, app_name);
             listView.setAdapter(childListAdapter);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
-                {
-                   /* Intent intent=new Intent(getActivity(),VaccinationActivity.class);
-                    Bundle bnd= KidVaccinationDao.get_visit_details_db(data.get(position).mobile_id);
-                    intent.putExtra("childid",data.get(position).epi_number);
+                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                   /* Intent intent = new Intent(getActivity(), VaccinationActivity.class);
+
+                    Bundle bnd = KidVaccinationDao.get_visit_details_db(data.get(position).mobile_id);
+                    intent.putExtra("childid", data.get(position).epi_number);
                     intent.putExtras(bnd);
                     startActivity(intent);*/
 
@@ -64,6 +78,5 @@ public class TabFragment2 extends Fragment {
                 }
             });
         }
-        return rootView;
     }
 }

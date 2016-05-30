@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Activities.CustomCamera;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.VaccineListAdapter;
@@ -245,9 +248,9 @@ public class VaccinationOneFragment extends Fragment {
                 kId = data.get(0).kid_id;
             }
             if (imei.equals(data.get(0).imei_number)) {
-                kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number);
+                kd.save(VaccinationActivity.location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number);
             } else {
-                kd.save(data.get(0).location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number, imei);
+                kd.save(VaccinationActivity.location, kId, (int) lst.get(i), data.get(0).image_path, time, false, data.get(0).imei_number, imei);
             }
 
         }
@@ -282,6 +285,7 @@ public class VaccinationOneFragment extends Fragment {
 
     date_vac.setText(date);
 }*/
+
     public long getLongDate(String date) {
         long longDate = 0;
         DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
