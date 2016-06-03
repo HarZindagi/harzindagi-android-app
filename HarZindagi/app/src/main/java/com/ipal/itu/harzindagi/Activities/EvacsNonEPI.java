@@ -36,7 +36,7 @@ public class EvacsNonEPI extends AppCompatActivity {
     TextView Non_Epi_reg_date_birth_txt;
     String Fpath;
     String app_name;
-    String Evac = "EvacNonEpi";
+    String evaccsNonEpiFolder = "EvacNonEpi";
     Button non_mahfooz_Karain;
     CheckBox[] nonEPIv_box;
     String non_epiReg_Number;
@@ -149,7 +149,7 @@ public class EvacsNonEPI extends AppCompatActivity {
 
     public void opencam(View v) {
         Intent cameraIntent = new Intent(EvacsNonEPI.this, CustomCamerEvacNonEPI.class);
-        cameraIntent.putExtra("filename", "nonepi_"+ Constants.getIMEI(this)+"_"+Non_Epi_reg_num_txt.getText().toString());
+        cameraIntent.putExtra("filename", "nonepi_"+ Constants.getIMEI(this)+"_"+Non_Epi_number_txt.getText().toString());
 
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
@@ -184,7 +184,7 @@ public class EvacsNonEPI extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
 
         //Create a new file in sdcard folder.
-        File f = new File("/sdcard/" + app_name + "/" + Evac + "/" + Fpath + ".jpg");
+        File f = new File("/sdcard/" + app_name + "/" + evaccsNonEpiFolder + "/" + Fpath + ".jpg");
         try {
             try {
                 //  f.mkdir();

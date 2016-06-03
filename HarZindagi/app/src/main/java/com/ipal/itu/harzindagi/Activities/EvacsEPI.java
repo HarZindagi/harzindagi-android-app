@@ -31,7 +31,7 @@ public class EvacsEPI extends AppCompatActivity {
     FileOutputStream fo;
     String Fpath;
     String app_name;
-    String Evac="Evac";
+    String Evac="evaccsNonEpiFolder";
     TextView ep_txt_view;
     String epiNumber;
     Context context;
