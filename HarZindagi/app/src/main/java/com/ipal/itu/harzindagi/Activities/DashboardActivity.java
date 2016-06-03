@@ -166,6 +166,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (id == R.id.action_sync) {
             if (Constants.isOnline(this)) {
                 uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
+
                 syncData();
             } else {
                 Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();
@@ -189,10 +190,10 @@ public class DashboardActivity extends AppCompatActivity {
                 double log = loc.getLongitude();
                 location = lat + "," + log;
                 Constants.setLocationSync(this, location);
-                sendCheckIn();
+
             } else {
                 Constants.setLocationSync(this, "0.0000:0.0000");
-                sendCheckIn();
+                //sendCheckIn();
 
             }
         }
@@ -399,8 +400,12 @@ public class DashboardActivity extends AppCompatActivity {
                     }
                     uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
                     Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
+                    if(!Constants.getCheckOut(DashboardActivity.this).equals("")) {
+                        sendCheckIn();
+                    }else{
+                        showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
+                    }
 
-                    showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
                 } else {
                     Constants.sendGAEvent(DashboardActivity.this, "Error", "Uploading Failed", "Evaccs Non EPI Images", 0);
                     showErrorDialog();
@@ -550,9 +555,9 @@ public class DashboardActivity extends AppCompatActivity {
                         if (!response.toString().equals("")) {
                             pDialog.dismiss();
 
-                            if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
+
                                 sendCheckOut();
-                            }
+
                         }
 
                     }
@@ -578,7 +583,14 @@ public class DashboardActivity extends AppCompatActivity {
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
                 LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(jsonObjReq);
+        if (!Constants.getCheckIn(DashboardActivity.this).equals("")) {
+
+            queue.add(jsonObjReq);
+        }else{
+            pDialog.dismiss();
+            sendCheckOut();
+        }
+
     }
 
     private void sendCheckOut() {
@@ -646,7 +658,16 @@ public class DashboardActivity extends AppCompatActivity {
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
                 LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(jsonObjReq);
+        if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
+
+            queue.add(jsonObjReq);
+        }else{
+            pDialog.dismiss();
+            Constants.setCheckOut(DashboardActivity.this, "");
+            Constants.setCheckIn(DashboardActivity.this, "");
+            uploadKitStationImage();
+        }
+
     }
 
     private void uploadKitStationImage() {
@@ -708,8 +729,8 @@ public class DashboardActivity extends AppCompatActivity {
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
                             pDialog.dismiss();
-                            showCompletDialog("چیک آوُٹ ہو گیا ہے");
-                            Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                            showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
+                            //Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                         }
 
                     }

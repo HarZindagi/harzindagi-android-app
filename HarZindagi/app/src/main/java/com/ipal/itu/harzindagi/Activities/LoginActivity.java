@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -362,7 +364,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (!json.toString().equals("{}")) {
                                 parseTokenResponse(json);
                             } else {
-                                showError(LoginActivity.this.password, "غلط پاسورڈ");
+                                showError(LoginActivity.this.password, "برائےمہربانی درست پاس ورڈ درج کریں");
                             }
                         }
 
@@ -453,11 +455,37 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (id == R.id.action_app_refresh_btn) {
-            downloadFile();
+            showDownloadDialog();
+
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void showDownloadDialog() {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+        adb.setTitle("کیاآپ ایپلیکیشن کوڈاونلوڈ کرناچاہتےہیں");
+
+
+        adb.setIcon(R.drawable.info_circle);
+
+
+        adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                downloadFile();
+            }
+        });
+
+
+        adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        adb.show();
     }
 
     public void downloadFile() {

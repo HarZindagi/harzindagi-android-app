@@ -7,32 +7,33 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
-import com.ipal.itu.harzindagi.Entity.*;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class EvacsNonEPI extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
-    EditText Non_Epi_reg_num_txt, Non_Epi_reg_cnic_txt, Non_Epi_phone_num_txt, Non_Epi_number_txt, Non_Epi_reg_date_birth_txt, Non_Epi_adress_txt, Non_Epi_birth_place_txt;
-
+    EditText Non_Epi_reg_num_txt, Non_Epi_reg_cnic_txt, Non_Epi_phone_num_txt, Non_Epi_number_txt, Non_Epi_adress_txt, Non_Epi_birth_place_txt;
+    private static final int CALENDAR_CODE = 100;
     FileOutputStream fo;
+    TextView Non_Epi_reg_date_birth_txt;
     String Fpath;
     String app_name;
     String Evac = "EvacNonEpi";
@@ -59,7 +60,7 @@ public class EvacsNonEPI extends AppCompatActivity {
         Non_Epi_reg_cnic_txt = (EditText) findViewById(R.id.Non_Epi_reg_cnic_txt);
         Non_Epi_phone_num_txt = (EditText) findViewById(R.id.Non_Epi_phone_num_txt);
         Non_Epi_number_txt = (EditText) findViewById(R.id.Non_Epi_number_txt);
-        Non_Epi_reg_date_birth_txt = (EditText) findViewById(R.id.Non_Epi_reg_date_birth_txt);
+        Non_Epi_reg_date_birth_txt = (TextView) findViewById(R.id.Non_Epi_reg_date_birth_txt);
         Non_Epi_adress_txt = (EditText) findViewById(R.id.Non_Epi_adress_txt);
         Non_Epi_birth_place_txt = (EditText) findViewById(R.id.Non_Epi_birth_place_txt);
 
@@ -86,7 +87,13 @@ public class EvacsNonEPI extends AppCompatActivity {
         nonEPIv_box = new CheckBox[]{non_bx_BCG, non_bx_OPV, non_bx_OPV1, non_bx_Pentavalent, non_bx_Pneumococcal, non_bx_OPV2, non_bx_Pentavalent2
                 , non_bx_Pneumococcal2, non_bx_OPV3, non_bx_Pentavalent3, non_bx_Pneumococcal3, non_bx_Measles, non_bx_Measles2};
 
-
+        Non_Epi_reg_date_birth_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EvacsNonEPI.this, CalenderActivity.class);
+                startActivityForResult(intent, CALENDAR_CODE);
+            }
+        });
         non_mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +117,16 @@ public class EvacsNonEPI extends AppCompatActivity {
                     evaccsNonepi.cnic = Non_Epi_reg_cnic_txt.getText().toString();
                     evaccsNonepi.phone_number = Non_Epi_phone_num_txt.getText().toString();
                     evaccsNonepi.epi_no = Non_Epi_number_txt.getText().toString();
-                    evaccsNonepi.date_of_birth = Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
+                   String dt= Non_Epi_reg_date_birth_txt.getText().toString();
+                    DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
+                    Date date = null;
+                    try {
+                        date = dfm.parse(dt);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    dfm.getCalendar().setTime(date);
+                    evaccsNonepi.date_of_birth = (date.getTime() / 1000) ;//Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
                     evaccsNonepi.child_address = Non_Epi_adress_txt.getText().toString();
                     evaccsNonepi.birth_place = Non_Epi_birth_place_txt.getText().toString();
                     // evaccsNonepi.is_guest = 1;
@@ -153,6 +169,12 @@ public class EvacsNonEPI extends AppCompatActivity {
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
 
+        }
+        if (requestCode == CALENDAR_CODE && resultCode == 100) {
+            String year = data.getStringExtra("year");
+            String month = data.getStringExtra("month");
+            String day = data.getStringExtra("day");
+            Non_Epi_reg_date_birth_txt.setText("" + day + "-" + month + "-" + year);
         }
     }
 
