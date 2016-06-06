@@ -44,7 +44,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
-                android:text="کتاب کا نمبر"
+                android:text=" کتاب کا نمبر"
                 android:drawableLeft="@drawable/circle"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
@@ -400,6 +400,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="علاقے کانام"
+
                 android:drawableLeft="@drawable/circle"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
@@ -431,7 +432,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
-                android:text="گھر کا پتہ"
+                android:text=" گھر کا پتہ"
+
                 android:drawableLeft="@drawable/circle"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />

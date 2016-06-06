@@ -31,7 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
-public class VaccinationActivity extends AppCompatActivity {
+public class VaccinationActivity extends BaseActivity {
 
     public static final int CAMERA_REQUEST = 1888;
 

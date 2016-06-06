@@ -38,7 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class CustomCamerEvacEPI extends Activity implements SurfaceHolder.Callback {
+public class CustomCamerEvacEPI extends BaseActivity implements SurfaceHolder.Callback {
     public static ProgressDialog progress;
     SurfaceHolder surfaceHolder;
     File mediaFile;

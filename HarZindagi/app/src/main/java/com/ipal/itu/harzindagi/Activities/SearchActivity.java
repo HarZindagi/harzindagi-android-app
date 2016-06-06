@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class SearchActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     /**/
     public static final String TAG = "MainActivity";

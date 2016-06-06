@@ -28,7 +28,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class Card_Scan extends AppCompatActivity {
+public class Card_Scan extends BaseActivity {
 
     TextView Scan_txt;
     Tag mytag;

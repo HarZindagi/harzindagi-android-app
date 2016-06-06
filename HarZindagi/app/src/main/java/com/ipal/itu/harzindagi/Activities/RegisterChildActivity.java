@@ -62,7 +62,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class RegisterChildActivity extends AppCompatActivity {
+public class RegisterChildActivity extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
     public static String location = "0.0000,0.0000";
@@ -680,7 +680,7 @@ public class RegisterChildActivity extends AppCompatActivity {
 
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-        adb.setTitle("کیا آپ رجسٹریشن سکرین سے جانا چاہھتے ہیں؟");
+        adb.setTitle("کیا آپ رجسٹریشن سکرین سے جانا چاہتے ہیں؟");
 
 
         adb.setIcon(R.drawable.info_circle);

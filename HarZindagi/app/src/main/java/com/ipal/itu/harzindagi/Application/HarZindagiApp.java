@@ -21,6 +21,8 @@ import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
 import com.ipal.itu.harzindagi.R;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by Ali on 1/14/2016.
  */
@@ -46,6 +48,11 @@ public class HarZindagiApp extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Jameel_Noori_Nastaleeq.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
         mInstance = this;
         Configuration.Builder configurationBuilder = new Configuration.Builder(this);
         configurationBuilder.addModelClass(ChildInfo.class);

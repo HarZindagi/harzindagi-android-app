@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
     private static final int CAMERA_REQUEST = 1887;
     Button evaccsButton;
     Button harZindagiButton;

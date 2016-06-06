@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Created by Wahab on 2/3/2016.
  */
-public class CustomCamera extends Activity implements SurfaceHolder.Callback {
+public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback {
     public static ProgressDialog progress;
     SurfaceHolder surfaceHolder;
     File mediaFile;

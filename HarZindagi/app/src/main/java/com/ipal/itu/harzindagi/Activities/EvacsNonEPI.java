@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,10 +29,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EvacsNonEPI extends AppCompatActivity {
+public class EvacsNonEPI extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;
-    EditText Non_Epi_reg_num_txt, Non_Epi_reg_cnic_txt, Non_Epi_phone_num_txt, Non_Epi_number_txt, Non_Epi_adress_txt, Non_Epi_birth_place_txt;
     private static final int CALENDAR_CODE = 100;
+    EditText Non_Epi_reg_num_txt, Non_Epi_reg_cnic_txt, Non_Epi_phone_num_txt, Non_Epi_number_txt, Non_Epi_adress_txt, Non_Epi_birth_place_txt;
     FileOutputStream fo;
     TextView Non_Epi_reg_date_birth_txt;
     String Fpath;
@@ -52,7 +53,11 @@ public class EvacsNonEPI extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_evacs_epi);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context = this;
         Non_Epi_reg_num_txt = (EditText) findViewById(R.id.Non_Epi_reg_num_txt);
         non_Epi_name = (EditText) findViewById(R.id.non_ep_txt_view);
@@ -117,7 +122,7 @@ public class EvacsNonEPI extends AppCompatActivity {
                     evaccsNonepi.cnic = Non_Epi_reg_cnic_txt.getText().toString();
                     evaccsNonepi.phone_number = Non_Epi_phone_num_txt.getText().toString();
                     evaccsNonepi.epi_no = Non_Epi_number_txt.getText().toString();
-                   String dt= Non_Epi_reg_date_birth_txt.getText().toString();
+                    String dt = Non_Epi_reg_date_birth_txt.getText().toString();
                     DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
                     Date date = null;
                     try {
@@ -126,7 +131,7 @@ public class EvacsNonEPI extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     dfm.getCalendar().setTime(date);
-                    evaccsNonepi.date_of_birth = (date.getTime() / 1000) ;//Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
+                    evaccsNonepi.date_of_birth = (date.getTime() / 1000);//Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
                     evaccsNonepi.child_address = Non_Epi_adress_txt.getText().toString();
                     evaccsNonepi.birth_place = Non_Epi_birth_place_txt.getText().toString();
                     // evaccsNonepi.is_guest = 1;
@@ -149,7 +154,7 @@ public class EvacsNonEPI extends AppCompatActivity {
 
     public void opencam(View v) {
         Intent cameraIntent = new Intent(EvacsNonEPI.this, CustomCamerEvacNonEPI.class);
-        cameraIntent.putExtra("filename", "nonepi_"+ Constants.getIMEI(this)+"_"+Non_Epi_number_txt.getText().toString());
+        cameraIntent.putExtra("filename", "nonepi_" + Constants.getIMEI(this) + "_" + Non_Epi_number_txt.getText().toString());
 
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
 

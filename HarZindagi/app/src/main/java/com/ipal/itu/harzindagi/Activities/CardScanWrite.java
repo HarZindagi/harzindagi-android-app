@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class CardScanWrite extends AppCompatActivity {
+public class CardScanWrite extends BaseActivity {
 
 
     Tag mytag;

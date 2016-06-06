@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by Wahab on 2/3/2016.
  */
-public class CustomCameraKidstation extends Activity implements SurfaceHolder.Callback {
+public class CustomCameraKidstation extends BaseActivity implements SurfaceHolder.Callback {
     private Camera mCamera;
     SurfaceHolder surfaceHolder;
     File mediaFile;

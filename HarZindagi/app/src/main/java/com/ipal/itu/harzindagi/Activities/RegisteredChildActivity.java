@@ -22,7 +22,7 @@ import com.ipal.itu.harzindagi.R;
 import java.util.Calendar;
 import java.util.List;
 
-public class RegisteredChildActivity extends AppCompatActivity {
+public class RegisteredChildActivity extends BaseActivity {
 
     final Context curr = this;
     TextView ChildEPINumber;

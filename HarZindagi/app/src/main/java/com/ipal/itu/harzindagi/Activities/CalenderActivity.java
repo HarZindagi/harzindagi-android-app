@@ -18,7 +18,7 @@ import java.util.Calendar;
 /**
  * Created by Wahab on 1/29/2016.
  */
-public class CalenderActivity extends Activity {
+public class CalenderActivity extends BaseActivity {
 
     TextView yearText = null, monthText = null, dayText = null, currentYear, previousYear, lastYear;
     Calendar myCalendar = Calendar.getInstance();

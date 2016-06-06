@@ -13,7 +13,7 @@ import android.widget.Button;
 
 import com.ipal.itu.harzindagi.R;
 
-public class ForgetActivity extends AppCompatActivity {
+public class ForgetActivity extends BaseActivity {
 
     Button evaccsButton;
     Button harZindagiButton;

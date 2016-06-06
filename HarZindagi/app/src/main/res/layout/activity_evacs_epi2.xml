@@ -1,212 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ipal.itu.harzindagi.Activities.EvacsEPI">
+    android:fitsSystemWindows="true"
+    tools:context="com.ipal.itu.harzindagi.Activities.ChildrenListActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="60dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
-                android:text="EPI نمبر کا اندراج کریں"
+                android:id="@+id/Epi_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/Epi_txt"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="EPI نمبر کا اندراج کریں" />
 
             <EditText
+                android:id="@+id/ep_txt_view"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:inputType="number"
-                android:ems="10"
-                android:background="@drawable/txtbx"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:id="@+id/ep_txt_view"
                 android:layout_below="@+id/Epi_txt"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
+                android:background="@drawable/txtbx"
+                android:ems="10"
+                android:inputType="number"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
 
 
                 />
 
             <ImageView
+                android:id="@+id/img_cam"
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
-                android:id="@+id/img_cam"
-                android:src="@drawable/cam"
-
-                android:layout_marginTop="15dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:onClick="opencam"
-                />
+                android:src="@drawable/cam" />
 
             <TextView
-                android:text="استعمال شدہ ویکسینیشن کو ٹک کریں"
+                android:id="@+id/used_vac"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_cam"
-                android:id="@+id/used_vac"
-                android:textSize="20dp"
                 android:layout_marginBottom="5dp"
-                />
+                android:text="استعمال شدہ ویکسینیشن کو ٹک کریں"
+                android:textSize="20dp" />
 
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BCG"
                 android:id="@+id/bx_BCG"
-                android:textSize="18dp"
-                android:layout_below="@+id/used_vac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_below="@+id/used_vac"
+                android:text="BCG"
+                android:textSize="18dp"
 
                 />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OPV-O(Polio)"
                 android:id="@+id/bx_OPV"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_BCG"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="OPV-O(Polio)"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OPV-1"
                 android:id="@+id/bx_OPV1"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_OPV"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="OPV-1"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pentavalent-1"
                 android:id="@+id/bx_Pentavalent"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_OPV1"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Pentavalent-1"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pneumococcal-1"
-                android:textSize="18dp"
                 android:id="@+id/bx_Pneumococcal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_Pentavalent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Pneumococcal-1"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OPV-2"
-                android:textSize="18dp"
                 android:id="@+id/bx_OPV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_Pneumococcal"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="OPV-2"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pentavalent-2"
                 android:id="@+id/bx_Pentavalent2"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_OPV2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Pentavalent-2"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pneumococcal-2"
                 android:id="@+id/bx_Pneumococcal2"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_Pentavalent2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Pneumococcal-2"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OPV-3"
                 android:id="@+id/bx_OPV3"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_Pneumococcal2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="OPV-3"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pentavalent-3"
                 android:id="@+id/bx_Pentavalent3"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_OPV3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Pentavalent-3"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pneumococcal-3"
                 android:id="@+id/bx_Pneumococcal3"
-                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/bx_Pentavalent3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="Pneumococcal-3"
+                android:textSize="18dp" />
+
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Measles-1"
                 android:id="@+id/bx_Measles"
-                android:textSize="18dp"
-                android:layout_below="@+id/bx_Pneumococcal3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
-            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Measles-2"
-                android:id="@+id/bx_Measles2"
-                android:textSize="18dp"
-                android:layout_below="@+id/bx_Measles"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"/>
+                android:layout_below="@+id/bx_Pneumococcal3"
+                android:layout_marginTop="8dp"
+                android:text="Measles-1"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/bx_Measles2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/bx_Measles"
+                android:layout_marginTop="8dp"
+                android:text="Measles-2"
+                android:textSize="18dp" />
 
             <Button
+                android:id="@+id/mahfooz_Karain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=" محفوظ کریں"
-                android:id="@+id/mahfooz_Karain"
-                android:textSize="20dp"
                 android:layout_below="@+id/bx_Measles2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
                 android:background="@color/green"
-                />
+                android:text=" محفوظ کریں"
+                android:textSize="20dp" />
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

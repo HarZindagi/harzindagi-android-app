@@ -57,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends BaseActivity {
 
     Button registerChildButton;
     Button scanChildButton;

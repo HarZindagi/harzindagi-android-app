@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.ipal.itu.harzindagi.R;
 
-public class ChildInfoActivity extends AppCompatActivity {
+public class ChildInfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -70,11 +70,12 @@
             android:name="MaleName"
             android:value="com.ipal.itu.harzindagi.Entity.MaleName" />
         <meta-data
-        android:name="FemaleName"
-        android:value="com.ipal.itu.harzindagi.Entity.FemaleName" />
+            android:name="FemaleName"
+            android:value="com.ipal.itu.harzindagi.Entity.FemaleName" />
         <meta-data
             android:name="Images"
             android:value="com.ipal.itu.harzindagi.Entity.Images" />
+
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/title_activity_splash"
@@ -147,15 +148,18 @@
         </activity>
         <activity
             android:name=".Activities.EvacsEPI"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Evaccs-II" />
         <activity
             android:name=".Activities.EvacsNonEPI"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Evaccs-II" />
         <activity
             android:name=".Activities.Evaccs"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Evaccs-II" />
         <activity android:name=".Activities.Act" />
-        VaccineList
+
         <activity
             android:name=".Activities.VaccineList"
             android:label="حفا ظتی ٹیکوں کا شیڈیول کتاب پر درج کریں"
@@ -208,6 +212,10 @@
         <activity
             android:name=".Activities.CustomCamerEvacNonEPI"
             android:label="@string/title_activity_custom_camer_evac_non_epi"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.BaseActivity"
+            android:label="@string/title_activity_base"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

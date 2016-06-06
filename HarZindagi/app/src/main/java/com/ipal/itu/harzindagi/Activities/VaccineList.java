@@ -21,7 +21,7 @@ import com.ipal.itu.harzindagi.Utils.Constants;
 /**
  * Created by Wahab on 3/2/2016.
  */
-public class VaccineList extends AppCompatActivity {
+public class VaccineList extends BaseActivity {
 
     String rec_response;
     VaccDetailBook obj;

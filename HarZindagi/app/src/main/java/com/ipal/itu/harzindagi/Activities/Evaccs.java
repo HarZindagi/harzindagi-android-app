@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,7 +12,7 @@ import com.ipal.itu.harzindagi.R;
 
 import java.io.File;
 
-public class Evaccs extends AppCompatActivity {
+public class Evaccs extends BaseActivity {
     String app_name;
     String Evac;
     String EvacNonEpi;
@@ -20,7 +21,9 @@ public class Evaccs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evacss_layout);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        final Context ctx=this;
         app_name = getResources().getString(R.string.app_name);
         Evac =getResources().getString(R.string.evac);

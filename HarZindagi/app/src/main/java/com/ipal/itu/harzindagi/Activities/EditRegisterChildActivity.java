@@ -43,7 +43,7 @@ import java.util.Locale;
 /**
  * Created by IPAL on 4/7/2016.
  */
-public class EditRegisterChildActivity extends AppCompatActivity {
+public class EditRegisterChildActivity extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
     TextView CenterName;

@@ -77,7 +77,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     public static final int MAX_RETRY = 2;
     private static final String TAG = "Volly";
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;

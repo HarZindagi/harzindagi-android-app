@@ -19,7 +19,7 @@
     <string name="loginValidation"> براہ مہربانی درست یوزر کا نام اور پاسورڈ کا انتخاب کریں۔</string>
     <string name="selectModule">Select your desired Module</string>
     <string name="title_activity_dashboard">ڈیش بورڈ</string>
-    <string name="title_activity_search">گمشدہ کارڈ</string>
+    <string name="title_activity_search"> گمشدہ کارڈ</string>
     <string name="title_activity_children_list">نتائج
 </string>
     <string name="title_activity_register_child">Register Child</string>
@@ -43,6 +43,7 @@
     <string name="search_one">تلاش کا پہلا طریقہ</string>
     <string name="title_activity_custom_camer_evac">CustomCamerEvac</string>
     <string name="title_activity_custom_camer_evac_non_epi">CustomCamerEvacNonEPI</string>
+    <string name="title_activity_base">BaseActivity</string>
 
 
 </resources>

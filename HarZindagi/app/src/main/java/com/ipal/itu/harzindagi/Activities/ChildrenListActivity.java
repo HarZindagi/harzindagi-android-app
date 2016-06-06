@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChildrenListActivity extends AppCompatActivity {
+public class ChildrenListActivity extends BaseActivity {
     private static final int REQUEST_SMS = 1;
     private static String[] PERMISSIONS_SMS = {Manifest.permission.READ_SMS,
             Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};

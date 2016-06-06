@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -40,11 +38,9 @@ import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -54,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ViewPagerWithTabs extends AppCompatActivity {
+public class ViewPagerWithTabs extends BaseActivity {
     TabLayout tabLayout;
 
     @Override
@@ -99,7 +95,7 @@ public class ViewPagerWithTabs extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ","اج کا کام"};
+    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ","آج کا کام"};
     public View getCustView(String string,int res){
         View v = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
         TextView tv = (TextView) v.findViewById(R.id.item);

@@ -54,7 +54,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class CardScanWriteVaccine extends AppCompatActivity {
+public class CardScanWriteVaccine extends BaseActivity {
 
 
     Tag mytag;
