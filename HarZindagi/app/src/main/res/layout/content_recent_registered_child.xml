@@ -64,7 +64,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/ChildUCNumber"
+                    android:id="@+id/ChildEpiNumberText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="28dp"
@@ -98,7 +98,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/ChildEPICenterName"
+                    android:id="@+id/ChildBookNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="12dp"

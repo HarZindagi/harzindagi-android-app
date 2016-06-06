@@ -3,12 +3,14 @@ package com.ipal.itu.harzindagi.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -36,6 +38,7 @@ import com.ipal.itu.harzindagi.CustomeViews.MaskedEditText;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 
 import com.ipal.itu.harzindagi.Entity.FemaleName;
@@ -440,12 +443,23 @@ public class RegisterChildActivity extends AppCompatActivity {
     public String inputValidate() {
         String error = "";
 
-        if (registerboodid.getText().length() < 1) {
+
+        if(registerboodid.getText().length() < 1) {
+
             error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
             showError(registerboodid, error);
-
             return error;
+        }else {
+            String bookID = registerboodid.getText().toString();
+            List<Books> bookList = Books.getByBookId(Integer.parseInt(bookID));
+            if(bookList.size()!=0){
+                error = "برائے مہربانی نئی کتاب کا نمبر درج کریں۔";
+                showError(registerboodid, error);
+
+                return error;
+            }
         }
+
 
         if (EPINumber.getText().length() < 1) {
             error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
@@ -519,9 +533,9 @@ public class RegisterChildActivity extends AppCompatActivity {
         }*/
         String town = String.valueOf(registerChildTown_ET.getText());
 
-        if (town.equals("Select Town")) {
+        if (town.equals("")) {
             town = "";
-            error = "Select Town";
+            error = "برائے مہربانی علاقے کا نام منتخب کریں";
             showError(houseAddress, error);
             return error;
         }
@@ -654,6 +668,42 @@ public class RegisterChildActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showBackDialoge();
+    }
+
+    private void showBackDialoge() {
+
+
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+
+        adb.setTitle("کیا آپ رجسٹریشن سکرین سے جانا چاہھتے ہیں؟");
+
+
+        adb.setIcon(R.drawable.info_circle);
+
+
+        adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+
+
+        adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        adb.show();
+
     }
 
     private void getLocation() {

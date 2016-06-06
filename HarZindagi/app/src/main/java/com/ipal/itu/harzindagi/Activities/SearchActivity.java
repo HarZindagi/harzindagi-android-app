@@ -120,11 +120,12 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
                 if (inputValid && !isAdvanceSearch) {
 
                     if (bookNumber.getText().length() > 0) {
-                        data = childInfoDao.getByEPINum(ChildID);
-                    } else {
                         data = childInfoDao.getByBookNum(bookNumber.getText().toString());
+                    } else {
+                        data = childInfoDao.getByEPINum(childID.getText().toString());
+
                     }
-                    data = childInfoDao.getByEPINum(ChildID);
+
                     if (data.size() != 0) {
 
                             startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
@@ -237,15 +238,16 @@ public class SearchActivity extends AppCompatActivity implements ActivityCompat.
         if(newbookText.getText().toString().equals("")) {
             isValid = false;
             error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
-            showError(childID, error);
+            showError(newbookText, error);
             return isValid;
         }else {
             String bookID = newbookText.getText().toString();
             List<Books> bookList = Books.getByBookId(Integer.parseInt(bookID));
             if(bookList.size()!=0){
                 error = "برائے مہربانی نئی کتاب کا نمبر درج کریں۔";
-                showError(childID, error);
-                return isValid;
+                showError(newbookText, error);
+
+                return false;
             }
         }
 

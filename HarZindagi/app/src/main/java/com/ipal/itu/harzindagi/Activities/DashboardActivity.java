@@ -403,7 +403,7 @@ public class DashboardActivity extends AppCompatActivity {
                     if(!Constants.getCheckOut(DashboardActivity.this).equals("")) {
                         sendCheckIn();
                     }else{
-                        showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
+                        showCompletDialog("اپ لوڈ مکمل ہو گیا ہے");
                     }
 
                 } else {

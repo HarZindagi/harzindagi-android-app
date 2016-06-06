@@ -118,6 +118,8 @@ public class VaccineListAdapter {
                     }
                     if(isAllFalse) {
                         skp_vst.setVisibility(View.VISIBLE);
+                    }else{
+                        bn.setVisibility(View.VISIBLE);
                     }
 
                 }

@@ -54,8 +54,8 @@ public class RegisteredChildActivity extends AppCompatActivity {
         dao = new ChildInfoDao();
 
         calendar = Calendar.getInstance();
-        ChildEPINumber = (TextView) findViewById(R.id.ChildEPINumber);
-        ChildBookNumberText = (TextView) findViewById(R.id.ChildBookNumberText);
+        ChildEPINumber = (TextView) findViewById(R.id.ChildEpiNumberText);
+        ChildBookNumberText = (TextView) findViewById(R.id.ChildBookNumber);
         childName = (TextView) findViewById(R.id.ChildName);
         DOB = (TextView) findViewById(R.id.ChildDOB);
         Gender = (TextView) findViewById(R.id.ChildGender);
