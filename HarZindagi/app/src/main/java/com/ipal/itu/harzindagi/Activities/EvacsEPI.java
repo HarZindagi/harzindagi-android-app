@@ -8,6 +8,7 @@ import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -44,7 +45,17 @@ public class EvacsEPI extends BaseActivity {
     /*String[] chkBox_txt = new String[]{"BCG", "OPV-O(Polio)","OPV-1","Pentavalent-1","Pneumococcal-1","OPV-2","Pentavalent-2"
     ,"Pneumococcal-2","OPV-3","Pentavalent-3","Pneumococcal-3","Measles-1","Measles-2"};*/
     Button mahfooz_Karain;
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
