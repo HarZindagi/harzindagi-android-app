@@ -59,6 +59,7 @@ public class EvacsEPI extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getLocation();
         setContentView(R.layout.activity_evacs_epi2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,7 +86,7 @@ public class EvacsEPI extends BaseActivity {
         v_box = new CheckBox[]{ bx_BCG,bx_OPV,bx_OPV1,bx_Pentavalent,bx_Pneumococcal,bx_OPV2,bx_Pentavalent2
                 ,bx_Pneumococcal2,bx_OPV3,bx_Pentavalent3,bx_Pneumococcal3,bx_Measles,bx_Measles2};
 
-        getLocation();
+
         mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

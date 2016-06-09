@@ -31,33 +31,33 @@ import java.util.Date;
  * Created by Ali on 2/16/2016.
  */
 public class Constants {
+    public  static final String baseURL = "http://58.27.220.109/";
+    public static final String get_device_info = baseURL+"get_device_info.json";
+    public static final String visits = baseURL+"admin/visits.json";
+    public static final String vaccinationsItems = baseURL+"/admin/kid_vaccinations/";
+    public static final String injections =baseURL+ "admin/injections.json";
+    public static final String vaccinations = baseURL+"admin/vaccinations.json";
+    public static final String kids = baseURL+"admin/kids.json";
+    public static final String kids_evaccs = baseURL+"admin/evacs_epis";
+    public static final String kids_evaccsNonEPI =baseURL+ "admin/evacs_nonepis";
+    public static final String kid_vaccinations = baseURL+"admin/kid_vaccinations.json";
 
-    public static final String get_device_info = "http://103.226.216.170:3000/get_device_info.json";
-    public static final String visits = "http://103.226.216.170:3000/admin/visits.json";
-    public static final String vaccinationsItems = "http://103.226.216.170:3000//admin/kid_vaccinations/";
-    public static final String injections = "http://103.226.216.170:3000/admin/injections.json";
-    public static final String vaccinations = "http://103.226.216.170:3000/admin/vaccinations.json";
-    public static final String kids = "http://103.226.216.170:3000/admin/kids.json";
-    public static final String kids_evaccs = "http://103.226.216.170:3000/admin/evacs_epis";
-    public static final String kids_evaccsNonEPI = "http://103.226.216.170:3000/admin/evacs_nonepis";
-    public static final String kid_vaccinations = "http://103.226.216.170:3000/admin/kid_vaccinations.json";
+    public static final String login = baseURL+"login";
+    public static final String logout = baseURL+"logout.json";
 
-    public static final String login = "http://103.226.216.170:3000/login";
-    public static final String logout = "http://103.226.216.170:3000/logout.json";
+    public static final String search = baseURL+"admin/kids/kid_search";
 
-    public static final String search = "http://103.226.216.170:3000/admin/kids/kid_search";
+    public static final String photos = baseURL+"photos";
 
-    public static final String photos = "http://103.226.216.170:3000/photos";
+    public static final String imageDownload =  baseURL+"images/";
 
-    public static final String imageDownload =  "http://103.226.216.170:3000/images/";
+    public static final String checkouts   = baseURL+"admin/checkouts";
+    public static final String kitStation   = baseURL+"admin/kid_stations";
+    public static final String checkins   = baseURL+"admin/checkins";
 
-    public static final String checkouts   = "http://103.226.216.170:3000/admin/checkouts";
-    public static final String kitStation   = "http://103.226.216.170:3000/admin/kid_stations";
-    public static final String checkins   = "http://103.226.216.170:3000/admin/checkins";
+    public static final String areas   = baseURL+"admin/areas.json";
 
-    public static final String areas   = "http://103.226.216.170:3000/admin/areas.json";
-
-    public static final String books =  "http://103.226.216.170:3000/admin/books";
+    public static final String books =  baseURL+"admin/books";
 
     public static final String token = "token";
     public static final String password = "password";

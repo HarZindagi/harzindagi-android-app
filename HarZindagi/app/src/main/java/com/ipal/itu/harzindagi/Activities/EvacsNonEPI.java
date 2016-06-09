@@ -64,7 +64,7 @@ public class EvacsNonEPI extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getLocation();
         setContentView(R.layout.activity_evacs_epi);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
