@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -46,10 +45,8 @@ import com.ipal.itu.harzindagi.Utils.EvacssNonEPIImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.ImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.KidVaccinatioHandler;
 import com.ipal.itu.harzindagi.Utils.MultipartUtility;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
