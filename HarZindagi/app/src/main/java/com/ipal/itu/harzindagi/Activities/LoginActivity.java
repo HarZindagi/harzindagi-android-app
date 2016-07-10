@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -213,7 +212,9 @@ public class LoginActivity extends BaseActivity {
             Intent gpsOptionsIntent = new Intent(
                     android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsOptionsIntent);
-            Toast.makeText(this, "GPS آن کریں", Toast.LENGTH_LONG).show();
+            String gps="GPS";
+            String onkre="آن کریں GPS";
+            Toast.makeText(this,onkre, Toast.LENGTH_LONG).show();
         }
         receiver = new BroadcastReceiver() {
             @Override

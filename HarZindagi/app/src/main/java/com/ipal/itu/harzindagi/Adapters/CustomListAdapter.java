@@ -60,7 +60,8 @@ public class CustomListAdapter extends BaseAdapter {
             holder = (ViewHolder) row.getTag();
         }
         holder.day.setText(""+ vaccinfo.get(position).day);
-        holder.month.setText(""+ (vaccinfo.get(position).month+1));
+        int foo = Integer.parseInt(vaccinfo.get(position).month);
+        holder.month.setText(""+ (foo+1));
         holder.year.setText("" + vaccinfo.get(position).year);
 
         holder.vaccName.setText(""+ vaccinfo.get(position).vac_name);
