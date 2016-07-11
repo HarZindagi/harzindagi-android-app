@@ -1,6 +1,5 @@
 package com.ipal.itu.harzindagi.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +12,6 @@ import android.graphics.Paint;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.Size;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -26,7 +23,6 @@ import android.widget.Toast;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
-import com.ipal.itu.harzindagi.GJson.Token;
 import com.ipal.itu.harzindagi.R;
 
 import java.io.ByteArrayOutputStream;
@@ -40,7 +36,7 @@ import java.util.List;
  * Created by Wahab on 2/3/2016.
  */
 public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback {
-    public static ProgressDialog progress;
+    public  ProgressDialog progress;
     SurfaceHolder surfaceHolder;
     File mediaFile;
     String Path, app_name;
@@ -80,6 +76,12 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
 
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        progress.dismiss();
+        super.onDestroy();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

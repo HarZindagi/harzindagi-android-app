@@ -3,16 +3,13 @@ package com.ipal.itu.harzindagi.Activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +19,6 @@ import com.ipal.itu.harzindagi.Adapters.CustomViewPager;
 import com.ipal.itu.harzindagi.Adapters.ViewPagerAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Fragments.VaccinationOneFragment;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -302,7 +298,7 @@ public class VaccinationActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Toast.makeText(this, "Clicked main", Toast.LENGTH_SHORT).show();
         if (resultCode == 1888) {
-            CustomCamera.progress.dismiss();
+
             Bitmap photo, resizedImage;
 
             fpath = data.getStringExtra("fpath");

@@ -11,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -20,7 +19,6 @@ import com.ipal.itu.harzindagi.Application.HarZindagiApp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -310,7 +308,7 @@ public class Constants {
         try {
             date = df.parse(dateStr);
             c.setTime(date);
-            c.add(Calendar.DAY_OF_YEAR, 5);
+            c.add(Calendar.DAY_OF_YEAR, 28);
         } catch (ParseException e) {
             e.printStackTrace();
         }
