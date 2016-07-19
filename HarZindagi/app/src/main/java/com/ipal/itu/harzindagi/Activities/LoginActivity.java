@@ -467,7 +467,7 @@ public class LoginActivity extends BaseActivity {
     private void showDownloadDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-        adb.setTitle("کیاآپ ایپلیکیشن کوڈاونلوڈ کرناچاہتےہیں");
+        adb.setTitle("کیاآپ ایپلیکیشن کوڈاون لوڈ کرناچاہتےہیں");
 
 
         adb.setIcon(R.drawable.info_circle);
