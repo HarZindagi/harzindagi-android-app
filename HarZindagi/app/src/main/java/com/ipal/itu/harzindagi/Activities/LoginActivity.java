@@ -874,7 +874,9 @@ public class LoginActivity extends BaseActivity {
             } else {
                 c.gender = 0;
             }
+            c.imei_number = obj.childInfoArrayList.get(i).imei_number;
             c.epi_number = obj.childInfoArrayList.get(i).epi_number;
+            c.book_id = obj.childInfoArrayList.get(i).book_id;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
             c.image_update_flag =true;

@@ -82,6 +82,13 @@ public class VaccineList extends BaseActivity {
         context=this;
         top_header = (LinearLayout) findViewById(R.id.topHeader);
         time_period_txt = (TextView) findViewById(R.id.time_period_txt);
+        obj = (VaccDetailBook) getIntent().getSerializableExtra("VaccDetInfo");
+        boolean notComplete = false;
+        for (int i = 0; i <obj.vaccinfo.size() ; i++) {
+            if((""+ obj.vaccinfo.get(i).day).equals("--")){
+                notComplete = true;
+            }
+        }
         try {
             if(getIntent().getExtras().getInt("visit_num_") == -1){
                 time_period_txt.setText(vacc_period[0]);
@@ -96,11 +103,16 @@ public class VaccineList extends BaseActivity {
             }
             if(getIntent().getExtras().getInt("visit_num_")<5 && getIntent().getExtras().getInt("visit_num_")>0){
                 time_period_txt.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
+
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setBackgroundResource(nxt_oardr_colr[getIntent().getExtras().getInt("visit_num_")] + 1);
                 ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setText(Constants.addDate(getIntent().getExtras().getString("next_due_date")));
                 ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setBackgroundResource(nxt_oardr_colr[getIntent().getExtras().getInt("visit_num_")] + 1);
-                ((TextView)findViewById(R.id.nextDueDateNmbr)).setText(numbr[getIntent().getExtras().getInt("visit_num_")+ 1] );
+                if(notComplete) {
+                    ((TextView) findViewById(R.id.nextDueDateNmbr)).setText(numbr[getIntent().getExtras().getInt("visit_num_")]);
+                }else{
+                    ((TextView) findViewById(R.id.nextDueDateNmbr)).setText(numbr[getIntent().getExtras().getInt("visit_num_") + 1]);
+                }
                 ((TextView)findViewById(R.id.nextDueDateNmbr)).setBackgroundResource(nxt_boardr_numbr[getIntent().getExtras().getInt("visit_num_")]+1);
                 top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
 
@@ -125,7 +137,7 @@ public class VaccineList extends BaseActivity {
 
 
 
-        obj = (VaccDetailBook) getIntent().getSerializableExtra("VaccDetInfo");
+
 
         parseResponse();
         findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {

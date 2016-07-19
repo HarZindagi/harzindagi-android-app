@@ -59,12 +59,19 @@ public class CustomListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) row.getTag();
         }
-        holder.day.setText(""+ vaccinfo.get(position).day);
-        int foo = Integer.parseInt(vaccinfo.get(position).month);
-        holder.month.setText(""+ (foo+1));
-        holder.year.setText("" + vaccinfo.get(position).year);
+        if((""+ vaccinfo.get(position).day).equals("--")){
+            holder.day.setText("" + vaccinfo.get(position).day);
+            holder.month.setText("" + vaccinfo.get(position).month);
+            holder.year.setText("" + vaccinfo.get(position).year);
+            holder.vaccName.setText(""+ vaccinfo.get(position).vac_name);
+        }else {
+            holder.day.setText("" + vaccinfo.get(position).day);
+            int foo = Integer.parseInt(vaccinfo.get(position).month);
+            holder.month.setText("" + (foo + 1));
+            holder.year.setText("" + vaccinfo.get(position).year);
+            holder.vaccName.setText(""+ vaccinfo.get(position).vac_name);
+        }
 
-        holder.vaccName.setText(""+ vaccinfo.get(position).vac_name);
        if(vaccinfo.get(position).vac_type==true){
            holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.dropper));
        }else {
