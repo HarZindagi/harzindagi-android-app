@@ -11,7 +11,6 @@ import android.nfc.Tag;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -133,7 +132,7 @@ public class Card_Scan extends BaseActivity {
                 intent1.putExtra("book_num",Arry[Arry.length - 5]);
                 startActivity(intent1);
                 addNewRecord(Arry);
-                Toast.makeText(ctx,"بچا دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx,"بچہ دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
 
             }else{
                 openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5],Arry[1]);

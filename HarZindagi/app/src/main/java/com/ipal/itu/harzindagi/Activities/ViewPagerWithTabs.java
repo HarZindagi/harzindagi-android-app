@@ -136,7 +136,7 @@ public class ViewPagerWithTabs extends BaseActivity {
     private  void  showAlertDialog(){
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-        adb.setTitle("کیا آپ ڈیٹا ڈاونلوڈ کرنا چاہحتے ہیں؟");
+        adb.setTitle("کیا آپ ڈیٹا ڈاون لوڈ کرنا چاہتے ہیں؟");
 
 
         adb.setIcon(R.drawable.info_circle);
