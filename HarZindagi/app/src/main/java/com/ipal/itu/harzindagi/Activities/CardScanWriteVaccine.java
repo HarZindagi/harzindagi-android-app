@@ -38,6 +38,7 @@ import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -126,6 +127,8 @@ public class CardScanWriteVaccine extends BaseActivity {
                 books.save();
             }
         }
+
+
         data.get(0).book_id = bookid + "";
         data.get(0).image_update_flag = false;
         data.get(0).save();
