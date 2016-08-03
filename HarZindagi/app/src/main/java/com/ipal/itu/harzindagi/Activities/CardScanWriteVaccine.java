@@ -116,7 +116,13 @@ public class CardScanWriteVaccine extends BaseActivity {
             isSync = "0";
         }
         if (bookid == 0) {
-            bookid = Integer.parseInt(data.get(0).book_id);
+            if(data.get(0).book_id!=null) {
+                bookid = Integer.parseInt(data.get(0).book_id);
+            }else{
+
+                Toast.makeText(this,"Error : Book ID Missing!",Toast.LENGTH_LONG).show();
+               finish();
+            }
         } else {
             List<Books> booksList = Books.getByBookId(bookid);
             if (booksList.size() == 0) {

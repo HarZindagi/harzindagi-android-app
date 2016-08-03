@@ -64,6 +64,7 @@ public class ChildInfoDao {
                 item.image_path = items.get(i).image_path;
                 item.record_update_flag = items.get(i).record_update_flag;
                 item.image_update_flag = items.get(i).image_update_flag;
+                item.book_id = items.get(i).book_id;
                // item.book_update_flag =  items.get(i).book_update_flag;
                 item.imei_number =  items.get(i).imei_number;;
 

@@ -79,6 +79,7 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
 
     @Override
     protected void onDestroy() {
+        if(progress!=null)
         progress.dismiss();
         super.onDestroy();
     }
