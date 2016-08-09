@@ -45,6 +45,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,11 +53,25 @@ import java.util.Map;
 
 public class ViewPagerWithTabs extends BaseActivity {
     TabLayout tabLayout;
+    private long activityTime;
 
+    public void logTime(){
+        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.ALL_UC_LIST_TIME, activityTime + " S", 0);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.ALL_UC_BACK , 0);
+        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_pager_layout);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -133,6 +148,13 @@ public class ViewPagerWithTabs extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        logTime();
+        super.onDestroy();
+    }
+
     private  void  showAlertDialog(){
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 

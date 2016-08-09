@@ -25,6 +25,7 @@ import com.ipal.itu.harzindagi.Utils.Constants;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 public class VaccinationActivity extends BaseActivity {
@@ -82,8 +83,9 @@ public class VaccinationActivity extends BaseActivity {
             R.drawable.blue_cir,
             R.drawable.dark_green_cir
     };
-    private int bookid;
+    public int bookid;
     public static String location;
+    private long activityTime;
 
     private void getLocation() {
 
@@ -94,6 +96,18 @@ public class VaccinationActivity extends BaseActivity {
         cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(this);
         //  pDialog.setCancelable(false);
         //  pDialog.show();
+    }
+    public void logTime(){
+        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.VAC_TIME, activityTime + " S", 0);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.VAC_BACK , 0);
+        super.onBackPressed();
     }
 
     public void locationCb(String url, final Location loc, AjaxStatus status) {
@@ -111,10 +125,12 @@ public class VaccinationActivity extends BaseActivity {
 
         }
     }
+   public boolean record_sync;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vaccination);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -154,8 +170,8 @@ public class VaccinationActivity extends BaseActivity {
             }
 
         }
-
-        if (bundle.getBoolean("isSync",false) == true) {
+         record_sync = bundle.getBoolean("isSync",false);
+        if (record_sync) {
             data = ChildInfoDao.getByKIdAndIMEI(bundle.getLong("childid"),bundle.getString("imei"));
 
         } else {
@@ -289,11 +305,6 @@ public class VaccinationActivity extends BaseActivity {
 
     }
 
-
-    public void Take_Vaccine_Picture(View v) {
-
-
-    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Toast.makeText(this, "Clicked main", Toast.LENGTH_SHORT).show();

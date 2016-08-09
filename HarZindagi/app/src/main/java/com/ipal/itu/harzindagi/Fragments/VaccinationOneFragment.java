@@ -49,21 +49,21 @@ public class VaccinationOneFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
     private static final int CALENDAR_CODE = 100;
+    public CheckBox ch;
     boolean isActive = false;
-    // TODO: Rename and change types of parameters
-    private int mParam1;
-    private int mParam2;
     TextView date_vac;
     Button nxt_tab;
     LinearLayout skip_vst;
-    private ArrayList<GInjection> injection;
     List<ChildInfo> data;
     Button btn;
     String det_vacs;
     String DateOfBirth;
-    private SimpleDateFormat dateFormatter;
     Calendar calendar;
-    public CheckBox ch;
+    // TODO: Rename and change types of parameters
+    private int mParam1;
+    private int mParam2;
+    private ArrayList<GInjection> injection;
+    private SimpleDateFormat dateFormatter;
     private DatePickerDialog fromDatePickerDialog;
 
     public VaccinationOneFragment() {
@@ -105,7 +105,7 @@ public class VaccinationOneFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_vaccination_one, container, false);
         btn = (Button) v.findViewById(R.id.btn_v1);
-        skip_vst=(LinearLayout)v.findViewById(R.id.skip_visit);
+        skip_vst = (LinearLayout) v.findViewById(R.id.skip_visit);
         // have to this dynamic in future
 
         //List<Injections> data = InjectionsDao.getInjectionsByVisit(1);
@@ -125,7 +125,7 @@ public class VaccinationOneFragment extends Fragment {
                 }
             });
         }
-        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection, 0,btn,skip_vst);
+        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection, 0, btn, skip_vst);
 
         for (int i = 0; i < injection.size(); i++) {
             adapter.getView(i, null, list);
@@ -150,6 +150,7 @@ public class VaccinationOneFragment extends Fragment {
                 if (isActive) {
                     det_vacs = adapter.get_vaccs_details();
                     if (!det_vacs.equals("")) {
+                        ((VaccinationActivity) getActivity()).logTime();
                         Intent cameraIntent = new Intent(getActivity(), CustomCamera.class);
                         cameraIntent.putExtra("filename", ((VaccinationActivity) getActivity()).fpath);
                         cameraIntent.putExtra("vacc_details", det_vacs);
@@ -169,6 +170,12 @@ public class VaccinationOneFragment extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
                     date_vac.setVisibility(View.VISIBLE);
+                    if (!date_vac.getText().equals("")) {
+
+                        nxt_tab.setVisibility(View.VISIBLE);
+                    }else{
+                        nxt_tab.setVisibility(View.GONE);
+                    }
                     date_vac.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -214,8 +221,7 @@ public class VaccinationOneFragment extends Fragment {
                             writeToDB(mParam2 + 1, det_vacs);
                         }
                     });
-                }
-                else {
+                } else {
                     ch.setChecked(false);
                     date_vac.setVisibility(View.INVISIBLE);
                     nxt_tab.setVisibility(View.GONE);
@@ -254,10 +260,13 @@ public class VaccinationOneFragment extends Fragment {
             }
 
         }
+        ((VaccinationActivity) getActivity()).logTime();
         getActivity().finish();
         Bundle b = new Bundle();
         b.putLong("childid", ((VaccinationActivity) getActivity()).childID);
         b.putString("imei", ((VaccinationActivity) getActivity()).imei);
+        b.putInt("bookid", ((VaccinationActivity) getActivity()).bookid);
+        b.putBoolean("isSync", ((VaccinationActivity) getActivity()).record_sync);
         b.putString("visit_num", (mParam2 + 1 + ""));
         b.putString("vacc_details", vacc_details);
         Intent i = new Intent(getActivity(), VaccinationActivity.class);

@@ -24,12 +24,14 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -71,22 +73,33 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
                 Toast t = Toast.makeText(getApplicationContext(), "بچے کی تصویردوبارہ کھینچیں", Toast.LENGTH_LONG);
                 t.setGravity(Gravity.CENTER, 0, 0);
                 t.show();
+                Constants.sendGAEvent(CustomCamera.this,Constants.getUserName(CustomCamera.this), Constants.GaEvent.TAKE_PICTURE_ERROR, "بچے کی تصویردوبارہ کھینچیں", 0);
 
             }
 
         }
     };
-
+    private long activityTime;
+    @Override
+    public void onBackPressed() {
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.TAKE_PICTURE_BACK, 0);
+        super.onBackPressed();
+    }
     @Override
     protected void onDestroy() {
         if(progress!=null)
         progress.dismiss();
         super.onDestroy();
     }
+    private void logTime(){
+        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.TAKE_PICTURE_TIME, activityTime + " S", 0);
 
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         setContentView(R.layout.custom_camera_layout);
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
@@ -225,6 +238,7 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
         } catch (IOException e) {
             e.printStackTrace();
         }
+        logTime();
         finishActivity();
     }
     private File getOutputMediaFile() {

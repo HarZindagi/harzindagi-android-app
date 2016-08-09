@@ -70,10 +70,12 @@ public class CardScanWrite extends BaseActivity {
     String visitNum = "1";
     String vaccsDetails= "0,0,0";
     String isSync = "0";
+    private long activityTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         setContentView(R.layout.activity_cardscanwrite);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -151,10 +153,23 @@ public class CardScanWrite extends BaseActivity {
         myintent.putExtra("childid", kid_id);
         myintent.putExtra("imei", Constants.getIMEI(this));
         myintent.putExtra("EPIname", bundle.getString("EPIname"));
+        logTime();
         startActivity(myintent);
         finish();
         return 0;
     }
+    private void logTime(){
+        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_TIME, activityTime + " S", 0);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.CARD_WRITE_Back, 0);
+        super.onBackPressed();
+    }
+
     private  void writeDataToDB(){
         Calendar calendar = Calendar.getInstance();
         Long tsLong = calendar.getTimeInMillis() / 1000;
@@ -285,6 +300,7 @@ public class CardScanWrite extends BaseActivity {
                 }
             }
         } catch (Exception e) {
+            Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_ERROR, "برائے مہربانی کارڈ کو دوبارہ سکین کریں", 0);
            // btn.setText("برائے مہربانی کارڈ کو دوبارہ سکین کریں");
             Toast.makeText(ctx, "برائے مہربانی کارڈ کو دوبارہ سکین کریں", Toast.LENGTH_LONG).show();
 

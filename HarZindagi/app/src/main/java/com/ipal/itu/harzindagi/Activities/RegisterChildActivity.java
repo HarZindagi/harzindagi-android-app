@@ -74,7 +74,7 @@ public class RegisterChildActivity extends BaseActivity {
     EditText EPINumber;
     Button childPicture;
     String epiNumber;
-    String EPICenterName, TownName;
+    String EPICenterName;
     String ChildName;
     String DateOfBirth;
     String MotherName;
@@ -90,7 +90,7 @@ public class RegisterChildActivity extends BaseActivity {
     List<ChildInfo> data;
 
     Calendar myCalendar = Calendar.getInstance();
-    EditText registerboodid;
+    EditText registerBookId;
     long activityTime;
     ArrayList<String> mlist = new ArrayList<>();
     ArrayList<String> flist = new ArrayList<>();
@@ -100,6 +100,8 @@ public class RegisterChildActivity extends BaseActivity {
 
     private PopupWindow pw;
     private View popUpView;
+
+
 
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -152,7 +154,7 @@ public class RegisterChildActivity extends BaseActivity {
                 updateLabel();
             }
         };
-        registerboodid = (EditText) findViewById(R.id.registerboodid);
+        registerBookId = (EditText) findViewById(R.id.registerboodid);
         childName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildName);
         childName.setTokenizer(new SpaceTokenizer());
 
@@ -409,7 +411,8 @@ public class RegisterChildActivity extends BaseActivity {
 
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
         pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this, 10));
-        Constants.sendGAEvent(RegisterChildActivity.this, "Error", Constants.getUserName(RegisterChildActivity.this), error, 0);
+        Constants.sendGAEvent(RegisterChildActivity.this,Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.REGISTER_ERROR,error, 0);
+
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         v.startAnimation(shake);
     }
@@ -435,17 +438,17 @@ public class RegisterChildActivity extends BaseActivity {
         String error = "";
 
 
-        if(registerboodid.getText().length() < 1) {
+        if(registerBookId.getText().length() < 1) {
 
             error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
-            showError(registerboodid, error);
+            showError(registerBookId, error);
             return error;
         }else {
-            String bookID = registerboodid.getText().toString();
+            String bookID = registerBookId.getText().toString();
             List<Books> bookList = Books.getByBookId(Integer.parseInt(bookID));
             if(bookList.size()!=0){
                 error = "برائے مہربانی نئی کتاب کا نمبر درج کریں۔";
-                showError(registerboodid, error);
+                showError(registerBookId, error);
 
                 return error;
             }
@@ -570,12 +573,12 @@ public class RegisterChildActivity extends BaseActivity {
             intent.putExtra("pnum", GuardianMobileNumber);
             intent.putExtra("img", Fpath);
             intent.putExtra("EPIname", EPICenterName);
-            intent.putExtra("bookid", registerboodid.getText().toString());
+            intent.putExtra("bookid", registerBookId.getText().toString());
             intent.putExtra("address", houseAddress.getText().toString());
 
             this.finish();
             activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-            Constants.sendGAEvent(RegisterChildActivity.this, "Register Child Time", Constants.getUserName(this), activityTime + " S", activityTime);
+            Constants.sendGAEvent(RegisterChildActivity.this,Constants.getUserName(this), Constants.GaEvent.REGISTER_TOTAL_TIME, activityTime + " S", 0);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
@@ -679,7 +682,7 @@ public class RegisterChildActivity extends BaseActivity {
 
         adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
+                Constants.sendGAEvent(RegisterChildActivity.this,Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.REGISTER_BACK , 0);
                 dialog.dismiss();
                 finish();
 

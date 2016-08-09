@@ -45,6 +45,8 @@ public class EvacsEPI extends BaseActivity {
     /*String[] chkBox_txt = new String[]{"BCG", "OPV-O(Polio)","OPV-1","Pentavalent-1","Pneumococcal-1","OPV-2","Pentavalent-2"
     ,"Pneumococcal-2","OPV-3","Pentavalent-3","Pneumococcal-3","Measles-1","Measles-2"};*/
     Button mahfooz_Karain;
+    private long activityTime;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -56,9 +58,22 @@ public class EvacsEPI extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    public void logTime(){
+        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.EVACCS_TIME, activityTime + " S", 0);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.EVACCS_BACK , 0);
+        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         getLocation();
         setContentView(R.layout.activity_evacs_epi2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -119,6 +134,7 @@ public class EvacsEPI extends BaseActivity {
 
                     evaccs.save();
                 }
+                logTime();
                 finish();
             }
         });

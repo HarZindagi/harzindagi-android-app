@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -49,11 +50,13 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
     Context ctx;
     LinearLayout done_capture,refresh_capture;
     public static ProgressDialog progress;
+    private long activityTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_camera_kidstation_layout);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
@@ -85,6 +88,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
         done_capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logTime();
                 finishActivity();
             }
         });
@@ -97,7 +101,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
                 refresh_capture.setVisibility(View.INVISIBLE);
                 captureButton.setVisibility(View.VISIBLE);
                 CropImageView.setImageBitmap(camera_bitmap);
-
+                Constants.sendGAEvent(CustomCameraKidstation.this,Constants.getUserName(CustomCameraKidstation.this), Constants.GaEvent.KIT_IMAGE_ERROR,"Retry" , 0);
                 kd_txt.setText("کٹ اسٹیشن کی تصویر کھینچیں");
             }
         });
@@ -120,7 +124,18 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
         CropImageView = (ImageView) findViewById(R.id.CropImageView_station);
 
     }
+    public void logTime(){
+        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.KIT_IMAGE_TIME, activityTime + " S", 0);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.KIT_IMAGE_BACK , 0);
+        super.onBackPressed();
+    }
     private void getCameraInstance() {
         try {
             mCamera = Camera.open();

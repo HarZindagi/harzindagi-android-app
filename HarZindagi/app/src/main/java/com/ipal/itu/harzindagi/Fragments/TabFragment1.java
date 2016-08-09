@@ -75,6 +75,8 @@ public class TabFragment1 extends Fragment {
                     myintent.putExtra("childid", data.get(position).kid_id);
                     myintent.putExtra("imei", data.get(position).imei_number);
                     myintent.putExtra("EPIname",data.get(position).epi_name );
+                    myintent.putExtra("bookid",Integer.parseInt(data.get(position).book_id) );
+                    myintent.putExtra("isSync", data.get(position).record_update_flag);
                     startActivity(myintent);
 
                 }

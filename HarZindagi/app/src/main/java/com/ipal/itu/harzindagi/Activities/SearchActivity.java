@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,11 +78,19 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
     private View popUpView;
     private EditText newbookText;
     private EditText bookNumber;
+    private long activityTime;
+
+    private void logTime() {
+        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_TIME, activityTime + " S", 0);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Searching with SMS, Please Wait...");
         pDialog.setCancelable(false);
@@ -128,19 +137,20 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
                     if (data.size() != 0) {
 
-                            startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
+                        startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
 
-                                    .putExtra("fromSMS", false).putExtra("bookid", Integer.parseInt(newbookText.getText().toString())));
-
+                                .putExtra("fromSMS", false).putExtra("bookid", Integer.parseInt(newbookText.getText().toString())));
+                        logTime();
                     } else if (data.size() == 0 && bookNumber.getText().length() > 0) {
                         if (!Constants.isOnline(SearchActivity.this)) {
                             pDialog.show();
                             sendSMS("hz %b%" + bookNumber.getText().toString());
 
                             Toast.makeText(SearchActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
-
+                            logTime();
 
                         } else {
+
                             onlineSearch(ChildID, CellPhone, CNIC, bookNumber.getText().toString());
                         }
                     } else if (data.size() == 0) {
@@ -222,10 +232,9 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
     }
 
     public void showError(View v, String error) {
-
+        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_ERROR,error, 0);
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
         pw.showAsDropDown(v, 0, -Constants.pxToDp(SearchActivity.this, 10));
-
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         v.startAnimation(shake);
     }
@@ -235,15 +244,15 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
         String error = "";
 
 
-        if(newbookText.getText().toString().equals("")) {
+        if (newbookText.getText().toString().equals("")) {
             isValid = false;
             error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
             showError(newbookText, error);
             return isValid;
-        }else {
+        } else {
             String bookID = newbookText.getText().toString();
             List<Books> bookList = Books.getByBookId(Integer.parseInt(bookID));
-            if(bookList.size()!=0){
+            if (bookList.size() != 0) {
                 error = "برائے مہربانی نئی کتاب کا نمبر درج کریں۔";
                 showError(newbookText, error);
 
@@ -330,6 +339,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
                         if (response.toString().length() > 20) {
 
                             parseKidReponse(response);
+                            logTime();
                         } else {
                             Toast.makeText(SearchActivity.this, getString(R.string.no_record), Toast.LENGTH_LONG).show();
                         }
@@ -360,6 +370,12 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 // Add the request to the RequestQueue.
         queue.add(jsonObjReq);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.KID_SEARCH_BACK, 0);
+        super.onBackPressed();
     }
 
     public void parseKidReponse(JSONArray response) {
