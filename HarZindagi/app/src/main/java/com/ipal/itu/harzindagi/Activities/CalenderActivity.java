@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Wahab on 1/29/2016.
@@ -83,7 +84,7 @@ public class CalenderActivity extends BaseActivity {
             i.putExtra("year", yearText.getText().toString());
             i.putExtra("month", monthText.getText().toString());
             i.putExtra("day", dayText.getText().toString());
-            DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+            DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
             try {
                 Date date = sdf.parse(dayText.getText().toString() + "-" + monthText.getText().toString() + "-" + yearText.getText().toString());
                 if (date.after(Calendar.getInstance().getTime())) {

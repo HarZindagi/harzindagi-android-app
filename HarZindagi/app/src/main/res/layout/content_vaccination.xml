@@ -276,14 +276,13 @@
             </FrameLayout>
 
         </LinearLayout>
-        <com.ipal.itu.harzindagi.Adapters.CustomViewPager
-            android:id="@+id/vaccinationActivityVaccinationsPager"
-            android:layout_width="match_parent"
 
-            android:background="#EAEAEA"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
-
+    <com.ipal.itu.harzindagi.Adapters.CustomViewPager
+        android:id="@+id/vaccinationActivityVaccinationsPager"
+        android:layout_width="match_parent"
+        android:background="#EAEAEA"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
 
 

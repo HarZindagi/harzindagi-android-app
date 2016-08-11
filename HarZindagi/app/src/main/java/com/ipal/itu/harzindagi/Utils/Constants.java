@@ -9,14 +9,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.TypedValue;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ipal.itu.harzindagi.Application.HarZindagiApp;
 
 import java.io.ByteArrayOutputStream;
@@ -26,10 +24,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
+ * Project Har Zindagi
  * Created by Ali on 2/16/2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class Constants {
     public static final String baseURL = "http://58.27.220.109/";
     public static final String get_device_info = baseURL + "get_device_info.json";
@@ -72,7 +73,7 @@ public class Constants {
 
     public static void setToken(Context c, String token) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.token, token).commit();
+        prefs.edit().putString(Constants.token, token).apply();
     }
 
     public static String getUC(Context c) {
@@ -82,7 +83,7 @@ public class Constants {
 
     public static void setUC(Context c, String uc) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.uc, uc).commit();
+        prefs.edit().putString(Constants.uc, uc).apply();
     }
 
     public static int getUCID(Context c) {
@@ -92,7 +93,7 @@ public class Constants {
 
     public static void setUCID(Context c, int uc_id) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putInt(Constants.uc_id, uc_id).commit();
+        prefs.edit().putInt(Constants.uc_id, uc_id).apply();
     }
 
     public static boolean isOnline(Context context) {
@@ -115,7 +116,7 @@ public class Constants {
 
     public static void setPassword(Context c, String pasword) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.password, pasword).commit();
+        prefs.edit().putString(Constants.password, pasword).apply();
     }
 
     public static String getUserName(Context c) {
@@ -125,7 +126,7 @@ public class Constants {
 
     public static void setUserName(Context c, String userName) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.name, userName).commit();
+        prefs.edit().putString(Constants.name, userName).apply();
     }
 
     public static boolean getIsTableLoaded(Context c) {
@@ -135,7 +136,7 @@ public class Constants {
 
     public static void setIsTableLoaded(Context c, boolean isLoaded) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putBoolean(Constants.isTableLoaded, isLoaded).commit();
+        prefs.edit().putBoolean(Constants.isTableLoaded, isLoaded).apply();
     }
 
     /* public static String getLocationSource(Context c) {
@@ -153,7 +154,7 @@ public class Constants {
 
     public static void setLocationSync(Context c, String location_sync) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.locationSync, location_sync).commit();
+        prefs.edit().putString(Constants.locationSync, location_sync).apply();
     }
 
     public static String getCheckIn(Context c) {
@@ -163,7 +164,7 @@ public class Constants {
 
     public static void setCheckIn(Context c, String checkin) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.checkIn, checkin).commit();
+        prefs.edit().putString(Constants.checkIn, checkin).apply();
     }
 
     public static String getCheckOut(Context c) {
@@ -173,7 +174,7 @@ public class Constants {
 
     public static void setCheckOut(Context c, String checkin) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.checkOut, checkin).commit();
+        prefs.edit().putString(Constants.checkOut, checkin).apply();
     }
 
     public static String getLocation(Context c) {
@@ -183,7 +184,7 @@ public class Constants {
 
     public static void setLocation(Context c, String location) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.location, location).commit();
+        prefs.edit().putString(Constants.location, location).apply();
     }
 
     public static String getDay(Context c) {
@@ -193,7 +194,7 @@ public class Constants {
 
     public static void setDay(Context c, String day) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.day, day).commit();
+        prefs.edit().putString(Constants.day, day).apply();
     }
 
     public static String getVersionName(Context c) {
@@ -203,10 +204,28 @@ public class Constants {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return pInfo.versionName;
+        if(pInfo!=null){
+            return pInfo.versionName;
+        }else{
+            return "not found";
+        }
+
     }
 
-
+    public static String addDate(String dateStr) {
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy",Locale.US);
+        Date date = null;
+        Calendar c = Calendar.getInstance();
+        try {
+            date = df.parse(dateStr);
+            c.setTime(date);
+            c.add(Calendar.DAY_OF_YEAR, 28);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String nextDate = df.format(c.getTime());
+        return nextDate;
+    }
     public static String getNextDueDate(int visit, String vaccs) {
 
         int[] Arry = {0, 42, 28, 28, 154, 168, 36000};  // should better be made dynamic input through Database.
@@ -220,12 +239,12 @@ public class Constants {
             c.add(Calendar.DATE, 7);
         }
 
-        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
         return sdf1.format(c.getTime());
 
     }
 
-    public static long getNextDueDateNew(int visit, String vaccs) {
+   /* public static long getNextDueDateNew(int visit, String vaccs) {
 
         int[] Arry = {0, 42, 28, 28, 154, 168, 36000};  // should better be made dynamic input through Database.
 
@@ -241,7 +260,7 @@ public class Constants {
         // SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yyyy");
         return c.getTimeInMillis() / 1000;
 
-    }
+    }*/
 
 
     public static Boolean isVaccOfVisitCompleted(String vaccs) {
@@ -300,26 +319,12 @@ public class Constants {
 
 
         java.util.Date time = new java.util.Date(date * 1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy",Locale.US);
 
-        String formatedDate = sdf.format(time);
-        return formatedDate;
+        return sdf.format(time);
     }
 
-    public static String addDate(String dateStr) {
-        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        Date date = null;
-        Calendar c = Calendar.getInstance();
-        try {
-            date = df.parse(dateStr);
-            c.setTime(date);
-            c.add(Calendar.DAY_OF_YEAR, 28);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String nextDate = df.format(c.getTime());
-        return nextDate;
-    }
+
 
     public static void sendGAScrenn(Activity c, String screen) {
         HarZindagiApp myApp = (HarZindagiApp) c.getApplication();
@@ -368,16 +373,16 @@ public class Constants {
         public static final String REGISTER_BACK = "Register_Back";
         public static final String REGISTER_FIELD_TIME = "Register_Field_Time";
 
-        public static final String BOOK_TIME = "Book_Time";
+        public static final String BOOK_TIME = "Book_ID_Time";
         public static final String REGISTER_EPI_TIME = "EPI_Time";
         public static final String REGISTER_CENTER_NAME_TIME = "Center_Name_Time";
         public static final String REGISTER_NAME_TIME = "Register_Name_Time";
-        public static final String REGISTER_DOB_TIME = "Register_DOB_Time";
+
         public static final String REGISTER_GUARDIAN_TIME = "Register_Guardian_Time";
         public static final String REGISTER_CNIC_TIME = "Register_CNIC_Time";
-        public static final String REGISTER_PHONE_TIME = "Register_Total_Time";
-        public static final String REGISTER_REGION_TIME = "Register_Error";
-        public static final String REGISTER_ADDRESS_TIME = "Register_Back";
+        public static final String REGISTER_PHONE_TIME = "Register_Phone_Time";
+        public static final String REGISTER_REGION_TIME = "Register_Region_Time";
+        public static final String REGISTER_ADDRESS_TIME = "Register_Address_Time";
 
         public static final String VAC_TIME = "VAC_Time";
         public static final String VAC_BACK = "VAC_Back";

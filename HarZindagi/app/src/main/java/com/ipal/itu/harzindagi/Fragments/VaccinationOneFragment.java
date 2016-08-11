@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -180,7 +181,7 @@ public class VaccinationOneFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             int mYear, mMonth, mDay;
-                            final DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                            final DateFormat df = new SimpleDateFormat("dd-MM-yyyy",Locale.US);
                             final Calendar c = Calendar.getInstance();
                             mYear = c.get(Calendar.YEAR);
                             mMonth = c.get(Calendar.MONTH);
@@ -196,7 +197,7 @@ public class VaccinationOneFragment extends Fragment {
                                             try {
                                                 Date pDate = df.parse(dayOfMonth + "-"
                                                         + (monthOfYear + 1) + "-" + year);
-                                                DateFormat dff = new SimpleDateFormat("dd-MMM-yyyy");
+                                                DateFormat dff = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
                                                 String dd = dff.format(pDate);
                                                 date_vac.setText(dd);
                                                 nxt_tab.setVisibility(View.VISIBLE);
@@ -297,7 +298,7 @@ public class VaccinationOneFragment extends Fragment {
 
     public long getLongDate(String date) {
         long longDate = 0;
-        DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy",Locale.US);
         try {
             Date parsedDate = sdf.parse(date);
             longDate = parsedDate.getTime() / 1000;

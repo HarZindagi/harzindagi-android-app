@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1008653456722",
-    "project_id": "har-zindagi"
+    "project_number": "154851232473",
+    "project_id": "har-zindagi-f7de8"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1008653456722:android:5cb7ea986c7b373d",
+        "mobilesdk_app_id": "1:154851232473:android:8d6ac78cacdf849a",
         "android_client_info": {
-          "package_name": "com.ipal.itu.harzindagi"
+          "package_name": "com.itu.ipal.harzindagi"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBaiBjdjdiBpg3M2gigeug7GP6pwIJAtlk"
+          "current_key": "AIzaSyB--rOcLqPmvaSNooQ9BzaFhY-MtcABRi0"
         }
       ],
       "services": {
         "analytics_service": {
           "status": 2,
           "analytics_property": {
-            "tracking_id": "UA-67842055-12"
+            "tracking_id": "UA-82250988-1"
           }
         },
         "appinvite_service": {

@@ -90,7 +90,8 @@ public class VaccineList extends BaseActivity {
             }
         }
         try {
-            if(getIntent().getExtras().getInt("visit_num_") == -1){
+            int visitNumber = getIntent().getExtras().getInt("visit_num_");
+            if(visitNumber == -1 || visitNumber == 0){
                 time_period_txt.setText(vacc_period[0]);
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setBackgroundResource(nxt_oardr_colr[1]);

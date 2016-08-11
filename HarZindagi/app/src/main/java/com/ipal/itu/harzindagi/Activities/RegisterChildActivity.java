@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
@@ -53,7 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class RegisterChildActivity extends BaseActivity {
+public class RegisterChildActivity extends BaseActivity implements View.OnFocusChangeListener {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
     public static String location = "0.0000,0.0000";
@@ -100,8 +102,10 @@ public class RegisterChildActivity extends BaseActivity {
 
     private PopupWindow pw;
     private View popUpView;
-
-
+    private boolean isFirstField = true;
+    private int previousID = 0;
+    private String previousViewName = "";
+    private long fieldTime;
 
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -127,6 +131,41 @@ public class RegisterChildActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onFocusChange(View view, boolean b) {
+
+        if (previousID != view.getId() && b && !isFirstField) {
+            fieldTime = (Calendar.getInstance().getTimeInMillis() / 1000) - fieldTime;
+
+            // Log.d("time",previousViewName +" : "+ fieldTime+ " Seconds");
+            logFieldTime(previousViewName,fieldTime);
+            fieldTime = (Calendar.getInstance().getTimeInMillis() / 1000);
+            previousViewName = view.getTag().toString();
+        }
+        if (isFirstField) {
+            isFirstField = false;
+            previousViewName = view.getTag().toString();
+        }
+    }
+
+    private void logFieldTime(String name, long time) {
+        if (time <= 5) {
+            time = 5;
+        } else if (time <= 10) {
+            time = 10;
+        } else if (time <= 15) {
+            time = 15;
+        } else if (time <= 20) {
+            time = 20;
+        } else if (time <= 30) {
+            time = 30;
+        } else if (time <= 40) {
+            time = 40;
+        }else{
+            time = 60;
+        }
+        Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this) +"_"+ Constants.GaEvent.REGISTER_FIELD_TIME, name, time+"", 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +173,7 @@ public class RegisterChildActivity extends BaseActivity {
         loadNameLists();
 
         activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
+        fieldTime = Calendar.getInstance().getTimeInMillis() / (1000);
         setContentView(R.layout.activity_register_child);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -155,8 +195,13 @@ public class RegisterChildActivity extends BaseActivity {
             }
         };
         registerBookId = (EditText) findViewById(R.id.registerboodid);
+        registerBookId.setOnFocusChangeListener(this);
+        registerBookId.setTag(Constants.GaEvent.BOOK_TIME);
+
         childName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildName);
         childName.setTokenizer(new SpaceTokenizer());
+        childName.setOnFocusChangeListener(this);
+        childName.setTag(Constants.GaEvent.REGISTER_NAME_TIME);
 
         adp = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, mlist);
@@ -166,14 +211,23 @@ public class RegisterChildActivity extends BaseActivity {
         childName.setAdapter(adp);
         DOB = (View) findViewById(R.id.registerChildDOB);
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
-        EPINumber = (EditText) findViewById(R.id.registerChildUCNumber);
+
+        EPINumber = (EditText) findViewById(R.id.registerChildEPINumber);
+        EPINumber.setOnFocusChangeListener(this);
+        EPINumber.setTag(Constants.GaEvent.REGISTER_EPI_TIME);
 
         CenterName = (EditText) findViewById(R.id.registerChildEPICenterName);
+        CenterName.setOnFocusChangeListener(this);
+        CenterName.setTag(Constants.GaEvent.REGISTER_CENTER_NAME_TIME);
+
 
         // Spinner item selection Listener
         addItemsOnSpinnerAge_yr();
 
         houseAddress = (EditText) findViewById(R.id.registerChildAddress);
+        houseAddress.setOnFocusChangeListener(this);
+        houseAddress.setTag(Constants.GaEvent.REGISTER_ADDRESS_TIME);
+
 
         boy = (Button) findViewById(R.id.registerChildSexMale);
         boy.setOnClickListener(new View.OnClickListener() {
@@ -227,14 +281,22 @@ public class RegisterChildActivity extends BaseActivity {
 
         guardianName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildGuardianName);
         guardianName.setTokenizer(new SpaceTokenizer());
-
+        guardianName.setOnFocusChangeListener(this);
+        guardianName.setTag(Constants.GaEvent.REGISTER_GUARDIAN_TIME);
 
         guardianName.setThreshold(1);
         guardianName.setAdapter(adp);
+
         guardianCNIC = (MaskedEditText) findViewById(R.id.registerChildGuardianCNIC);
+        guardianCNIC.setOnFocusChangeListener(this);
+        guardianCNIC.setTag(Constants.GaEvent.REGISTER_CNIC_TIME);
 
 
         guardianMobileNumber = (MaskedEditText) findViewById(R.id.registerChildGuardianMobileNumber);
+        guardianMobileNumber.setOnFocusChangeListener(this);
+        guardianMobileNumber.setTag(Constants.GaEvent.REGISTER_PHONE_TIME);
+
+
         Button txt_data = (Button) findViewById(R.id.text);
         txt_data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,6 +423,7 @@ public class RegisterChildActivity extends BaseActivity {
                 cameraIntent.putExtra("filename", childName.getText().toString() + EPINumber.getText().toString());
 
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                onFocusChange(houseAddress, true);
             }
         });
         createContexMenu();
@@ -375,7 +438,8 @@ public class RegisterChildActivity extends BaseActivity {
     public void addItemsOnSpinnerAge_yr() {
         registerChildTown_ET = (MultiAutoCompleteTextView) findViewById(R.id.registerChildTown_ET);
         registerChildTown_ET.setTokenizer(new SpaceTokenizer());
-
+        registerChildTown_ET.setOnFocusChangeListener(this);
+        registerChildTown_ET.setTag(Constants.GaEvent.REGISTER_REGION_TIME);
 
         registerChildTown_ET.setThreshold(1);
 
@@ -411,7 +475,7 @@ public class RegisterChildActivity extends BaseActivity {
 
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
         pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this, 10));
-        Constants.sendGAEvent(RegisterChildActivity.this,Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.REGISTER_ERROR,error, 0);
+        Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.REGISTER_ERROR, error, 0);
 
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         v.startAnimation(shake);
@@ -438,15 +502,15 @@ public class RegisterChildActivity extends BaseActivity {
         String error = "";
 
 
-        if(registerBookId.getText().length() < 1) {
+        if (registerBookId.getText().length() < 1) {
 
             error = "برائے مہربانی کتاب کا نمبر درج کریں۔";
             showError(registerBookId, error);
             return error;
-        }else {
+        } else {
             String bookID = registerBookId.getText().toString();
             List<Books> bookList = Books.getByBookId(Integer.parseInt(bookID));
-            if(bookList.size()!=0){
+            if (bookList.size() != 0) {
                 error = "برائے مہربانی نئی کتاب کا نمبر درج کریں۔";
                 showError(registerBookId, error);
 
@@ -578,7 +642,7 @@ public class RegisterChildActivity extends BaseActivity {
 
             this.finish();
             activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-            Constants.sendGAEvent(RegisterChildActivity.this,Constants.getUserName(this), Constants.GaEvent.REGISTER_TOTAL_TIME, activityTime + " S", 0);
+            Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(this), Constants.GaEvent.REGISTER_TOTAL_TIME, activityTime + " S", 0);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
@@ -682,7 +746,7 @@ public class RegisterChildActivity extends BaseActivity {
 
         adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Constants.sendGAEvent(RegisterChildActivity.this,Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.REGISTER_BACK , 0);
+                Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.REGISTER_BACK, 0);
                 dialog.dismiss();
                 finish();
 
@@ -726,4 +790,5 @@ public class RegisterChildActivity extends BaseActivity {
 
         }
     }
+
 }
