@@ -216,11 +216,12 @@ public class CardScanWriteVaccine extends BaseActivity {
 
         List<ChildInfo> childInfo = ChildInfoDao.getByKId(data.get(0).kid_id);
         DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-        Date date = new Date();
+        Date date;
         try {
             date = sdf.parse(bundle.getString("next_date"));
 
             childInfo.get(0).next_due_date = date.getTime();
+            childInfo.get(0).next_visit_date = date.getTime()+((long)(86400000)*28);
             childInfo.get(0).save();
         } catch (ParseException e) {
             e.printStackTrace();

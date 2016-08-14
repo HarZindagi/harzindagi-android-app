@@ -11,7 +11,7 @@ import com.ipal.itu.harzindagi.Utils.TruncatableModel;
 public class ChildInfo extends TruncatableModel {
 
 
-   @Column(name = "mobile_id")
+    @Column(name = "mobile_id")
     public Long mobile_id;
 
     @Column(name = "kid_id")
@@ -78,6 +78,9 @@ public class ChildInfo extends TruncatableModel {
     @Column(name = "next_due_date")
     public long next_due_date;
 
+    @Column(name = "next_visit_date")
+    public long next_visit_date;
+
     @Column(name = "child_address")
     public String child_address;
 
@@ -97,8 +100,8 @@ public class ChildInfo extends TruncatableModel {
         super();
     }
 
-    public void setChildInfo(String book_id,String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location,String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag,String address,String imei) {
-       this.imei_number = imei;
+    public void setChildInfo(String book_id, String childID, String name, int gender, String dob, String motherName, String guardianName, String CNIC, String phoneNum, long createdTime, String Location, String EpiName, String kidStation, String imageName, String nfcNumber, boolean bookFlag, boolean recordFlag, String address, String imei,long due_date,long next_visit_date) {
+        this.imei_number = imei;
         this.epi_number = childID;
         this.kid_name = name;
         this.gender = gender;
@@ -109,19 +112,21 @@ public class ChildInfo extends TruncatableModel {
         this.phone_number = phoneNum;
         this.created_timestamp = createdTime;
         this.location = Location;
-        this.epi_name=EpiName;
+        this.epi_name = EpiName;
         this.kids_station = kidStation;
         this.image_path = imageName;
         this.nfc_number = nfcNumber;
-       // this.book_update_flag = bookFlag;
+        // this.book_update_flag = bookFlag;
         this.record_update_flag = recordFlag;
         this.child_address = address;
-        this.book_id =book_id;
-
+        this.book_id = book_id;
+        this.next_due_date = due_date;
+        this.next_visit_date = next_visit_date;
 
 
     }
-    public void setChildInfo(String name,  String CNIC, String phoneNum) {
+
+    public void setChildInfo(String name, String CNIC, String phoneNum) {
         this.kid_name = name;
         this.guardian_cnic = CNIC;
         this.phone_number = phoneNum;

@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class GChildInfo implements Serializable {
     public long id;
     public long mobile_id;
-   // public String mobile_id;
+    // public String mobile_id;
     public String imei_number;
     public String kid_name;
     public String father_name;
@@ -27,5 +27,6 @@ public class GChildInfo implements Serializable {
     public String itu_epi_number;
     public String image_path;
     public String book_id;
+    public long next_visit_date;
 
 }

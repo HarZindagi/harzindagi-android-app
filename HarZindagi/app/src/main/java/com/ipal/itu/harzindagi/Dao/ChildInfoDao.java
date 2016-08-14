@@ -7,14 +7,16 @@ import com.ipal.itu.harzindagi.Entity.ChildInfo;
 
 import java.util.List;
 
+import static com.google.android.gms.analytics.internal.zzy.c;
+
 /**
  * Created by Ali on 1/14/2016.
  */
 public class ChildInfoDao {
 
-    public long save(String book_id,String childID, String name, int gender, String dob,  String motherName,String  guardianName, String CNIC, String phoneNum,long createdTime,String Location,String EpiName,String kidStation,String imageName, String nfcNumber,boolean bookFlag,boolean recordFlag ,String address,String imei) {
+    public long save(String book_id,String childID, String name, int gender, String dob,  String motherName,String  guardianName, String CNIC, String phoneNum,long createdTime,String Location,String EpiName,String kidStation,String imageName, String nfcNumber,boolean bookFlag,boolean recordFlag ,String address,String imei,long due_date,long next_visit_date) {
         ChildInfo item = new ChildInfo();
-        item.setChildInfo(book_id,childID, name, gender, dob, motherName, guardianName, CNIC, phoneNum, createdTime, Location, EpiName, kidStation, imageName, nfcNumber, bookFlag, recordFlag, address, imei);
+        item.setChildInfo(book_id,childID, name, gender, dob, motherName, guardianName, CNIC, phoneNum, createdTime, Location, EpiName, kidStation, imageName, nfcNumber, bookFlag, recordFlag, address, imei,due_date,next_visit_date);
         item.save(); // to get system generated id we have to save it first
         item.kid_id = item.getId();
         item.mobile_id = item.getId();
@@ -61,6 +63,7 @@ public class ChildInfoDao {
                 item.phone_number = items.get(i).phone_number;
                 item.mother_name = items.get(i).mother_name;
                 item.next_due_date = items.get(i).next_due_date;
+                item.next_visit_date = items.get(i).next_visit_date;
                 item.image_path = items.get(i).image_path;
                 item.record_update_flag = items.get(i).record_update_flag;
                 item.image_update_flag = items.get(i).image_update_flag;
@@ -179,7 +182,7 @@ public class ChildInfoDao {
 
         return new Select()
                 .from(ChildInfo.class)
-                .where("next_due_date >? and next_due_date < ?",curr_date-((86400000)*5),curr_date+((86400000)*5))
+                .where("? >= next_due_date and ? <= next_visit_date",curr_date,curr_date)
 
                 .execute();
 
@@ -189,7 +192,7 @@ public class ChildInfoDao {
 
         return new Select()
                 .from(ChildInfo.class)
-                .where("next_due_date < ? OR next_due_date =?",curr_date-((86400000)*5),curr_date-((86400000)*5))
+                .where("? > next_visit_date",curr_date)
 
                 .execute();
     }
@@ -198,10 +201,38 @@ public class ChildInfoDao {
 
         return new Select()
                 .from(ChildInfo.class)
-                .where("next_due_date > ? OR next_due_date =?",curr_date+((86400000)*5),curr_date+((86400000)*5))
+                .where("next_due_date > ?",curr_date)
 
                 .execute();
     }
+
+    /* public List<ChildInfo> getToday(long curr_date){
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("next_due_date >? and next_due_date < ?",curr_date-((long)(86400000)*5),curr_date+((long)(86400000)*5))
+
+                .execute();
+
+    }
+
+    public List<ChildInfo> getDefaulter(long curr_date){
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("next_due_date < ? OR next_due_date =?",curr_date-((long)(86400000)*5),curr_date-((long)(86400000)*5))
+
+                .execute();
+    }
+
+    public List<ChildInfo> getCompleted(long curr_date){
+
+        return new Select()
+                .from(ChildInfo.class)
+                .where("next_due_date > ? OR next_due_date =?",curr_date+((long)(86400000)*5),curr_date+((long)(86400000)*5))
+
+                .execute();
+    }*/
     public List<ChildInfo> getTodayCompleted(long curr_date){
 
         return new Select()

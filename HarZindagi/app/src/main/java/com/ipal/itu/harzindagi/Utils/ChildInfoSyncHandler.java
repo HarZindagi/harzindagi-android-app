@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -121,7 +122,7 @@ public class ChildInfoSyncHandler {
 
             Long tsLong = calendar.getTimeInMillis() / 1000;
             kid.put("upload_timestamp", tsLong);
-            DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
+            DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
             if (childInfo.date_of_birth != null) {
                 Date date = dfm.parse(childInfo.date_of_birth);
                 dfm.getCalendar().setTime(date);
@@ -135,14 +136,13 @@ public class ChildInfoSyncHandler {
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");
             kid.put("image_path", childInfo.image_path);
             kid.put("next_due_date", childInfo.next_due_date);
+            kid.put("next_visit_date", childInfo.next_visit_date);
             kid.put("book_id", childInfo.book_id);
 
 
             obj.put("kid", kid);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,

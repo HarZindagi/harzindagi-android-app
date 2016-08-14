@@ -33,6 +33,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.ipal.itu.harzindagi.R.id.date;
+
 
 public class CardScanWrite extends BaseActivity {
 
@@ -177,9 +179,13 @@ public class CardScanWrite extends BaseActivity {
         List<ChildInfo> item = ChildInfoDao.getByKId(kid_id);
         long mkid_id = -1l;
         if (item.size() == 0) {
-            mkid_id = childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this));
+           long due_date = Calendar.getInstance().getTimeInMillis();
+            long next_visit_date = Calendar.getInstance().getTimeInMillis()+((long)(86400000)*28);
+
+            mkid_id = childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this),due_date,next_visit_date);
             Books books = new Books();
             books.date = Calendar.getInstance().getTimeInMillis()/1000;
+
             books.kid_id = Long.parseLong(Child_id);
             books.book_number = Integer.parseInt(bookID);
             books.is_sync =false;
