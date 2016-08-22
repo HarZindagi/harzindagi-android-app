@@ -93,8 +93,8 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
     }
     private void logTime(){
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.TAKE_PICTURE_TIME, activityTime + " S", 0);
-
+        //Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.TAKE_PICTURE_TIME, activityTime + " S", 0);
+        Constants.logTime(this,activityTime,Constants.GaEvent.TAKE_PICTURE_TIME);
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {

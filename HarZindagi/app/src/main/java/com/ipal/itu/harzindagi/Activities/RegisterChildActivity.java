@@ -630,7 +630,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             DateOfBirth = DOBText.getText().toString();
             Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
             intent.putExtra("ID", epiNumber);
-            intent.putExtra("kid_id", -1l);
+            intent.putExtra("kid_id", -1L);
             intent.putExtra("Name", ChildName);
             intent.putExtra("Gender", Gender);
             intent.putExtra("DOB", DateOfBirth);
