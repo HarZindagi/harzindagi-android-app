@@ -77,7 +77,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-
+android:id="@+id/epi_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
             android:layout_marginTop="10dp"
@@ -112,6 +112,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/or_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

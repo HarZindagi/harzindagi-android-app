@@ -102,7 +102,7 @@ public class ChildInfoDao {
     public  List<ChildInfo> getByBookNum(String id) {
         return new Select()
                 .from(ChildInfo.class)
-                .where("epi_number = ?", id)
+                .where("book_id = ?", id)
                 .orderBy("kid_name ASC")
                 .execute();
     }

@@ -351,6 +351,7 @@ public class ChildrenListActivity extends BaseActivity {
         startActivity(intent);*/
         Intent myintent = new Intent(ChildrenListActivity.this, RegisteredChildActivity.class);
         myintent.putExtra("childid",  SearchActivity.data.get(selectedPosition).kid_id);
+        myintent.putExtra("bookid",  SearchActivity.data.get(selectedPosition).book_id);
         myintent.putExtra("imei",  SearchActivity.data.get(selectedPosition).imei_number);
         startActivity(myintent);
 

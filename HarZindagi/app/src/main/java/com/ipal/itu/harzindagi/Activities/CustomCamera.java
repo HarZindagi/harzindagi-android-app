@@ -66,7 +66,7 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
            /* Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                     bmpRotate, realImage.getWidth()/2,realImage.getHeight()/2, false);*/
             if (detactFace(bmpRotate)) {
-                saveImage(bmpRotate, camera);
+                saveImage(bmpRotate);
             } else {
                 mCamera.startPreview();
                 progress.hide();
@@ -218,7 +218,7 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
         return isFaceDetected;
     }
 
-    private void saveImage(Bitmap image, Camera camera) {
+    private void saveImage(Bitmap image) {
 
         Bitmap cropped_bitmap = cropBitmap(image);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

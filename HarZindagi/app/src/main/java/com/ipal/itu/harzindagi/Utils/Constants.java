@@ -15,6 +15,7 @@ import android.util.TypedValue;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.ipal.itu.harzindagi.Activities.RegisterChildActivity;
 import com.ipal.itu.harzindagi.Application.HarZindagiApp;
 
 import java.io.ByteArrayOutputStream;
@@ -64,7 +65,7 @@ public class Constants {
     public static final String checkOut = "checkOut";
     public static final String location = "location";
     public static final String day = "cDay";
-    private static final boolean isTrainking = false;
+    private static final boolean isTracking = false;
 
     public static String getToken(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
@@ -211,7 +212,39 @@ public class Constants {
         }
 
     }
+    public static void logTime(Activity c ,long time,String lable){
+        String avergatTime = time+"";
+        if (time <= 5) {
+            avergatTime = ""+5;
+        } else if (time <= 10) {
+            avergatTime = ""+ 10;
+        } else if (time <= 15) {
+            avergatTime = ""+ 15;
+        } else if (time <= 20) {
+            avergatTime = ""+ 20;
+        } else if (time <= 30) {
+            avergatTime = ""+ 30;
+        } else if (time <= 40) {
+            avergatTime = ""+ 40;
+        } else if (time <= 50) {
+            avergatTime = ""+ 50;
+        } else if (time <= 60) {
+            avergatTime = ""+ 60;
+        } else if (time <= 70) {
+            avergatTime = ""+ 70;
+        } else if (time <= 80) {
+            avergatTime = ""+ 80;
+        } else if (time <= 90) {
+            avergatTime = ""+ 90;
+        } else if (time <= 100) {
+            avergatTime = ""+ 100;
+        }
+        else{
+            avergatTime = "100+";
+        }
 
+        Constants.sendGAEvent(c, Constants.getUserName(c), lable, avergatTime + " S", 0);
+    }
     public static String addDate(String dateStr) {
         DateFormat df = new SimpleDateFormat("dd-MMM-yyyy",Locale.US);
         Date date = null;
@@ -336,7 +369,7 @@ public class Constants {
     }
 
     public static void sendGAEvent(Activity c, String category, String action, String lable, long value) {
-        if (isTrainking) {
+        if (isTracking) {
             HarZindagiApp myApp = (HarZindagiApp) c.getApplication();
             Tracker mTracker = myApp.getDefaultTracker();
             mTracker.send(new HitBuilders.EventBuilder()
