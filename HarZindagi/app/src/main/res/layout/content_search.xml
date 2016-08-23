@@ -50,6 +50,7 @@
             android:layout_alignParentLeft="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="5dp"
+            android:textSize="16sp"
             android:layout_toLeftOf="@+id/newBookTV"
             android:hint=""
             android:inputType="number"
@@ -93,6 +94,7 @@ android:id="@+id/epi_layout"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/searchActivityChildID_TV"
                 android:hint=""
+                android:textSize="16sp"
                 android:inputType="number"
                 android:singleLine="true" />
 
@@ -139,6 +141,7 @@ android:id="@+id/epi_layout"
                 android:layout_toLeftOf="@+id/searchActivityBookIdText"
                 android:hint=""
                 android:inputType="number"
+                android:textSize="16sp"
                 android:singleLine="true" />
 
             <TextView
