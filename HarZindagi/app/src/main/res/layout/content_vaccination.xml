@@ -67,17 +67,6 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/ChildNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:text="بچےکا نام :"
-                android:textColor="@android:color/black"
-                android:textSize="17sp" />
-
-            <TextView
                 android:id="@+id/ChildName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -88,6 +77,20 @@
                 android:text="Asad"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/ChildNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="12dp"
+                android:gravity="center_vertical"
+                android:text="بچےکا نام :"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="12dp" />
         </RelativeLayout>
 
         <View
