@@ -162,8 +162,8 @@ public class CardScanWrite extends BaseActivity {
     }
     private void logTime(){
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_TIME, activityTime + " S", 0);
-
+      //  Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_TIME, activityTime + " S", 0);
+        Constants.logTime(this,activityTime,Constants.GaEvent.CARD_WRITE_TIME);
     }
 
     @Override

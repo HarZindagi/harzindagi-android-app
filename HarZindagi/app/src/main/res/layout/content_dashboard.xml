@@ -55,7 +55,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="یوسی کے سارے بچوں کا ریکارڈ"
+        android:text="یوسی   کے سارے بچوں کا ریکارڈ"
         android:id="@+id/dashBoardActivityShowAllChildrenButton"
         android:layout_weight=".2"
         android:layout_gravity="center"

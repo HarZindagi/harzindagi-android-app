@@ -11,31 +11,20 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:layout_height="55dp"
+android:gravity="center"
         android:layout_margin="10dp"
         android:color="@android:color/white"
         android:text="کڈ اسٹیشن کی تصویر بھیجیں"
         android:textAlignment="center"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="25dp"
+        android:textSize="20sp"
         android:background="@drawable/text_bg_kid_station"
         android:padding="5dp"
         android:textStyle="bold"
         android:id="@+id/kidstation_txt"
 
         />
-
-    <ImageView
-        android:id="@+id/CropImageView_station"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/camera_preview"
-        android:layout_alignLeft="@+id/camera_preview"
-        android:layout_alignRight="@+id/camera_preview"
-
-        android:layout_alignTop="@+id/camera_preview"
-        android:scaleType="fitCenter" />
 
     <ImageView
         android:id="@+id/button_capture_station"
@@ -61,9 +50,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="6dp"
         android:src="@drawable/camera_tick" />
+
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
         android:text="یہی استعمال کریں"
         android:paddingRight="8dp"
         android:textSize="15dp"
@@ -71,7 +62,8 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:background="@drawable/text_bg_kid_station"
-        android:textColor="@android:color/holo_red_dark"/>
+        android:textColor="@android:color/holo_red_dark"
+        android:id="@+id/textView2" />
 
 </LinearLayout>
 <LinearLayout
@@ -92,7 +84,8 @@
         android:layout_gravity="center_horizontal"/>
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
         android:text="دوبارہ تصویر کھینچیں"
         android:paddingRight="8dp"
         android:textSize="15dp"
@@ -105,6 +98,15 @@
 
 </LinearLayout>
 
+    <ImageView
+        android:id="@+id/CropImageView_station"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:scaleType="fitCenter"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

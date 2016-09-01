@@ -82,8 +82,8 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
     private void logTime() {
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_TIME, activityTime + " S", 0);
-
+       // Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_TIME, activityTime + " S", 0);
+        Constants.logTime(this,activityTime,Constants.GaEvent.KID_SEARCH_TIME);
     }
 
     @Override
@@ -119,6 +119,12 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
             book_num = getIntent().getStringExtra("book_num");
             bookNumber.setText(book_num);
             newbookText.setText(book_num);
+            findViewById(R.id.bookSearchLayout).setVisibility(View.GONE);
+            findViewById(R.id.advanceSearchButton).setVisibility(View.GONE);
+            findViewById(R.id.epi_layout).setVisibility(View.GONE);
+            findViewById(R.id.or_text_view).setVisibility(View.GONE);
+
+
 
         }
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +141,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
                     }
 
-                    if (data.size() != 0) {
+                    if (data.size() != 0 ) {
 
                         startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
 
@@ -349,8 +355,8 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+               // VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.dismiss();
             }
         }) {
@@ -409,8 +415,10 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
             } else {
                 c.gender = 0;
             }
+            c.book_id = obj.childInfoArrayList.get(i).book_id;
             c.epi_number = obj.childInfoArrayList.get(i).epi_number;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
+            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date;
             c.record_update_flag = true;
 
 

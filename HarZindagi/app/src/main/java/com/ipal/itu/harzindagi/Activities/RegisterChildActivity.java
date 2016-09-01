@@ -55,6 +55,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static com.google.android.gms.analytics.internal.zzy.t;
+
 public class RegisterChildActivity extends BaseActivity implements View.OnFocusChangeListener {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
@@ -147,6 +149,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             previousViewName = view.getTag().toString();
         }
     }
+
 
     private void logFieldTime(String name, long time) {
         if (time <= 5) {
@@ -585,7 +588,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
 
         }
       /*  if (motherName.getText().length() < 1) {
-            error = "برائے مہربانی والدہ کا نام درج کریں ۔";
+            error ="enter mother name!";
             showError(motherName, error);
             return error;
         }*/
@@ -627,7 +630,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             DateOfBirth = DOBText.getText().toString();
             Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
             intent.putExtra("ID", epiNumber);
-            intent.putExtra("kid_id", -1l);
+            intent.putExtra("kid_id", -1L);
             intent.putExtra("Name", ChildName);
             intent.putExtra("Gender", Gender);
             intent.putExtra("DOB", DateOfBirth);
@@ -642,7 +645,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
 
             this.finish();
             activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-            Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(this), Constants.GaEvent.REGISTER_TOTAL_TIME, activityTime + " S", 0);
+            Constants.logTime(RegisterChildActivity.this,activityTime,Constants.GaEvent.REGISTER_TOTAL_TIME);
             startActivity(intent);
             //imageView.setImageBitmap(photo);
         }
@@ -655,6 +658,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
 
 
     }
+
 
     public void readEditTexts() {
         epiNumber = EPINumber.getText().toString();

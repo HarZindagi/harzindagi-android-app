@@ -92,9 +92,10 @@
             android:paddingRight="15dp"
             android:paddingTop="5dp"
             android:visibility="gone"
+            android:textSize="18sp"
             android:text="تصویر کھینچیں"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+             />
 
 
     </LinearLayout>

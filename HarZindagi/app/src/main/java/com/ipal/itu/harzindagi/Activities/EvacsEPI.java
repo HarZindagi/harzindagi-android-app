@@ -60,7 +60,8 @@ public class EvacsEPI extends BaseActivity {
     }
     public void logTime(){
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.EVACCS_TIME, activityTime + " S", 0);
+        Constants.logTime(this,activityTime,Constants.GaEvent.EVACCS_TIME);
+        //Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.EVACCS_TIME, activityTime + " S", 0);
 
     }
 

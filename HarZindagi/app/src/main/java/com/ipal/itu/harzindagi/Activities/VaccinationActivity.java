@@ -99,8 +99,8 @@ public class VaccinationActivity extends BaseActivity {
     }
     public void logTime(){
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.VAC_TIME, activityTime + " S", 0);
-
+       // Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.VAC_TIME, activityTime + " S", 0);
+        Constants.logTime(this,activityTime,Constants.GaEvent.VAC_TIME);
     }
 
     @Override

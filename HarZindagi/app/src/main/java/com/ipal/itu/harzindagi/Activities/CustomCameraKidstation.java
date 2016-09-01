@@ -126,8 +126,8 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
     }
     public void logTime(){
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.KIT_IMAGE_TIME, activityTime + " S", 0);
-
+        //Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.KIT_IMAGE_TIME, activityTime + " S", 0);
+        Constants.logTime(this,activityTime,Constants.GaEvent.KIT_IMAGE_TIME);
     }
 
     @Override

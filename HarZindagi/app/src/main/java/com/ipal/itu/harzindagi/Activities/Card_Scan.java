@@ -131,41 +131,15 @@ public class Card_Scan extends BaseActivity {
                 Intent intent1 = new Intent(this,SearchActivity.class);
                 intent1.putExtra("book_num",Arry[Arry.length - 5]);
                 startActivity(intent1);
-                addNewRecord(Arry);
+                //addNewRecord(Arry);
                 Toast.makeText(ctx,"بچہ دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
 
             }else{
                 openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5],Arry[1]);
-                //   Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
+
 
             }
 
-      /*      Intent i = new Intent(Card_Scan.this, VaccinationActivity.class);
-            List<ChildInfo> child;
-            if (Arry[1].equals("1")) {
-                child = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(Arry[0]), Arry[Arry.length - 3]);
-
-            } else {
-                child = ChildInfoDao.getByLocalKIdandIMEI(Long.parseLong(Arry[0]), Arry[Arry.length - 3]);
-            }
-
-            if(!child.get(0).book_id.equals(Arry[Arry.length - 5])){
-                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5]);
-             //   Toast.makeText(ctx, "یہ کتاب پرانی ہے۔ نئ کتاب اپنے ساتھ لایں", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            i.putExtra("childid", Long.parseLong(Arry[0]));
-            if (Arry[1].equals("1")) {
-                i.putExtra("isSync", true);
-            } else {
-                i.putExtra("isSync", false);
-            }
-            i.putExtra("imei", Arry[Arry.length - 3]);
-            i.putExtra("visit_num", Arry[Arry.length - 2]);
-            i.putExtra("vacc_details", Arry[Arry.length - 1]);
-            startActivity(i);
-            finish();*/
         } else {
             Toast.makeText(ctx, "Try Again!", Toast.LENGTH_LONG).show();
         }
