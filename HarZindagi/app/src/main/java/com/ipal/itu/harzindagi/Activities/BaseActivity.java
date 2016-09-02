@@ -12,6 +12,8 @@ import com.ipal.itu.harzindagi.R;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.google.android.gms.analytics.internal.zzy.e;
+
 public class BaseActivity extends AppCompatActivity {
 
     @Override
@@ -19,9 +21,31 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        try {
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
+            }
+        } catch (Exception e) {
+
+        }
+
+
+    }
 }

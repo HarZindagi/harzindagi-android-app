@@ -9,12 +9,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,9 +85,9 @@ public class LoginActivity extends BaseActivity {
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     public GUserInfo obj;
     String[] str = {
-            "Ali", "Ahmed","Adil","Ashraf","Akmal","Azam","Arif","Akhtar", "Babar", "Butt", "Bilal", "Danial", "Farhan", "Gulzar", "Hakim","Haji", "Khizir", "Mehmood", "Nasir", "Pathan", "Hassan", "Saad",
+            "Ali", "Ahmed", "Adil", "Ashraf", "Akmal", "Azam", "Arif", "Akhtar", "Babar", "Butt", "Bilal", "Danial", "Farhan", "Gulzar", "Hakim", "Haji", "Khizir", "Mehmood", "Nasir", "Pathan", "Hassan", "Saad",
             "Tahir", "Umer", "Khawer", "Yasir", "Jhangir", "Usman", "Osman", "Waseem",
-            "Mannan","Muhammad","Majeed","Manzoor","Muneeb", "Imran", "Zaheer", "Zeshan"};
+            "Mannan", "Muhammad", "Majeed", "Manzoor", "Muneeb", "Imran", "Zaheer", "Zeshan"};
     String[] women_str = {
             "Aysha", "Fatima", "Mariam", "Aqsa", "Laiba", "Aiza", "Rabia", "Zainab", "Hina", "Saba", "Amna", "Aleena", "Maria", "Qurat", "IQRA",
             "Shazia", "Zoya", "Sadia", "Anam", "Eshaal", "Mehwish", "Asma", "Haniya",
@@ -111,12 +114,12 @@ public class LoginActivity extends BaseActivity {
     private long enqueue;
     private DownloadManager dm;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         app_name = getResources().getString(R.string.app_name);
         File appFolder = new File("/sdcard/" + app_name);
@@ -212,9 +215,9 @@ public class LoginActivity extends BaseActivity {
             Intent gpsOptionsIntent = new Intent(
                     android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(gpsOptionsIntent);
-            String gps="GPS";
-            String onkre="آن کریں GPS";
-            Toast.makeText(this,onkre, Toast.LENGTH_LONG).show();
+            String gps = "GPS";
+            String onkre = "آن کریں GPS";
+            Toast.makeText(this, onkre, Toast.LENGTH_LONG).show();
         }
         receiver = new BroadcastReceiver() {
             @Override
@@ -464,6 +467,7 @@ public class LoginActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void showDownloadDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
@@ -881,7 +885,7 @@ public class LoginActivity extends BaseActivity {
             c.book_id = obj.childInfoArrayList.get(i).book_id;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
-            c.image_update_flag =true;
+            c.image_update_flag = true;
             //c.book_update_flag = true;
             c.image_path = "image_" + obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
 

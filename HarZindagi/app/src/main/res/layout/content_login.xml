@@ -15,12 +15,12 @@
     tools:showIn="@layout/activity_login">
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:src="@drawable/app_logo" />
-    android:background="@android:color/transparent"
+
     />
 
 
@@ -44,12 +44,16 @@
         <TextView
             android:id="@+id/UnionCouncil"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
+            style="@style/EditTextFill"
+            android:textColor="@color/text_gray"
+            android:layout_toLeftOf="@+id/loginActivityUnionCouncil"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:gravity="left"
+            android:gravity="left|center"
             android:text="UC-Name"
+            android:layout_marginRight="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -57,9 +61,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/userNameLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/userNameTV"
@@ -73,12 +78,14 @@
 
         <TextView
             android:id="@+id/loginActivityUserName"
+            style="@style/EditTextNormal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
+            android:layout_marginRight="27dp"
             android:layout_toLeftOf="@+id/userNameTV"
-            android:hint="Name"
             android:gravity="center|left"
+            android:hint="Name"
             android:nextFocusDown="@+id/pasNameTV"
             android:singleLine="true"
             android:textSize="20dp"
@@ -89,6 +96,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_height="50dp">
 
         <TextView
@@ -103,16 +111,18 @@
 
         <EditText
             android:id="@+id/loginActivityPassword"
+            style="@style/EditTextNormal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/pasNameTV"
+            android:layout_height="50dp"
+
             android:hint="Password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
+            android:layout_marginRight="40dp"
             android:singleLine="true"
-            />
+        android:layout_toLeftOf="@+id/pasNameTV"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
     <TextView
