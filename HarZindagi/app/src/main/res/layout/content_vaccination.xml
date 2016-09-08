@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="8dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -11,9 +13,7 @@
     android:paddingTop="8dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.LoginActivity"
-    tools:showIn="@layout/activity_vaccination"
-    android:background="#EAEAEA"
-    android:gravity="center">
+    tools:showIn="@layout/activity_vaccination">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,24 +29,25 @@
             <TextView
                 android:id="@+id/ChildEPINumberText"
                 android:layout_width="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
-                android:text="ای پی آئی نمبر:"
+                android:text="ای پی آئی نمبر"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/EPINumber"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="70dp"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/ChildEPINumberText"
-                android:gravity="center_vertical"
-                android:text="103"
+                android:background="@drawable/border_black"
 
+                android:gravity="right"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:text="103"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
 
@@ -68,13 +69,15 @@
 
             <TextView
                 android:id="@+id/ChildName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="19dp"
-                android:layout_marginRight="35dp"
-                android:layout_toLeftOf="@+id/ChildNameText"
-                android:gravity="center_vertical"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:layout_marginRight="10dp"
                 android:text="Asad"
+                android:gravity="right"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:textStyle="normal"
+                android:background="@drawable/border_black"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
 
@@ -82,22 +85,17 @@
                 android:id="@+id/ChildNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="center_vertical"
-                android:text="بچےکا نام :"
+                android:text="بچےکا نام "
                 android:textColor="@android:color/black"
-                android:textSize="17sp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="12dp" />
+                android:textSize="17sp" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-
-            android:background="@color/color_gray" />
     </LinearLayout>
 
     <LinearLayout
@@ -109,24 +107,27 @@
         android:weightSum="6">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/vac_wed"
+            android:layout_height="@dimen/vac_he"
             android:layout_weight="1"
-            android:gravity="center">
-
-            <FrameLayout
+            android:gravity="center"
+            android:id="@+id/vaccinationActivityFirstTab"
+            android:background="@drawable/edit_text_border">
+            <TextView
+                android:id="@+id/vaccinationActivityFirstTabTick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="1"
+                android:textSize="@dimen/vac_txt_size"
+                android:textColor="@color/colorPrimary"
+                android:visibility="visible" />
+           <!-- <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
 
-                <TextView
-                    android:id="@+id/vaccinationActivityFirstTabTick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="1"
-                    android:textColor="@android:color/black"
-                    android:visibility="visible" />
+
 
                 <View
                     android:id="@+id/vaccinationActivityFirstTab"
@@ -137,28 +138,34 @@
                 </View>
 
 
-            </FrameLayout>
+            </FrameLayout>-->
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/vac_wed"
+            android:layout_height="@dimen/vac_he"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
 
-            <FrameLayout
+            android:id="@+id/vaccinationActivitySecondTab"
+
+            android:background="@drawable/edit_text_border">
+            <TextView
+                android:id="@+id/vaccinationActivitySecondTabTick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="2"
+                android:textSize="@dimen/vac_txt_size"
+
+                android:textColor="@color/colorPrimary" />
+           <!-- <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
 
-                <TextView
-                    android:id="@+id/vaccinationActivitySecondTabTick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="2"
-                    android:textColor="@android:color/black" />
+
 
                 <View
                     android:id="@+id/vaccinationActivitySecondTab"
@@ -166,82 +173,91 @@
                     android:layout_height="40dp"
                     android:background="@drawable/vactab_2" />
 
-            </FrameLayout>
+            </FrameLayout>-->
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/vac_wed"
+            android:layout_height="@dimen/vac_he"
             android:layout_weight="1"
+            android:background="@drawable/edit_text_border"
+            android:id="@+id/vaccinationActivityThirdTab"
             android:gravity="center">
-
-            <FrameLayout
+            <TextView
+                android:id="@+id/vaccinationActivityThirdTabTick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="3"
+                android:textSize="@dimen/vac_txt_size"
+                android:textColor="@color/colorPrimary" />
+           <!-- <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
 
-                <TextView
-                    android:id="@+id/vaccinationActivityThirdTabTick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="3"
-                    android:textColor="@android:color/black" />
+
 
                 <View
                     android:id="@+id/vaccinationActivityThirdTab"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/vactab_3" />
-            </FrameLayout>
+            </FrameLayout>-->
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/vac_wed"
+            android:layout_height="@dimen/vac_he"
             android:layout_weight="1"
+            android:background="@drawable/edit_text_border"
+            android:id="@+id/vaccinationActivityFourthTab"
             android:gravity="center">
-
-            <FrameLayout
+            <TextView
+                android:id="@+id/vaccinationActivityFourthTabTick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="4"
+                android:textSize="@dimen/vac_txt_size"
+                android:textColor="@color/colorPrimary" />
+           <!-- <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
 
-                <TextView
-                    android:id="@+id/vaccinationActivityFourthTabTick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="4"
-                    android:textColor="@android:color/black" />
+
 
                 <View
                     android:id="@+id/vaccinationActivityFourthTab"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/vactab_4" />
-            </FrameLayout>
+            </FrameLayout>-->
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/vac_wed"
+            android:layout_height="@dimen/vac_he"
             android:layout_weight="1"
+            android:id="@+id/vaccinationActivityFifthTab"
+            android:background="@drawable/edit_text_border"
             android:gravity="center">
+            <TextView
+                android:id="@+id/vaccinationActivityFifthTabTick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="5"
+                android:textSize="@dimen/vac_txt_size"
+                android:textColor="@color/colorPrimary" />
 
-            <FrameLayout
+          <!--  <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
 
-                <TextView
-                    android:id="@+id/vaccinationActivityFifthTabTick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="5"
-                    android:textColor="@android:color/black" />
 
                 <View
                     android:id="@+id/vaccinationActivityFifthTab"
@@ -249,43 +265,47 @@
                     android:layout_height="40dp"
                     android:background="@drawable/vactab_5" />
             </FrameLayout>
-
+-->
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/vac_wed"
+            android:layout_height="@dimen/vac_he"
             android:layout_weight="1"
-            android:gravity="center">
-
-            <FrameLayout
+            android:gravity="center"
+            android:id="@+id/vaccinationActivitySixthTab"
+            android:background="@drawable/edit_text_border">
+            <TextView
+                android:id="@+id/vaccinationActivitySixthTabTick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="6"
+                android:textSize="@dimen/vac_txt_size"
+                android:textColor="@color/colorPrimary" />
+           <!-- <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
 
-                <TextView
-                    android:id="@+id/vaccinationActivitySixthTabTick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="6"
-                    android:textColor="@android:color/black" />
+
 
                 <View
                     android:id="@+id/vaccinationActivitySixthTab"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/vactab_6" />
-            </FrameLayout>
+            </FrameLayout>-->
 
         </LinearLayout>
 
     </LinearLayout>
+
     <com.ipal.itu.harzindagi.Adapters.CustomViewPager
         android:id="@+id/vaccinationActivityVaccinationsPager"
         android:layout_width="match_parent"
-        android:background="#EAEAEA"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="#EAEAEA" />
 </LinearLayout>
 
 

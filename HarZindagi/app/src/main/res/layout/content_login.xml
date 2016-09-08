@@ -43,18 +43,18 @@
 
         <TextView
             android:id="@+id/UnionCouncil"
+            style="@style/EditTextFill"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            style="@style/EditTextFill"
-            android:textColor="@color/text_gray"
-            android:layout_toLeftOf="@+id/loginActivityUnionCouncil"
             android:layout_gravity="center_horizontal"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/loginActivityUnionCouncil"
             android:gravity="left|center"
             android:text="UC-Name"
-            android:layout_marginRight="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/text_gray"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -79,6 +79,7 @@
         <TextView
             android:id="@+id/loginActivityUserName"
             style="@style/EditTextNormal"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -96,8 +97,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/pasNameTV"
@@ -114,15 +115,15 @@
             style="@style/EditTextNormal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-
+            android:textColor="@color/colorPrimary"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="40dp"
+            android:layout_toLeftOf="@+id/pasNameTV"
             android:hint="Password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:layout_marginRight="40dp"
-            android:singleLine="true"
-        android:layout_toLeftOf="@+id/pasNameTV"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:singleLine="true" />
     </RelativeLayout>
 
     <TextView
@@ -157,12 +158,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/roundbutton"
+            android:background="@drawable/roundbuttonred"
             android:padding="5dp"
             android:text="پاس ورڈ بھول گئے ؟"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
+        <RelativeLayout
+            android:id="@+id/loginActivityForget_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/air_line_info"
+            android:layout_marginTop="-5dp"
+            android:background="@drawable/border_red"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/summry_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/ForgetActivitySMS"
+                    android:layout_width="300dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border_red"
+                    android:text="ایس ایم ایس بھیجیں"
+                    android:textColor="@color/Button_Theme_color"
+
+                    android:textSize="17sp" />
+
+                <Button
+                    android:id="@+id/ForgetActivityCall"
+                    android:layout_width="300dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+
+                    android:background="@drawable/border_red"
+                    android:text="کال کریں"
+                    android:textColor="@color/Button_Theme_color"
+                    android:textSize="17sp" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

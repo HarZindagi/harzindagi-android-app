@@ -16,6 +16,8 @@ import com.ipal.itu.harzindagi.R;
 import java.io.File;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Ali on 1/14/2016.
  */
@@ -60,7 +62,7 @@ public class ChildListAdapter extends BaseAdapter {
         TextView childName = (TextView) convertView.findViewById(R.id.listActivityRowChildName);
         TextView guardianName = (TextView) convertView.findViewById(R.id.listActivityRowGuardianName);
         TextView address = (TextView) convertView.findViewById(R.id.listActivityRowAddress);
-        ImageView pic = (ImageView) convertView.findViewById(R.id.listActivityRowImage);
+        CircleImageView pic = (CircleImageView) convertView.findViewById(R.id.listActivityRowImage);
 
         childName.setText(data.get(position).kid_name);
         guardianName.setText(data.get(position).guardian_name);

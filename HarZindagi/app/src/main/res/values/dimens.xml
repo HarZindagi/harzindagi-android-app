@@ -13,7 +13,13 @@
     <dimen name="months_padding_top">8dp</dimen>
     <dimen name="months_padding_bottom">8dp</dimen>
     <dimen name="standard_padding">16dp</dimen>
-    <dimen name="textview_height">40dp</dimen>
+    <dimen name="textview_height">50dp</dimen>
     <dimen name="textview_height_2">50dp</dimen>
+    <dimen name="text_wed">220dp</dimen>
+    <dimen name="text_he">40dp</dimen>
+    <dimen name="mar">10dp</dimen>
+    <dimen name="vac_wed">50dp</dimen>
+    <dimen name="vac_he">35dp</dimen>
+    <dimen name="vac_txt_size">15sp</dimen>
 
 </resources>

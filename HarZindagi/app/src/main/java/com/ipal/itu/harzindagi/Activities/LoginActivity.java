@@ -100,10 +100,11 @@ public class LoginActivity extends BaseActivity {
     TextView validator;
     Button forgetButton;
     Button checkInButton;
-
-
+    int b_click = 0;
+    private View loginActivityForget_view;
     Boolean isFolderExists;
-
+    Button evaccsButton;
+    Button harZindagiButton;
     String rec_response;
     String passwordTxt;
 
@@ -147,15 +148,45 @@ public class LoginActivity extends BaseActivity {
         validator.setText(" براہ مہربانی درست یوزر کا نام اور پاسورڈ کا انتخاب کریں۔");
 
         forgetButton = (Button) findViewById(R.id.loginActivityForgetButton);
+        loginActivityForget_view=findViewById(R.id.loginActivityForget_view);
         forgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
+                //startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
+                if (b_click == 0) {
+                    b_click = 1;
+                    //mdanger.setVisibility(View.GONE);
+                    loginActivityForget_view.setVisibility(View.VISIBLE);
+
+                } else {
+                    b_click = 0;
+                    loginActivityForget_view.setVisibility(View.GONE);
+                }
 
             }
         });
 
+        evaccsButton = (Button) findViewById(R.id.ForgetActivitySMS);
+        evaccsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                sendIntent.setData(Uri.parse("sms:9100"));
+                sendIntent.putExtra("sms_body", "مجھےاپناپاس ورڈ بھول گیاہے۔اس لیےبرائےمہربانی مجھے اپناپاس ورڈ بھیج دیں۔");
+                startActivity(sendIntent);
+            }
+        });
+
+        harZindagiButton = (Button) findViewById(R.id.ForgetActivityCall);
+        harZindagiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0321-418972"));
+                startActivity(intent);
+            }
+        });
         password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,7 +206,6 @@ public class LoginActivity extends BaseActivity {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
-
                     } else if (password.getText().toString().equals("")) {
 
                         // validator.setVisibility(View.VISIBLE);

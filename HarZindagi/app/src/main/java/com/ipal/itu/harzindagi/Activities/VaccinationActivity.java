@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,18 +55,19 @@ public class VaccinationActivity extends BaseActivity {
             R.drawable.vactab_fill6};
     private CustomViewPager mViewPager;
     private ViewPagerAdapter viewPagerAdapter;
-    private View firstTab;
-    private View secondTab;
-    private View thirdTab;
-    private View fourthTab;
-    private View fifthTab;
-    private View sixthTab;
+    private LinearLayout firstTab;
+    private LinearLayout secondTab;
+    private LinearLayout thirdTab;
+    private LinearLayout fourthTab;
+    private LinearLayout fifthTab;
+    private LinearLayout sixthTab;
     private TextView firstTabTickMark;
     private TextView secondTabTickMark;
     private TextView thirdTabTickMark;
     private TextView fourthTabTickMark;
     private TextView fifthTabTickMark;
     public String imei;
+    TextView toolbar_title;
     private int[] toolbar_color = {
 
             R.color.dark_red,
@@ -135,6 +138,7 @@ public class VaccinationActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getLocation();
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
         load_frag = 0;
         vaccs_done = "0,0,0";
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -190,12 +194,12 @@ public class VaccinationActivity extends BaseActivity {
         //setTitleImage(toolbar,fpath);
         ((TextView) findViewById(R.id.ChildName)).setText(data.get(0).kid_name);
         ((TextView) findViewById(R.id.EPINumber)).setText(data.get(0).epi_number + "");
-        firstTab = findViewById(R.id.vaccinationActivityFirstTab);
-        secondTab = findViewById(R.id.vaccinationActivitySecondTab);
-        thirdTab = findViewById(R.id.vaccinationActivityThirdTab);
-        fourthTab = findViewById(R.id.vaccinationActivityFourthTab);
-        fifthTab = findViewById(R.id.vaccinationActivityFifthTab);
-        sixthTab = findViewById(R.id.vaccinationActivitySixthTab);
+        firstTab =(LinearLayout) findViewById(R.id.vaccinationActivityFirstTab);
+        secondTab =(LinearLayout) findViewById(R.id.vaccinationActivitySecondTab);
+        thirdTab = (LinearLayout)findViewById(R.id.vaccinationActivityThirdTab);
+        fourthTab = (LinearLayout)findViewById(R.id.vaccinationActivityFourthTab);
+        fifthTab = (LinearLayout)findViewById(R.id.vaccinationActivityFifthTab);
+        sixthTab = (LinearLayout)findViewById(R.id.vaccinationActivitySixthTab);
 
         firstTabTickMark = (TextView) findViewById(R.id.vaccinationActivityFirstTabTick);
         secondTabTickMark = (TextView) findViewById(R.id.vaccinationActivitySecondTabTick);
@@ -231,32 +235,32 @@ public class VaccinationActivity extends BaseActivity {
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                toolbar.setBackgroundResource(toolbar_color[position]);
+               // toolbar.setBackgroundResource(toolbar_color[position]);
 
                 switch (position + 1) {
                     case 1:
 
-                        setTitle(getString(R.string.padaish_forun_baad));
+                        toolbar_title.setText(getString(R.string.padaish_forun_baad));
                         break;
                     case 2:
 
-                        setTitle(getString(R.string.six_huftay));
+                        toolbar_title.setText(getString(R.string.six_huftay));
                         break;
                     case 3:
 
-                        setTitle(getString(R.string.ten_huftay));
+                        toolbar_title.setText(getString(R.string.ten_huftay));
                         break;
                     case 4:
 
-                        setTitle(getString(R.string.fourtheen_huftay));
+                        toolbar_title.setText(getString(R.string.fourtheen_huftay));
                         break;
                     case 5:
 
-                        setTitle(getString(R.string.nine_month_baad));
+                        toolbar_title.setText(getString(R.string.nine_month_baad));
                         break;
                     case 6:
 
-                        setTitle(getString(R.string.fifteen_month_baad));
+                        toolbar_title.setText(getString(R.string.fifteen_month_baad));
                         break;
                 }
             }
@@ -284,17 +288,23 @@ public class VaccinationActivity extends BaseActivity {
 
     public void selectPrevious(int index) {
         for (int i = 0; i <= index; i++) {
-            v[i].setBackgroundResource(circle_colr[i]);
+            v[i].setBackgroundResource(R.drawable.text_filled_green);
             //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
             // v[i].setVisibility(View.VISIBLE);
-            vt[i].setVisibility(View.GONE);
+            vt[i].setTextColor(Color.WHITE);
 
         }
         if (!isVaccCompleted) {
-            v[load_frag].setBackgroundResource(array[load_frag]);
+           // v[load_frag].setBackgroundResource(array[load_frag]);
+            v[load_frag].setBackgroundResource(R.drawable.text_filled_green);
+            //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
+            // v[i].setVisibility(View.VISIBLE);
+            vt[load_frag].setTextColor(Color.WHITE);
         } else {
-            v[5].setBackgroundResource(circle_colr[5]);
-            vt[5].setVisibility(View.GONE);
+            v[5].setBackgroundResource(R.drawable.text_filled_green);
+            vt[5].setTextColor(Color.WHITE);
+           /* v[5].setBackgroundResource(circle_colr[5]);
+            vt[5].setVisibility(View.GONE);*/
         }
 
     }

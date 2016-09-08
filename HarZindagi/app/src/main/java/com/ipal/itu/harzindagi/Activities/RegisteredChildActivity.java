@@ -22,6 +22,8 @@ import com.ipal.itu.harzindagi.R;
 import java.util.Calendar;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RegisteredChildActivity extends BaseActivity {
 
     final Context curr = this;
@@ -34,7 +36,7 @@ public class RegisteredChildActivity extends BaseActivity {
     TextView guardianName;
     TextView guardianCNIC;
     TextView guardianMobileNumber;
-    ImageView childPic;
+    CircleImageView childPic;
     String app_name;
     Button vaccination_btn, editChild;
     double longitude;
@@ -63,7 +65,7 @@ public class RegisteredChildActivity extends BaseActivity {
         guardianName = (TextView) findViewById(R.id.ChildGuardianName);
         guardianCNIC = (TextView) findViewById(R.id.ChildGuardianCNIC);
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
-        childPic = (ImageView) findViewById(R.id.ChildPic);
+        childPic = (CircleImageView) findViewById(R.id.ChildPic);
         editChild = (Button) findViewById(R.id.edit_child);
         editChild.setOnClickListener(new View.OnClickListener() {
             @Override

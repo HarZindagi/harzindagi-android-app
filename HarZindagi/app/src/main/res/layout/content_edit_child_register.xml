@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ipal.itu.harzindagi.Activities.RegisterChildActivity"
     tools:showIn="@layout/activity_edit_child_register">
@@ -98,14 +99,13 @@
 
             <EditText
                 android:id="@+id/registerChildName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/registerChildName_TV"
                 android:layout_weight=".10"
-
+                android:background="@drawable/edit_text_border"
                 android:gravity="left|center"
 
                 android:hint=""
@@ -121,7 +121,7 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="بچے کا نام"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20dp" />
 
         </RelativeLayout>
@@ -162,8 +162,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="@dimen/textview_height"
+            android:visibility="gone"
 
             >
 
@@ -233,7 +233,42 @@
 
 
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height"
 
+            >
+
+
+            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
+                android:id="@+id/registerChildGuardianMobileNumber"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/edit_text_border"
+                android:hint="####-#######"
+                android:inputType="number"
+                android:paddingLeft="5dp"
+                android:textColorHint="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
+                android:numeric="decimal"
+                android:singleLine="true"
+                android:textSize="16sp"
+                mask:mask="####-#######" />
+
+            <TextView
+                android:id="@+id/registerChildGuardianMobileNumber_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center"
+                android:text="موبائل نمبر"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -251,58 +286,29 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="شناختی کارڈ نمبر"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20dp" />
 
             <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
                 android:id="@+id/registerChildGuardianCNIC"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/text_wed"
                 android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@+id/registerChildGuardianCNIC_TV"
-                android:layout_toStartOf="@+id/registerChildGuardianCNIC_TV"
                 android:hint="#####-#######-#"
+                android:background="@drawable/edit_text_border"
                 android:inputType="number"
                 android:numeric="decimal"
                 android:singleLine="true"
                 android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:textColorHint="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
                 mask:mask="#####-#######-#" />
         </RelativeLayout>
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
 
-            >
-
-
-            <TextView
-                android:id="@+id/registerChildGuardianMobileNumber_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="موبائل نمبر"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
-                android:id="@+id/registerChildGuardianMobileNumber"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@+id/registerChildGuardianMobileNumber_TV"
-                android:layout_toStartOf="@+id/registerChildGuardianMobileNumber_TV"
-                android:hint="####-#######"
-                android:inputType="number"
-                android:numeric="decimal"
-                android:singleLine="true"
-                android:textSize="16sp"
-                mask:mask="####-#######" />
-        </RelativeLayout>
 
 
         <RelativeLayout

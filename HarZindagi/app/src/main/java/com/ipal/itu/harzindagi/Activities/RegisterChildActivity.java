@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
     Button girl;
     View DOB;
     TextView DOBText;
+    private RadioButton radioButton_boy,radioButton_girl;
     MultiAutoCompleteTextView motherName;
     MultiAutoCompleteTextView guardianName;
     MaskedEditText guardianCNIC;
@@ -230,9 +232,17 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         houseAddress = (EditText) findViewById(R.id.registerChildAddress);
         houseAddress.setOnFocusChangeListener(this);
         houseAddress.setTag(Constants.GaEvent.REGISTER_ADDRESS_TIME);
-
-
-        boy = (Button) findViewById(R.id.registerChildSexMale);
+        radioButton_boy = ((RadioButton) findViewById(R.id.boy));
+        radioButton_girl=((RadioButton) findViewById(R.id.girl));
+        if(radioButton_boy.isChecked())
+        {
+            Gender = 1;
+        }
+        else
+        {
+            Gender = 0;
+        }
+       /* boy = (Button) findViewById(R.id.registerChildSexMale);
         boy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,7 +265,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 boy.setTextColor(getResources().getColor(R.color.colorPrimary));
                 ;
             }
-        });
+        });*/
 
 
         DOB.setOnClickListener(new View.OnClickListener() {
@@ -542,7 +552,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         }
         if (Gender == -1) {
             error = "نامکمل جنس";
-            showError(boy, error);
+            showError(radioButton_boy, error);
 
             return error;
         }

@@ -1,362 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:isScrollContainer="true"
     android:orientation="vertical"
     android:padding="@dimen/standard_padding"
-    android:weightSum="1"
+    android:scrollbars="none"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ipal.itu.harzindagi.Activities.RegisterChildActivity"
-    tools:showIn="@layout/activity_recent_registered_child">
+    tools:context="com.ipal.itu.harzindagi.Activities.RegisterChildActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.75"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ChildPic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher" />
 
         <RelativeLayout
-            android:id="@+id/rightRRLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-            >
 
-            <ImageView
-                android:id="@+id/ChildPic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+            <LinearLayout
 
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildEPINumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="ای پی ائی نمبر"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildEpiNumberText"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:background="@drawable/border_black"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="103"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildBookNumberText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text=" کتاب کا نمبر"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildBookNumber"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:layout_marginRight="12dp"
+                        android:background="@drawable/border_black"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="132"
+
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="بچے کا نام"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildName"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+
+                        android:text="Asad"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildGenderText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="جنس "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildGender"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="5dp"
+                        android:text="Male"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildDOBText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="تاریخ پیدائش "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildDOB"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="02-07-2015"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildGuardianNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="سرپرست کا نام "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildGuardianName"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="Amjad Ali"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/ChildMotherNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="ماں کا نام :"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildMotherName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@+id/ChildMotherNameText"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Aysha"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildGuardianMobileNumberText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="فون نمبر "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildGuardianMobileNumber"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+
+                        android:text="0321-4180974"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/textview_height">
+
+                    <TextView
+                        android:id="@+id/ChildGuardianCNICText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="شناختی کارڈ نمبر "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/ChildGuardianCNIC"
+                        android:layout_width="@dimen/text_wed"
+                        android:layout_height="@dimen/text_he"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="center_vertical|left"
+                        android:paddingLeft="5dp"
+                        android:text="35201-7888788-9"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/edit_child"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/roundbutton"
+                        android:text="@string/edid_data"
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+
+                    <Button
+                        android:id="@+id/NFCWrite"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/roundbutton"
+                        android:text="حفاظتی ٹیکہ لگائیں"
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+
+                        />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
         </RelativeLayout>
 
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/rightRRLayout"
-            android:orientation="vertical"
-            android:weightSum="4">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/ChildEPINumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:text="ای پی ائی نمبر:"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/ChildEpiNumberText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="28dp"
-                    android:layout_toLeftOf="@+id/ChildEPINumber"
-                    android:gravity="center_vertical"
-                    android:text="103"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
+    </LinearLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_gray" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/ChildBookNumberText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:text=" کتاب کا نمبر:"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/ChildBookNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@+id/ChildBookNumberText"
-                    android:gravity="center_vertical"
-                    android:text="132"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_gray" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/ChildNameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:text="نام : "
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/ChildName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="22dp"
-                    android:layout_toLeftOf="@+id/ChildNameText"
-                    android:gravity="center"
-                    android:text="Asad"
-
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_gray" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/ChildGenderText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:text="جنس :"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/ChildGender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toLeftOf="@+id/ChildGenderText"
-                    android:gravity="center_vertical"
-                    android:paddingRight="10dp"
-                    android:text="Male"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_gray" />
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:id="@+id/ChildDOBText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:text="تاریخ پیدائش :"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/ChildDOB"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="22dp"
-            android:layout_toLeftOf="@+id/ChildDOBText"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="02-07-2015"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_gray" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:id="@+id/ChildGuardianNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:text="سرپرست کا نام :"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/ChildGuardianName"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/ChildGuardianNameText"
-            android:gravity="center_vertical"
-            android:text="Amjad Ali"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_gray" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/ChildMotherNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:text="ماں کا نام :"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/ChildMotherName"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/ChildMotherNameText"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="Aysha"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:visibility="gone"
-        android:background="@color/color_gray" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:id="@+id/ChildGuardianCNICText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:text="شناختی کارڈ نمبر :"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/ChildGuardianCNIC"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/ChildGuardianCNICText"
-            android:gravity="center_vertical|left"
-            android:paddingLeft="10dp"
-
-            android:text="35201-7888788-9"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_gray" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:id="@+id/ChildGuardianMobileNumberText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:text="فون نمبر :"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/ChildGuardianMobileNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/ChildGuardianMobileNumberText"
-            android:gravity="center_vertical"
-            android:paddingRight="5dp"
-            android:text="0321-4180974"
-            android:textColor="@android:color/black"
-
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/NFCWrite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/roundbutton"
-        android:text="حفاظتی ٹیکہ لگائیں"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
-
-    <Button
-        android:id="@+id/edit_child"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/roundbutton"
-        android:text="@string/edid_data"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
-
-</LinearLayout>
+</ScrollView>

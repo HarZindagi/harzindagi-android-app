@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:mask="http://schemas.android.com/apk/res-auto"
@@ -14,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -27,65 +27,33 @@
 
             <EditText
                 android:id="@+id/registerboodid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="left|center_horizontal"
-                android:layout_marginRight="5dp"
-                android:textSize="16sp"
-                android:layout_toLeftOf="@+id/registerboodidtext"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/border_black"
                 android:inputType="number"
                 android:nextFocusDown="@+id/registerChildUCNumber"
-                android:singleLine="true" />
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+
+                android:textSize="16sp" />
 
 
             <TextView
                 android:id="@+id/registerboodidtext"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="right|center_horizontal"
-                android:drawableLeft="@drawable/circle"
                 android:gravity="right|center"
                 android:text=" کتاب کا نمبر"
                 android:textColor="@android:color/black"
-                android:textSize="20dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-
-            <EditText
-                android:id="@+id/registerChildEPINumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginRight="5dp"
-                android:textSize="16sp"
-                android:layout_toLeftOf="@+id/registerChildUCNumber_TV"
-                android:inputType="number"
-                android:nextFocusDown="@+id/registerChildEPICenterName"
-                android:singleLine="true" />
-
-
-            <TextView
-                android:id="@+id/registerChildUCNumber_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:drawableLeft="@drawable/circle"
-                android:gravity="right|center"
-                android:text="ای پی آئی نمبر"
-                android:textColor="@android:color/black"
                 android:textSize="20dp" />
         </RelativeLayout>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -93,16 +61,18 @@
 
             <EditText
                 android:id="@+id/registerChildEPICenterName"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="left|center_horizontal"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/registerChildEPICenterName_TV"
                 android:layout_weight=".10"
+                android:background="@drawable/border_black"
                 android:hint=""
                 android:inputType="textCapWords"
+
                 android:nextFocusDown="@+id/registerChildName"
+                android:paddingLeft="5dp"
                 android:singleLine="true"
                 android:textSize="16sp" />
 
@@ -113,12 +83,108 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right|center_horizontal"
-                android:drawableLeft="@drawable/circle"
                 android:gravity="right|center"
                 android:text="سینٹر کا نام"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height"
+
+            >
+
+
+            <TextView
+                android:id="@+id/registerChildTown"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center"
+
+                android:text="علاقے کانام"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
+
+            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
+                android:id="@+id/registerChildTown_ET"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/border_black"
+                android:imeOptions="actionDone"
+                android:paddingLeft="5dp"
+
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height"
+
+            >
+
+
+            <TextView
+                android:id="@+id/registerChildAddressTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center"
+
+                android:text=" گھر کا پتہ"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/registerChildAddress"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/border_black"
+                android:imeOptions="actionDone"
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+
+            <TextView
+                android:id="@+id/registerChildUCNumber_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center"
+                android:text="ای پی آئی نمبر"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/registerChildEPINumber"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="left|center_horizontal"
+                android:background="@drawable/border_black"
+                android:inputType="number"
+                android:nextFocusDown="@+id/registerChildEPICenterName"
+
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
         </RelativeLayout>
 
 
@@ -130,32 +196,34 @@
 
             <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
                 android:id="@+id/registerChildName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/registerChildName_TV"
                 android:layout_weight=".10"
+                android:background="@drawable/edit_text_border"
                 android:gravity="left|center"
                 android:hint=""
-
                 android:inputType="textCapWords"
                 android:nextFocusDown="@+id/registerChildGuardianName"
-
+                android:paddingLeft="5dp"
                 android:singleLine="true"
+
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/registerChildName_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="right|center_horizontal"
-                android:drawableLeft="@drawable/circle"
                 android:gravity="right|center"
                 android:text="بچے کا نام"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20dp" />
 
         </RelativeLayout>
@@ -166,7 +234,8 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/registerChildSexMale"
@@ -174,6 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+
                 android:background="@drawable/registerbuttonborder"
                 android:text="لڑکا"
                 android:textColor="@color/colorPrimary"
@@ -207,28 +277,59 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/circle"
                 android:gravity="center|right"
                 android:paddingLeft="16dp"
                 android:singleLine="true"
                 android:text="تاریخ   پیدائش"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20dp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="6dp"
+                android:layout_toLeftOf="@+id/registerChildDOBText"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/girl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="لڑکی"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp" />
+
+                <RadioButton
+                    android:id="@+id/boy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="لڑکا"
+
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp" />
+            </RadioGroup>
 
             <TextView
 
                 android:id="@+id/registerChildDOBText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="right|center_horizontal"
+                android:layout_width="110dp"
+                android:layout_height="@dimen/text_he"
+                android:layout_marginRight="22dp"
                 android:layout_toLeftOf="@+id/registerChildDOB"
-                android:background="@drawable/textfield_default_mtrl_alpha"
-                android:gravity="left|center"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:text="DD/MM/YYYY"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16dp" />
-
 
         </RelativeLayout>
 
@@ -239,24 +340,6 @@
 
             >
 
-            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
-                android:id="@+id/registerChildGuardianName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/registerChildGuardianName_TV"
-                android:layout_weight=".10"
-                android:hint=""
-
-                android:inputType="textCapWords"
-                android:nextFocusDown="@+id/registerChildGuardianCNIC"
-
-                android:singleLine="true"
-
-                android:textSize="16sp" />
-
 
             <TextView
 
@@ -265,15 +348,82 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right|center_horizontal"
-                android:drawableLeft="@drawable/circle"
                 android:gravity="right|center"
                 android:text="سرپرست کا نام"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20dp" />
+
+            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
+                android:id="@+id/registerChildGuardianName"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight=".10"
+                android:background="@drawable/edit_text_border"
+                android:hint=""
+                android:inputType="textCapWords"
+                android:nextFocusDown="@+id/registerChildGuardianCNIC"
+
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
 
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height"
+
+            >
+
+
+            <TextView
+                android:id="@+id/registerChildGuardianMobileNumber_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center"
+                android:text="موبائل نمبر"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@+id/registerChildGuardianMobileNumber"
+                android:gravity="center"
+
+                android:text="یا"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22dp" />
+
+            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
+                android:id="@+id/registerChildGuardianMobileNumber"
+                android:layout_width="200dp"
+                android:layout_height="@dimen/text_he"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="50dp"
+                android:layout_toLeftOf="@+id/registerChildGuardianMobileNumber_TV"
+                android:background="@drawable/edit_text_border"
+                android:hint="####-#######"
+                android:inputType="number"
+                android:nextFocusDown="@+id/registerChildMotherName"
+                android:numeric="decimal"
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="16sp"
+                mask:mask="####-#######" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -291,68 +441,28 @@
                 android:layout_gravity="right|center_horizontal"
                 android:gravity="right|center"
                 android:text="شناختی کارڈ نمبر"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="20dp" />
 
             <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
                 android:id="@+id/registerChildGuardianCNIC"
-                android:layout_width="match_parent"
+                android:layout_width="220dp"
                 android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@+id/registerChildGuardianCNIC_TV"
-                android:layout_toStartOf="@+id/registerChildGuardianCNIC_TV"
+                android:background="@drawable/edit_text_border"
                 android:hint="#####-#######-#"
                 android:inputType="number"
                 android:nextFocusDown="@+id/registerChildGuardianMobileNumber"
                 android:numeric="decimal"
+                android:paddingLeft="5dp"
                 android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/colorPrimary"
                 android:textSize="16sp"
 
                 mask:mask="#####-#######-#" />
-        </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="یا"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="22dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-
-            >
-
-
-            <TextView
-                android:id="@+id/registerChildGuardianMobileNumber_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="موبائل نمبر"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <com.ipal.itu.harzindagi.CustomeViews.MaskedEditText
-                android:id="@+id/registerChildGuardianMobileNumber"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@+id/registerChildGuardianMobileNumber_TV"
-                android:layout_toStartOf="@+id/registerChildGuardianMobileNumber_TV"
-                android:hint="####-#######"
-                android:inputType="number"
-                android:nextFocusDown="@+id/registerChildMotherName"
-                android:numeric="decimal"
-                android:singleLine="true"
-                android:textSize="16sp"
-                mask:mask="####-#######" />
         </RelativeLayout>
 
 
@@ -391,69 +501,6 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-
-            >
-
-
-            <TextView
-                android:id="@+id/registerChildTown"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:drawableLeft="@drawable/circle"
-                android:gravity="right|center"
-
-                android:text="علاقے کانام"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
-                android:id="@+id/registerChildTown_ET"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@+id/registerChildTown"
-                android:layout_toStartOf="@+id/registerChildTown"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-
-            >
-
-
-            <TextView
-                android:id="@+id/registerChildAddressTV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:drawableLeft="@drawable/circle"
-                android:gravity="right|center"
-
-                android:text=" گھر کا پتہ"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/registerChildAddress"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@+id/registerChildAddressTV"
-                android:layout_toStartOf="@+id/registerChildAddressTV"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </RelativeLayout>
 
         <Button
             android:id="@+id/registerChildTakePicture"
