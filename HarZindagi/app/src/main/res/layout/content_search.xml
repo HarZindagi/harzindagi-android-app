@@ -54,6 +54,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/edit_text_border"
             android:hint=""
+            android:paddingLeft="5dp"
             android:inputType="number"
             android:singleLine="true"
             android:textColor="@color/colorPrimary"
@@ -96,6 +97,8 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_black"
                 android:hint=""
+                android:paddingLeft="5dp"
+
                 android:inputType="number"
                 android:singleLine="true"
                 android:textColor="@color/black"
@@ -144,6 +147,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_black"
+                android:paddingLeft="5dp"
 
                 android:hint=""
                 android:inputType="number"

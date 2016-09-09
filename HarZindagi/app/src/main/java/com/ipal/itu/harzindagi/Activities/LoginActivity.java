@@ -199,14 +199,14 @@ public class LoginActivity extends BaseActivity {
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isTableLoaded = Constants.getIsTableLoaded(LoginActivity.this);
+              /*  boolean isTableLoaded = Constants.getIsTableLoaded(LoginActivity.this);
 
                 if (Constants.getToken(LoginActivity.this).length() > 0 && isTableLoaded) {
-                    if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
+                    if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {*/
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
-                    } else if (password.getText().toString().equals("")) {
+                /*    } else if (password.getText().toString().equals("")) {
 
                         // validator.setVisibility(View.VISIBLE);
                         inputValidate();
@@ -226,7 +226,7 @@ public class LoginActivity extends BaseActivity {
                                 .setAction("Action", null).show();
                     }
 
-                }
+                }*/
 
             }
         });

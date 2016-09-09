@@ -54,7 +54,7 @@ import java.util.Map;
 public class ViewPagerWithTabs extends BaseActivity {
     TabLayout tabLayout;
     private long activityTime;
-
+TextView toolbar_title;
     public void logTime(){
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
         Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.ALL_UC_LIST_TIME, activityTime + " S", 0);
@@ -75,7 +75,8 @@ public class ViewPagerWithTabs extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title.setText("تمام بچوں کا ریکارڈ");
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[0], R.drawable.yellew_rectangle)));

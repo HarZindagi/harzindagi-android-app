@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -55,7 +56,7 @@ import java.util.Map;
 
 
 public class DashboardActivity extends BaseActivity {
-
+TextView toolbar_title;
     Button registerChildButton;
     Button scanChildButton;
     Button searchChildButton;
@@ -79,7 +80,8 @@ public class DashboardActivity extends BaseActivity {
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title.setText(getResources().getString(R.string.title_activity_dashboard));
         registerChildButton = (Button) findViewById(R.id.dashBoardActivityRegisterChildButton);
         registerChildButton.setOnClickListener(new View.OnClickListener() {
             @Override

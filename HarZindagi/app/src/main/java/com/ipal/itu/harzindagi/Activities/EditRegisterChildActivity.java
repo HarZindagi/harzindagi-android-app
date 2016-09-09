@@ -64,7 +64,7 @@ public class EditRegisterChildActivity extends BaseActivity {
 
     String epiNumber;
     long kid_id;
-    String EPICenterName,TownName;
+    String EPICenterName, TownName;
     String ChildName, childID;
     String DateOfBirth;
     String MotherName;
@@ -75,9 +75,10 @@ public class EditRegisterChildActivity extends BaseActivity {
     String app_name;
     TextView ChildGender;
     Calendar myCalendar = Calendar.getInstance();
-    public  static  String location = "0.0000,0.0000";
+    public static String location = "0.0000,0.0000";
     private PopupWindow pw;
     private View popUpView;
+    TextView toolbar_title;
 
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -88,6 +89,7 @@ public class EditRegisterChildActivity extends BaseActivity {
         pw.setTouchable(true);
         pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.pop_up_bg_drawable));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +97,8 @@ public class EditRegisterChildActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        toolbar_title.setText("رجسٹرڈ معلومات");
         app_name = getResources().getString(R.string.app_name);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -111,7 +114,7 @@ public class EditRegisterChildActivity extends BaseActivity {
         DOB = (View) findViewById(R.id.registerChildDOB);
         DOBText = (TextView) findViewById(R.id.registerChildDOBText);
         EPINumber = (TextView) findViewById(R.id.registerChildUCNumber);
-        registerChildTown_ET=(TextView)findViewById(R.id.registerChildTown_ET);
+        registerChildTown_ET = (TextView) findViewById(R.id.registerChildTown_ET);
         houseAddress = (TextView) findViewById(R.id.registerChildAddress);
         boy = (Button) findViewById(R.id.registerChildSexMale);
         girl = (Button) findViewById(R.id.registerChildSexFemale);
@@ -119,8 +122,8 @@ public class EditRegisterChildActivity extends BaseActivity {
         guardianName = (TextView) findViewById(R.id.registerChildGuardianName);
         guardianCNIC = (EditText) findViewById(R.id.registerChildGuardianCNIC);
         guardianMobileNumber = (EditText) findViewById(R.id.registerChildGuardianMobileNumber);
-        CenterName=(TextView)findViewById(R.id.registerChildEPICenterName);
-        ChildGender=(TextView)findViewById(R.id.ChildGender);
+        CenterName = (TextView) findViewById(R.id.registerChildEPICenterName);
+        ChildGender = (TextView) findViewById(R.id.ChildGender);
 
         registerEditChildRecord = (Button) findViewById(R.id.registerEditChildRecord);
         registerEditChildRecord.setOnClickListener(new View.OnClickListener() {
@@ -133,8 +136,8 @@ public class EditRegisterChildActivity extends BaseActivity {
                 List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
                 readEditTexts();
                 childInfo.get(0).kid_name = ChildName;
-                childInfo.get(0).guardian_cnic=GuardianCNIC;
-                childInfo.get(0).phone_number=GuardianMobileNumber;
+                childInfo.get(0).guardian_cnic = GuardianCNIC;
+                childInfo.get(0).phone_number = GuardianMobileNumber;
                 childInfo.get(0).save();
                 DateOfBirth = DOBText.getText().toString();
                 Intent intent = new Intent(EditRegisterChildActivity.this, CardScanWrite.class);
@@ -159,12 +162,11 @@ public class EditRegisterChildActivity extends BaseActivity {
         });
         createContexMenu();
         if (getIntent().hasExtra("childid")) {
-            kid_id = getIntent().getLongExtra("childid",0);
+            kid_id = getIntent().getLongExtra("childid", 0);
 
             fillValues(kid_id);
         }
         getLocation();
-
 
 
     }
@@ -296,6 +298,7 @@ public class EditRegisterChildActivity extends BaseActivity {
         //  pDialog.setCancelable(false);
         //  pDialog.show();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

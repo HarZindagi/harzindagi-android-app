@@ -45,7 +45,7 @@ public class RegisteredChildActivity extends BaseActivity {
     Calendar calendar;
     long childID;
     private int bookid;
-
+TextView toolbar_title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +53,8 @@ public class RegisteredChildActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title.setText("رجسٹرڈ معلومات");
         dao = new ChildInfoDao();
 
         calendar = Calendar.getInstance();
