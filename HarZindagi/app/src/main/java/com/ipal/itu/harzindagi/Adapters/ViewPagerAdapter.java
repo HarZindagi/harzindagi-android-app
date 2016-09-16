@@ -45,6 +45,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             GInjection inj = new GInjection();
             inj.name=arr_inj.get(i).name;
             inj.is_done = Integer.parseInt(done_list[i]);
+            inj.is_drop = arr_inj.get(i).is_drop;
+
             _injections.add(inj);
         }
         for (int i = 0; i < 6; i++) {
@@ -58,6 +60,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                         GInjection inj = new GInjection();
                         inj.name=arry_inj.get(j).name;
                         inj.is_done = 1;
+                        inj.is_drop = arry_inj.get(j).is_drop;
                         _inj.add(inj);
 
                     }
@@ -70,6 +73,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                         GInjection inj = new GInjection();
                         inj.name=arry_inj.get(j).name;
                         inj.is_done = 0;
+                        inj.is_drop = arry_inj.get(j).is_drop;
                         _inj.add(inj);
 
                     }

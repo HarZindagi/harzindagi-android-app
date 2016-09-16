@@ -30,6 +30,8 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.google.android.gms.analytics.internal.zzy.i;
+
 public class VaccinationActivity extends BaseActivity {
 
     public static final int CAMERA_REQUEST = 1888;
@@ -44,8 +46,8 @@ public class VaccinationActivity extends BaseActivity {
     FileOutputStream fo;
     List<ChildInfo> data;
     Bundle bundle;
-    View[] v;
-    TextView[] vt;
+    View[] tabBg;
+    TextView[] tabText;
     Toolbar toolbar;
     int[] array = new int[]{R.drawable.vactab_fill1,
             R.drawable.vactab_fill2,
@@ -207,8 +209,8 @@ public class VaccinationActivity extends BaseActivity {
         fourthTabTickMark = (TextView) findViewById(R.id.vaccinationActivityFourthTabTick);
         fifthTabTickMark = (TextView) findViewById(R.id.vaccinationActivityFifthTabTick);
         sixthTabTickMark = (TextView) findViewById(R.id.vaccinationActivitySixthTabTick);
-        v = new View[]{firstTab, secondTab, thirdTab, fourthTab, fifthTab, sixthTab};
-        vt = new TextView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark, sixthTabTickMark};
+        tabBg = new View[]{firstTab, secondTab, thirdTab, fourthTab, fifthTab, sixthTab};
+        tabText = new TextView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark, sixthTabTickMark};
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
         if (Constants.isVaccOfVisitCompleted(vaccs_done)) {
             viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag) + "");
@@ -225,8 +227,10 @@ public class VaccinationActivity extends BaseActivity {
         mViewPager.setOffscreenPageLimit(5);
         int index = load_frag - 1;
         if (index < 0) {
+            tabBg[0].setBackgroundResource(R.drawable.text_filled_green);
 
-            v[0].setBackgroundResource(array[0]);
+            tabText[0].setTextColor(Color.WHITE);
+           // tabBg[0].setBackgroundResource(array[0]);
         } else {
             selectPrevious(index);
         }
@@ -288,23 +292,23 @@ public class VaccinationActivity extends BaseActivity {
 
     public void selectPrevious(int index) {
         for (int i = 0; i <= index; i++) {
-            v[i].setBackgroundResource(R.drawable.text_filled_green);
-            //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
-            // v[i].setVisibility(View.VISIBLE);
-            vt[i].setTextColor(Color.WHITE);
+            tabBg[i].setBackgroundResource(R.drawable.text_filled_green);
+            //tabText[i].setBackgroundResource(R.drawable.ic_action_tick);
+            // tabBg[i].setVisibility(View.VISIBLE);
+            tabText[i].setTextColor(Color.WHITE);
 
         }
         if (!isVaccCompleted) {
-           // v[load_frag].setBackgroundResource(array[load_frag]);
-            v[load_frag].setBackgroundResource(R.drawable.text_filled_green);
-            //vt[i].setBackgroundResource(R.drawable.ic_action_tick);
-            // v[i].setVisibility(View.VISIBLE);
-            vt[load_frag].setTextColor(Color.WHITE);
+           // tabBg[load_frag].setBackgroundResource(array[load_frag]);
+            tabBg[load_frag].setBackgroundResource(R.drawable.text_filled_green);
+            //tabText[i].setBackgroundResource(R.drawable.ic_action_tick);
+            // tabBg[i].setVisibility(View.VISIBLE);
+            tabText[load_frag].setTextColor(Color.WHITE);
         } else {
-            v[5].setBackgroundResource(R.drawable.text_filled_green);
-            vt[5].setTextColor(Color.WHITE);
-           /* v[5].setBackgroundResource(circle_colr[5]);
-            vt[5].setVisibility(View.GONE);*/
+            tabBg[5].setBackgroundResource(R.drawable.text_filled_green);
+            tabText[5].setTextColor(Color.WHITE);
+           /* tabBg[5].setBackgroundResource(circle_colr[5]);
+            tabText[5].setVisibility(View.GONE);*/
         }
 
     }

@@ -67,7 +67,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
 
         p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setStrokeWidth(10);
-        p.setColor(Color.parseColor("#DB4B39"));
+        p.setColor(Color.parseColor("#17a99c"));
         p.setStrokeCap(Paint.Cap.ROUND);
         p.setStyle(Paint.Style.STROKE);
         p.setDither(true);

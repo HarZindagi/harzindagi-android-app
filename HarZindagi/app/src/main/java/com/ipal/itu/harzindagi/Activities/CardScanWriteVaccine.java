@@ -169,7 +169,7 @@ public class CardScanWriteVaccine extends BaseActivity {
 
  /*  btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View tabBg) {
                 Push_into_NFC();
             }
         });*/

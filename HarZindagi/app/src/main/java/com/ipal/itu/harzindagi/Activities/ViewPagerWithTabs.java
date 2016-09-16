@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -38,9 +39,11 @@ import com.ipal.itu.harzindagi.GJson.GChildInfoAry;
 import com.ipal.itu.harzindagi.GJson.GKidTransactionAry;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -53,20 +56,23 @@ import java.util.Map;
 
 public class ViewPagerWithTabs extends BaseActivity {
     TabLayout tabLayout;
+    TextView toolbar_title;
+    String[] titles = new String[]{"زیر غور", "ڈیفالٹر", "مکمل شدہ", "آج کا کام"};
     private long activityTime;
-TextView toolbar_title;
-    public void logTime(){
+
+    public void logTime() {
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.ALL_UC_LIST_TIME, activityTime + " S", 0);
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.ALL_UC_LIST_TIME, activityTime + " S", 0);
 
     }
 
     @Override
     public void onBackPressed() {
 
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.ALL_UC_BACK , 0);
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.ALL_UC_BACK, 0);
         super.onBackPressed();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +81,7 @@ TextView toolbar_title;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("تمام بچوں کا ریکارڈ");
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
@@ -90,7 +96,8 @@ TextView toolbar_title;
         setViewPagger();
         setIndicatorColor();
     }
-    public  void setIndicatorColor(){
+
+    public void setIndicatorColor() {
         try {
             Field field = TabLayout.class.getDeclaredField("mTabStrip");
             field.setAccessible(true);
@@ -111,11 +118,11 @@ TextView toolbar_title;
             e.printStackTrace();
         }
     }
-    String []titles =new String[]{"زیر غور","ڈیفالٹر","مکمل شدہ","آج کا کام"};
-    public View getCustView(String string,int res){
+
+    public View getCustView(String string, int res) {
         View v = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
         TextView tv = (TextView) v.findViewById(R.id.item);
-       // tv.setSelected(true);
+        // tv.setSelected(true);
         v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
 
@@ -123,8 +130,9 @@ TextView toolbar_title;
         tv.setGravity(Gravity.CENTER);
         tv.setTextColor(Color.BLACK);
         tv.setText(string);
-        return  v;
+        return v;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -139,7 +147,7 @@ TextView toolbar_title;
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();
                 return true;
-            case  R.id.action_sync:
+            case R.id.action_sync:
                 if (Constants.isOnline(this)) {
                     showAlertDialog();
                 }
@@ -156,7 +164,7 @@ TextView toolbar_title;
         super.onDestroy();
     }
 
-    private  void  showAlertDialog(){
+    private void showAlertDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
         adb.setTitle("کیا آپ ڈیٹا ڈاون لوڈ کرنا چاہتے ہیں؟");
@@ -170,16 +178,19 @@ TextView toolbar_title;
                 loadChildData();
                 dialog.dismiss();
 
-            } });
+            }
+        });
 
 
         adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
                 dialog.dismiss();
-            } });
+            }
+        });
         adb.show();
     }
+
     private void setViewPagger() {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
@@ -265,7 +276,7 @@ TextView toolbar_title;
 
         Gson gson = new Gson();
         GChildInfoAry obj = gson.fromJson(response.toString(), GChildInfoAry.class);
-        if(obj.childInfoArrayList.size()==0){
+        if (obj.childInfoArrayList.size() == 0) {
             return;
         }
         ArrayList<ChildInfo> childInfoArrayList = new ArrayList<>();
@@ -282,7 +293,7 @@ TextView toolbar_title;
             c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
             c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date;
             c.image_update_flag = true;
-            if(obj.childInfoArrayList.get(i).date_of_birth!=null) {
+            if (obj.childInfoArrayList.get(i).date_of_birth != null) {
                 c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
             }
             c.location = obj.childInfoArrayList.get(i).location;
@@ -298,7 +309,7 @@ TextView toolbar_title;
             c.epi_name = obj.childInfoArrayList.get(i).itu_epi_number;
             c.record_update_flag = true;
             //c.book_update_flag = true;
-            c.image_path ="image_"+obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
+            c.image_path = "image_" + obj.childInfoArrayList.get(i).id;//obj.childInfoArrayList.get(i).image_path;
 
             childInfoArrayList.add(c);
         }
@@ -308,7 +319,7 @@ TextView toolbar_title;
         childInfoDao.bulkInsert(childInfoArrayList);
         childInfoDao.bulkInsert(noSync);
         loadKidVaccination();
-      //  setViewPagger();
+        //  setViewPagger();
     }
 
     private void loadKidVaccination() {
@@ -372,7 +383,7 @@ TextView toolbar_title;
 
         Gson gson = new Gson();
         GKidTransactionAry obj = gson.fromJson(response.toString(), GKidTransactionAry.class);
-        if(obj.kidVaccinations.size()==0){
+        if (obj.kidVaccinations.size() == 0) {
             return;
         }
         ArrayList<KidVaccinations> childInfoArrayList = new ArrayList<>();

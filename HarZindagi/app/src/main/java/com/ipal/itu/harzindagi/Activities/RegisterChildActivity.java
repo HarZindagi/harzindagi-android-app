@@ -245,7 +245,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
        /* boy = (Button) findViewById(R.id.registerChildSexMale);
         boy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View tabBg) {
                 Gender = 1;
                 boy.setBackgroundResource(R.drawable.roundbutton);
                 boy.setTextColor(getResources().getColor(R.color.white));
@@ -257,7 +257,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         girl = (Button) findViewById(R.id.registerChildSexFemale);
         girl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View tabBg) {
                 Gender = 0;
                 girl.setBackgroundResource(R.drawable.roundbutton);
                 girl.setTextColor(getResources().getColor(R.color.white));
@@ -530,29 +530,34 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 return error;
             }
         }
-
-
-        if (EPINumber.getText().length() < 1) {
-            error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
-            showError(EPINumber, error);
-
-            return error;
-        }
         if (CenterName.getText().length() < 1) {
             error = "برائے مہربانی سینٹر کا نام درج کریں۔";
             showError(CenterName, error);
 
             return error;
         }
-        if (childName.getText().length() < 1) {
-            error = "برائے مہربانی بچے کا نام درج کریں۔";
-            showError(childName, error);
+        String town = String.valueOf(registerChildTown_ET.getText());
+
+        if (town.equals("")) {
+            error = "برائے مہربانی علاقے کا نام منتخب کریں";
+            showError(registerChildTown_ET, error);
+            return error;
+        }
+        if (houseAddress.getText().length() < 1) {
+            error = "خالی گھر کا ایڈریس";
+            showError(houseAddress, error);
+            return error;
+        }
+        if (EPINumber.getText().length() < 1) {
+            error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
+            showError(EPINumber, error);
 
             return error;
         }
-        if (Gender == -1) {
-            error = "نامکمل جنس";
-            showError(radioButton_boy, error);
+
+        if (childName.getText().length() < 1) {
+            error = "برائے مہربانی بچے کا نام درج کریں۔";
+            showError(childName, error);
 
             return error;
         }
@@ -562,6 +567,13 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
 
             return error;
         }
+        if (Gender == -1) {
+            error = "نامکمل جنس";
+            showError(radioButton_boy, error);
+
+            return error;
+        }
+
 
         if (guardianName.getText().length() < 1) {
             error = "برائے مہربانی سرپرست کا نام درج کریں۔";
@@ -569,16 +581,6 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             showError(guardianName, error);
 
             return error;
-        }
-
-        String cnic = guardianCNIC.getText().toString().trim();
-        if (!cnic.equals("")) {
-            if (cnic.length() < 15) {
-                error = "برائی مہربانی سرپرست کا درست شناختی کارڈ نمبر درج کریں۔";
-                showError(guardianCNIC, error);
-
-                return error;
-            }
         }
         String phone = guardianMobileNumber.getText().toString().trim();
         if (!phone.equals("")) {
@@ -589,6 +591,16 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 return error;
             }
         }
+        String cnic = guardianCNIC.getText().toString().trim();
+        if (!cnic.equals("")) {
+            if (cnic.length() < 15) {
+                error = "برائی مہربانی سرپرست کا درست شناختی کارڈ نمبر درج کریں۔";
+                showError(guardianCNIC, error);
+
+                return error;
+            }
+        }
+
         if (cnic.equals("") && phone.equals("")) {
 
             error = "برائے مہربانی سرپرست کا موبائل نمبر درج کریں۔";
@@ -602,20 +614,9 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             showError(motherName, error);
             return error;
         }*/
-        String town = String.valueOf(registerChildTown_ET.getText());
 
-        if (town.equals("")) {
-            town = "";
-            error = "برائے مہربانی علاقے کا نام منتخب کریں";
-            showError(houseAddress, error);
-            return error;
-        }
 
-        if (houseAddress.getText().length() < 1) {
-            error = "خالی گھر کا ایڈریس";
-            showError(houseAddress, error);
-            return error;
-        }
+
         return error;
     }
 

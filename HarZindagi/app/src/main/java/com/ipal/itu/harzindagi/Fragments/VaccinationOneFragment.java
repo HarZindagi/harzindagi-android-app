@@ -3,7 +3,6 @@ package com.ipal.itu.harzindagi.Fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,8 +14,6 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Activities.CustomCamera;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.VaccineListAdapter;

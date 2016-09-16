@@ -165,7 +165,12 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-
+         findViewById(R.id.downloadBtn).setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 showDownloadDialog();
+             }
+         });
         evaccsButton = (Button) findViewById(R.id.ForgetActivitySMS);
         evaccsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,14 +204,14 @@ public class LoginActivity extends BaseActivity {
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              /*  boolean isTableLoaded = Constants.getIsTableLoaded(LoginActivity.this);
+                boolean isTableLoaded = Constants.getIsTableLoaded(LoginActivity.this);
 
                 if (Constants.getToken(LoginActivity.this).length() > 0 && isTableLoaded) {
-                    if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {*/
+                    if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
-                /*    } else if (password.getText().toString().equals("")) {
+                    } else if (password.getText().toString().equals("")) {
 
                         // validator.setVisibility(View.VISIBLE);
                         inputValidate();
@@ -226,7 +231,7 @@ public class LoginActivity extends BaseActivity {
                                 .setAction("Action", null).show();
                     }
 
-                }*/
+                }
 
             }
         });
@@ -476,7 +481,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login_main, menu);
+        //getMenuInflater().inflate(R.menu.login_main, menu);
         return true;
     }
 

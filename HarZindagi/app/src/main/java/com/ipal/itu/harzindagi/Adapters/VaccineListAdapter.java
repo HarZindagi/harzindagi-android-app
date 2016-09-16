@@ -77,7 +77,11 @@ public class VaccineListAdapter {
 
         TextView tv = (TextView) convertView.findViewById(R.id.inj_name);
         CheckBox cb = (CheckBox) convertView.findViewById(R.id.inj_chk);
-
+        if(data.get(position).is_drop){
+            tv.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.droper_one,0);
+        }else{
+            tv.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.injection_one,0);
+        }
 
         if (data.get(position).is_done == 1) {
             cb.setEnabled(false);

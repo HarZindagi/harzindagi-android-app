@@ -14,14 +14,43 @@
     tools:context=".Activities.LoginActivity"
     tools:showIn="@layout/activity_login">
 
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:src="@drawable/app_logo"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        />
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/name_img"
+
+            />
+
+        <ImageView
+            android:id="@+id/downloadBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/imageView6"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/download_img" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/logo_img" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,13 +72,13 @@
         <TextView
             android:id="@+id/UnionCouncil"
             style="@style/EditTextFill"
-            android:layout_width="match_parent"
+            android:layout_width="220dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/loginActivityUnionCouncil"
+
             android:gravity="left|center"
             android:text="UC-Name"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -77,17 +106,17 @@
 
         <TextView
             android:id="@+id/loginActivityUserName"
-            style="@style/EditTextNormal"
-            android:textColor="@color/colorPrimary"
-            android:layout_width="match_parent"
+            style="@style/EditTextFill"
+            android:layout_width="220dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="22dp"
-            android:layout_toLeftOf="@+id/userNameTV"
             android:gravity="center|left"
             android:hint="Name"
             android:nextFocusDown="@+id/pasNameTV"
             android:singleLine="true"
+            android:textColor="@color/text_gray"
+
             android:textSize="20dp"
 
 
@@ -112,17 +141,16 @@
         <EditText
             android:id="@+id/loginActivityPassword"
             style="@style/EditTextNormal"
-            android:layout_width="match_parent"
+            android:layout_width="220dp"
             android:layout_height="50dp"
-            android:textColor="@color/colorPrimary"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginRight="27dp"
-            android:layout_toLeftOf="@+id/pasNameTV"
+            android:layout_alignParentTop="true"
             android:hint="Password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/colorPrimary" />
     </RelativeLayout>
 
     <TextView
@@ -145,12 +173,11 @@
             android:id="@+id/loginActivityCheckInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:background="@drawable/roundbutton"
             android:text="چیک ان"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+          />
 
         <Button
             android:id="@+id/loginActivityForgetButton"

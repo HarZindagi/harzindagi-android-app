@@ -92,7 +92,7 @@ TextView toolbar_title;
         vaccination_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Snackbar.make(v, "Write on NFC Card", Snackbar.LENGTH_LONG)
+                /*Snackbar.make(tabBg, "Write on NFC Card", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                /* Intent myintent = new Intent(curr, VaccinationActivity.class);
 

@@ -102,6 +102,7 @@
                 android:layout_width="@dimen/text_wed"
                 android:layout_height="@dimen/text_he"
                 android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="5dp"
                 android:layout_weight=".10"
