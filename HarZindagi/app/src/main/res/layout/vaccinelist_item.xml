@@ -7,32 +7,43 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/round_border"
-        android:padding="7dp">
+        android:id="@+id/bodr"
+        android:background="@drawable/a_border"
+        >
 
-
-        <TextView
-            android:id="@+id/inj_name"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+        <LinearLayout
+            android:id="@+id/name_injc"
+            android:layout_width="103dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_toLeftOf="@+id/inj_chk"
-            android:gravity="center|left"
-android:drawableRight="@drawable/droper_one"
-            android:text="Vacine"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#4d4d4d"
-            android:textSize="19dp" />
+            android:background="@color/a_color"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/inj_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="10dp"
+                android:drawableRight="@drawable/droper_one"
+                android:text="Vacine"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
+        </LinearLayout>
 
 
         <CheckBox
             android:id="@+id/inj_chk"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+
             android:button="@drawable/customdrawablecheckbox"
-            android:gravity="center|center_vertical"
-            android:paddingRight="5dp"
+            android:gravity="center"
+            android:padding="7dp"
             android:text="" />
 
 

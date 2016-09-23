@@ -19,4 +19,12 @@
     <color name="yellow_green">#bf8410</color>
     <color name="blue">#222e68</color>
     <color name="dark_green">#036716</color>
+    <color name="a_color">#ffde16</color>
+    <color name="b_color">#eb088c</color>
+    <color name="c_color">#ae1f24</color>
+    <color name="d_color">#39b54a</color>
+    <color name="e_color">#f7941e</color>
+    <color name="f_color">#56caef</color>
+    <color name="g_color">#006fb3</color>
+    <color name="h_color">#7f3f98</color>
 </resources>

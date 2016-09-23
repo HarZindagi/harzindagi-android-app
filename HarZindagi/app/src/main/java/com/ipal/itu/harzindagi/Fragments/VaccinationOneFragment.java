@@ -123,7 +123,7 @@ public class VaccinationOneFragment extends Fragment {
                 }
             });
         }
-        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection, 0, btn, skip_vst);
+        final VaccineListAdapter adapter = new VaccineListAdapter(getActivity(), injection, 0, btn, skip_vst,mParam2);
 
         for (int i = 0; i < injection.size(); i++) {
             adapter.getView(i, null, list);

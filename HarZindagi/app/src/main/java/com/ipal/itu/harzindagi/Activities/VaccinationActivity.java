@@ -70,24 +70,7 @@ public class VaccinationActivity extends BaseActivity {
     private TextView fifthTabTickMark;
     public String imei;
     TextView toolbar_title;
-    private int[] toolbar_color = {
 
-            R.color.dark_red,
-            R.color.red,
-            R.color.purple,
-            R.color.yellow_green,
-            R.color.blue,
-            R.color.dark_green
-    };
-    private int[] circle_colr = {
-
-            R.drawable.dark_red_cir,
-            R.drawable.red_cir,
-            R.drawable.purple_cir,
-            R.drawable.yel_grn_cir,
-            R.drawable.blue_cir,
-            R.drawable.dark_green_cir
-    };
     public int bookid;
     public static String location;
     private long activityTime;

@@ -728,7 +728,7 @@ TextView toolbar_title;
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
                             pDialog.dismiss();
-                            showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
+                            showCompletDialog("اپلوڈ مکمل ہو گیا ہے");
                             //Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                         }
 

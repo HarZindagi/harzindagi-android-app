@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ipal.itu.harzindagi.GJson.VaccineInfo;
@@ -18,10 +19,20 @@ import java.util.ArrayList;
 public class CustomListAdapter extends BaseAdapter {
     private Context mcontext;
     ArrayList<VaccineInfo> vaccinfo;
-    
-    public CustomListAdapter(Activity context, ArrayList<VaccineInfo> vaccinfo) {
+    private int[][] colr_d={{ R.drawable.rectangle_a,
+            R.drawable.rectangle_b,
+            R.drawable.rectangle_c},{ R.drawable.rectangle_b,
+            R.drawable.rectangle_d, R.drawable.rectangle_e,R.drawable.rectangle_f},{ R.drawable.rectangle_b,
+            R.drawable.rectangle_d,
+            R.drawable.rectangle_e,R.drawable.rectangle_f},{ R.drawable.rectangle_b, R.drawable.rectangle_d, R.drawable.rectangle_b, R.drawable.rectangle_g},{ R.drawable.rectangle_h},{ R.drawable.rectangle_h}};
+    private int[][] colr_dd = {{R.color.a_color,R.color.b_color,R.color.c_color},{ R.color.b_color, R.color.d_color, R.color.e_color,R.color.f_color},{ R.color.b_color, R.color.d_color,
+            R.color.e_color,R.color.f_color},{ R.color.b_color, R.color.d_color, R.color.b_color, R.color.g_color},{ R.color.h_color},{ R.color.h_color}};
+
+    int visit_numbr;
+    public CustomListAdapter(Activity context, ArrayList<VaccineInfo> vaccinfo,int visit_numbr) {
         mcontext = context;
         this.vaccinfo= vaccinfo;
+        this.visit_numbr=visit_numbr;
     }
 
     @Override
@@ -49,9 +60,14 @@ public class CustomListAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.listview_item_layout, parent, false);
             holder = new ViewHolder();
+            holder.mm=(LinearLayout)row.findViewById(R.id.mm);
+            holder.mm.setBackgroundResource(colr_d[visit_numbr][position]);
             holder.day = (TextView) row.findViewById(R.id.day);
+            holder.day.setTextColor(colr_dd[visit_numbr][position]);
             holder.month = (TextView) row.findViewById(R.id.month);
+            holder.month.setTextColor(colr_dd[visit_numbr][position]);
             holder.year = (TextView) row.findViewById(R.id.year);
+            holder.year.setTextColor(colr_dd[visit_numbr][position]);
 
             holder.vaccName = (TextView) row.findViewById(R.id.vaccine_name);
             holder.image = (ImageView) row.findViewById(R.id.vaccine_image);
@@ -73,9 +89,9 @@ public class CustomListAdapter extends BaseAdapter {
         }
 
        if(vaccinfo.get(position).vac_type==true){
-           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.dropper));
+           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.droper_one));
        }else {
-           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.syringe)); // Use injection image
+           holder.image.setImageDrawable(mcontext.getResources().getDrawable(R.drawable.injection_one)); // Use injection image
        }
         return row;
 
@@ -85,7 +101,7 @@ public class CustomListAdapter extends BaseAdapter {
         TextView day;
         TextView month;
         TextView year;
-
+LinearLayout mm;
 
         TextView vaccName;
         ImageView image;

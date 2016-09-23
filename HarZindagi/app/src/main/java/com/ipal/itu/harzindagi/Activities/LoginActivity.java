@@ -188,7 +188,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0321-418972"));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "042-35948415"));
                 startActivity(intent);
             }
         });
@@ -901,8 +901,8 @@ public class LoginActivity extends BaseActivity {
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
-            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
-            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date*1000;
+            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date*1000;
 
 
             if (obj.childInfoArrayList.get(i).date_of_birth != null) {

@@ -290,8 +290,8 @@ public class ViewPagerWithTabs extends BaseActivity {
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
-            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
-            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date*1000;
+            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date*1000;
             c.image_update_flag = true;
             if (obj.childInfoArrayList.get(i).date_of_birth != null) {
                 c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));
