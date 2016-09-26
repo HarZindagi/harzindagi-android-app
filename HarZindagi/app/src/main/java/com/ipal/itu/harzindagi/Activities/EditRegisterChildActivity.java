@@ -79,7 +79,7 @@ public class EditRegisterChildActivity extends BaseActivity {
     private PopupWindow pw;
     private View popUpView;
     TextView toolbar_title;
-
+    long activityTime;
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         popUpView = inflater.inflate(R.layout.contex_popup, null, false);
@@ -94,12 +94,14 @@ public class EditRegisterChildActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child_register);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("رجسٹرڈ معلومات");
         app_name = getResources().getString(R.string.app_name);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -158,6 +160,9 @@ public class EditRegisterChildActivity extends BaseActivity {
                 regIntent.putExtra("childid", epiNum);
                 startActivity(regIntent);*/
                 finish();
+                activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+                Constants.logTime(EditRegisterChildActivity.this, activityTime, Constants.GaEvent.EDIT_REGISTER_TOTAL_TIME);
+
             }
         });
         createContexMenu();
@@ -175,7 +180,7 @@ public class EditRegisterChildActivity extends BaseActivity {
 
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
         pw.showAsDropDown(v, 0, -Constants.pxToDp(EditRegisterChildActivity.this, 10));
-
+        Constants.sendGAEvent(EditRegisterChildActivity.this, Constants.getUserName(EditRegisterChildActivity.this), Constants.GaEvent.EDIT_REGISTER_ERROR, error, 0);
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         v.startAnimation(shake);
     }

@@ -18,6 +18,7 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.util.Calendar;
 import java.util.List;
@@ -46,10 +47,12 @@ public class RegisteredChildActivity extends BaseActivity {
     long childID;
     private int bookid;
 TextView toolbar_title;
+    long activityTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recent_registered_child);
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,6 +80,8 @@ TextView toolbar_title;
                 intent.putExtra("childid", childID);
                 startActivity(intent);
                 finish();
+                activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+                Constants.logTime(RegisteredChildActivity.this,activityTime,Constants.GaEvent.REGISTERED_TOTAL_TIME);
             }
         });
 
@@ -116,6 +121,8 @@ TextView toolbar_title;
                 intent.putExtras(bnd);
                 startActivity(intent);
                 finish();
+                activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+                Constants.logTime(RegisteredChildActivity.this,activityTime,Constants.GaEvent.REGISTERED_TOTAL_TIME);
             }
         });
 

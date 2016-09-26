@@ -8,6 +8,7 @@
     android:background="@drawable/rectangle_a"
     android:padding="5dp"
     android:id="@+id/mm">
+
     <TextView
         android:id="@+id/day"
         android:layout_width="wrap_content"
@@ -15,7 +16,7 @@
         android:background="@drawable/rectangle_white"
         android:gravity="center"
         android:hint="DD"
-
+android:textColor="@color/black"
         android:padding="8dp"
 
         android:textSize="14sp" />
@@ -28,6 +29,8 @@
         android:background="@drawable/rectangle_white"
         android:gravity="center"
         android:hint="MM"
+        android:textColor="@color/black"
+
         android:padding="8dp"
         android:textSize="14sp" />
 
@@ -39,6 +42,8 @@
         android:background="@drawable/rectangle_white"
         android:gravity="center"
         android:hint="YY"
+        android:textColor="@color/black"
+
         android:padding="8dp"
         android:textSize="14sp" />
 

@@ -33,7 +33,8 @@ import java.util.Locale;
  */
 @SuppressWarnings("WeakerAccess")
 public class Constants {
-    public static final String baseURL = "http://58.27.220.109/";
+    //http://103.226.216.9/
+    public static final String baseURL = "http://10.52.93.4/";
     public static final String get_device_info = baseURL + "get_device_info.json";
     public static final String visits = baseURL + "admin/visits.json";
     public static final String vaccinationsItems = baseURL + "/admin/kid_vaccinations/";
@@ -381,7 +382,8 @@ public class Constants {
 
     public static class GaEvent {
 
-
+        public static final String LOGIN_TOTAL_TIME = "Login_Total_Time";
+        public static final String DOWNLOAD_DATA_TOTAL_TIME = "Download_Data_Total_Time";
         public static final String BACK_NAVIGATION = "Back_Navigation";
 
         public static final String CARD_WRITE_TIME = "Card_Write_Time";
@@ -400,9 +402,11 @@ public class Constants {
 
         public static final String EVACCS_NON_EPI_TIME = "Evaccs_Time";
         public static final String EVACCS_NON_EPI_BACK = "Evaccs_Back";
-
         public static final String REGISTER_TOTAL_TIME = "Register_Total_Time";
+        public static final String EDIT_REGISTER_TOTAL_TIME = "Edit_Register_Total_Time";
+        public static final String REGISTERED_TOTAL_TIME = "Registered_Total_Time";
         public static final String REGISTER_ERROR = "Register_Error";
+        public static final String EDIT_REGISTER_ERROR = "Edit_Register_Error";
         public static final String REGISTER_BACK = "Register_Back";
         public static final String REGISTER_FIELD_TIME = "Register_Field_Time";
 
