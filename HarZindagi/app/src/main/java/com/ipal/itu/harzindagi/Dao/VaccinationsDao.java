@@ -2,8 +2,7 @@ package com.ipal.itu.harzindagi.Dao;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
-import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
+import com.ipal.itu.harzindagi.Entity.VaccInfoList;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.GJson.VaccineInfo;
@@ -23,7 +22,7 @@ public class VaccinationsDao {
                 .execute();
     }
 
-    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num, String inj, VaccDetailBook vdb) {
+    public static List<Integer> get_VaccinationID_Vaccs_details(int v_num, String inj, VaccInfoList vdb) {
 
         String[] injarr = inj.split(",");
         List<Integer> arr = new ArrayList<>();

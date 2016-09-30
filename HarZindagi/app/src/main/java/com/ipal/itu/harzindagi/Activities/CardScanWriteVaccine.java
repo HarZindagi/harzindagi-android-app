@@ -14,7 +14,6 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -34,11 +33,10 @@ import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
+import com.ipal.itu.harzindagi.Entity.VaccInfoList;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -191,7 +189,7 @@ public class CardScanWriteVaccine extends BaseActivity {
         Toast.makeText(this, "بچے کی معلومات محفوظ کر دی گئی ہیں", Toast.LENGTH_LONG).show();
 
 
-        VaccDetailBook vdb = new VaccDetailBook();
+        VaccInfoList vdb = new VaccInfoList();
 
         lst = VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bundle.getString("visit_num")), bundle.getString("vacc_details"), vdb);
 

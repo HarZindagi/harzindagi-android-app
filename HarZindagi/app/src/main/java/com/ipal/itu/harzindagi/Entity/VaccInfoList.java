@@ -9,6 +9,6 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 10/21/2015.
  */
-public class VaccDetailBook implements Serializable{
+public class VaccInfoList implements Serializable{
     public ArrayList<VaccineInfo> vaccinfo= new ArrayList<>();
 }

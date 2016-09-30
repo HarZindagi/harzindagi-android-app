@@ -59,6 +59,7 @@ import java.util.Map;
 public class ViewPagerWithTabs extends BaseActivity {
     // TabLayout tabLayout;
     TextView toolbar_title;
+    ViewPager viewPager;
     ImageView firstTab, secondTab, thirdTab, fourthTab;
     View[] tabbg;
     // String[] titles = new String[]{"", "ڈیفالٹر", "مکمل شدہ", ""};
@@ -98,11 +99,38 @@ public class ViewPagerWithTabs extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("تمام بچوں کا ریکارڈ");
+        viewPager = (ViewPager) findViewById(R.id.pager);
         firstTab = (ImageView) findViewById(R.id.firstTab);
         secondTab = (ImageView) findViewById(R.id.secondTab);
         thirdTab = (ImageView) findViewById(R.id.thirdTab);
         fourthTab = (ImageView) findViewById(R.id.fourthTab);
+
+
         tabbg = new View[]{firstTab, secondTab, thirdTab, fourthTab};
+        firstTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              setpage(0);
+            }
+        });
+        secondTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setpage(1);
+            }
+        });
+        thirdTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setpage(2);
+            }
+        });
+        fourthTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setpage(3);
+            }
+        });
         /*tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(null, R.drawable.first_f)));
@@ -139,7 +167,21 @@ public class ViewPagerWithTabs extends BaseActivity {
             e.printStackTrace();
         }
     }*/
+public void setpage(int a)
+{
+    viewPager.setCurrentItem(a);
+    for (int i=0;i<4;i++)
+    {
+        if (i==a)
+        {
+            tabbg[i].setBackgroundResource(fill_tab[i]);
+        }
+        else {
+            tabbg[i].setBackgroundResource(unfill_tab[i]);
+        }
+    }
 
+}
     public View getCustView(String string, int res) {
         View v = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
         TextView tv = (TextView) v.findViewById(R.id.item);
@@ -213,7 +255,7 @@ public class ViewPagerWithTabs extends BaseActivity {
     }
 
     private void setViewPagger() {
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+
         //, tabLayout.getTabCount()
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), 4);

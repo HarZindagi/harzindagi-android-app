@@ -88,7 +88,8 @@ public class CheckInSyncHandler {
             obj = new JSONObject();
             JSONObject user = new JSONObject();
             user.put("auth_token", Constants.getToken(context));
-            obj.put("user", Constants.getUserName(context));
+            obj.put("user", user);
+
 
             obj.put("imei_number", Constants.getIMEI(context));
             obj.put("location", checkIns.location);

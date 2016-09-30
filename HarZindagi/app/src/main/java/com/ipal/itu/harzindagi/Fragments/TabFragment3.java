@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.ipal.itu.harzindagi.Activities.ChildInfoToday;
 import com.ipal.itu.harzindagi.Activities.RegisteredChildActivity;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.VaccInfoList;
 import com.ipal.itu.harzindagi.R;
 
 import java.util.Calendar;
@@ -71,7 +74,47 @@ public class TabFragment3 extends Fragment {
                     intent.putExtras(bnd);
                     startActivity(intent);*/
 
-                    Intent myintent = new Intent(getActivity(), RegisteredChildActivity.class);
+                    Calendar calendar = Calendar.getInstance();
+                    VaccInfoList vdb = new VaccInfoList();
+                    Bundle bnd = KidVaccinationDao.get_visit_details_db(data.get(position).kid_id);
+                    String[] ayy = bnd.getString("vacc_details").toString().split(",");
+                    for (int i = 0; i < vdb.vaccinfo.size(); i++) {
+
+                        if (ayy[i].equals("0")) {
+
+                            vdb.vaccinfo.get(i).day = "--";
+                            vdb.vaccinfo.get(i).month = "--";
+                            vdb.vaccinfo.get(i).year = "--";
+                        } else {
+
+                            vdb.vaccinfo.get(i).day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+                            vdb.vaccinfo.get(i).month = String.valueOf(calendar.get(Calendar.MONTH));
+                            vdb.vaccinfo.get(i).year = String.valueOf(calendar.get(Calendar.YEAR));
+
+                        }
+
+                    }
+                    Intent myintent = new Intent(getActivity(), ChildInfoToday.class);
+                    VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bnd.getString("visit_num")), bnd.getString("vacc_details"), vdb);
+                    myintent.putExtra("visit_num_",Integer.parseInt(bnd.getString("visit_num")));
+                    myintent.putExtra("vacc_details",bnd.getString("vacc_details"));
+                    for (int i = 0; i < vdb.vaccinfo.size(); i++) {
+
+                        if (ayy[i].equals("0")) {
+
+                            vdb.vaccinfo.get(i).day = "--";
+                            vdb.vaccinfo.get(i).month = "--";
+                            vdb.vaccinfo.get(i).year = "--";
+                        } else {
+
+                            vdb.vaccinfo.get(i).day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+                            vdb.vaccinfo.get(i).month = String.valueOf(calendar.get(Calendar.MONTH));
+                            vdb.vaccinfo.get(i).year = String.valueOf(calendar.get(Calendar.YEAR));
+
+                        }
+
+                    }
+                    myintent.putExtra("VaccDetInfo", vdb);
                     myintent.putExtra("childid", data.get(position).kid_id);
                     myintent.putExtra("imei", data.get(position).imei_number);
                     myintent.putExtra("EPIname",data.get(position).epi_name );

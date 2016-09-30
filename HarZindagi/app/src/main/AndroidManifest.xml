@@ -192,6 +192,9 @@
             android:label="رجسٹرڈ معلومات"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Activities.ChildInfoToday"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Activities.ViewPagerWithTabs"
             android:label="تمام بچوں کا ریکارڈ"
             android:theme="@style/AppTheme.NoActionBar" />

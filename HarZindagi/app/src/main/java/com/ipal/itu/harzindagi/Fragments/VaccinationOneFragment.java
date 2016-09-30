@@ -21,7 +21,7 @@ import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
-import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
+import com.ipal.itu.harzindagi.Entity.VaccInfoList;
 import com.ipal.itu.harzindagi.GJson.GInjection;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -233,7 +233,7 @@ public class VaccinationOneFragment extends Fragment {
     }
 
     public void writeToDB(int visitnum, String vacc_details) {
-        VaccDetailBook vdb = new VaccDetailBook();
+        VaccInfoList vdb = new VaccInfoList();
         List<Integer> lst = VaccinationsDao.get_VaccinationID_Vaccs_details(visitnum, vacc_details, vdb);
         ChildInfoDao childInfo = new ChildInfoDao();
         data = ChildInfoDao.getByKId(((VaccinationActivity) getActivity()).childID);

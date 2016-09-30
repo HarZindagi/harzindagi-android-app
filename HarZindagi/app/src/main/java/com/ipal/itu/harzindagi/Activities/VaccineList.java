@@ -1,10 +1,8 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Adapters.CustomListAdapter;
-import com.ipal.itu.harzindagi.Entity.VaccDetailBook;
+import com.ipal.itu.harzindagi.Entity.VaccInfoList;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -23,8 +21,7 @@ import com.ipal.itu.harzindagi.Utils.Constants;
  */
 public class VaccineList extends BaseActivity {
 
-    String rec_response;
-    VaccDetailBook obj;
+    VaccInfoList obj;
     ListView list;
     CustomListAdapter adapter;
     TextView toolbar_title;
@@ -42,49 +39,10 @@ public class VaccineList extends BaseActivity {
             R.string.nine_month_baad,
             R.string.fifteen_month_baad
     };
-   /* private int[] color_period = {
 
-            R.drawable.color_1,
-            R.drawable.color_2,
-            R.drawable.color_3,
-            R.drawable.color_4,
-            R.drawable.color_5,
-            R.drawable.color_6
-    };
-    private int[] nxt_oardr_colr = {
-
-            R.drawable.nxt_date_boardr1,
-            R.drawable.nxt_date_boardr2,
-            R.drawable.nxt_date_boardr3,
-            R.drawable.nxt_date_boardr4,
-            R.drawable.nxt_date_boardr5,
-            R.drawable.nxt_date_boardr6,
-    };*/
-  /*  private int[] colr = {
-
-            R.color.a_color,
-            R.color.b_color,
-            R.color.c_color,
-            R.color.d_color,
-            R.color.e_color,
-            R.color.f_color,
-            R.color.g_color,
-            R.color.h_color
-
-
-    };*/
-   /* private int[] nxt_boardr_numbr = {
-
-            R.drawable.next_boardr_full1,
-            R.drawable.next_boardr_full2,
-            R.drawable.next_boardr_full3,
-            R.drawable.next_boardr_full4,
-            R.drawable.next_boardr_full5,
-            R.drawable.next_boardr_full6
-    };*/
     Context context;
     int visitNumber;
-   /* private String[] numbr={"1","2","3","4","5","6"};*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,51 +53,31 @@ public class VaccineList extends BaseActivity {
         top_header = (LinearLayout) findViewById(R.id.topHeader);
 
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
-        obj = (VaccDetailBook) getIntent().getSerializableExtra("VaccDetInfo");
-        boolean notComplete = false;
-        for (int i = 0; i <obj.vaccinfo.size() ; i++) {
-            if((""+ obj.vaccinfo.get(i).day).equals("--")){
-                notComplete = true;
-            }
-        }
+        obj = (VaccInfoList) getIntent().getSerializableExtra("VaccDetInfo");
+
         try {
             visitNumber = getIntent().getExtras().getInt("visit_num_");
             if(visitNumber == -1 || visitNumber == 0){
                 toolbar_title.setText(vacc_period[0]);
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
-               // ((TextView) findViewById(R.id.nextDueDateTxt)).setBackgroundResource(R.color.colorPrimary);
                 ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setText(Constants.addDate(getIntent().getExtras().getString("next_due_date")));
-               // ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setBackgroundResource(R.color.colorPrimary);
-              //  ((TextView)findViewById(R.id.nextDueDateNmbr)).setText(numbr[1]);
-               // ((TextView)findViewById(R.id.nextDueDateNmbr)).setBackgroundResource(nxt_boardr_numbr[1]);
-               // top_header.setBackgroundResource(color_period[0]);
+
 
             }
             if(getIntent().getExtras().getInt("visit_num_")<5 && getIntent().getExtras().getInt("visit_num_")>0){
                 toolbar_title.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
 
                 ((TextView) findViewById(R.id.nextDueDateTxt)).setText(getIntent().getExtras().getString("next_due_date"));
-                //((TextView) findViewById(R.id.nextDueDateTxt)).setBackgroundResource(nxt_oardr_colr[getIntent().getExtras().getInt("visit_num_")] + 1);
                 ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setText(Constants.addDate(getIntent().getExtras().getString("next_due_date")));
-                //((TextView) findViewById(R.id.nextDueDateTxbtwn)).setBackgroundResource(nxt_oardr_colr[getIntent().getExtras().getInt("visit_num_")] + 1);
-               /* if(notComplete) {
-                    ((TextView) findViewById(R.id.nextDueDateNmbr)).setText(numbr[getIntent().getExtras().getInt("visit_num_")]);
-                }else{
-                    ((TextView) findViewById(R.id.nextDueDateNmbr)).setText(numbr[getIntent().getExtras().getInt("visit_num_") + 1]);
-                }*/
-              //  ((TextView)findViewById(R.id.nextDueDateNmbr)).setBackgroundResource(nxt_boardr_numbr[getIntent().getExtras().getInt("visit_num_")]+1);
-               // top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
 
             }
             if(getIntent().getExtras().getInt("visit_num_")==5){
                 toolbar_title.setText(vacc_period[getIntent().getExtras().getInt("visit_num_")]);
-                ((TextView) findViewById(R.id.nextDueDateTxt)).setVisibility(View.GONE);
-                ((TextView) findViewById(R.id.nextDueDateTxbtwn)).setVisibility(View.GONE);
-               // ((TextView)findViewById(R.id.nextDueDateNmbr)).setVisibility(View.GONE);
-                ((ImageView)findViewById(R.id.two_arrw_head)).setVisibility(View.GONE);
+                findViewById(R.id.nextDueDateTxt).setVisibility(View.GONE);
+                findViewById(R.id.nextDueDateTxbtwn).setVisibility(View.GONE);
+                findViewById(R.id.two_arrw_head).setVisibility(View.GONE);
                 ((TextView)findViewById(R.id.nxt_txt)).setText(compelte1 + compelte2 + "\"" + compelte3 + "\"" + compelte4);
                 ((TextView)findViewById(R.id.nxt_txt)).setTextColor(ContextCompat.getColor(context, R.color.red));
-               // top_header.setBackgroundResource(color_period[getIntent().getExtras().getInt("visit_num_")]);
 
 
             }
@@ -148,10 +86,6 @@ public class VaccineList extends BaseActivity {
             Toast.makeText(this ,"Error:"+e.getMessage(),Toast.LENGTH_LONG).show();
             finish();
         }
-
-
-
-
 
         parseResponse();
         findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {
