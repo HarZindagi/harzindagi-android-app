@@ -34,7 +34,8 @@ import java.util.Locale;
 @SuppressWarnings("WeakerAccess")
 public class Constants {
     //http://103.226.216.9/
-    public static final String baseURL = "http://10.52.93.4/";
+    //http://10.52.96.4/
+    public static final String baseURL = "http://103.226.216.9/";
     public static final String get_device_info = baseURL + "get_device_info.json";
     public static final String visits = baseURL + "admin/visits.json";
     public static final String vaccinationsItems = baseURL + "/admin/kid_vaccinations/";
@@ -66,7 +67,7 @@ public class Constants {
     public static final String checkOut = "checkOut";
     public static final String location = "location";
     public static final String day = "cDay";
-    private static final boolean isTracking = false;
+    private static final boolean isTracking = true;
 
     public static String getToken(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);

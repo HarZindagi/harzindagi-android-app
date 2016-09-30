@@ -248,7 +248,7 @@ public class LoginActivity extends BaseActivity {
         });
         if (Constants.getToken(this).length() == 0) {
             downoadTime = Calendar.getInstance().getTimeInMillis() / (1000);
-            getUserInfo();
+           getUserInfo();
         } else {
             EngUC.setText(Constants.getUC(this));
             userName.setText(Constants.getUserName(this));
@@ -1061,7 +1061,7 @@ public class LoginActivity extends BaseActivity {
         kidVaccinationDao.bulkInsert(childInfoArrayList);
         kidVaccinationDao.bulkInsert(noSync);
         loadNameLists();
-        Toast.makeText(LoginActivity.this, "ڈاونلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
+        Toast.makeText(LoginActivity.this, "ڈاؤن لوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
 
         Constants.setIsTableLoaded(this, true);
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);

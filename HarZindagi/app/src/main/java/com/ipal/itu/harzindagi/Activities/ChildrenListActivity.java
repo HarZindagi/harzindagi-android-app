@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,6 +47,7 @@ public class ChildrenListActivity extends BaseActivity {
     private static String[] PERMISSIONS_SMS = {Manifest.permission.READ_SMS,
             Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};
     String app_name;
+    TextView toolbar_title;
     int selectedPosition = 0;
     boolean child_data = false;
     int bookid;
@@ -57,6 +59,8 @@ public class ChildrenListActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        toolbar_title.setText(getResources().getString(R.string.title_activity_children_list));
         app_name = getResources().getString(R.string.app_name);
         boolean fromSMS = getIntent().getBooleanExtra("fromSMS", false);
         if(getIntent().hasExtra("bookid")){

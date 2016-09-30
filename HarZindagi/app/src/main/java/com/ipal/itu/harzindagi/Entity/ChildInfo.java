@@ -8,7 +8,7 @@ import com.ipal.itu.harzindagi.Utils.TruncatableModel;
  * Created by Ali on 1/13/2016.
  */
 @Table(name = "ChildInfo")
-public class ChildInfo extends TruncatableModel {
+public class ChildInfo extends TruncatableModel{
 
 
     @Column(name = "mobile_id")

@@ -13,6 +13,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Activities.LoginActivity;
 import com.ipal.itu.harzindagi.Entity.Books;
+import com.ipal.itu.harzindagi.Entity.CheckIn;
+import com.ipal.itu.harzindagi.Entity.CheckOut;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import org.json.JSONException;
@@ -29,13 +31,13 @@ import java.util.Map;
 public class CheckOutSyncHandler {
 
     Context context;
-    List<Books> books;
+    List<CheckOut> checkOuts;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
-    int index=0;
+    int index = 0;
     Calendar calendar;
-    public CheckOutSyncHandler(Context context, List<Books> books, OnUploadListner onUploadListner) {
-        this.books = books;
+    public CheckOutSyncHandler(Context context, List<CheckOut> checkOuts, OnUploadListner onUploadListner) {
+        this.checkOuts = checkOuts;
         this.context = context;
         this.onUploadListner = onUploadListner;
         calendar = Calendar.getInstance();
@@ -43,10 +45,11 @@ public class CheckOutSyncHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Saving Books data...");
+        pDialog.setMessage("Saving CheckOut data...");
+        pDialog.setCancelable(false);
         pDialog.show();
-        if(books.size()!=0){
-            sendChildData(books.get(index));
+        if(checkOuts.size()!=0){
+            sendChildData(checkOuts.get(index));
         }else{
             pDialog.dismiss();
             onUploadListner.onUpload(true,"");
@@ -57,9 +60,9 @@ public class CheckOutSyncHandler {
     private void nextUpload(boolean isUploaded) {
         if (isUploaded) {
             index++;
-            if (index < books.size()) {
-                sendChildData(books.get(index));
-                pDialog.setMessage("Uploading books... " + index+ " of "+ books.size());
+            if (index < checkOuts.size()) {
+                sendChildData(checkOuts.get(index));
+                pDialog.setMessage("Uploading CheckOut... " + index+ " of "+ checkOuts.size());
             } else {
                 onUploadListner.onUpload(true,"");
                 pDialog.dismiss();
@@ -69,39 +72,32 @@ public class CheckOutSyncHandler {
             pDialog.dismiss();
         }
     }
-  public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
-        c.set(Calendar.HOUR, hour);
-        c.set(Calendar.MINUTE, minute);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-
-        return c.getTimeInMillis();
-    }
-    private void sendChildData(final Books books) {
-        final long oldKidID = books.kid_id;
+    private void sendChildData(final CheckOut checkOut) {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Constants.books;
+        String url =Constants.checkouts;
+
+
+        pDialog.setMessage("Saving CheckOut Time...");
+
 
         JSONObject obj = null;
-        final JSONObject book = new JSONObject();
+
         try {
             obj = new JSONObject();
             JSONObject user = new JSONObject();
             user.put("auth_token", Constants.getToken(context));
-            obj.put("user", user);
+            obj.put("user", Constants.getUserName(context));
 
+            obj.put("imei_number", Constants.getIMEI(context));
+            obj.put("location", checkOut.location);
 
-            book.put("kid_id", books.kid_id);
-            book.put("book_number",books.book_number);
-            book.put("nfc_chip_id","00000000");
+            obj.put("location_sync", Constants.getLocationSync(context));
 
+            obj.put("version_name", Constants.getVersionName(context));
+            obj.put("created_timestamp", checkOut.created_timestamp);
+            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
 
-            obj.put("book", book);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -112,12 +108,13 @@ public class CheckOutSyncHandler {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                       // Log.d("response",response.toString());
-                        if (response.optString("book_number").equals(book.optString("book_number"))) {
+                        // Log.d("response",response.toString());
+                        if (!response.toString().equals("")) {
+                            pDialog.dismiss();
 
-                            List<Books> child = Books.getByBookId(books.book_number);
-                            child.get(0).is_sync = true;
-                            child.get(0).save();
+
+                            checkOut.is_sync = true;
+                            checkOut.save();
                             nextUpload(true);
 
                         } else {
@@ -125,12 +122,12 @@ public class CheckOutSyncHandler {
                         }
 
                     }
+
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                nextUpload(false);
-                pDialog.hide();
+                pDialog.dismiss();
             }
         }) {
 
@@ -142,12 +139,12 @@ public class CheckOutSyncHandler {
                 return headers;
             }
 
-
         };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
                 LoginActivity.MAX_RETRY,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
         queue.add(jsonObjReq);
     }
-
 }

@@ -23,6 +23,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.ipal.itu.harzindagi.Application.HarZindagiApp;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Entity.CheckIn;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -136,9 +137,16 @@ public class HomeActivity extends BaseActivity {
             //imageView.setImageBitmap(photo);
             int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             if (Constants.getCheckIn(this).equals("") || !Constants.getDay(this).equals(day + "")) {
-                Constants.setCheckIn(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+
+               String created_time = ""+ Calendar.getInstance().getTimeInMillis() / 1000;
+                Constants.setCheckIn(this, created_time);
                 Constants.setDay(this, day + "");
                 Constants.setCheckOut(this, "");
+                CheckIn checkIn = new CheckIn();
+                checkIn.is_sync =false;
+                checkIn.location = location;
+                checkIn.created_timestamp = created_time;
+                checkIn.save();
 
             }
         }

@@ -10,20 +10,22 @@ import java.util.List;
 /**
  * Created by Ahmed on 3/31/2016.
  */
-@Table(name = "Books")
+@Table(name = "CheckIn")
 public class CheckIn extends TruncatableModel {
-
-    @Column(name = "book_number")
-    public int book_number;
-
-    @Column(name = "kid_id")
-    public long kid_id;
-
-    @Column(name = "date")
-    public long date;
 
     @Column(name = "is_sync")
     public boolean is_sync;
+
+
+
+    @Column(name = "location")
+    public String location;
+
+
+
+    @Column(name = "created_timestamp")
+    public String created_timestamp;
+
 
     public List<CheckIn> getAll() {
         return new Select()

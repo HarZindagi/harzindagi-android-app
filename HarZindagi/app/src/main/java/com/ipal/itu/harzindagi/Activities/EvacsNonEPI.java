@@ -46,6 +46,7 @@ public class EvacsNonEPI extends BaseActivity {
     String child_typ;
     EditText non_Epi_name;
     Context context;
+    TextView toolbar_title;
     ArrayList<Integer> selectedCheckboxes_nonEPI = new ArrayList<Integer>();
     ArrayList<String> nonEPI_chkBox_txt = new ArrayList<String>();
     CheckBox non_bx_BCG, non_bx_OPV, non_bx_OPV1, non_bx_Pentavalent, non_bx_Pneumococcal, non_bx_OPV2, non_bx_Pentavalent2, non_bx_Pneumococcal2, non_bx_OPV3, non_bx_Pentavalent3, non_bx_Pneumococcal3, non_bx_Measles, non_bx_Measles2, child_type;
@@ -85,6 +86,8 @@ public class EvacsNonEPI extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title.setText("Evaccs-II");
         context = this;
         Non_Epi_reg_num_txt = (EditText) findViewById(R.id.Non_Epi_reg_num_txt);
         non_Epi_name = (EditText) findViewById(R.id.non_ep_txt_view);

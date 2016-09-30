@@ -93,7 +93,7 @@
                         android:padding="5dp"
                         android:text="x-xx-xxxx"
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/two_arrw_head"
@@ -117,7 +117,7 @@
                         android:text="x-xx-xxxx"
 
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 

@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
     private static final int CALENDAR_CODE = 100;
     public static String location = "0.0000,0.0000";
     EditText CenterName;
+    TextView toolbar_title;
     List<Towns> list_Towns;
     MultiAutoCompleteTextView childName;
     MultiAutoCompleteTextView registerChildTown_ET;
@@ -183,7 +185,8 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title.setText("بچے کے کوائف");
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -232,16 +235,24 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         houseAddress = (EditText) findViewById(R.id.registerChildAddress);
         houseAddress.setOnFocusChangeListener(this);
         houseAddress.setTag(Constants.GaEvent.REGISTER_ADDRESS_TIME);
-        radioButton_boy = ((RadioButton) findViewById(R.id.boy));
-        radioButton_girl=((RadioButton) findViewById(R.id.girl));
-        if(radioButton_boy.isChecked())
-        {
-            Gender = 1;
-        }
-        else
-        {
-            Gender = 0;
-        }
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId) {
+                    case R.id.boy:
+
+                        Gender = 1;
+                        break;
+                    case R.id.girl:
+                        Gender = 0;
+                        break;
+
+                }
+            }
+        });
+
        /* boy = (Button) findViewById(R.id.registerChildSexMale);
         boy.setOnClickListener(new View.OnClickListener() {
             @Override

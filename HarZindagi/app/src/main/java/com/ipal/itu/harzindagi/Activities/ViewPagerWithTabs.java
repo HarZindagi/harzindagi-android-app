@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,10 +57,23 @@ import java.util.Map;
 
 
 public class ViewPagerWithTabs extends BaseActivity {
-    TabLayout tabLayout;
+    // TabLayout tabLayout;
     TextView toolbar_title;
-    String[] titles = new String[]{"زیر غور", "ڈیفالٹر", "مکمل شدہ", "آج کا کام"};
+    ImageView firstTab, secondTab, thirdTab, fourthTab;
+    View[] tabbg;
+    // String[] titles = new String[]{"", "ڈیفالٹر", "مکمل شدہ", ""};
     private long activityTime;
+    int[] fill_tab = new int[]{R.drawable.first_f,
+            R.drawable.second_f,
+            R.drawable.third_f,
+            R.drawable.fourth_f,
+    };
+
+    int[] unfill_tab = new int[]{R.drawable.first_n,
+            R.drawable.second_n,
+            R.drawable.third_n,
+            R.drawable.fourth_n,
+    };
 
     public void logTime() {
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
@@ -83,21 +98,27 @@ public class ViewPagerWithTabs extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("تمام بچوں کا ریکارڈ");
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        firstTab = (ImageView) findViewById(R.id.firstTab);
+        secondTab = (ImageView) findViewById(R.id.secondTab);
+        thirdTab = (ImageView) findViewById(R.id.thirdTab);
+        fourthTab = (ImageView) findViewById(R.id.fourthTab);
+        tabbg = new View[]{firstTab, secondTab, thirdTab, fourthTab};
+        /*tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
-        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[0], R.drawable.yellew_rectangle)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[1], R.drawable.red_rectangle)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[2], R.drawable.green_rectangle)));
-        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(titles[3], R.drawable.blue_rectangle)));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(null, R.drawable.first_f)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(null, R.drawable.second_n)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(null, R.drawable.third_n)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(getCustView(null, R.drawable.fourth_n)));*/
+        // tabLayout.setTabTextColors(Color.parseColor("#17a99c"), Color.parseColor("#000000"));
+        //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        // tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
 
         setViewPagger();
-        setIndicatorColor();
+        //setIndicatorColor();
     }
 
-    public void setIndicatorColor() {
+  /*  public void setIndicatorColor() {
         try {
             Field field = TabLayout.class.getDeclaredField("mTabStrip");
             field.setAccessible(true);
@@ -105,7 +126,7 @@ public class ViewPagerWithTabs extends BaseActivity {
             Class<?> c = Class.forName("android.support.design.widget.TabLayout$SlidingTabStrip");
             Method method = c.getDeclaredMethod("setSelectedIndicatorColor", int.class);
             method.setAccessible(true);
-            method.invoke(ob, Color.RED);//now its ok
+            method.invoke(ob, getResources().getColor(R.color.colorPrimary));//now its ok
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -117,7 +138,7 @@ public class ViewPagerWithTabs extends BaseActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public View getCustView(String string, int res) {
         View v = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
@@ -193,18 +214,51 @@ public class ViewPagerWithTabs extends BaseActivity {
 
     private void setViewPagger() {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        //, tabLayout.getTabCount()
         final PagerAdapter adapter = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
+                (getSupportFragmentManager(), 4);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i=0;i<4;i++)
+                {
+                    if (i==position)
+                    {
+                        tabbg[i].setBackgroundResource(fill_tab[i]);
+                    }
+                    else {
+                        tabbg[i].setBackgroundResource(unfill_tab[i]);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        // viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+       /* tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                tab.getCustomView().setBackgroundResource(fill_tab[tab.getPosition()]);
+                //tab.setCustomView(getCustView(null,fill_tab[tab.getPosition()]));
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                tab.getCustomView().setBackgroundResource(unfill_tab[tab.getPosition()]);
+
+                // tab.setCustomView(getCustView(null,unfill_tab[tab.getPosition()]));
 
             }
 
@@ -212,7 +266,7 @@ public class ViewPagerWithTabs extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-        });
+        });*/
     }
 
     private void loadChildData() {
@@ -290,8 +344,8 @@ public class ViewPagerWithTabs extends BaseActivity {
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
-            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date*1000;
-            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date*1000;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date * 1000;
+            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date * 1000;
             c.image_update_flag = true;
             if (obj.childInfoArrayList.get(i).date_of_birth != null) {
                 c.date_of_birth = Constants.getFortmattedDate(Long.parseLong(obj.childInfoArrayList.get(i).date_of_birth));

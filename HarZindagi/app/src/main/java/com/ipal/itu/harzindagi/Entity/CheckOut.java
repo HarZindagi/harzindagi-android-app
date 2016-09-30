@@ -10,43 +10,43 @@ import java.util.List;
 /**
  * Created by Ahmed on 3/31/2016.
  */
-@Table(name = "Books")
+@Table(name = "CheckOut")
 public class CheckOut extends TruncatableModel {
-
-    @Column(name = "book_number")
-    public int book_number;
-
-    @Column(name = "kid_id")
-    public long kid_id;
-
-    @Column(name = "date")
-    public long date;
 
     @Column(name = "is_sync")
     public boolean is_sync;
+
+    @Column(name = "location")
+    public String location;
+
+    @Column(name = "created_timestamp")
+    public String created_timestamp;
 
     public List<CheckOut> getAll() {
         return new Select()
                 .from(CheckOut.class)
                 .execute();
     }
-    public  static List<CheckOut> getNotSync() {
+
+    public static List<CheckOut> getNotSync() {
         return new Select()
                 .from(CheckOut.class)
                 .where("is_sync = ?", false)
                 .execute();
     }
+
     public CheckOut() {
         super();
     }
-    public  static  List<CheckOut> getByBookId(long id) {
+
+    public static List<CheckOut> getByBookId(long id) {
         return new Select()
                 .from(CheckOut.class)
                 .where("book_number = ?", id)
                 .execute();
     }
 
-    public static void deleteTable(){
+    public static void deleteTable() {
         CheckOut.truncate(CheckOut.class);
     }
 }

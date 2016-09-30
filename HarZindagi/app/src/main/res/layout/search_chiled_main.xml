@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.ipal.itu.harzindagi.Activities.ChildrenListActivity">
+    tools:context="com.ipal.itu.harzindagi.Activities.DashboardActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -18,28 +18,11 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
-        <include layout="@layout/custom_toolbar" />
+            <include layout="@layout/custom_toolbar" />
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/evacs_Epi"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/evacs_epi"
+    <include layout="@layout/search_child" />
 
-
-        />
-
-    <ImageView
-        android:id="@+id/evacs_non_Epi"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="80dp"
-
-        android:layout_toRightOf="@id/evacs_Epi"
-        android:src="@drawable/evacs_non_epi" />
 </android.support.design.widget.CoordinatorLayout>

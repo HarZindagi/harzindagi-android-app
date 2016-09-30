@@ -11,11 +11,14 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,7 +54,6 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
     LinearLayout done_capture,refresh_capture;
     public static ProgressDialog progress;
     private long activityTime;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,19 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+// finally change the color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimary));
+            //window.setStatusBarTextColor(getResources().getColor(R.color.black));
+        }
         kd_txt=(TextView)findViewById(R.id.kidstation_txt);
+
         kd_txt.setText("کٹ اسٹیشن کی تصویر کھینچیں");
         ctx = this;
 

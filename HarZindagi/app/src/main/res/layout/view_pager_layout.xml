@@ -21,16 +21,7 @@
             <include layout="@layout/custom_toolbar" />
         </android.support.v7.widget.Toolbar>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/white"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:padding="0dp"
-            />
+       
 
     </android.support.design.widget.AppBarLayout>
 
@@ -38,11 +29,47 @@
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="110dp">
-
-
+        android:layout_marginTop="50dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:id="@+id/tab_layout">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/first_f"
+                android:id="@+id/firstTab"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/second_n"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/secondTab"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/third_n"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/thirdTab"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fourth_n"
+                android:id="@+id/fourthTab"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="3dp"
+    android:id="@+id/aa"
+    android:background="@color/colorPrimary"
+    android:layout_below="@id/tab_layout"/>
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
+            android:layout_below="@+id/aa"
             android:layout_width="match_parent"
             android:layout_height="fill_parent" />
 

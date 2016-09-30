@@ -68,7 +68,7 @@ public class VaccinationActivity extends BaseActivity {
     private TextView thirdTabTickMark;
     private TextView fourthTabTickMark;
     private TextView fifthTabTickMark;
-    public String imei;
+    public String imei,cnic,phone;
     TextView toolbar_title;
 
     public int bookid;
@@ -133,6 +133,8 @@ public class VaccinationActivity extends BaseActivity {
             childID = bundle.getLong("childid");
             imei =  bundle.getString("imei");
             bookid =  bundle.getInt("bookid");
+            cnic =  bundle.getString("cnic");
+            phone =  bundle.getString("phone");
           
         } catch (Exception e) {
             Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
@@ -321,6 +323,10 @@ public class VaccinationActivity extends BaseActivity {
             Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
             intent.putExtra("childid", childID);
             intent.putExtra("bookid", bookid);
+
+                intent.putExtra("cnic",cnic);
+            intent.putExtra("pnum",phone);
+
             if (bndl.size() >= 3) {
 
                 intent.putExtra("vacc_details", bndl.getString("vacc_details"));

@@ -99,7 +99,7 @@ public class EditRegisterChildActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
-        toolbar_title.setText("رجسٹرڈ معلومات");
+        toolbar_title.setText("معلومات تبدیل کریں");
         app_name = getResources().getString(R.string.app_name);
         activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -149,8 +149,13 @@ public class EditRegisterChildActivity extends BaseActivity {
                 intent.putExtra("DOB", DateOfBirth);
                 intent.putExtra("mName", MotherName);
                 intent.putExtra("gName", GuardianName);
-                intent.putExtra("cnic", GuardianCNIC);
-                intent.putExtra("pnum", GuardianMobileNumber);
+                if(!GuardianCNIC.equals(""))
+                {
+                    intent.putExtra("CNIC", GuardianCNIC);
+                }
+                else {
+                    intent.putExtra("Phone", GuardianMobileNumber);
+                }
                 intent.putExtra("img", Fpath);
                 intent.putExtra("EPIname", EPICenterName);
                 intent.putExtra("address", houseAddress.getText().toString());

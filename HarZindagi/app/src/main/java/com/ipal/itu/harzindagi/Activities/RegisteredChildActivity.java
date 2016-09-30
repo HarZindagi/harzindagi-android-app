@@ -117,7 +117,8 @@ TextView toolbar_title;
                 intent.putExtra("imei", data.get(0).imei_number);
                 intent.putExtra("isSync", data.get(0).record_update_flag);
                 intent.putExtra("bookid",bookid);
-
+                intent.putExtra("cnic",data.get(0).guardian_cnic);
+                intent.putExtra("phone",data.get(0).phone_number);
                 intent.putExtras(bnd);
                 startActivity(intent);
                 finish();
