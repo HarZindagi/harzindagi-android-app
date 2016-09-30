@@ -75,6 +75,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +85,8 @@ public class LoginActivity extends BaseActivity {
     private static final String TAG = "Volly";
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
     public GUserInfo obj;
+    long activityTime;
+    long downoadTime;
     String[] str = {
             "Ali", "Ahmed", "Adil", "Ashraf", "Akmal", "Azam", "Arif", "Akhtar", "Babar", "Butt", "Bilal", "Danial", "Farhan", "Gulzar", "Hakim", "Haji", "Khizir", "Mehmood", "Nasir", "Pathan", "Hassan", "Saad",
             "Tahir", "Umer", "Khawer", "Yasir", "Jhangir", "Usman", "Osman", "Waseem",
@@ -121,6 +124,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
 
         app_name = getResources().getString(R.string.app_name);
         File appFolder = new File("/sdcard/" + app_name);
@@ -148,7 +152,7 @@ public class LoginActivity extends BaseActivity {
         validator.setText(" براہ مہربانی درست یوزر کا نام اور پاسورڈ کا انتخاب کریں۔");
 
         forgetButton = (Button) findViewById(R.id.loginActivityForgetButton);
-        loginActivityForget_view=findViewById(R.id.loginActivityForget_view);
+        loginActivityForget_view = findViewById(R.id.loginActivityForget_view);
         forgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,12 +169,12 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-         findViewById(R.id.downloadBtn).setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 showDownloadDialog();
-             }
-         });
+        findViewById(R.id.downloadBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDownloadDialog();
+            }
+        });
         evaccsButton = (Button) findViewById(R.id.ForgetActivitySMS);
         evaccsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,7 +192,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0321-418972"));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "042-35948415"));
                 startActivity(intent);
             }
         });
@@ -210,13 +214,18 @@ public class LoginActivity extends BaseActivity {
                     if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
+
                         finish();
+                        activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+                        Constants.logTime(LoginActivity.this, activityTime, Constants.GaEvent.LOGIN_TOTAL_TIME);
+
                     } else if (password.getText().toString().equals("")) {
 
                         // validator.setVisibility(View.VISIBLE);
                         inputValidate();
                     } else {
                         String error = "برائےمہربانی درست پاس ورڈ درج کریں";
+                        Constants.sendGAEvent(LoginActivity.this, "Error", "Enter Correct Password", "Password", 0);
                         showError(password, error);
                     }
 
@@ -229,6 +238,8 @@ public class LoginActivity extends BaseActivity {
                     } else {
                         Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
+                        Constants.sendGAEvent(LoginActivity.this, "Error", "No Internet", "Internet", 0);
+
                     }
 
                 }
@@ -236,7 +247,8 @@ public class LoginActivity extends BaseActivity {
             }
         });
         if (Constants.getToken(this).length() == 0) {
-            getUserInfo();
+            downoadTime = Calendar.getInstance().getTimeInMillis() / (1000);
+           getUserInfo();
         } else {
             EngUC.setText(Constants.getUC(this));
             userName.setText(Constants.getUserName(this));
@@ -309,6 +321,7 @@ public class LoginActivity extends BaseActivity {
         if (password.getText().length() < 1) {
             String error = "برائےمہربانی پاس ورڈ درج کریں";
             showError(password, error);
+            Constants.sendGAEvent(LoginActivity.this, "Error", "Enter Password", "Password", 0);
 
             return false;
         }
@@ -345,6 +358,8 @@ public class LoginActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Constants.sendGAEvent(LoginActivity.this, "Error", "" + error.getMessage(), "Get User Info", 0);
+
                 pDialog.dismiss();
             }
         }) {
@@ -404,6 +419,8 @@ public class LoginActivity extends BaseActivity {
                                 parseTokenResponse(json);
                             } else {
                                 showError(LoginActivity.this.password, "برائےمہربانی درست پاس ورڈ درج کریں");
+                                Constants.sendGAEvent(LoginActivity.this, "Error", "Enter Correct Password", "Send User Info", 0);
+
                             }
                         }
 
@@ -565,6 +582,8 @@ public class LoginActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Constants.sendGAEvent(LoginActivity.this, "Error", "" + error.getMessage(), "Load Visit", 0);
+
                 pDialog.dismiss();
             }
         }) {
@@ -633,6 +652,8 @@ public class LoginActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Constants.sendGAEvent(LoginActivity.this, "Error", "" + error.getMessage(), "Load Injection", 0);
+
                 pDialog.dismiss();
             }
         }) {
@@ -702,6 +723,8 @@ public class LoginActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Constants.sendGAEvent(LoginActivity.this, "Error", "" + error.getMessage(), "Load Vaccination", 0);
+
                 pDialog.dismiss();
             }
         }) {
@@ -787,6 +810,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pDialog.dismiss();
+                Constants.sendGAEvent(LoginActivity.this, "Error", "" + error.getMessage(), "Load Areas", 0);
+
             }
         }) {
 
@@ -866,6 +891,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pDialog.dismiss();
+                Constants.sendGAEvent(LoginActivity.this, "Error", "" + error.getMessage(), "Load Child Data", 0);
+
             }
         }) {
 
@@ -901,8 +928,8 @@ public class LoginActivity extends BaseActivity {
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;
-            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date;
-            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date;
+            c.next_due_date = obj.childInfoArrayList.get(i).next_due_date * 1000;
+            c.next_visit_date = obj.childInfoArrayList.get(i).next_visit_date * 1000;
 
 
             if (obj.childInfoArrayList.get(i).date_of_birth != null) {
@@ -985,6 +1012,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pDialog.dismiss();
+                Constants.sendGAEvent(LoginActivity.this, "Error", "" + error.getMessage(), "Load Kid Vaccination", 0);
+
             }
         }) {
 
@@ -1032,12 +1061,14 @@ public class LoginActivity extends BaseActivity {
         kidVaccinationDao.bulkInsert(childInfoArrayList);
         kidVaccinationDao.bulkInsert(noSync);
         loadNameLists();
-        Toast.makeText(LoginActivity.this, "ڈاونلوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
+        Toast.makeText(LoginActivity.this, "ڈاؤن لوڈ مکمل ہو گیا ہے", Toast.LENGTH_LONG).show();
 
         Constants.setIsTableLoaded(this, true);
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
+        downoadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - downoadTime;
+        Constants.logTime(LoginActivity.this, downoadTime, Constants.GaEvent.DOWNLOAD_DATA_TOTAL_TIME);
 
     }
 

@@ -80,6 +80,14 @@
             android:name="Images"
             android:value="com.ipal.itu.harzindagi.Entity.Images" />
 
+        <meta-data
+            android:name="CheckOut"
+            android:value="com.ipal.itu.harzindagi.Entity.CheckOut" />
+
+        <meta-data
+            android:name="CheckIn"
+            android:value="com.ipal.itu.harzindagi.Entity.CheckIn" />
+
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/title_activity_splash"
@@ -169,6 +177,10 @@
             android:label="حفا ظتی ٹیکوں کا شیڈیول کتاب پر درج کریں"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Activities.AfterScanCard"
+            android:label="بچوں کا ریکارڈ"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Activities.Card_Scan"
             android:label="کارڈ سکین کریں"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -184,7 +196,10 @@
             android:label="تمام بچوں کا ریکارڈ"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.CustomCamera" />
-        <activity android:name=".Activities.CustomCameraKidstation" />
+        <activity android:name=".Activities.CustomCameraKidstation"
+            android:label=" کڈ اسٹیشن"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".Activities.CardScanWrite"
             android:label=" سکین کارڈ"

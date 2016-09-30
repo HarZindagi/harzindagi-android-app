@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ipal.itu.harzindagi.R;
 
@@ -18,6 +19,7 @@ public class Evaccs extends BaseActivity {
     String Evac;
     String EvacNonEpi;
     Boolean isFolderExists;
+    TextView toolbar_title;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -36,6 +38,8 @@ public class Evaccs extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title.setText("Evaccs-II");
        final Context ctx=this;
         app_name = getResources().getString(R.string.app_name);
         Evac =getResources().getString(R.string.evac);

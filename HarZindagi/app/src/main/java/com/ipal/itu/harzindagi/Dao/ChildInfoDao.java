@@ -52,6 +52,7 @@ public class ChildInfoDao {
                 ChildInfo item = new ChildInfo();
                 item.kid_id = items.get(i).kid_id;
                 item.epi_name = items.get(i).epi_name;
+                item.guardian_name = items.get(i).guardian_name;
                 item.kid_name = items.get(i).kid_name;
                 item.epi_number = items.get(i).epi_number;
                 item.child_address = items.get(i).child_address;
@@ -131,6 +132,20 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                 .where("mobile_id = ?", id).and("imei_number = ?",imei)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static  List<ChildInfo> getByLocalCnicandIMEI(String id,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("guardian_cnic = ?", id).and("imei_number = ?",imei)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  static  List<ChildInfo> getByLocalPhoneandIMEI(String id,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("phone_number = ?", id).and("imei_number = ?",imei)
                 .orderBy("kid_name ASC")
                 .execute();
     }

@@ -56,6 +56,7 @@ import java.util.Map;
 public class SearchActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     /**/
+    TextView toolbar_title;
     public static final String TAG = "MainActivity";
     private static final int REQUEST_SMS = 1;
     public static List<ChildInfo> data;
@@ -70,9 +71,9 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
     EditText txt_msg;
     View searchOneLayout;
     View searchTwoLayout;
-    String number;
+    String number = "8331";
     String ChildID = "", CellPhone, CNIC, ChildName, GuardianName;
-    boolean isAdvanceSearch = false;
+    boolean isAdvanceSearch = true;
     private View mLayout;
     private PopupWindow pw;
     private View popUpView;
@@ -82,8 +83,8 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
     private void logTime() {
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-       // Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_TIME, activityTime + " S", 0);
-        Constants.logTime(this,activityTime,Constants.GaEvent.KID_SEARCH_TIME);
+        // Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_TIME, activityTime + " S", 0);
+        Constants.logTime(this, activityTime, Constants.GaEvent.KID_SEARCH_TIME);
     }
 
     @Override
@@ -100,6 +101,8 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        toolbar_title.setText(getResources().getString(R.string.title_activity_search));
         createContexMenu();
         searchOneLayout = findViewById(R.id.epiSearchLayout);
         searchTwoLayout = findViewById(R.id.advanceSearchLayout);
@@ -125,7 +128,6 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
             findViewById(R.id.or_text_view).setVisibility(View.GONE);
 
 
-
         }
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +143,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
                     }
 
-                    if (data.size() != 0 ) {
+                    if (data.size() != 0) {
 
                         startActivity(new Intent(SearchActivity.this, ChildrenListActivity.class)
 
@@ -150,7 +152,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
                     } else if (data.size() == 0 && bookNumber.getText().length() > 0) {
                         if (!Constants.isOnline(SearchActivity.this)) {
                             pDialog.show();
-                            sendSMS("hz %b%" + bookNumber.getText().toString());
+                            sendSMS(messageHeader+" %b%" + bookNumber.getText().toString());
 
                             Toast.makeText(SearchActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
                             logTime();
@@ -187,11 +189,11 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
                             if (isAdvanceSearch) {
                                 if (cellPhone.length() == 12) {
                                     pDialog.show();
-                                    sendSMS("hz %m%" + CellPhone);
+                                    sendSMS(messageHeader + " #m#" + CellPhone);
                                 } else if (CNIC.length() == 15) {
                                     pDialog.show();
 
-                                    sendSMS("hz %c%" + CNIC);
+                                    sendSMS(messageHeader + " %c%" + CNIC);
                                 }
                                 Toast.makeText(SearchActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
                             }
@@ -227,6 +229,8 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
     }
 
+    String messageHeader = "demo10";
+
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         popUpView = inflater.inflate(R.layout.contex_popup, null, false);
@@ -238,7 +242,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
     }
 
     public void showError(View v, String error) {
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_ERROR,error, 0);
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.KID_SEARCH_ERROR, error, 0);
         ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
         pw.showAsDropDown(v, 0, -Constants.pxToDp(SearchActivity.this, 10));
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
@@ -355,8 +359,8 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-               // VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                // VolleyLog.d(TAG, "Error: " + error.getMessage());
                 pDialog.dismiss();
             }
         }) {
@@ -463,7 +467,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
         Log.i("Send SMS", "");
 
         String txt = msg;
-        number = "9100";
+
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(number, null, txt, null, null);

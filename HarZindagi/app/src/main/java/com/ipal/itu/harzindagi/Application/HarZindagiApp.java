@@ -7,6 +7,8 @@ import com.activeandroid.Configuration;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.ipal.itu.harzindagi.Entity.Books;
+import com.ipal.itu.harzindagi.Entity.CheckIn;
+import com.ipal.itu.harzindagi.Entity.CheckOut;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
@@ -49,7 +51,7 @@ public class HarZindagiApp extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/PakNastaleeq.ttf")
+                .setDefaultFontPath("fonts/Jameel_Noori_Nastaleeq.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
@@ -68,6 +70,8 @@ public class HarZindagiApp extends android.app.Application {
         configurationBuilder.addModelClass(MaleName.class);
         configurationBuilder.addModelClass(FemaleName.class);
         configurationBuilder.addModelClass(Images.class);
+        configurationBuilder.addModelClass(CheckIn.class);
+        configurationBuilder.addModelClass(CheckOut.class);
         ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
 

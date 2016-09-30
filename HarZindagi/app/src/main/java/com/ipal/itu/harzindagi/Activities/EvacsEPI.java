@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxStatus;
@@ -38,6 +39,7 @@ public class EvacsEPI extends BaseActivity {
     String epiNumber;
     Context context;
     CheckBox[] v_box;
+    TextView toolbar_title;
     ArrayList<Integer> selectedCheckboxes = new ArrayList<Integer>();
     ArrayList<String> chkBox_txt = new ArrayList<String>();
     CheckBox bx_BCG,bx_OPV,bx_OPV1,bx_Pentavalent,bx_Pneumococcal,bx_OPV2,bx_Pentavalent2
@@ -80,6 +82,8 @@ public class EvacsEPI extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title.setText("Evaccs-II");
         context=this;
         ep_txt_view=(TextView)findViewById(R.id.ep_txt_view);
 
@@ -168,6 +172,8 @@ public class EvacsEPI extends BaseActivity {
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
+           ImageView img_cam=(ImageView)findViewById(R.id.img_cam);
+            img_cam.setImageBitmap(photo);
 
 
 

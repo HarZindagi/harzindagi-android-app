@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -30,6 +31,8 @@ import com.ipal.itu.harzindagi.Dao.EvaccsDao;
 import com.ipal.itu.harzindagi.Dao.EvaccsNonEPIDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.Books;
+import com.ipal.itu.harzindagi.Entity.CheckIn;
+import com.ipal.itu.harzindagi.Entity.CheckOut;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
@@ -37,6 +40,8 @@ import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.BooksSyncHandler;
+import com.ipal.itu.harzindagi.Utils.CheckInSyncHandler;
+import com.ipal.itu.harzindagi.Utils.CheckOutSyncHandler;
 import com.ipal.itu.harzindagi.Utils.ChildInfoSyncHandler;
 import com.ipal.itu.harzindagi.Utils.Constants;
 import com.ipal.itu.harzindagi.Utils.EvaccsNonEPISyncHandler;
@@ -46,8 +51,10 @@ import com.ipal.itu.harzindagi.Utils.EvacssNonEPIImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.ImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.KidVaccinatioHandler;
 import com.ipal.itu.harzindagi.Utils.MultipartUtility;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -56,7 +63,7 @@ import java.util.Map;
 
 
 public class DashboardActivity extends BaseActivity {
-TextView toolbar_title;
+    TextView toolbar_title;
     Button registerChildButton;
     Button scanChildButton;
     Button searchChildButton;
@@ -80,7 +87,7 @@ TextView toolbar_title;
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText(getResources().getString(R.string.title_activity_dashboard));
         registerChildButton = (Button) findViewById(R.id.dashBoardActivityRegisterChildButton);
         registerChildButton.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +146,8 @@ TextView toolbar_title;
 
         if (id == R.id.action_logout) {
             // logout();
-            Constants.setCheckOut(this, (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-            if (!Constants.getCheckIn(this).equals("")) {
+
+            if (!Constants.getCheckIn(this).equals("")  && Constants.getCheckOut(this).equals("")) {
                 isLocationFound = false;
                 LocationAjaxCallback cb = new LocationAjaxCallback();
                 //  final ProgressDialog pDialog = new ProgressDialog(this);
@@ -181,6 +188,13 @@ TextView toolbar_title;
     }
 
     public void locationCb(String url, final Location loc, AjaxStatus status) {
+        String created_time =  ""+(Calendar.getInstance().getTimeInMillis() / 1000);
+        CheckOut checkOut = new CheckOut();
+        checkOut.created_timestamp = created_time;
+        // checkOut.location =;
+
+
+        Constants.setCheckOut(this, created_time);
         if (!isLocationFound) {
             isLocationFound = true;
             if (loc != null) {
@@ -189,9 +203,13 @@ TextView toolbar_title;
                 double log = loc.getLongitude();
                 location = lat + "," + log;
                 Constants.setLocationSync(this, location);
+                checkOut.location = location;
+                checkOut.save();
 
             } else {
-                Constants.setLocationSync(this, "0.0000:0.0000");
+                Constants.setLocationSync(this, "0.0000,0.0000");
+                checkOut.location = "0.0000,0.0000";
+                checkOut.save();
                 //sendCheckIn();
 
             }
@@ -265,6 +283,46 @@ TextView toolbar_title;
             }
         });
         childInfoSyncHandler.execute();
+    }
+
+    public void checkIn() {
+
+        List<CheckIn> childInfo = CheckIn.getNotSync();
+
+        CheckInSyncHandler checkInSyncHandler = new CheckInSyncHandler(this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String response) {
+                if (success) {
+                    checkOut();
+                } else {
+                    Constants.sendGAEvent(DashboardActivity.this, "Error", "Uploading Failed", "CheckIn", 0);
+                    showErrorDialog();
+                }
+            }
+        });
+        checkInSyncHandler.execute();
+    }
+
+    public void checkOut() {
+
+        List<CheckOut> childInfo = CheckOut.getNotSync();
+
+        CheckOutSyncHandler checkOutSyncHandler = new CheckOutSyncHandler(this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String response) {
+                if (success) {
+                    //androidImageUpload();
+                    Constants.setCheckOut(DashboardActivity.this, "");
+                    Constants.setCheckIn(DashboardActivity.this, "");
+                    uploadKitStationImage();
+                } else {
+                    Constants.sendGAEvent(DashboardActivity.this, "Error", "Uploading Failed", "CHeckOut", 0);
+                    showErrorDialog();
+
+                }
+            }
+        });
+        checkOutSyncHandler.execute();
     }
 
     public void androidImageUpload() {
@@ -399,9 +457,9 @@ TextView toolbar_title;
                     }
                     uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
                     Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
-                    if(!Constants.getCheckOut(DashboardActivity.this).equals("")) {
-                        sendCheckIn();
-                    }else{
+                    if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
+                        checkIn();
+                    } else {
                         showCompletDialog("اپ لوڈ مکمل ہو گیا ہے");
                     }
 
@@ -471,203 +529,7 @@ TextView toolbar_title;
         adb.show();
     }
 
-    public void logout() {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.logout + "?" + "user[auth_token]=" + Constants.getToken(this) + "location=" + "2.0221,5.0252";
-        final ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loading...");
-        pDialog.show();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.DELETE,
-                url, new JSONObject(),
-                new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        //Log.d(TAG, response.toString());
-                        pDialog.dismiss();
-                        if (response.optBoolean("success")) {
-                            Constants.setToken(getApplication(), "");
-                            finish();
-                            startActivity(new Intent(getApplication(), LoginActivity.class));
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-        };
-
-// Add the request to the RequestQueue.
-        queue.add(jsonObjReq);
-    }
-
-    private void sendCheckIn() {
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.checkins;
-        final ProgressDialog pDialog;
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Saving CheckIn Time...");
-        pDialog.show();
-        JSONObject obj = null;
-
-        try {
-            obj = new JSONObject();
-            JSONObject user = new JSONObject();
-            user.put("auth_token", Constants.getToken(this));
-            obj.put("user", user);
-
-            obj.put("imei_number", Constants.getIMEI(this));
-            obj.put("location", Constants.getLocation(this));
-
-
-            obj.put("version_name", Constants.getVersionName(this));
-            obj.put("created_timestamp", Constants.getCheckIn(this));
-            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, obj,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Log.d("response",response.toString());
-                        if (!response.toString().equals("")) {
-                            pDialog.dismiss();
-
-
-                                sendCheckOut();
-
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DashboardActivity.this, "Error" + error.getMessage(), Toast.LENGTH_LONG).show();
-                pDialog.dismiss();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-
-        };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
-                LoginActivity.MAX_RETRY,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        if (!Constants.getCheckIn(DashboardActivity.this).equals("")) {
-
-            queue.add(jsonObjReq);
-        }else{
-            pDialog.dismiss();
-            sendCheckOut();
-        }
-
-    }
-
-    private void sendCheckOut() {
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.checkouts;
-        final ProgressDialog pDialog;
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Saving CheckOut Time...");
-        pDialog.show();
-        JSONObject obj = null;
-
-        try {
-            obj = new JSONObject();
-            JSONObject user = new JSONObject();
-            user.put("auth_token", Constants.getToken(this));
-            obj.put("user", user);
-
-            obj.put("imei_number", Constants.getIMEI(this));
-            obj.put("location", Constants.getLocation(this));
-
-            obj.put("location_sync", Constants.getLocationSync(this));
-
-            obj.put("version_name", Constants.getVersionName(this));
-            obj.put("created_timestamp", Constants.getCheckOut(this));
-            obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, obj,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Log.d("response",response.toString());
-                        if (!response.toString().equals("")) {
-                            pDialog.dismiss();
-
-                            Constants.setCheckOut(DashboardActivity.this, "");
-                            Constants.setCheckIn(DashboardActivity.this, "");
-                            uploadKitStationImage();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pDialog.dismiss();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-
-        };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(5000,
-                LoginActivity.MAX_RETRY,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
-
-            queue.add(jsonObjReq);
-        }else{
-            pDialog.dismiss();
-            Constants.setCheckOut(DashboardActivity.this, "");
-            Constants.setCheckIn(DashboardActivity.this, "");
-            uploadKitStationImage();
-        }
-
-    }
 
     private void uploadKitStationImage() {
         String imagePath = "/sdcard/" + Constants.getApplicationName(this) + "/"
@@ -728,7 +590,7 @@ TextView toolbar_title;
                         // Log.d("response",response.toString());
                         if (!response.toString().equals("")) {
                             pDialog.dismiss();
-                            showCompletDialog("آپلوڈ مکمل ہو گیا ہے");
+                            showCompletDialog("اپلوڈ مکمل ہو گیا ہے");
                             //Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                         }
 

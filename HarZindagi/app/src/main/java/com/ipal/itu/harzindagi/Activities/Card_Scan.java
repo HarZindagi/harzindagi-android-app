@@ -128,14 +128,15 @@ public class Card_Scan extends BaseActivity {
         String Arry[] = s.split("#");
         if (Arry.length > 3) {
             if (!Constants.getIMEI(Card_Scan.this).equals(Arry[Arry.length - 3])) {
-                Intent intent1 = new Intent(this,SearchActivity.class);
-                intent1.putExtra("book_num",Arry[Arry.length - 5]);
+                Intent intent1 = new Intent(this, SearchActivity.class);
+                intent1.putExtra("book_num", Arry[Arry.length - 5]);
                 startActivity(intent1);
                 //addNewRecord(Arry);
-                Toast.makeText(ctx,"بچہ دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, "بچہ دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
 
-            }else{
-                openVaccinationActivity(Arry[0],Arry[Arry.length - 3],Arry[Arry.length - 5],Arry[1]);
+            } else {
+
+                openVaccinationActivity(Arry[0], Arry[Arry.length - 3], Arry[Arry.length - 5], Arry[1], Arry[2], Arry[3]);
 
 
             }
@@ -147,17 +148,23 @@ public class Card_Scan extends BaseActivity {
 
     }
 
-    private  void openVaccinationActivity(String childID,String imei,String bookid,String isSync){
-        final List<ChildInfo> data;
+    private void openVaccinationActivity(String childID, String imei, String bookid, String isSync, String cnic, String phone) {
+        List<ChildInfo> data;
         if (isSync.equals("1")) {
             data = ChildInfoDao.getByKIdAndIMEI(Integer.parseInt(childID), imei);
         } else {
-            data = ChildInfoDao.getByLocalKIdandIMEI(Integer.parseInt(childID), imei);
+          //  data = ChildInfoDao.getByLocalKIdandIMEI(Integer.parseInt(childID), imei);
+
+                if (!cnic.equals(""))
+                    data = ChildInfoDao.getByLocalCnicandIMEI(cnic, imei);
+                else
+                    data = ChildInfoDao.getByLocalPhoneandIMEI(phone, imei);
+
         }
 
         Intent intent = new Intent(this, VaccinationActivity.class);
         long kid = 0;
-        if(data.size()==0){
+        if (data.size() == 0) {
             Toast.makeText(ctx, "No Record Found!", Toast.LENGTH_LONG).show();
             return;
         }
@@ -167,14 +174,26 @@ public class Card_Scan extends BaseActivity {
             finish();
             return;
         }
-        Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
-        intent.putExtra("childid", data.get(0).kid_id);
-        intent.putExtra("imei", data.get(0).imei_number);
-        intent.putExtra("isSync", data.get(0).record_update_flag);
-        intent.putExtra("bookid",Integer.parseInt(bookid));
+        if (data.size() == 1) {
+            Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+            intent.putExtra("childid", data.get(0).kid_id);
+            intent.putExtra("imei", data.get(0).imei_number);
+            intent.putExtra("isSync", data.get(0).record_update_flag);
+            intent.putExtra("bookid", Integer.parseInt(bookid));
 
-        intent.putExtras(bnd);
-        startActivity(intent);
+            intent.putExtras(bnd);
+            startActivity(intent);
+
+        }else{
+            Intent intent1 = new Intent(this,AfterScanCard.class);
+            intent1.putExtra("imei",imei);
+            if(cnic.equals(""))
+            intent1.putExtra("phone", phone);
+            else
+            intent1.putExtra("cnic", cnic);
+            startActivity(intent1);
+        }
+
         finish();
     }
 

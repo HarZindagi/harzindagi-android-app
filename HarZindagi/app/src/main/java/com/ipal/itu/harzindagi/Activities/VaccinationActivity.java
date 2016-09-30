@@ -68,26 +68,9 @@ public class VaccinationActivity extends BaseActivity {
     private TextView thirdTabTickMark;
     private TextView fourthTabTickMark;
     private TextView fifthTabTickMark;
-    public String imei;
+    public String imei,cnic,phone;
     TextView toolbar_title;
-    private int[] toolbar_color = {
 
-            R.color.dark_red,
-            R.color.red,
-            R.color.purple,
-            R.color.yellow_green,
-            R.color.blue,
-            R.color.dark_green
-    };
-    private int[] circle_colr = {
-
-            R.drawable.dark_red_cir,
-            R.drawable.red_cir,
-            R.drawable.purple_cir,
-            R.drawable.yel_grn_cir,
-            R.drawable.blue_cir,
-            R.drawable.dark_green_cir
-    };
     public int bookid;
     public static String location;
     private long activityTime;
@@ -150,6 +133,8 @@ public class VaccinationActivity extends BaseActivity {
             childID = bundle.getLong("childid");
             imei =  bundle.getString("imei");
             bookid =  bundle.getInt("bookid");
+            cnic =  bundle.getString("cnic");
+            phone =  bundle.getString("phone");
           
         } catch (Exception e) {
             Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
@@ -338,6 +323,10 @@ public class VaccinationActivity extends BaseActivity {
             Intent intent = new Intent(VaccinationActivity.this, CardScanWriteVaccine.class);
             intent.putExtra("childid", childID);
             intent.putExtra("bookid", bookid);
+
+                intent.putExtra("cnic",cnic);
+            intent.putExtra("pnum",phone);
+
             if (bndl.size() >= 3) {
 
                 intent.putExtra("vacc_details", bndl.getString("vacc_details"));
