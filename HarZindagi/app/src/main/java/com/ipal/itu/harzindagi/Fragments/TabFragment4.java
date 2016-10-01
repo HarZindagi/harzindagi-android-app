@@ -106,6 +106,7 @@ public class TabFragment4 extends Fragment {
 
                     }
                     Intent myintent = new Intent(getActivity(), ChildInfoToday.class);
+
                     VaccinationsDao.get_VaccinationID_Vaccs_details(Integer.parseInt(bnd.getString("visit_num")), bnd.getString("vacc_details"), vdb);
                     myintent.putExtra("visit_num_",Integer.parseInt(bnd.getString("visit_num")));
                     myintent.putExtra("vacc_details",bnd.getString("vacc_details"));
