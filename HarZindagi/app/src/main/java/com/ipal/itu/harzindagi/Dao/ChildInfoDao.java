@@ -253,7 +253,7 @@ public class ChildInfoDao {
 
         return new Select()
                 .from(ChildInfo.class)
-                .where("vaccination_date >?",curr_date)
+                .where("vaccination_date =?",curr_date)
                 .execute();
     }
 

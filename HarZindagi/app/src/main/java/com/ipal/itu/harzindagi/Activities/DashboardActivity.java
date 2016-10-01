@@ -574,7 +574,7 @@ public class DashboardActivity extends BaseActivity {
             kitStation.put("image_path ", imagePath);
 
 
-            kitStation.put("created_timestamp", Constants.getCheckOut(this));
+            kitStation.put("created_timestamp", Constants.getKitTime(this));
             kitStation.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
             obj.put("kid_station", kitStation);
 

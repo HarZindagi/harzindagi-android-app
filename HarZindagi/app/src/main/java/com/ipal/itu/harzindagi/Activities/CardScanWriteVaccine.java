@@ -219,7 +219,7 @@ public class CardScanWriteVaccine extends BaseActivity {
             date = sdf.parse(bundle.getString("next_date"));
 
             childInfo.get(0).next_due_date = date.getTime();
-            childInfo.get(0).vaccination_date = Calendar.getInstance().getTimeInMillis();
+            childInfo.get(0).vaccination_date =getTodayDate();
             childInfo.get(0).next_visit_date = date.getTime()+((long)(86400000)*28);
             childInfo.get(0).save();
         } catch (ParseException e) {
@@ -254,6 +254,19 @@ public class CardScanWriteVaccine extends BaseActivity {
         finish();
 
         return 0;
+    }
+    private long getTodayDate(){
+        Calendar calendar = Calendar.getInstance();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date today = new Date(calendar.getTimeInMillis());
+        Date todayWithZeroTime=null;
+        try {
+            todayWithZeroTime = formatter.parse(formatter.format(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return  todayWithZeroTime.getTime();
     }
 
     @Override

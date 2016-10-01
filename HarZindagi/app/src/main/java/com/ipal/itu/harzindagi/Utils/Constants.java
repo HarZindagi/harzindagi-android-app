@@ -67,6 +67,8 @@ public class Constants {
     public static final String checkOut = "checkOut";
     public static final String location = "location";
     public static final String day = "cDay";
+
+    public static final String kitTime = "kitTine";
     private static final boolean isTracking = true;
 
     public static String getToken(Context c) {
@@ -173,6 +175,16 @@ public class Constants {
     public static String getCheckOut(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         return prefs.getString(Constants.checkOut, "");
+    }
+
+    public static void setkitTime(Context c, long time) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putLong(Constants.kitTime, time).apply();
+    }
+
+    public static long getKitTime(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        return prefs.getLong(Constants.kitTime,0);
     }
 
     public static void setCheckOut(Context c, String checkin) {

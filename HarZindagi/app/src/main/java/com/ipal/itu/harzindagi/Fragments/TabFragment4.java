@@ -57,7 +57,7 @@ public class TabFragment4 extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                data = dao.getTodayCompleted(finalTodayWithZeroTime.getTime()/1000);
+                data = dao.getTodayCompleted(finalTodayWithZeroTime.getTime());
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
