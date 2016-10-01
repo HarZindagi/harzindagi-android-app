@@ -382,6 +382,7 @@ public void setpage(int a)
 
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
             c.guardian_name = obj.childInfoArrayList.get(i).father_name;
+            c.vaccination_date = obj.childInfoArrayList.get(i).vaccination_date*1000;
 
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 

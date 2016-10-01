@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxStatus;
@@ -205,7 +206,8 @@ public class EvacsNonEPI extends BaseActivity {
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
-
+            ImageView img_cam=(ImageView)findViewById(R.id.non_img_cam);
+            img_cam.setImageBitmap(photo);
         }
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
             String year = data.getStringExtra("year");

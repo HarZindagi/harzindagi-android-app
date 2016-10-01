@@ -1,11 +1,14 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +79,12 @@ public class ChildInfoToday extends BaseActivity {
         visitNumber = getIntent().getExtras().getInt("visit_num_");
         list = (ListView) findViewById(R.id.list);
         obj = (VaccInfoList) getIntent().getSerializableExtra("VaccDetInfo");
+        ViewGroup.LayoutParams params = list.getLayoutParams();
+        Resources r = getResources();
+        int px =(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics());
+        params.height = obj.vaccinfo.size()*px;
+        list.setLayoutParams(params);
+        list.requestLayout();
         adapter = new CustomListAdapter(this, obj.vaccinfo,visitNumber);
         list.setAdapter(adapter);
         Bundle bundle = getIntent().getExtras();

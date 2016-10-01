@@ -53,6 +53,7 @@ public class ChildInfoDao {
                 item.kid_id = items.get(i).kid_id;
                 item.epi_name = items.get(i).epi_name;
                 item.guardian_name = items.get(i).guardian_name;
+                item.vaccination_date = items.get(i).vaccination_date;
                 item.kid_name = items.get(i).kid_name;
                 item.epi_number = items.get(i).epi_number;
                 item.child_address = items.get(i).child_address;
@@ -252,7 +253,7 @@ public class ChildInfoDao {
 
         return new Select()
                 .from(ChildInfo.class)
-                .where("created_timestamp >?",curr_date)
+                .where("vaccination_date >?",curr_date)
                 .execute();
     }
 

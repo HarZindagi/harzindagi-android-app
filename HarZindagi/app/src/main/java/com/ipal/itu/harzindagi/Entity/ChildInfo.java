@@ -80,6 +80,8 @@ public class ChildInfo extends TruncatableModel{
 
     @Column(name = "next_visit_date")
     public long next_visit_date;
+    @Column(name = "vaccination_date")
+    public long vaccination_date;
 
     @Column(name = "child_address")
     public String child_address;

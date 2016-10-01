@@ -92,9 +92,9 @@ public class TabFragment3 extends Fragment {
                     ArrayList<GVaccination> vacList = (ArrayList<GVaccination>) bnd.getSerializable("vacs");
                     List<KidVaccinations> kidVaccinationses = new ArrayList<KidVaccinations>();
                     for (int i = 0; i < vacList.size(); i++) {
-                        KidVaccinations subList = KidVaccinationDao.getVacByIdAndVacId(data.get(position).kid_id, vacList.get(i).injection_id).get(0);
-                        if (subList != null) {
-                            kidVaccinationses.add(subList);
+                        List<KidVaccinations> subList = KidVaccinationDao.getVacByIdAndVacId(data.get(position).kid_id, vacList.get(i).injection_id);
+                        if (subList != null && subList.size() > 0) {
+                            kidVaccinationses.add(subList.get(0));
                         }
                     }
 
@@ -112,13 +112,19 @@ public class TabFragment3 extends Fragment {
                             vdb.vaccinfo.get(i).month = "--";
                             vdb.vaccinfo.get(i).year = "--";
                         } else {
-                            Date d = new Date(kidVaccinationses.get(i).created_timestamp*1000);
-                            Calendar c = Calendar.getInstance();
-                            c.setTime(d);
+                            if (i < kidVaccinationses.size() ) {
+                                Date d = new Date(kidVaccinationses.get(i).created_timestamp * 1000);
+                                Calendar c = Calendar.getInstance();
+                                c.setTime(d);
 
-                            vdb.vaccinfo.get(i).day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
-                            vdb.vaccinfo.get(i).month = String.valueOf(c.get(Calendar.MONTH));
-                            vdb.vaccinfo.get(i).year = String.valueOf(c.get(Calendar.YEAR));
+                                vdb.vaccinfo.get(i).day = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+                                vdb.vaccinfo.get(i).month = String.valueOf(c.get(Calendar.MONTH));
+                                vdb.vaccinfo.get(i).year = String.valueOf(c.get(Calendar.YEAR));
+                            }else{
+                                vdb.vaccinfo.get(i).day = "--";
+                                vdb.vaccinfo.get(i).month = "--";
+                                vdb.vaccinfo.get(i).year = "--";
+                            }
 
                         }
 

@@ -219,6 +219,7 @@ public class CardScanWriteVaccine extends BaseActivity {
             date = sdf.parse(bundle.getString("next_date"));
 
             childInfo.get(0).next_due_date = date.getTime();
+            childInfo.get(0).vaccination_date = Calendar.getInstance().getTimeInMillis();
             childInfo.get(0).next_visit_date = date.getTime()+((long)(86400000)*28);
             childInfo.get(0).save();
         } catch (ParseException e) {
