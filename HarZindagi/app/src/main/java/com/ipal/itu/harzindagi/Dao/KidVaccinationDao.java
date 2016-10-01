@@ -13,9 +13,13 @@ import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.Transaction;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.GJson.GKidTransaction;
+import com.ipal.itu.harzindagi.GJson.GVaccination;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.google.android.gms.analytics.internal.zzy.c;
 
 /**
  * Created by Ali on 1/14/2016.
@@ -26,6 +30,13 @@ public class KidVaccinationDao {
         return new Select()
                 .from(KidVaccinations.class)
                 .where("kid_id = ?", id)
+                .orderBy("created_timestamp ASC")
+                .execute();
+    }
+    public static List<KidVaccinations> getVacByIdAndVacId(long id,int  vacId) {
+        return new Select()
+                .from(KidVaccinations.class)
+                .where("kid_id = ?", id).and("vaccination_id =?",vacId)
                 .orderBy("created_timestamp ASC")
                 .execute();
     }
@@ -51,14 +62,14 @@ public class KidVaccinationDao {
 
         bnd.putString("visit_num", max_visit + "");
 
-        From query2 = new Select()
+   /*     From query2 = new Select()
                 .from(Injections.class)
                 .leftJoin(Vaccinations.class)
                 .on(" Injections._id=Vaccinations.injection_id")
                 .leftJoin(KidVaccinations.class)
                 .on(" Vaccinations._id=KidVaccinations.vaccination_id")
                 .where("KidVaccinations.kid_id =?", kid).and("Vaccinations.visit_id =?", max_visit)
-                .orderBy("Injections._id");
+                .orderBy("Injections._id");*/
 
 
         List<Injections> inj = new Select()
@@ -104,8 +115,13 @@ public class KidVaccinationDao {
             }
 
         }
-
-
+        ArrayList<GVaccination> gVaccinations = new ArrayList<>();
+        for (int i = 0; i <vacs.size() ; i++) {
+            GVaccination gVaccination = new GVaccination();
+            gVaccination.injection_id = vacs.get(i).injection_id;
+            gVaccinations.add(gVaccination);
+        }
+        bnd.putSerializable("vacs",gVaccinations);
         bnd.putString("vacc_details", str);
         return bnd;
     }
