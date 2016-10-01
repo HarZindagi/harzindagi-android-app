@@ -71,7 +71,8 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
     EditText txt_msg;
     View searchOneLayout;
     View searchTwoLayout;
-    String number = "8331";
+    public static final String number = "8331";
+    public static final String messageHeader = "demo10";
     String ChildID = "", CellPhone, CNIC, ChildName, GuardianName;
     boolean isAdvanceSearch = true;
     private View mLayout;
@@ -193,7 +194,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
                                 } else if (CNIC.length() == 15) {
                                     pDialog.show();
 
-                                    sendSMS(messageHeader + " %c%" + CNIC);
+                                    sendSMS(messageHeader + " #c#" + CNIC);
                                 }
                                 Toast.makeText(SearchActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
                             }
@@ -229,7 +230,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
 
     }
 
-    String messageHeader = "demo10";
+
 
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

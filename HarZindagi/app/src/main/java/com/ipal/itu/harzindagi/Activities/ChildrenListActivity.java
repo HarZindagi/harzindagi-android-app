@@ -125,7 +125,7 @@ public class ChildrenListActivity extends BaseActivity {
                             pDialog = new ProgressDialog(ChildrenListActivity.this);
                             pDialog.setMessage("Searching with SMS, Please Wait...");
                             pDialog.setCancelable(false);
-                            sendSMS("hz %id%" + SearchActivity.data.get(position).kid_id);
+                            sendSMS(SearchActivity.messageHeader+" #id#" + SearchActivity.data.get(position).kid_id);
                             Toast.makeText(ChildrenListActivity.this, "Please Wait", Toast.LENGTH_LONG).show();
 
                         }
@@ -217,7 +217,7 @@ public class ChildrenListActivity extends BaseActivity {
         Log.i("Send SMS", "");
 
         String txt = msg;
-        String number = "9100";
+        String number = SearchActivity.number;
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(number, null, txt, null, null);

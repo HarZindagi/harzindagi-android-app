@@ -533,7 +533,7 @@ public class DashboardActivity extends BaseActivity {
 
     private void uploadKitStationImage() {
         String imagePath = "/sdcard/" + Constants.getApplicationName(this) + "/"
-                + "Image_" + Constants.getUC(this) + ".jpg";
+                + "Image_" + Constants.getUCID(this) + ".jpg";
         final ProgressDialog pDialog;
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Saving Kit Station Image...");
