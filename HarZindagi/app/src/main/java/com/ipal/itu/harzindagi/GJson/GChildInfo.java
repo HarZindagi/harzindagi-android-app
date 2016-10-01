@@ -28,5 +28,6 @@ public class GChildInfo implements Serializable {
     public String image_path;
     public String book_id;
     public long next_visit_date;
+    public long vaccination_date;
 
 }

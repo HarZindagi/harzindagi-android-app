@@ -68,11 +68,10 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
     List<Towns> list_Towns;
     MultiAutoCompleteTextView childName;
     MultiAutoCompleteTextView registerChildTown_ET;
-    Button boy;
-    Button girl;
+
     View DOB;
     TextView DOBText;
-    private RadioButton radioButton_boy,radioButton_girl;
+
     MultiAutoCompleteTextView motherName;
     MultiAutoCompleteTextView guardianName;
     MaskedEditText guardianCNIC;
@@ -112,6 +111,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
     private int previousID = 0;
     private String previousViewName = "";
     private long fieldTime;
+    private RadioGroup radioGroup;
 
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -235,7 +235,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         houseAddress = (EditText) findViewById(R.id.registerChildAddress);
         houseAddress.setOnFocusChangeListener(this);
         houseAddress.setTag(Constants.GaEvent.REGISTER_ADDRESS_TIME);
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
@@ -581,7 +581,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         }
         if (Gender == -1) {
             error = "نامکمل جنس";
-            showError(radioButton_boy, error);
+            showError(radioGroup, error);
 
             return error;
         }

@@ -137,6 +137,8 @@ public class ChildInfoSyncHandler {
             kid.put("image_path", childInfo.image_path);
             kid.put("next_due_date", childInfo.next_due_date/1000);
             kid.put("next_visit_date", childInfo.next_visit_date/1000);
+            kid.put("vaccination_date", childInfo.vaccination_date/1000);
+
             kid.put("book_id", childInfo.book_id);
 
 
