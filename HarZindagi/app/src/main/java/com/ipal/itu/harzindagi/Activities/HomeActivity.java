@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
 import com.google.android.gms.analytics.HitBuilders;
@@ -33,11 +34,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
+import static com.ipal.itu.harzindagi.R.id.homeActivityHarZindagiButtonR;
+
 public class HomeActivity extends BaseActivity {
     private static final int CAMERA_REQUEST = 1887;
-    Button evaccsButton;
-    Button harZindagiButton;
-    Button kidStationPicture;
     String location = "0.0000,0.0000";
     FileOutputStream fo;
 
@@ -46,53 +46,50 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Constants.sendGAScrenn(this, this.getClass().getName() + "Opened");
-        evaccsButton = (Button) findViewById(R.id.homeActivityEVACCSButton);
-        evaccsButton.setOnClickListener(new View.OnClickListener() {
+
+
+        ((RippleView) findViewById(R.id.homeActivityEVACCSButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+
             @Override
-            public void onClick(View view) {
-               /* Snackbar.make(view, "EVACCS Button Clicked!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-
-
+            public void onComplete(RippleView rippleView) {
                 Intent intent = new Intent(HomeActivity.this, Evaccs.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                 Constants.sendGAEvent(HomeActivity.this, "Button", "Click", "EVVACCS", 0);
-                // finish();
             }
+
         });
 
-        harZindagiButton = (Button) findViewById(R.id.homeActivityHarZindagiButton);
-        harZindagiButton.setOnClickListener(new View.OnClickListener() {
+
+        ((RippleView) findViewById(R.id.homeActivityHarZindagiButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+
             @Override
-            public void onClick(View view) {
-               /* Snackbar.make(view, "Har Zindagi Button Clicked!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+            public void onComplete(RippleView rippleView) {
                 startActivity(new Intent(HomeActivity.this, DashboardActivity.class));
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                 Constants.sendGAEvent(HomeActivity.this, "Button", "Click", "Har Zindagi", 0);
-                // finish();
             }
+
         });
         getLocation();
-        kidStationPicture = (Button) findViewById(R.id.homeActivitykidstationiButton);
-        kidStationPicture.setOnClickListener(new View.OnClickListener() {
+
+
+        ((RippleView) findViewById(R.id.homeActivitykidstationiButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+
             @Override
-            public void onClick(View v) {
+            public void onComplete(RippleView rippleView) {
                 Intent cameraIntent = new Intent(HomeActivity.this, CustomCameraKidstation.class);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                 Constants.sendGAEvent(HomeActivity.this, "Button", "Click", "Kit Station", 0);
             }
+
         });
     }
 
     private void getLocation() {
-
         LocationAjaxCallback cb = new LocationAjaxCallback();
-        //  final ProgressDialog pDialog = new ProgressDialog(this);
-        //  pDialog.setMessage("Getting Location");
-
         cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(this);
-        //  pDialog.setCancelable(false);
-        //  pDialog.show();
     }
 
     public void locationCb(String url, final Location loc, AjaxStatus status) {
@@ -105,7 +102,7 @@ public class HomeActivity extends BaseActivity {
             Constants.setLocation(this, location);
 
         } else {
-            Constants.setLocation(this, "0.0000:0.0000");
+            Constants.setLocation(this, "0.0000,0.0000");
             HomeActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -124,13 +121,7 @@ public class HomeActivity extends BaseActivity {
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
-           /* try {
-                photo = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                resizedImage = getResizedBitmap(photo, 256);
-                saveBitmap(resizedImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
+
             Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
 
             startActivity(intent);

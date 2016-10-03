@@ -87,6 +87,7 @@ public class ViewPagerWithTabs extends BaseActivity {
 
         Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.ALL_UC_BACK, 0);
         super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
 
     @Override

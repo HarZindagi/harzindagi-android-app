@@ -387,6 +387,7 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
     public void onBackPressed() {
         Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.KID_SEARCH_BACK, 0);
         super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
 
     public void parseKidReponse(JSONArray response) {

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:id="@+id/scrollViewR"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ipal.itu.harzindagi.Activities.RegisterChildActivity"
     tools:showIn="@layout/activity_register_child">
@@ -337,7 +338,7 @@
                 android:paddingRight="5dp"
                 android:text="DD/MM/YYYY"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
         </RelativeLayout>
 
@@ -510,19 +511,26 @@
                 android:textSize="20dp" />
 
         </RelativeLayout>
-
+        <com.andexert.library.RippleView
+            android:id="@+id/registerChildTakePictureR"
+            rv_centered="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:rv_color="@color/rp_color"
+            app:rv_rippleDuration="@integer/rp_duration"
+            app:rv_zoom="true">
 
         <Button
             android:id="@+id/registerChildTakePicture"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:background="@drawable/roundbutton"
             android:drawableLeft="@drawable/camera_thumb"
             android:padding="10dp"
             android:text="تصویر کھینچیں"
             android:textColor="@color/white"
             android:textSize="20dp" />
-
+        </com.andexert.library.RippleView>
         <Button
             android:id="@+id/text"
             android:layout_width="match_parent"

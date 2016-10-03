@@ -78,6 +78,11 @@ public class Card_Scan extends BaseActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+    }
 
     @Override
     public void onNewIntent(Intent intent) {

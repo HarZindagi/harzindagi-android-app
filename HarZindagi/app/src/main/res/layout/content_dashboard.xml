@@ -12,10 +12,18 @@
     tools:context="com.ipal.itu.harzindagi.Activities.DashboardActivity"
     tools:showIn="@layout/activity_dashboard"
     android:orientation="vertical">
-
-    <Button
+    <com.andexert.library.RippleView
+        android:id="@+id/dashBoardActivityRegisterChildButtonR"
+        rv_centered="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight=".2"
+        app:rv_color="@color/rp_color"
+        app:rv_rippleDuration="@integer/rp_duration"
+        app:rv_zoom="true">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="بچے کو رجسٹر کریں"
         android:id="@+id/dashBoardActivityRegisterChildButton"
         android:layout_weight=".2"
@@ -25,43 +33,70 @@
         android:textSize="25dp"
         android:textStyle="bold"
         />
-
-    <Button
+    </com.andexert.library.RippleView>
+    <com.andexert.library.RippleView
+        android:id="@+id/dashBoardActivityScanChildButtonR"
+        rv_centered="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight=".2"
+        app:rv_color="@color/rp_color"
+        app:rv_rippleDuration="@integer/rp_duration"
+        app:rv_zoom="true">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="کارڈ سکین کریں"
         android:id="@+id/dashBoardActivityScanChildButton"
-        android:layout_weight=".2"
+
         android:layout_gravity="center"
         android:background="@drawable/roundbutton"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold"
         android:layout_marginTop="10dp" />
-
-    <Button
+    </com.andexert.library.RippleView>
+    <com.andexert.library.RippleView
+        android:id="@+id/dashBoardActivitySearchChildButtonR"
+        rv_centered="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight=".2"
+        app:rv_color="@color/rp_color"
+        app:rv_rippleDuration="@integer/rp_duration"
+        app:rv_zoom="true">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text=" بچے کو تلاش کریں"
         android:id="@+id/dashBoardActivitySearchChildButton"
-        android:layout_weight=".2"
+
         android:layout_gravity="center"
         android:background="@drawable/roundbutton"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold"
         android:layout_marginTop="10dp" />
-
-    <Button
+    </com.andexert.library.RippleView>
+    <com.andexert.library.RippleView
+        android:id="@+id/dashBoardActivityShowAllChildrenButtonR"
+        rv_centered="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight=".2"
+        app:rv_color="@color/rp_color"
+        app:rv_rippleDuration="@integer/rp_duration"
+        app:rv_zoom="true">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="یوسی   کے سارے بچوں کا ریکارڈ"
         android:id="@+id/dashBoardActivityShowAllChildrenButton"
-        android:layout_weight=".2"
         android:layout_gravity="center"
         android:background="@drawable/roundbutton"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold"
         android:layout_marginTop="10dp" />
+    </com.andexert.library.RippleView>
 </LinearLayout>

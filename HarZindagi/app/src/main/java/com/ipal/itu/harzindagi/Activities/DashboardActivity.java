@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -61,13 +62,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.android.gms.analytics.internal.zzy.o;
+
 
 public class DashboardActivity extends BaseActivity {
     TextView toolbar_title;
-    Button registerChildButton;
-    Button scanChildButton;
-    Button searchChildButton;
-    Button allChildrenInUCButton;
     String location = "0.0000,0.0000";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -89,44 +88,45 @@ public class DashboardActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText(getResources().getString(R.string.title_activity_dashboard));
-        registerChildButton = (Button) findViewById(R.id.dashBoardActivityRegisterChildButton);
-        registerChildButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ((RippleView) findViewById(R.id.dashBoardActivityRegisterChildButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
 
+            @Override
+            public void onComplete(RippleView rippleView) {
                 startActivity(new Intent(DashboardActivity.this, RegisterChildActivity.class));
-
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
+
         });
 
-        scanChildButton = (Button) findViewById(R.id.dashBoardActivityScanChildButton);
-        scanChildButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ((RippleView) findViewById(R.id.dashBoardActivityScanChildButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
 
+            @Override
+            public void onComplete(RippleView rippleView) {
                 startActivity(new Intent(DashboardActivity.this, Card_Scan.class));
-
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
+
         });
 
-        searchChildButton = (Button) findViewById(R.id.dashBoardActivitySearchChildButton);
-        searchChildButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ((RippleView) findViewById(R.id.dashBoardActivitySearchChildButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
 
+            @Override
+            public void onComplete(RippleView rippleView) {
                 startActivity(new Intent(DashboardActivity.this, SearchActivity.class));
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
-        });
 
-        allChildrenInUCButton = (Button) findViewById(R.id.dashBoardActivityShowAllChildrenButton);
-        allChildrenInUCButton.setOnClickListener(new View.OnClickListener() {
+        });
+        ((RippleView) findViewById(R.id.dashBoardActivityShowAllChildrenButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+
             @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(DashboardActivity.this, ViewPagerWithTabs.class);
-                startActivity(intent);
+            public void onComplete(RippleView rippleView) {
+                startActivity(new Intent(DashboardActivity.this, ViewPagerWithTabs.class));
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
+
         });
+
 
     }
 
@@ -147,7 +147,7 @@ public class DashboardActivity extends BaseActivity {
         if (id == R.id.action_logout) {
             // logout();
 
-            if (!Constants.getCheckIn(this).equals("")  && Constants.getCheckOut(this).equals("")) {
+            if (!Constants.getCheckIn(this).equals("") && Constants.getCheckOut(this).equals("")) {
                 isLocationFound = false;
                 LocationAjaxCallback cb = new LocationAjaxCallback();
                 //  final ProgressDialog pDialog = new ProgressDialog(this);
@@ -188,7 +188,7 @@ public class DashboardActivity extends BaseActivity {
     }
 
     public void locationCb(String url, final Location loc, AjaxStatus status) {
-        String created_time =  ""+(Calendar.getInstance().getTimeInMillis() / 1000);
+        String created_time = "" + (Calendar.getInstance().getTimeInMillis() / 1000);
         CheckOut checkOut = new CheckOut();
         checkOut.created_timestamp = created_time;
         // checkOut.location =;
@@ -245,8 +245,9 @@ public class DashboardActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        //  startActivity(new Intent(this, HomeActivity.class));
+
         super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
 
     public void syncData() {
@@ -265,6 +266,12 @@ public class DashboardActivity extends BaseActivity {
             }
         });
         childInfoSyncHandler.execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
     }
 
     public void books() {
@@ -528,7 +535,6 @@ public class DashboardActivity extends BaseActivity {
         });
         adb.show();
     }
-
 
 
     private void uploadKitStationImage() {

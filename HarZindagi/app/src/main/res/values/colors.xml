@@ -27,4 +27,6 @@
     <color name="f_color">#56caef</color>
     <color name="g_color">#006fb3</color>
     <color name="h_color">#7f3f98</color>
+
+    <color name="rp_color">#ffffff</color>
 </resources>

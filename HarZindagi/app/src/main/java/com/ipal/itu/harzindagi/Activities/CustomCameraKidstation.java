@@ -149,6 +149,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
 
         Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.KIT_IMAGE_BACK , 0);
         super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
     private void getCameraInstance() {
         try {

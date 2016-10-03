@@ -74,6 +74,7 @@ public class EvacsEPI extends BaseActivity {
 
         Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.EVACCS_BACK, 0);
         super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
 
     @Override

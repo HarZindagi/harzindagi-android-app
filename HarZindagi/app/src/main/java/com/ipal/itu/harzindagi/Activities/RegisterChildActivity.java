@@ -29,9 +29,11 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.CustomeViews.MaskedEditText;
@@ -45,6 +47,7 @@ import com.ipal.itu.harzindagi.Entity.MaleName;
 import com.ipal.itu.harzindagi.Entity.Towns;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.Effects;
 import com.ipal.itu.harzindagi.Utils.SpaceTokenizer;
 
 import java.io.ByteArrayOutputStream;
@@ -57,6 +60,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static com.androidquery.util.AQUtility.post;
+import static com.google.android.gms.analytics.internal.zzy.s;
 import static com.google.android.gms.analytics.internal.zzy.t;
 
 public class RegisterChildActivity extends BaseActivity implements View.OnFocusChangeListener {
@@ -79,7 +84,6 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
     String Fpath;
     EditText houseAddress;
     EditText EPINumber;
-    Button childPicture;
     String epiNumber;
     String EPICenterName;
     String ChildName;
@@ -178,7 +182,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadNameLists();
-
+        Effects.getInstance().init(this);
         activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         fieldTime = Calendar.getInstance().getTimeInMillis() / (1000);
         setContentView(R.layout.activity_register_child);
@@ -428,10 +432,11 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 return false;
             }
         });
-        childPicture = (Button) findViewById(R.id.registerChildTakePicture);
-        childPicture.setOnClickListener(new View.OnClickListener() {
+
+        ((RippleView) findViewById(R.id.registerChildTakePictureR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+
             @Override
-            public void onClick(View view) {
+            public void onComplete(RippleView rippleView) {
                 String msg = inputValidate();
                 if (!msg.equals("")) {
                     return;
@@ -450,7 +455,9 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 onFocusChange(houseAddress, true);
             }
+
         });
+
         createContexMenu();
       /*  if (getIntent().hasExtra("epiNumber")) {
             String epiNum = getIntent().getStringExtra("epiNumber");
@@ -496,14 +503,25 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
 
     }
 
-    public void showError(View v, String error) {
+    public void showError(final View v, final String error) {
+        Effects.getInstance().playSound(Effects.SOUND_1);
+        (findViewById(R.id.scrollViewR)).post(new Runnable() {
+            public void run() {
+                ((ScrollView)findViewById(R.id.scrollViewR)).fullScroll(ScrollView.FOCUS_UP);
+            }
+        });
+        (findViewById(R.id.scrollViewR)).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
+                pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this, 10));
+                Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.REGISTER_ERROR, error, 0);
 
-        ((TextView) popUpView.findViewById(R.id.errorText)).setText(error);
-        pw.showAsDropDown(v, 0, -Constants.pxToDp(RegisterChildActivity.this, 10));
-        Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.REGISTER_ERROR, error, 0);
+                Animation shake = AnimationUtils.loadAnimation(RegisterChildActivity.this, R.anim.shake);
+                v.startAnimation(shake);
+            }
+        },500);
 
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-        v.startAnimation(shake);
     }
 
   /*  public void fillValues(String epiNumber) {
@@ -776,6 +794,8 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.REGISTER_BACK, 0);
                 dialog.dismiss();
                 finish();
+                overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+
 
             }
         });

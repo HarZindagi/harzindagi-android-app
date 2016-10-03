@@ -169,25 +169,45 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/loginActivityCheckInButton"
+        <com.andexert.library.RippleView
+            android:id="@+id/loginActivityCheckInButtonR"
+            rv_centered="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/roundbutton"
-            android:text="چیک ان"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_height="50dp"
+            app:rv_color="@color/rp_color"
+            app:rv_rippleDuration="@integer/rp_duration"
+            app:rv_zoom="true">
 
-        <Button
-            android:id="@+id/loginActivityForgetButton"
+            <Button
+                android:id="@+id/loginActivityCheckInButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundbutton"
+                android:text="چیک ان"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </com.andexert.library.RippleView>
+
+        <com.andexert.library.RippleView
+            android:id="@+id/loginActivityForgetButtonR"
+            rv_centered="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/roundbuttonred"
-            android:padding="5dp"
-            android:text="پاس ورڈ بھول گئے ؟"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_height="50dp"
+            app:rv_color="@color/rp_color"
+            app:rv_rippleDuration="@integer/rp_duration"
+            app:rv_zoom="true">
+
+            <Button
+                android:id="@+id/loginActivityForgetButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/roundbuttonred"
+                android:padding="5dp"
+                android:text="پاس ورڈ بھول گئے ؟"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </com.andexert.library.RippleView>
 
         <RelativeLayout
             android:id="@+id/loginActivityForget_view"

@@ -31,6 +31,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -67,6 +68,7 @@ import com.ipal.itu.harzindagi.GJson.Token;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
+import com.ipal.itu.harzindagi.Utils.Effects;
 import com.ipal.itu.harzindagi.Utils.ImageDownloader;
 
 import org.json.JSONArray;
@@ -101,8 +103,6 @@ public class LoginActivity extends BaseActivity {
     String Password, app_name;
     TextView unionCouncil, EngUC;
     TextView validator;
-    Button forgetButton;
-    Button checkInButton;
     int b_click = 0;
     private View loginActivityForget_view;
     Boolean isFolderExists;
@@ -123,7 +123,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Effects.getInstance().init(this);
         activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
 
         app_name = getResources().getString(R.string.app_name);
@@ -151,12 +151,11 @@ public class LoginActivity extends BaseActivity {
         validator = (TextView) findViewById(R.id.loginActivityValidationText);
         validator.setText(" براہ مہربانی درست یوزر کا نام اور پاسورڈ کا انتخاب کریں۔");
 
-        forgetButton = (Button) findViewById(R.id.loginActivityForgetButton);
         loginActivityForget_view = findViewById(R.id.loginActivityForget_view);
-        forgetButton.setOnClickListener(new View.OnClickListener() {
+        ((RippleView) findViewById(R.id.loginActivityForgetButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+
             @Override
-            public void onClick(View view) {
-                //startActivity(new Intent(LoginActivity.this, ForgetActivity.class));
+            public void onComplete(RippleView rippleView) {
                 if (b_click == 0) {
                     b_click = 1;
                     //mdanger.setVisibility(View.GONE);
@@ -166,9 +165,10 @@ public class LoginActivity extends BaseActivity {
                     b_click = 0;
                     loginActivityForget_view.setVisibility(View.GONE);
                 }
-
             }
+
         });
+
         findViewById(R.id.downloadBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -203,18 +203,18 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
+        ((RippleView) findViewById(R.id.loginActivityCheckInButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
 
-        checkInButton = (Button) findViewById(R.id.loginActivityCheckInButton);
-        checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onComplete(RippleView rippleView) {
                 boolean isTableLoaded = Constants.getIsTableLoaded(LoginActivity.this);
 
                 if (Constants.getToken(LoginActivity.this).length() > 0 && isTableLoaded) {
                     if (Constants.getPassword(LoginActivity.this).equals(password.getText().toString())) {
+
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
-
+                        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                         finish();
                         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
                         Constants.logTime(LoginActivity.this, activityTime, Constants.GaEvent.LOGIN_TOTAL_TIME);
@@ -227,6 +227,7 @@ public class LoginActivity extends BaseActivity {
                         String error = "برائےمہربانی درست پاس ورڈ درج کریں";
                         Constants.sendGAEvent(LoginActivity.this, "Error", "Enter Correct Password", "Password", 0);
                         showError(password, error);
+                        Effects.getInstance().playSound(Effects.SOUND_1);
                     }
 
                 } else {
@@ -236,7 +237,7 @@ public class LoginActivity extends BaseActivity {
                             sendUserInfo(userName.getText().toString(), password.getText().toString(), location);
                         }
                     } else {
-                        Snackbar.make(view, "No Internet!", Snackbar.LENGTH_LONG)
+                        Snackbar.make(rippleView, "No Internet!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         Constants.sendGAEvent(LoginActivity.this, "Error", "No Internet", "Internet", 0);
 
@@ -245,7 +246,9 @@ public class LoginActivity extends BaseActivity {
                 }
 
             }
+
         });
+
         if (Constants.getToken(this).length() == 0) {
             downoadTime = Calendar.getInstance().getTimeInMillis() / (1000);
            getUserInfo();
@@ -322,7 +325,7 @@ public class LoginActivity extends BaseActivity {
             String error = "برائےمہربانی پاس ورڈ درج کریں";
             showError(password, error);
             Constants.sendGAEvent(LoginActivity.this, "Error", "Enter Password", "Password", 0);
-
+            Effects.getInstance().playSound(Effects.SOUND_1);
             return false;
         }
         return true;
@@ -420,7 +423,7 @@ public class LoginActivity extends BaseActivity {
                             } else {
                                 showError(LoginActivity.this.password, "برائےمہربانی درست پاس ورڈ درج کریں");
                                 Constants.sendGAEvent(LoginActivity.this, "Error", "Enter Correct Password", "Send User Info", 0);
-
+                                Effects.getInstance().playSound(Effects.SOUND_1);
                             }
                         }
 
@@ -1066,6 +1069,7 @@ public class LoginActivity extends BaseActivity {
         Constants.setIsTableLoaded(this, true);
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         finish();
         downoadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - downoadTime;
         Constants.logTime(LoginActivity.this, downoadTime, Constants.GaEvent.DOWNLOAD_DATA_TOTAL_TIME);
