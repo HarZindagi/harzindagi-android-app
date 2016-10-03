@@ -177,8 +177,10 @@ public class SearchActivity extends BaseActivity implements ActivityCompat.OnReq
                 } else {
                     if (inputValid) {
                         if (!cellPhone.getText().toString().equals("")) {
+                            CellPhone=cellPhone.getText().toString();
                             data = childInfoDao.getByEPIPhone(CellPhone);
                         } else if (!cnic.getText().toString().equals("")) {
+                            CNIC=cnic.getText().toString();
                             data = childInfoDao.getByCnic(CNIC);
                         }
 
