@@ -98,6 +98,8 @@ public class CheckInSyncHandler {
 
             obj.put("version_name", Constants.getVersionName(context));
             obj.put("created_timestamp", checkIns.created_timestamp);
+            obj.put("location_source",Constants.getLocationSync(context) );
+            obj.put("time_source", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
             obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
 
 

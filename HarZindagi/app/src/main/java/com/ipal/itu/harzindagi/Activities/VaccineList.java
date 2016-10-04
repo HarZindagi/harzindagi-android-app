@@ -1,6 +1,7 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -91,6 +92,8 @@ public class VaccineList extends BaseActivity {
         findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent nn=new Intent(VaccineList.this,DashboardActivity.class);
+                startActivity(nn);
                 finish();
             }
         });

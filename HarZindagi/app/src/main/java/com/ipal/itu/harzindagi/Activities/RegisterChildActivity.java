@@ -832,7 +832,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
 
 
         } else {
-            location = "0.0000:0.0000";
+            location = "0.0000,0.0000";
 
 
         }

@@ -46,8 +46,9 @@ public class RegisteredChildActivity extends BaseActivity {
     Calendar calendar;
     long childID;
     private int bookid;
-TextView toolbar_title;
+    TextView toolbar_title;
     long activityTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ TextView toolbar_title;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("رجسٹرڈ معلومات");
         dao = new ChildInfoDao();
 
@@ -72,27 +73,32 @@ TextView toolbar_title;
         guardianMobileNumber = (TextView) findViewById(R.id.ChildGuardianMobileNumber);
         childPic = (CircleImageView) findViewById(R.id.ChildPic);
         editChild = (Button) findViewById(R.id.edit_child);
-        editChild.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(RegisteredChildActivity.this, EditRegisterChildActivity.class);
-                intent.putExtra("childid", childID);
-                startActivity(intent);
-                finish();
-                activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-                Constants.logTime(RegisteredChildActivity.this,activityTime,Constants.GaEvent.REGISTERED_TOTAL_TIME);
-            }
-        });
 
         Bundle bundle = getIntent().getExtras();
         childID = bundle.getLong("childid");
         final String imei = bundle.getString("imei");
-        if(getIntent().hasExtra("bookid")){
+        if (getIntent().hasExtra("bookid")) {
             bookid = bundle.getInt("bookid");
-        }else{
-            bookid=0;
+        } else {
+            bookid = 0;
         }
+        editChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (imei == Constants.getIMEI(RegisteredChildActivity.this)) {
+                    Intent intent = new Intent(RegisteredChildActivity.this, EditRegisterChildActivity.class);
+                    intent.putExtra("childid", childID);
+                    startActivity(intent);
+                    finish();
+                    activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+                    Constants.logTime(RegisteredChildActivity.this, activityTime, Constants.GaEvent.REGISTERED_TOTAL_TIME);
+
+                } else {
+                    Toast.makeText(RegisteredChildActivity.this, "Child From Other UC Not Editable", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         vaccination_btn = (Button) findViewById(R.id.NFCWrite);
         vaccination_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,14 +122,14 @@ TextView toolbar_title;
                 intent.putExtra("childid", data.get(0).kid_id);
                 intent.putExtra("imei", data.get(0).imei_number);
                 intent.putExtra("isSync", data.get(0).record_update_flag);
-                intent.putExtra("bookid",bookid);
-                intent.putExtra("cnic",data.get(0).guardian_cnic);
-                intent.putExtra("phone",data.get(0).phone_number);
+                intent.putExtra("bookid", bookid);
+                intent.putExtra("cnic", data.get(0).guardian_cnic);
+                intent.putExtra("phone", data.get(0).phone_number);
                 intent.putExtras(bnd);
                 startActivity(intent);
                 finish();
                 activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-                Constants.logTime(RegisteredChildActivity.this,activityTime,Constants.GaEvent.REGISTERED_TOTAL_TIME);
+                Constants.logTime(RegisteredChildActivity.this, activityTime, Constants.GaEvent.REGISTERED_TOTAL_TIME);
             }
         });
 

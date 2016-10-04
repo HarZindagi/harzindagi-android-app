@@ -99,7 +99,7 @@ public class CardScanWrite extends BaseActivity {
         bookID =  bundle.getString("bookid");
         writeDataToDB();
 
-        push_NFC = kid_id + "#" + isSync +"#"+bundle.getString("cnic")+"#" +bundle.getString("pnum")+ "#"+Constants.getUCID(this)+"#"+bookID+"#" + bundle.getString("epi")  +"#"+Constants.getIMEI(this) +"#"+visitNum+"#"+vaccsDetails;
+        push_NFC = kid_id + "#" + isSync +"#"+bundle.getString("cnic")+"#" +bundle.getString("pnum")+ "#"+Constants.getUCID(this)+"#"+bookID  +"#"+Constants.getIMEI(this) +"#"+visitNum+"#"+vaccsDetails;
 
 // intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);

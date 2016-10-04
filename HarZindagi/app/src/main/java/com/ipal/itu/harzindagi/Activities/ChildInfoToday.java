@@ -1,6 +1,7 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,7 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +43,7 @@ public class ChildInfoToday extends BaseActivity {
     TextView nxtDatetxt;
     CircleImageView childPic;
     String app_name;
+    Button  editChild;
     double longitude;
     double latitude;
     ChildInfoDao dao;
@@ -95,7 +99,17 @@ public class ChildInfoToday extends BaseActivity {
         } else {
             bookid = 0;
         }
+        editChild = (Button) findViewById(R.id.edit_child);
+        editChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent = new Intent(ChildInfoToday.this, EditRegisterChildActivity.class);
+                intent.putExtra("childid", childID);
+                startActivity(intent);
+                finish();
+            }
+        });
         List<ChildInfo> data = ChildInfoDao.getByKId(childID);
 
         if (data != null) {

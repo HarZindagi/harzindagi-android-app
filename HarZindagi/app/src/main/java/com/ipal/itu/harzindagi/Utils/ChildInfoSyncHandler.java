@@ -119,7 +119,8 @@ public class ChildInfoSyncHandler {
             kid.put("mother_cnic", "");
             kid.put("phone_number", childInfo.phone_number);
             kid.put("created_timestamp", childInfo.created_timestamp);
-
+            obj.put("location_source",Constants.getLocationSync(context) );
+            obj.put("time_source", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
             Long tsLong = calendar.getTimeInMillis() / 1000;
             kid.put("upload_timestamp", tsLong);
             DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);

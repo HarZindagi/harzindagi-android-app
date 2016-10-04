@@ -80,6 +80,7 @@ public class EditRegisterChildActivity extends BaseActivity {
     private View popUpView;
     TextView toolbar_title;
     long activityTime;
+
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         popUpView = inflater.inflate(R.layout.contex_popup, null, false);
@@ -140,6 +141,7 @@ public class EditRegisterChildActivity extends BaseActivity {
                 childInfo.get(0).kid_name = ChildName;
                 childInfo.get(0).guardian_cnic = GuardianCNIC;
                 childInfo.get(0).phone_number = GuardianMobileNumber;
+
                 childInfo.get(0).save();
                 DateOfBirth = DOBText.getText().toString();
                 Intent intent = new Intent(EditRegisterChildActivity.this, CardScanWrite.class);
@@ -149,12 +151,10 @@ public class EditRegisterChildActivity extends BaseActivity {
                 intent.putExtra("DOB", DateOfBirth);
                 intent.putExtra("mName", MotherName);
                 intent.putExtra("gName", GuardianName);
-                if(!GuardianCNIC.equals(""))
-                {
-                    intent.putExtra("CNIC", GuardianCNIC);
-                }
-                else {
-                    intent.putExtra("Phone", GuardianMobileNumber);
+                if (!GuardianCNIC.equals("")) {
+                    intent.putExtra("cnic", GuardianCNIC);
+                } else {
+                    intent.putExtra("pnum", GuardianMobileNumber);
                 }
                 intent.putExtra("img", Fpath);
                 intent.putExtra("EPIname", EPICenterName);

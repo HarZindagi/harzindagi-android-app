@@ -134,14 +134,14 @@ public class Card_Scan extends BaseActivity {
         if (Arry.length > 3) {
             if (!Constants.getIMEI(Card_Scan.this).equals(Arry[Arry.length - 3])) {
                 Intent intent1 = new Intent(this, SearchActivity.class);
-                intent1.putExtra("book_num", Arry[Arry.length - 5]);
+                intent1.putExtra("book_num", Arry[Arry.length - 4]);
                 startActivity(intent1);
                 //addNewRecord(Arry);
                 Toast.makeText(ctx, "بچہ دوسرے یو سی کا ہے۔ تلاش کریں", Toast.LENGTH_LONG).show();
 
             } else {
 
-                openVaccinationActivity(Arry[0], Arry[Arry.length - 3], Arry[Arry.length - 5], Arry[1], Arry[2], Arry[3]);
+                openVaccinationActivity(Arry[0], Arry[Arry.length - 3], Arry[Arry.length -4], Arry[1], Arry[2], Arry[3]);
 
 
             }
@@ -202,7 +202,7 @@ public class Card_Scan extends BaseActivity {
         finish();
     }
 
-    private void addNewRecord(String[] array) {
+   /* private void addNewRecord(String[] array) {
 
         List<ChildInfo> childRec = ChildInfoDao.getByKIdAndIMEI(Long.parseLong(array[0]), array[array.length - 3]);
         if (childRec.size() > 0) {
@@ -227,13 +227,13 @@ public class Card_Scan extends BaseActivity {
         childInfo.imei_number = array[array.length - 3];
 
 
-      /*  for (int i = 0; i < childRec.size(); i++) {
+      *//*  for (int i = 0; i < childRec.size(); i++) {
             childRec.get(i).delete();
-        }*/
+        }*//*
 
         childInfo.save();
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

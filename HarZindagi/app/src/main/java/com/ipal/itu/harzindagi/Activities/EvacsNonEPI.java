@@ -104,11 +104,20 @@ public class EvacsNonEPI extends BaseActivity {
         Non_Epi_birth_place_txt = (EditText) findViewById(R.id.Non_Epi_birth_place_txt);
 
         child_type = (CheckBox) findViewById(R.id.child_type);
-        if (child_type.isChecked()) {
-            child_typ = "1";
-        } else {
-            child_typ = "0";
-        }
+
+
+        child_type.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if (child_type.isChecked()) {
+                    child_typ = "Guest";
+                } else {
+                    child_typ = "Non-Guest";
+                }
+            }
+        });
         non_bx_BCG = (CheckBox) findViewById(R.id.non_bx_BCG);
         non_bx_OPV = (CheckBox) findViewById(R.id.non_bx_OPV);
         non_bx_OPV1 = (CheckBox) findViewById(R.id.non_bx_OPV1);
