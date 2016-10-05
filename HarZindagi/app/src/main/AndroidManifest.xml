@@ -87,6 +87,9 @@
         <meta-data
             android:name="CheckIn"
             android:value="com.ipal.itu.harzindagi.Entity.CheckIn" />
+        <meta-data
+            android:name="UpdateChildInfo"
+            android:value="com.ipal.itu.harzindagi.Entity.UpdateChildInfo" />
 
         <activity
             android:name=".Activities.SplashActivity"
@@ -201,7 +204,7 @@
         <activity android:name=".Activities.CustomCamera" />
         <activity android:name=".Activities.CustomCameraKidstation"
             android:label=" کڈ اسٹیشن"
-            android:theme="@style/AppTheme.NoActionBar"
+
             />
         <activity
             android:name=".Activities.CardScanWrite"

@@ -63,7 +63,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
-        Window window = this.getWindow();
+       /* Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
@@ -73,7 +73,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimary));
             //window.setStatusBarTextColor(getResources().getColor(R.color.black));
-        }
+        }*/
         kd_txt=(TextView)findViewById(R.id.kidstation_txt);
 
         kd_txt.setText("کٹ اسٹیشن کی تصویر کھینچیں");

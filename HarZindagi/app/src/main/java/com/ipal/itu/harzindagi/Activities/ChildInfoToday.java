@@ -56,6 +56,11 @@ public class ChildInfoToday extends BaseActivity {
     int visitNumber;
     CustomListAdapter adapter;
     VaccInfoList obj;
+    String compelte1="مبارک ہو آپ کےبچے کا حفاظتی ٹیکوں کا کورس مکمل ہو چکا ہے";
+    String compelte2="برائے مہربانی اس ٹیکے کے بعد یاد سے ویکسینیٹر سے اپنےبچےکا";
+    String compelte3=" سرٹیفیکیٹ برائے تکمیل حفاظتی ٹیکہ جات";
+    String compelte4="ہمراہ لیتے جائیں";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +94,15 @@ public class ChildInfoToday extends BaseActivity {
         params.height = obj.vaccinfo.size()*px;
         list.setLayoutParams(params);
         list.requestLayout();
-        adapter = new CustomListAdapter(this, obj.vaccinfo,visitNumber);
-        list.setAdapter(adapter);
+        if(visitNumber<6) {
+            adapter = new CustomListAdapter(this, obj.vaccinfo, visitNumber);
+            list.setAdapter(adapter);
+
+        }else{
+            ((TextView)findViewById(R.id.six_time)).setVisibility(View.VISIBLE);
+            list.setVisibility(View.GONE);
+            ((TextView)findViewById(R.id.six_time)).setText(compelte1 + compelte2 + "\"" + compelte3 + "\"" + compelte4);
+        }
         Bundle bundle = getIntent().getExtras();
         childID = bundle.getLong("childid");
         final String imei = bundle.getString("imei");
@@ -103,11 +115,16 @@ public class ChildInfoToday extends BaseActivity {
         editChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (imei.equals( Constants.getIMEI(ChildInfoToday.this))) {
 
-                Intent intent = new Intent(ChildInfoToday.this, EditRegisterChildActivity.class);
-                intent.putExtra("childid", childID);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(ChildInfoToday.this, EditRegisterChildActivity.class);
+                    intent.putExtra("childid", childID);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(ChildInfoToday.this, "Child From Other UC Not Editable", Toast.LENGTH_LONG).show();
+                }
             }
         });
         List<ChildInfo> data = ChildInfoDao.getByKId(childID);

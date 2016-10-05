@@ -18,6 +18,7 @@ import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.UpdateChildInfo;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import org.json.JSONException;
@@ -37,16 +38,16 @@ import java.util.Map;
 /**
  * Created by Ali on 2/25/2016.
  */
-public class ChildInfoSyncHandler {
+public class UpdateChildInfoSyncHandler {
 
     Context context;
-    List<ChildInfo> childInfo;
+    List<UpdateChildInfo> childInfo;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
     int index = 0;
     Calendar calendar;
 
-    public ChildInfoSyncHandler(Context context, List<ChildInfo> childInfo, OnUploadListner onUploadListner) {
+    public UpdateChildInfoSyncHandler(Context context, List<UpdateChildInfo> childInfo, OnUploadListner onUploadListner) {
         this.childInfo = childInfo;
         this.context = context;
         this.onUploadListner = onUploadListner;
@@ -83,22 +84,9 @@ public class ChildInfoSyncHandler {
         }
     }
 
-    public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
-        c.set(Calendar.HOUR, hour);
-        c.set(Calendar.MINUTE, minute);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
+    private void sendChildData(final UpdateChildInfo childInfo) {
 
-        return c.getTimeInMillis();
-    }
-
-    private void sendChildData(final ChildInfo childInfo) {
-        final long oldKidID = childInfo.kid_id;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Constants.kids;
 
@@ -149,6 +137,7 @@ public class ChildInfoSyncHandler {
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
+       final long kid_id = childInfo.kid_id;
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, obj,
                 new Response.Listener<JSONObject>() {
@@ -158,26 +147,10 @@ public class ChildInfoSyncHandler {
 
                         if (response.optString("book_id").equals(kid.optString("book_id"))) {
 
-                            List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
-                            child.get(0).record_update_flag = true;
-                            child.get(0).kid_id = response.optLong("id");
-                            child.get(0).image_path = "image_" + child.get(0).kid_id;
-                            child.get(0).save();
-                            long kidID = child.get(0).kid_id;
+                            List<UpdateChildInfo> child = UpdateChildInfo.getByKId(kid_id);
 
-                            renameFile(child.get(0).kid_name + child.get(0).epi_number, "image_" + kidID);
-                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
-                            for (int i = 0; i < kidVaccines.size(); i++) {
-                                kidVaccines.get(i).kid_id = kidID;
-                                kidVaccines.get(i).save();
-                            }
-                            List<Books> book = Books.getByBookId(Long.parseLong(child.get(0).book_id));
-                            if (book.size() > 0) {
-                                book.get(0).kid_id = kidID;
-                                book.get(0).save();
-                                nextUpload(true);
-                            }
-
+                            child.get(0).delete();
+                            nextUpload(true);
                         } else {
                             nextUpload(false);
                         }

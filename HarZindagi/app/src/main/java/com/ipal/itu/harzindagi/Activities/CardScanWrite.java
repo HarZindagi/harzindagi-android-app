@@ -70,7 +70,7 @@ public class CardScanWrite extends BaseActivity {
     boolean mWriteMode = true;
     String bookID;
     String visitNum = "1";
-    String vaccsDetails= "0,0,0";
+    String vaccsDetails = "0,0,0";
     String isSync = "0";
     private long activityTime;
 
@@ -89,17 +89,17 @@ public class CardScanWrite extends BaseActivity {
 
         bundle = getIntent().getExtras();
 
-        Child_id = bundle.getString("ID","-1");
+        Child_id = bundle.getString("ID", "-1");
         kid_id = bundle.getLong("kid_id");
 
         address = bundle.getString("address");
 
         tsLong = System.currentTimeMillis() / 1000;
 
-        bookID =  bundle.getString("bookid");
+        bookID = bundle.getString("bookid");
         writeDataToDB();
 
-        push_NFC = kid_id + "#" + isSync +"#"+bundle.getString("cnic")+"#" +bundle.getString("pnum")+ "#"+Constants.getUCID(this)+"#"+bookID  +"#"+Constants.getIMEI(this) +"#"+visitNum+"#"+vaccsDetails;
+        push_NFC = kid_id + "#" + isSync + "#" + bundle.getString("cnic") + "#" + bundle.getString("pnum") + "#" + Constants.getUCID(this) + "#" + bookID + "#" + Constants.getIMEI(this) + "#" + visitNum + "#" + vaccsDetails;
 
 // intent invoke filter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -150,65 +150,69 @@ public class CardScanWrite extends BaseActivity {
 
         Toast.makeText(this, "بچے کی معلومات محفوظ کر دی گئی ہیں", Toast.LENGTH_LONG).show();
 
+        if (getIntent().hasExtra("fromEdit")) {
 
-        Intent myintent = new Intent(this, RegisteredChildActivity.class);
-        myintent.putExtra("childid", kid_id);
-        myintent.putExtra("imei", Constants.getIMEI(this));
-        myintent.putExtra("EPIname", bundle.getString("EPIname"));
-        logTime();
-        startActivity(myintent);
-        finish();
+            finish();
+        } else {
+            Intent myintent = new Intent(this, RegisteredChildActivity.class);
+            myintent.putExtra("childid", kid_id);
+            myintent.putExtra("imei", Constants.getIMEI(this));
+            myintent.putExtra("EPIname", bundle.getString("EPIname"));
+            logTime();
+            startActivity(myintent);
+            finish();
+        }
+
         return 0;
     }
-    private void logTime(){
+
+    private void logTime() {
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-      //  Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_TIME, activityTime + " S", 0);
-        Constants.logTime(this,activityTime,Constants.GaEvent.CARD_WRITE_TIME);
+        //  Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_TIME, activityTime + " S", 0);
+        Constants.logTime(this, activityTime, Constants.GaEvent.CARD_WRITE_TIME);
     }
 
     @Override
     public void onBackPressed() {
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.CARD_WRITE_Back, 0);
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.CARD_WRITE_Back, 0);
         super.onBackPressed();
     }
 
-    private  void writeDataToDB(){
+    private void writeDataToDB() {
         Calendar calendar = Calendar.getInstance();
         Long tsLong = calendar.getTimeInMillis() / 1000;
         ChildInfoDao childInfoDao = new ChildInfoDao();
         List<ChildInfo> item = ChildInfoDao.getByKId(kid_id);
         long mkid_id = -1l;
         if (item.size() == 0) {
-           long due_date = Calendar.getInstance().getTimeInMillis();
-            long next_visit_date = Calendar.getInstance().getTimeInMillis()+((long)(86400000)*28);
+            long due_date = Calendar.getInstance().getTimeInMillis();
+            long next_visit_date = Calendar.getInstance().getTimeInMillis() + ((long) (86400000) * 28);
 
-            mkid_id = childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this),due_date,next_visit_date);
+            mkid_id = childInfoDao.save(bookID, Child_id, bundle.getString("Name"), bundle.getInt("Gender"), bundle.getString("DOB"), bundle.getString("mName"), bundle.getString("gName"), bundle.getString("cnic"), bundle.getString("pnum"), tsLong, RegisterChildActivity.location, bundle.getString("EPIname"), "abc", bundle.getString("img"), card_data, true, false, address, Constants.getIMEI(this), due_date, next_visit_date);
             Books books = new Books();
-            books.date = Calendar.getInstance().getTimeInMillis()/1000;
+            books.date = Calendar.getInstance().getTimeInMillis() / 1000;
 
             books.kid_id = Long.parseLong(Child_id);
             books.book_number = Integer.parseInt(bookID);
-            books.is_sync =false;
+            books.is_sync = false;
             books.save();
-        }
-         else {
+        } else {
             childInfoDao.save(item.get(0), bundle.getString("Name"), bundle.getString("cnic"), bundle.getString("pnum"));
             mkid_id = kid_id;
-            if(item.get(0).record_update_flag==true){
+            if (item.get(0).record_update_flag == true) {
                 isSync = "1";
-            }else{
+            } else {
                 isSync = "0";
             }
         }
         item = ChildInfoDao.getByKId(mkid_id);
-        Bundle bnd= KidVaccinationDao.get_visit_details_db(mkid_id);
-        if(bnd!=null) {
+        Bundle bnd = KidVaccinationDao.get_visit_details_db(mkid_id);
+        if (bnd != null) {
             visitNum = bnd.getString("visit_num", "1");
             vaccsDetails = bnd.getString("vacc_details", "0,0,0");
         }
-        kid_id =  item.get(0).kid_id;
+        kid_id = item.get(0).kid_id;
         bookID = item.get(0).book_id;
-
 
 
     }
@@ -306,11 +310,11 @@ public class CardScanWrite extends BaseActivity {
                 }
             }
         } catch (Exception e) {
-            Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_ERROR, "برائے مہربانی کارڈ کو دوبارہ سکین کریں", 0);
-           // btn.setText("برائے مہربانی کارڈ کو دوبارہ سکین کریں");
+            Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.CARD_WRITE_ERROR, "برائے مہربانی کارڈ کو دوبارہ سکین کریں", 0);
+            // btn.setText("برائے مہربانی کارڈ کو دوبارہ سکین کریں");
             Toast.makeText(ctx, "برائے مہربانی کارڈ کو دوبارہ سکین کریں", Toast.LENGTH_LONG).show();
 
-           // btn.setEnabled(false);
+            // btn.setEnabled(false);
 
             return false;
         }

@@ -160,7 +160,7 @@ public class Card_Scan extends BaseActivity {
         } else {
           //  data = ChildInfoDao.getByLocalKIdandIMEI(Integer.parseInt(childID), imei);
 
-                if (!cnic.equals(""))
+                if (!cnic.equals("") && !cnic.equals("null"))
                     data = ChildInfoDao.getByLocalCnicandIMEI(cnic, imei);
                 else
                     data = ChildInfoDao.getByLocalPhoneandIMEI(phone, imei);

@@ -29,6 +29,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.UpdateChildInfo;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -136,12 +137,25 @@ public class EditRegisterChildActivity extends BaseActivity {
                 if (!msg.equals("")) {
                     return;
                 }
-                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(),Constants.getIMEI(EditRegisterChildActivity.this));
+                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(), Constants.getIMEI(EditRegisterChildActivity.this));
                 readEditTexts();
                 childInfo.get(0).kid_name = ChildName;
                 childInfo.get(0).guardian_cnic = GuardianCNIC;
                 childInfo.get(0).phone_number = GuardianMobileNumber;
-                childInfo.get(0).record_update_flag = false;
+
+                UpdateChildInfo updateChildInfo = new UpdateChildInfo();
+                List<UpdateChildInfo> kidList = updateChildInfo.getByKId(childInfo.get(0).kid_id);
+                if (kidList.size() == 0) {
+                    updateChildInfo.setChildInfo(childInfo.get(0));
+                    updateChildInfo.record_update_flag=false;
+                    updateChildInfo.save();
+                } else {
+                    kidList.get(0).delete();
+                    updateChildInfo.setChildInfo(childInfo.get(0));
+                    updateChildInfo.record_update_flag=false;
+                    updateChildInfo.save();
+                }
+
                 childInfo.get(0).save();
                 DateOfBirth = DOBText.getText().toString();
                 Intent intent = new Intent(EditRegisterChildActivity.this, CardScanWrite.class);
@@ -151,6 +165,7 @@ public class EditRegisterChildActivity extends BaseActivity {
                 intent.putExtra("DOB", DateOfBirth);
                 intent.putExtra("mName", MotherName);
                 intent.putExtra("gName", GuardianName);
+                intent.putExtra("fromEdit", true);
                 if (!GuardianCNIC.equals("")) {
                     intent.putExtra("cnic", GuardianCNIC);
                 } else {

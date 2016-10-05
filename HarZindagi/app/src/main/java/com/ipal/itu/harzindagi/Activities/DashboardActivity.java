@@ -38,6 +38,7 @@ import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
+import com.ipal.itu.harzindagi.Entity.UpdateChildInfo;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.BooksSyncHandler;
@@ -52,6 +53,7 @@ import com.ipal.itu.harzindagi.Utils.EvacssNonEPIImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.ImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.KidVaccinatioHandler;
 import com.ipal.itu.harzindagi.Utils.MultipartUtility;
+import com.ipal.itu.harzindagi.Utils.UpdateChildInfoSyncHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -255,6 +257,23 @@ public class DashboardActivity extends BaseActivity {
         List<ChildInfo> childInfo = ChildInfoDao.getNotSync();
 
         ChildInfoSyncHandler childInfoSyncHandler = new ChildInfoSyncHandler(this, childInfo, new OnUploadListner() {
+            @Override
+            public void onUpload(boolean success, String response) {
+                if (success) {
+                    updateChildInfo();
+                } else {
+                    Constants.sendGAEvent(DashboardActivity.this, "Error", "Uploading Failed", "Child Record", 0);
+                    showErrorDialog();
+                }
+            }
+        });
+        childInfoSyncHandler.execute();
+    }
+    public void updateChildInfo() {
+
+        List<UpdateChildInfo> childInfo = UpdateChildInfo.getNotSync();
+
+        UpdateChildInfoSyncHandler childInfoSyncHandler = new UpdateChildInfoSyncHandler(this, childInfo, new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String response) {
                 if (success) {

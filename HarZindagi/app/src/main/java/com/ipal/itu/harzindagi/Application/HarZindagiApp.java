@@ -18,6 +18,7 @@ import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.MaleName;
 import com.ipal.itu.harzindagi.Entity.Towns;
+import com.ipal.itu.harzindagi.Entity.UpdateChildInfo;
 import com.ipal.itu.harzindagi.Entity.UserInfo;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
@@ -72,6 +73,7 @@ public class HarZindagiApp extends android.app.Application {
         configurationBuilder.addModelClass(Images.class);
         configurationBuilder.addModelClass(CheckIn.class);
         configurationBuilder.addModelClass(CheckOut.class);
+        configurationBuilder.addModelClass(UpdateChildInfo.class);
         ActiveAndroid.initialize(configurationBuilder.create());
         ActiveAndroid.initialize(this);
 
