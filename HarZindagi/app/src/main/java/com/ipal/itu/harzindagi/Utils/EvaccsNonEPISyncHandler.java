@@ -101,7 +101,7 @@ public class EvaccsNonEPISyncHandler {
 
             kid.put("imei_number", Constants.getIMEI(context));
             kid.put("location", childInfo.location);
-            kid.put("location_source", childInfo.location_source);
+
             kid.put("created_timestamp",childInfo.created_timestamp);
             kid.put("upload_timestamp",tsLong);
             kid.put("child_type", childInfo.child_type);
@@ -114,7 +114,9 @@ public class EvaccsNonEPISyncHandler {
             kid.put("date_of_birth",childInfo.date_of_birth);
             kid.put("child_address",childInfo.child_address);
             kid.put("birth_place",childInfo.birth_place);
-
+            kid.put("location_source","gps" );
+            kid.put("time_source", "network");
+            kid.put("is_deleted", 0);
 
 
             obj.put("evacs_nonepi", kid);

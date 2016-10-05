@@ -112,9 +112,9 @@ public class EvacsNonEPI extends BaseActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if (child_type.isChecked()) {
-                    child_typ = "Guest";
+                    child_typ = "Guest Child";
                 } else {
-                    child_typ = "Non-Guest";
+                    child_typ = "Resident Child";
                 }
             }
         });
@@ -150,7 +150,7 @@ public class EvacsNonEPI extends BaseActivity {
                     if (nonEPIv_box[i].isChecked()) {
                         //  selectedCheckboxes_nonEPI.add(i + 1);
                         //  nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
-                        if (i == 0) {
+                        if (vaccString.length() == 0) {
                             vaccString =  nonEPIv_box[i].getText().toString();
                         } else {
                             vaccString = vaccString + "," + nonEPIv_box[i].getText().toString();

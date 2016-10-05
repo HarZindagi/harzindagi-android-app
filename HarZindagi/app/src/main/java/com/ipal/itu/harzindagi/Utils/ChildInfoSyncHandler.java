@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -119,8 +120,8 @@ public class ChildInfoSyncHandler {
             kid.put("mother_cnic", "");
             kid.put("phone_number", childInfo.phone_number);
             kid.put("created_timestamp", childInfo.created_timestamp);
-            obj.put("location_source",Constants.getLocationSync(context) );
-            obj.put("time_source", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+            kid.put("location_source","gps" );
+            kid.put("time_source", "network");
             Long tsLong = calendar.getTimeInMillis() / 1000;
             kid.put("upload_timestamp", tsLong);
             DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
@@ -154,8 +155,8 @@ public class ChildInfoSyncHandler {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Log.d("response",response.toString());
-                        if (response.optString("kid_name").equals(kid.optString("kid_name"))) {
+                         Log.d("response",kid.optString("book_id"));
+                        if (response.optString("book_id").equals(kid.optString("book_id"))) {
 
                             List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
                             child.get(0).record_update_flag = true;

@@ -575,10 +575,10 @@ public class DashboardActivity extends BaseActivity {
 
             kitStation.put("imei_number", Constants.getIMEI(this));
             kitStation.put("location", Constants.getLocation(this));
-            kitStation.put("location_source", Constants.getLocation(this));
-
+            kitStation.put("location_source", "gps");
+            obj.put("time_source", "network");
             kitStation.put("image_path ", imagePath);
-
+            obj.put("is_deleted", 0);
 
             kitStation.put("created_timestamp", Constants.getKitTime(this));
             kitStation.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");

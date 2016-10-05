@@ -92,11 +92,14 @@ public class CheckOutSyncHandler {
 
             obj.put("imei_number", Constants.getIMEI(context));
             obj.put("location", checkOut.location);
-
+            obj.put("location_source","gps" );
+            obj.put("time_source", "network");
             obj.put("location_sync", Constants.getLocationSync(context));
-
+            obj.put("check_out_source","gps");
             obj.put("version_name", Constants.getVersionName(context));
             obj.put("created_timestamp", checkOut.created_timestamp);
+
+            obj.put("is_deleted", 0);
             obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
 
 

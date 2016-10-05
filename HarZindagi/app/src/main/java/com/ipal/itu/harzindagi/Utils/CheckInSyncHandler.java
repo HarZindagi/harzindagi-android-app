@@ -97,9 +97,11 @@ public class CheckInSyncHandler {
             obj.put("location_sync", Constants.getLocationSync(context));
 
             obj.put("version_name", Constants.getVersionName(context));
+            obj.put("check_in_source","gps");
+            obj.put("is_deleted", 0);
             obj.put("created_timestamp", checkIns.created_timestamp);
-            obj.put("location_source",Constants.getLocationSync(context) );
-            obj.put("time_source", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
+            obj.put("location_source","gps" );
+            obj.put("time_source", "network");
             obj.put("upload_timestamp", (Calendar.getInstance().getTimeInMillis() / 1000) + "");
 
 

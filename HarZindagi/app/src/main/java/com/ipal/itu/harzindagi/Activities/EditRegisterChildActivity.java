@@ -136,12 +136,12 @@ public class EditRegisterChildActivity extends BaseActivity {
                 if (!msg.equals("")) {
                     return;
                 }
-                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNum(EPINumber.getText().toString());
+                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(),Constants.getIMEI(EditRegisterChildActivity.this));
                 readEditTexts();
                 childInfo.get(0).kid_name = ChildName;
                 childInfo.get(0).guardian_cnic = GuardianCNIC;
                 childInfo.get(0).phone_number = GuardianMobileNumber;
-
+                childInfo.get(0).record_update_flag = false;
                 childInfo.get(0).save();
                 DateOfBirth = DOBText.getText().toString();
                 Intent intent = new Intent(EditRegisterChildActivity.this, CardScanWrite.class);

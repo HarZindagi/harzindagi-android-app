@@ -119,7 +119,7 @@ public class EvacsEPI extends BaseActivity {
                     if (v_box[i].isChecked()) {
 
 
-                        if (i == 0) {
+                        if (vaccString.length() == 0) {
                             vaccString = v_box[i].getText().toString();
                         } else {
                             vaccString = vaccString + "," + v_box[i].getText().toString();

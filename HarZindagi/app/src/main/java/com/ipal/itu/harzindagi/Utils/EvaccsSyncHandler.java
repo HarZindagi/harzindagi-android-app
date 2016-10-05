@@ -102,13 +102,13 @@ public class EvaccsSyncHandler {
 
             kid.put("imei_number",Constants.getIMEI(context));
             kid.put("location", childInfo.location);
-            kid.put("location_source", childInfo.location_source);
             kid.put("created_timestamp",childInfo.created_timestamp);
             kid.put("upload_timestamp",tsLong);
             kid.put("epi_no", childInfo.epi_number);
             kid.put("vaccination",childInfo.vaccination);
-
-
+            kid.put("location_source","gps" );
+            kid.put("time_source", "network");
+            kid.put("is_deleted", 0);
             obj.put("evacs_epi", kid);
 
         } catch (JSONException e) {
