@@ -86,7 +86,7 @@ public class RegisteredChildActivity extends BaseActivity {
         editChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imei == Constants.getIMEI(RegisteredChildActivity.this)) {
+                if (imei.equals( Constants.getIMEI(RegisteredChildActivity.this))) {
                     Intent intent = new Intent(RegisteredChildActivity.this, EditRegisterChildActivity.class);
                     intent.putExtra("childid", childID);
                     startActivity(intent);
