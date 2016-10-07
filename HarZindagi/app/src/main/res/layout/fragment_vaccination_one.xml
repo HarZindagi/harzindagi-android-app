@@ -39,7 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="100">
+                android:weightSum="100"
+                android:padding="5dp">
 
                 <TextView
 
@@ -78,7 +79,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/roundbutton"
                 android:text="آگے جائیں"
                 android:textColor="@color/white"
