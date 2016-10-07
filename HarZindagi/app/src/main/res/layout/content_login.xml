@@ -148,7 +148,7 @@
             android:layout_alignParentTop="true"
             android:hint="Password"
             android:imeOptions="actionDone"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:singleLine="true"
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>
@@ -185,6 +185,7 @@
                 android:background="@drawable/roundbutton"
                 android:text="چیک ان"
                 android:textColor="@color/white"
+                android:textSize="22sp"
                 android:textStyle="bold" />
         </com.andexert.library.RippleView>
 
@@ -193,6 +194,7 @@
             rv_centered="true"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             app:rv_color="@color/rp_color"
             app:rv_rippleDuration="@integer/rp_duration"
             app:rv_zoom="true">
@@ -200,12 +202,11 @@
             <Button
                 android:id="@+id/loginActivityForgetButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
                 android:background="@drawable/roundbuttonred"
-                android:padding="5dp"
                 android:text="پاس ورڈ بھول گئے ؟"
                 android:textColor="@color/white"
+                android:textSize="22sp"
                 android:textStyle="bold" />
         </com.andexert.library.RippleView>
 

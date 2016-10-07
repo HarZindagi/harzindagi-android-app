@@ -39,7 +39,7 @@
                 android:paddingLeft="5dp"
                 android:singleLine="true"
 
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_size" />
 
 
             <TextView
@@ -88,7 +88,7 @@
                 android:nextFocusDown="@+id/registerChildTown_ET"
                 android:paddingLeft="5dp"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_size" />
 
         </RelativeLayout>
 
@@ -124,7 +124,7 @@
                 android:nextFocusDown="@+id/registerChildAddress"
                 android:paddingLeft="5dp"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_size" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -159,7 +159,7 @@
                 android:nextFocusDown="@+id/registerChildEPINumber"
                 android:paddingLeft="5dp"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_size" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -192,7 +192,7 @@
 
                 android:paddingLeft="5dp"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_size" />
         </RelativeLayout>
 
 
@@ -219,7 +219,7 @@
                 android:singleLine="true"
 
                 android:textColor="@color/colorPrimary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_size" />
 
             <TextView
                 android:id="@+id/registerChildName_TV"
@@ -379,7 +379,7 @@
                 android:paddingLeft="5dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_size" />
 
 
         </RelativeLayout>
@@ -430,7 +430,7 @@
                 android:singleLine="true"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/colorPrimary"
-                android:textSize="16sp"
+                android:textSize="@dimen/edit_text_size"
                 mask:mask="####-#######" />
         </RelativeLayout>
 
@@ -471,7 +471,7 @@
 
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/colorPrimary"
-                android:textSize="16sp"
+                android:textSize="@dimen/edit_text_size"
                 mask:mask="#####-#######-#" />
 
         </RelativeLayout>

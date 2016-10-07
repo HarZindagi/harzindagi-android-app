@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.ipal.itu.harzindagi.R.id.CropImageView;
+
 /**
  * Created by Wahab on 2/3/2016.
  */
@@ -48,7 +50,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
     Bitmap camera_bitmap;
     Canvas camera_canvas;
     Paint p;
-    ImageView CropImageView, captureButton;
+    ImageView  captureButton;
     TextView kd_txt;
     Context ctx;
     LinearLayout done_capture,refresh_capture;
@@ -114,7 +116,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
                 done_capture.setVisibility(View.INVISIBLE);
                 refresh_capture.setVisibility(View.INVISIBLE);
                 captureButton.setVisibility(View.VISIBLE);
-                CropImageView.setImageBitmap(camera_bitmap);
+                //CropImageView.setImageBitmap(camera_bitmap);
                 Constants.sendGAEvent(CustomCameraKidstation.this,Constants.getUserName(CustomCameraKidstation.this), Constants.GaEvent.KIT_IMAGE_ERROR,"Retry" , 0);
                 kd_txt.setText("کٹ اسٹیشن کی تصویر کھینچیں");
             }
@@ -135,7 +137,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
             }
         });
 
-        CropImageView = (ImageView) findViewById(R.id.CropImageView_station);
+       // CropImageView = (ImageView) findViewById(R.id.CropImageView_station);
 
     }
     public void logTime(){
@@ -160,7 +162,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
             int index = 0;
             for (Camera.Size size : sizes) {
 
-                if(index==2){
+                if( size.height==720 ){
                     params.setPictureSize(size.width, size.height);
                     break;
                 }
@@ -204,7 +206,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
 
 
             Bitmap bmp_read = BitmapFactory.decodeFile(Path);
-            CropImageView.setImageBitmap(bmp_read);
+            //CropImageView.setImageBitmap(bmp_read);
 
             done_capture.setVisibility(View.VISIBLE);
             refresh_capture.setVisibility(View.VISIBLE);
@@ -229,7 +231,7 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
         try {
             getCameraInstance();
             drawSquare();
-            CropImageView.setImageBitmap(camera_bitmap);
+           // CropImageView.setImageBitmap(camera_bitmap);
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
         } catch (Exception e) {

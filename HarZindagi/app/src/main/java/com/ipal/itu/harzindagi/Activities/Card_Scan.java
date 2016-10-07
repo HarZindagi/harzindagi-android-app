@@ -165,6 +165,10 @@ public class Card_Scan extends BaseActivity {
                 else
                     data = ChildInfoDao.getByLocalPhoneandIMEI(phone, imei);
 
+            if(data.size()==0){
+                data = ChildInfoDao.getByBookIdIMEI(bookid, imei);
+            }
+
         }
 
         Intent intent = new Intent(this, VaccinationActivity.class);

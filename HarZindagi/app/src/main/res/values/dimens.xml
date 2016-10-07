@@ -23,4 +23,6 @@
     <dimen name="vac_txt_size">15sp</dimen>
     <integer name="rp_duration">150</integer>
 
+    <dimen name="edit_text_size">18sp</dimen>
+
 </resources>

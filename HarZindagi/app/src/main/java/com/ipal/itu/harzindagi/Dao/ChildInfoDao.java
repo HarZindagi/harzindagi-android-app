@@ -150,6 +150,13 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
+    public  static  List<ChildInfo> getByBookIdIMEI(String id,String imei) {
+        return new Select()
+                .from(ChildInfo.class)
+                .where("book_id = ?", id).and("imei_number = ?",imei)
+                .orderBy("kid_name ASC")
+                .execute();
+    }
     public  static List<ChildInfo> getNotSync() {
         return new Select()
                 .from(ChildInfo.class)

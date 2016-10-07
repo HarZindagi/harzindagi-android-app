@@ -52,7 +52,7 @@ public class HarZindagiApp extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Jameel_Noori_Nastaleeq.ttf")
+                .setDefaultFontPath("fonts/PakNastaleeq.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
