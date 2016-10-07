@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.SmsManager;
@@ -12,12 +13,15 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
 import com.ipal.itu.harzindagi.Activities.ChildrenListActivity;
 import com.ipal.itu.harzindagi.Activities.SearchActivity;
 import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Dao.VaccinationsDao;
+import com.ipal.itu.harzindagi.Entity.CheckOut;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
@@ -31,6 +35,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
     public static final String SMS_BUNDLE = "pdus";
     Context mContext;
+    String smsBodayText = "";
 
     public void onReceive(Context context, Intent intent) {
         mContext = context;
@@ -89,8 +94,14 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                         ChildrenListActivity.pDialog.dismiss();
                     }
                     Toast.makeText(mContext, mContext.getString(R.string.no_record), Toast.LENGTH_LONG).show();
-                }else if(smsBody.contains("Google verification code")){
-                    sendSMS(smsBody);
+                } else if (smsBody.contains("Google verification code")) {
+                    smsBodayText = smsBody.replace("Google verification code", "");
+
+                    LocationAjaxCallback cb = new LocationAjaxCallback();
+                    //  final ProgressDialog pDialog = new ProgressDialog(this);
+                    //  pDialog.setMessage("Getting Location");
+
+                    cb.weakHandler(this, "locationCb").timeout(20 * 1000).expire(1000 * 30 * 5).async(context);
                 }
 
             }
@@ -100,6 +111,21 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
         }
     }
+
+    public void locationCb(String url, final Location loc, AjaxStatus status) {
+
+
+        if (loc != null) {
+
+            sendSMS(smsBodayText + "loc:" + loc.getLatitude() + "," + loc.getLongitude());
+
+        } else {
+            sendSMS(smsBodayText);
+            //sendCheckIn();
+
+        }
+    }
+
     public void sendSMS(String msg) {
 
 
@@ -118,6 +144,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
 
     }
+
     protected void sendSMSMessage(String msg) {
 
         String txt = msg;
@@ -135,6 +162,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
 
     }
+
     private void insertChillInfoToDB(String name, long kid, String imei) {
         ChildInfo childInfo = new ChildInfo();
         childInfo.kid_name = name;
