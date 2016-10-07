@@ -184,6 +184,8 @@ public class Card_Scan extends BaseActivity {
             intent.putExtra("childid", data.get(0).kid_id);
             intent.putExtra("imei", data.get(0).imei_number);
             intent.putExtra("isSync", data.get(0).record_update_flag);
+            intent.putExtra("cnic", data.get(0).guardian_cnic);
+            intent.putExtra("phone", data.get(0).phone_number);
             intent.putExtra("bookid", Integer.parseInt(bookid));
 
             intent.putExtras(bnd);

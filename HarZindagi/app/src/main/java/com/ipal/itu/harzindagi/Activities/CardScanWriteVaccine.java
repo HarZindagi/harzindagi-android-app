@@ -141,7 +141,7 @@ public class CardScanWriteVaccine extends BaseActivity {
             btn.setVisibility(View.VISIBLE);
         }*/
         if(bundle.get("cnic")==null || bundle.getString("cnic").equals("")){
-            push_NFC = data.get(0).kid_id + "#" + isSync + "#" +bundle.getString("cnic")+"#" +bundle.getString("pnum")+  "#" + bookid  + "#" + data.get(0).imei_number + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
+            push_NFC = data.get(0).kid_id + "#" + isSync + "#" +"" +"#" +bundle.getString("pnum")+  "#" + bookid  + "#" + data.get(0).imei_number + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
         }else{
             push_NFC = data.get(0).kid_id + "#" + isSync + "#" +bundle.getString("cnic")+"#" +"" + "#" + bookid  + "#" + data.get(0).imei_number + "#" + bundle.getString("visit_num") + "#" + bundle.getString("vacc_details");
         }
