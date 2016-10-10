@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
@@ -56,11 +57,18 @@ public class EvacssNonEPIImageUploadHandler {
 
     private void sendChildData(final EvaccsNonEPI childInfo) {
         String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/EvacNonEpi/"+ "nonepi_"+ Constants.getIMEI(context)+"_"+ childInfo.epi_no + ".jpg";
+     ;
         MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-
-                nextUpload(success);
+                if(success==false) {
+                    Toast.makeText(context, "EvacNonEpi Images : "+"status : " + success + " Response: " + reponse, Toast.LENGTH_LONG).show();
+                }
+                if(reponse.contains("java.io.FileNotFoundException")){
+                    nextUpload(true);
+                }else{
+                    nextUpload(success);
+                }
             }
         });
 

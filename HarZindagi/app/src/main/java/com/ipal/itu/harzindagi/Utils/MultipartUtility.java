@@ -20,6 +20,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.android.gms.analytics.internal.zzy.h;
+
 public class MultipartUtility extends AsyncTask<String, Void, String> {
     private static final String LINE_FEED = "\r\n";
     private final String boundary;
@@ -55,7 +57,8 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
             httpConn.setUseCaches(false);
             httpConn.setDoOutput(true); // indicates POST method
             httpConn.setDoInput(true);
-
+            httpConn.setConnectTimeout(10000);
+            httpConn.setReadTimeout(10000);
             httpConn.setRequestMethod("POST");
             httpConn.setRequestProperty("Content-Type",
                     "multipart/form-data; boundary=" + boundary);
@@ -66,16 +69,14 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
             outputStream = httpConn.getOutputStream();
             writer = new PrintWriter(new OutputStreamWriter(outputStream, charset),
                     true);
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            exception = e.toString();
         }
 
 
     }
+    String exception;
 
     /**
      * Adds a form field to the request
@@ -148,6 +149,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
      * status OK, otherwise an exception is thrown.
      * @throws IOException
      */
+    String serverStatus;
     public List<String> finish() throws IOException {
         List<String> response = new ArrayList<String>();
 
@@ -167,6 +169,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
             reader.close();
             httpConn.disconnect();
         } else {
+            serverStatus = status+"";
             throw new IOException("Server returned non-OK status: " + status);
         }
 
@@ -197,6 +200,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             success = false;
             e.printStackTrace();
+            exception = exception + " " + e.toString();
         }
 
 
@@ -205,7 +209,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        onUploadListner.onUpload(success,s);
+        onUploadListner.onUpload(success,s + "Exception : " + exception );
         super.onPostExecute(s);
     }
 }

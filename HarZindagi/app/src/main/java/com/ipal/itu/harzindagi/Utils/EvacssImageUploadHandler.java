@@ -2,11 +2,15 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import java.util.List;
+
+import static com.google.android.gms.analytics.internal.zzy.c;
+import static com.google.android.gms.analytics.internal.zzy.g;
 
 /**
  * Created by Ali on 2/28/2016.
@@ -56,11 +60,20 @@ public class EvacssImageUploadHandler {
 
     private void sendChildData(final Evaccs childInfo) {
         String imagePath = "/sdcard/" + Constants.getApplicationName(context) + "/Evac/" +"epi_"+ Constants.getIMEI(context)+"_"+ childInfo.epi_number + ".jpg";
+
+
         MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
+                if(success==false) {
+                    Toast.makeText(context, "EvacEpi Images : "+" status :" + success + " Response : " + reponse, Toast.LENGTH_LONG).show();
+                }
+                if(reponse.contains("java.io.FileNotFoundException")){
+                    nextUpload(true);
+                }else{
+                    nextUpload(success);
+                }
 
-                nextUpload(success);
             }
         });
 

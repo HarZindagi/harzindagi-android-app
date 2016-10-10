@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
@@ -16,7 +17,7 @@ public class ImageUploadHandler {
     List<ChildInfo> childInfo;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
-    int index=0;
+    int index = 0;
 
     public ImageUploadHandler(Context context, List<ChildInfo> childInfo, OnUploadListner onUploadListner) {
         this.childInfo = childInfo;
@@ -29,11 +30,11 @@ public class ImageUploadHandler {
         pDialog.setMessage("Uploading Images...");
         pDialog.setCancelable(false);
         pDialog.show();
-        if(childInfo.size()!=0){
+        if (childInfo.size() != 0) {
             sendChildData(childInfo.get(index));
-        }else{
+        } else {
             pDialog.dismiss();
-            onUploadListner.onUpload(true,"");
+            onUploadListner.onUpload(true, "");
         }
 
     }
@@ -43,13 +44,13 @@ public class ImageUploadHandler {
             index++;
             if (index < childInfo.size()) {
                 sendChildData(childInfo.get(index));
-                pDialog.setMessage("Uploading Images... " + index+ " of "+ childInfo.size());
+                pDialog.setMessage("Uploading Images... " + index + " of " + childInfo.size());
             } else {
-                onUploadListner.onUpload(true,"");
+                onUploadListner.onUpload(true, "");
                 pDialog.dismiss();
             }
         } else {
-            onUploadListner.onUpload(false,"");
+            onUploadListner.onUpload(false, "");
             pDialog.dismiss();
         }
     }
@@ -59,9 +60,27 @@ public class ImageUploadHandler {
         MultipartUtility multipart = new MultipartUtility(Constants.photos, "UTF-8", new OnUploadListner() {
             @Override
             public void onUpload(boolean success, String reponse) {
-                childInfo.image_update_flag = true;
-                childInfo.save();
-                nextUpload(success);
+
+
+                if (success == false) {
+                    Toast.makeText(context, "HarZindagi Images : " + " status :" + success + " Response : " + reponse, Toast.LENGTH_LONG).show();
+                } else {
+                    if (reponse.contains("java.io.FileNotFoundException")) {
+                        childInfo.image_update_flag = true;
+                        childInfo.save();
+                        nextUpload(true);
+                    } else {
+                        if (success) {
+                            childInfo.image_update_flag = true;
+                            childInfo.save();
+                            nextUpload(success);
+                        }
+                    }
+
+
+                }
+
+
             }
         });
 

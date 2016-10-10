@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
@@ -48,6 +49,7 @@ public class EvacsEPI extends BaseActivity {
     ,"Pneumococcal-2","OPV-3","Pentavalent-3","Pneumococcal-3","Measles-1","Measles-2"};*/
     Button mahfooz_Karain;
     String location = "0.00000,0.00000";
+    boolean isPictureTaken = false;
     private long activityTime;
 
     @Override
@@ -114,32 +116,36 @@ public class EvacsEPI extends BaseActivity {
         mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String vaccString = "";
-                for (int i = 0; i < v_box.length; i++) {
-                    if (v_box[i].isChecked()) {
+                if (isPictureTaken) {
+                    String vaccString = "";
+                    for (int i = 0; i < v_box.length; i++) {
+                        if (v_box[i].isChecked()) {
 
 
-                        if (vaccString.length() == 0) {
-                            vaccString = v_box[i].getText().toString();
-                        } else {
-                            vaccString = vaccString + "," + v_box[i].getText().toString();
+                            if (vaccString.length() == 0) {
+                                vaccString = v_box[i].getText().toString();
+                            } else {
+                                vaccString = vaccString + "," + v_box[i].getText().toString();
+                            }
                         }
                     }
+
+                    com.ipal.itu.harzindagi.Entity.Evaccs evaccs = new Evaccs();
+                    evaccs.imei_number = Constants.getIMEI(context);
+                    evaccs.location = location;
+                    evaccs.location_source = location;
+                    evaccs.created_timestamp = Calendar.getInstance().getTimeInMillis() / 1000;
+                    evaccs.epi_number = ep_txt_view.getText().toString();
+                    evaccs.vaccination = vaccString;
+                    evaccs.record_update_flag = false;
+
+                    evaccs.save();
+
+                    logTime();
+                    finish();
+                }else{
+                    Toast.makeText(EvacsEPI.this,"Please Take Picture First!",Toast.LENGTH_LONG).show();
                 }
-
-                com.ipal.itu.harzindagi.Entity.Evaccs evaccs = new Evaccs();
-                evaccs.imei_number = Constants.getIMEI(context);
-                evaccs.location = location;
-                evaccs.location_source = location;
-                evaccs.created_timestamp = Calendar.getInstance().getTimeInMillis() / 1000;
-                evaccs.epi_number = ep_txt_view.getText().toString();
-                evaccs.vaccination = vaccString;
-                evaccs.record_update_flag = false;
-
-                evaccs.save();
-
-                logTime();
-                finish();
             }
         });
     }
@@ -172,7 +178,7 @@ public class EvacsEPI extends BaseActivity {
             saveBitmap(resizedImage);
             ImageView img_cam = (ImageView) findViewById(R.id.img_cam);
             img_cam.setImageBitmap(photo);
-
+            isPictureTaken = true;
 
         }
     }

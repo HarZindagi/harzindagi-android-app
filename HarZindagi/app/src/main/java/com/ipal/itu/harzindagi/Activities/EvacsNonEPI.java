@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
@@ -52,6 +53,7 @@ public class EvacsNonEPI extends BaseActivity {
     ArrayList<String> nonEPI_chkBox_txt = new ArrayList<String>();
     CheckBox non_bx_BCG, non_bx_OPV, non_bx_OPV1, non_bx_Pentavalent, non_bx_Pneumococcal, non_bx_OPV2, non_bx_Pentavalent2, non_bx_Pneumococcal2, non_bx_OPV3, non_bx_Pentavalent3, non_bx_Pneumococcal3, non_bx_Measles, non_bx_Measles2, child_type;
     String location = "0.00000,0.00000";
+    boolean isPictureTaken = false;
     private long activityTime;
 
     @Override
@@ -145,58 +147,61 @@ public class EvacsNonEPI extends BaseActivity {
         non_mahfooz_Karain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String vaccString = "";
-                for (int i = 0; i < nonEPIv_box.length; i++) {
-                    if (nonEPIv_box[i].isChecked()) {
-                        //  selectedCheckboxes_nonEPI.add(i + 1);
-                        //  nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
-                        if (vaccString.length() == 0) {
-                            vaccString =  nonEPIv_box[i].getText().toString();
-                        } else {
-                            vaccString = vaccString + "," + nonEPIv_box[i].getText().toString();
+                if (isPictureTaken) {
+                    String vaccString = "";
+                    for (int i = 0; i < nonEPIv_box.length; i++) {
+                        if (nonEPIv_box[i].isChecked()) {
+                            //  selectedCheckboxes_nonEPI.add(i + 1);
+                            //  nonEPI_chkBox_txt.add(nonEPIv_box[i].getText().toString());
+                            if (vaccString.length() == 0) {
+                                vaccString = nonEPIv_box[i].getText().toString();
+                            } else {
+                                vaccString = vaccString + "," + nonEPIv_box[i].getText().toString();
+                            }
                         }
                     }
+
+                    com.ipal.itu.harzindagi.Entity.EvaccsNonEPI evaccsNonepi = new com.ipal.itu.harzindagi.Entity.EvaccsNonEPI();
+
+                    evaccsNonepi.imei_number = Constants.getIMEI(context);
+                    evaccsNonepi.location = location;
+                    evaccsNonepi.location_source = location;
+                    evaccsNonepi.created_timestamp = Calendar.getInstance().getTimeInMillis() / 1000;
+                    evaccsNonepi.child_type = child_typ;
+                    evaccsNonepi.name = non_Epi_name.getText().toString();
+                    evaccsNonepi.daily_reg_no = Non_Epi_reg_num_txt.getText().toString();
+                    evaccsNonepi.cnic = Non_Epi_reg_cnic_txt.getText().toString();
+                    evaccsNonepi.phone_number = Non_Epi_phone_num_txt.getText().toString();
+                    evaccsNonepi.epi_no = Non_Epi_number_txt.getText().toString();
+                    evaccsNonepi.vaccination = vaccString;
+                    String dt = Non_Epi_reg_date_birth_txt.getText().toString();
+                    DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
+                    Date date = null;
+                    try {
+                        date = dfm.parse(dt);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    dfm.getCalendar().setTime(date);
+                    evaccsNonepi.date_of_birth = (date.getTime() / 1000);//Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
+                    evaccsNonepi.child_address = Non_Epi_adress_txt.getText().toString();
+                    evaccsNonepi.birth_place = Non_Epi_birth_place_txt.getText().toString();
+                    // evaccsNonepi.is_guest = 1;
+                    // evaccsNonepi.image_path = "image_"+ evaccs.epi_number;
+
+                    // evaccsNonepi.image_update_flag = false;
+                    //evaccsNonepi.name_of_guest_kid = non_Epi_name.getText().toString();
+                    evaccsNonepi.record_update_flag = false;
+                    // evaccsNonepi.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
+
+
+                    evaccsNonepi.save();
+
+                    logTime();
+                    finish();
+                }else{
+                    Toast.makeText(EvacsNonEPI.this,"Please Take Picture First!",Toast.LENGTH_LONG).show();
                 }
-
-                com.ipal.itu.harzindagi.Entity.EvaccsNonEPI evaccsNonepi = new com.ipal.itu.harzindagi.Entity.EvaccsNonEPI();
-
-                evaccsNonepi.imei_number = Constants.getIMEI(context);
-                evaccsNonepi.location = location;
-                evaccsNonepi.location_source = location;
-                evaccsNonepi.created_timestamp = Calendar.getInstance().getTimeInMillis() / 1000;
-                evaccsNonepi.child_type = child_typ;
-                evaccsNonepi.name = non_Epi_name.getText().toString();
-                evaccsNonepi.daily_reg_no = Non_Epi_reg_num_txt.getText().toString();
-                evaccsNonepi.cnic = Non_Epi_reg_cnic_txt.getText().toString();
-                evaccsNonepi.phone_number = Non_Epi_phone_num_txt.getText().toString();
-                evaccsNonepi.epi_no = Non_Epi_number_txt.getText().toString();
-                evaccsNonepi.vaccination = vaccString;
-                String dt = Non_Epi_reg_date_birth_txt.getText().toString();
-                DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy");
-                Date date = null;
-                try {
-                    date = dfm.parse(dt);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                dfm.getCalendar().setTime(date);
-                evaccsNonepi.date_of_birth = (date.getTime() / 1000);//Calendar.getInstance().getTimeInMillis() / 1000;//Integer.parseInt(Non_Epi_birth_place_txt.getText().toString());
-                evaccsNonepi.child_address = Non_Epi_adress_txt.getText().toString();
-                evaccsNonepi.birth_place = Non_Epi_birth_place_txt.getText().toString();
-                // evaccsNonepi.is_guest = 1;
-                // evaccsNonepi.image_path = "image_"+ evaccs.epi_number;
-
-                // evaccsNonepi.image_update_flag = false;
-                //evaccsNonepi.name_of_guest_kid = non_Epi_name.getText().toString();
-                evaccsNonepi.record_update_flag = false;
-                // evaccsNonepi.vacc_id =""+selectedCheckboxes_nonEPI.get(i);
-
-
-                evaccsNonepi.save();
-
-                logTime();
-                finish();
-
             }
         });
 
@@ -226,6 +231,7 @@ public class EvacsNonEPI extends BaseActivity {
             saveBitmap(resizedImage);
             ImageView img_cam = (ImageView) findViewById(R.id.non_img_cam);
             img_cam.setImageBitmap(photo);
+            isPictureTaken = true;
         }
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
             String year = data.getStringExtra("year");
