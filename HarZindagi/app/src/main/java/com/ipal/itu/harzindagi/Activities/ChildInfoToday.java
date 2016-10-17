@@ -23,7 +23,9 @@ import com.ipal.itu.harzindagi.Entity.VaccInfoList;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -145,9 +147,9 @@ public class ChildInfoToday extends BaseActivity {
             guardianName.setText(data.get(0).guardian_name);
             guardianCNIC.setText(data.get(0).guardian_cnic);
             guardianMobileNumber.setText(data.get(0).phone_number);
-            String date_String = Constants.getNextDueDate((getIntent().getExtras().getInt("visit_num_")),getIntent().getExtras().getString("vacc_details")); // index wise it is correct
-
-             nxtDatetxt.setText(date_String);
+          //  String date_String = Constants.getNextDueDate((getIntent().getExtras().getInt("visit_num_")),getIntent().getExtras().getString("vacc_details")); // index wise it is correct
+            String dateString = new SimpleDateFormat("dd-MMM-yyyy").format(new Date(data.get(0).next_due_date));
+             nxtDatetxt.setText(dateString);
 
             app_name = getResources().getString(R.string.app_name);
             String imagePath = "/sdcard/" + app_name + "/" + data.get(0).image_path + ".jpg";

@@ -35,7 +35,7 @@ import java.util.Locale;
 public class Constants {
     //http://103.226.216.18/
     //http://10.52.96.4/
-    public static final String baseURL = "http://103.226.216.18/";
+    public static final String baseURL = "http://10.52.96.4/";
     public static final String get_device_info = baseURL + "get_device_info.json";
     public static final String visits = baseURL + "admin/visits.json";
     public static final String vaccinationsItems = baseURL + "/admin/kid_vaccinations/";
@@ -184,7 +184,7 @@ public class Constants {
 
     public static long getKitTime(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        return prefs.getLong(Constants.kitTime,0);
+        return prefs.getLong(Constants.kitTime, 0);
     }
 
     public static void setCheckOut(Context c, String checkin) {
@@ -219,48 +219,49 @@ public class Constants {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        if(pInfo!=null){
+        if (pInfo != null) {
             return pInfo.versionName;
-        }else{
+        } else {
             return "not found";
         }
 
     }
-    public static void logTime(Activity c ,long time,String lable){
-        String avergatTime = time+"";
+
+    public static void logTime(Activity c, long time, String lable) {
+        String avergatTime = time + "";
         if (time <= 5) {
-            avergatTime = ""+5;
+            avergatTime = "" + 5;
         } else if (time <= 10) {
-            avergatTime = ""+ 10;
+            avergatTime = "" + 10;
         } else if (time <= 15) {
-            avergatTime = ""+ 15;
+            avergatTime = "" + 15;
         } else if (time <= 20) {
-            avergatTime = ""+ 20;
+            avergatTime = "" + 20;
         } else if (time <= 30) {
-            avergatTime = ""+ 30;
+            avergatTime = "" + 30;
         } else if (time <= 40) {
-            avergatTime = ""+ 40;
+            avergatTime = "" + 40;
         } else if (time <= 50) {
-            avergatTime = ""+ 50;
+            avergatTime = "" + 50;
         } else if (time <= 60) {
-            avergatTime = ""+ 60;
+            avergatTime = "" + 60;
         } else if (time <= 70) {
-            avergatTime = ""+ 70;
+            avergatTime = "" + 70;
         } else if (time <= 80) {
-            avergatTime = ""+ 80;
+            avergatTime = "" + 80;
         } else if (time <= 90) {
-            avergatTime = ""+ 90;
+            avergatTime = "" + 90;
         } else if (time <= 100) {
-            avergatTime = ""+ 100;
-        }
-        else{
+            avergatTime = "" + 100;
+        } else {
             avergatTime = "100+";
         }
 
         Constants.sendGAEvent(c, Constants.getUserName(c), lable, avergatTime + " S", 0);
     }
+
     public static String addDate(String dateStr) {
-        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy",Locale.US);
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
         Date date = null;
         Calendar c = Calendar.getInstance();
         try {
@@ -273,10 +274,24 @@ public class Constants {
         String nextDate = df.format(c.getTime());
         return nextDate;
     }
-    public static String getNextDueDate(int visit, String vaccs) {
+
+    public static String getNextDueDate(int visit, String vaccs, String date_birth) {
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+        ;
+        Date dateOfBirth = null;
+        try {
+            dateOfBirth = df.parse(date_birth);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         int[] Arry = {0, 42, 28, 28, 154, 168, 36000};  // should better be made dynamic input through Database.
-
+        if (visit == 1) {
+            Calendar current = Calendar.getInstance();
+            long differance = current.getTimeInMillis() - dateOfBirth.getTime();
+            long days = differance / (24 * 60 * 60 * 1000);
+            Arry[1] = (int) (Arry[1] - days);
+        }
 
         Calendar c = Calendar.getInstance();
 
@@ -366,11 +381,10 @@ public class Constants {
 
 
         java.util.Date time = new java.util.Date(date * 1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy",Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
 
         return sdf.format(time);
     }
-
 
 
     public static void sendGAScrenn(Activity c, String screen) {
