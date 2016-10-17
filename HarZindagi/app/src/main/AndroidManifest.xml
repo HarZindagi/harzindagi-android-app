@@ -242,6 +242,9 @@
             android:name=".Activities.BaseActivity"
             android:label="@string/title_activity_base"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3dd92444c548b51752bb15ad77ccf83a6d475b1b" />
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.ipal.itu.harzindagi.Entity.Books;
@@ -24,6 +25,7 @@ import com.ipal.itu.harzindagi.Entity.Vaccinations;
 import com.ipal.itu.harzindagi.Entity.Visit;
 import com.ipal.itu.harzindagi.R;
 
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -51,6 +53,7 @@ public class HarZindagiApp extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/PakNastaleeq.ttf")
                 .setFontAttrId(R.attr.fontPath)
