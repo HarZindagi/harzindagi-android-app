@@ -2,7 +2,9 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -55,7 +57,7 @@ public class ChildInfoSyncHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Saving Child data...");
+        pDialog.setMessage("Saving HarZindagi Child data...");
         pDialog.setCancelable(false);
         pDialog.show();
         if (childInfo.size() != 0) {
@@ -72,7 +74,7 @@ public class ChildInfoSyncHandler {
             index++;
             if (index < childInfo.size()) {
                 sendChildData(childInfo.get(index));
-                pDialog.setMessage("Uploading data... " + index + " of " + childInfo.size());
+                pDialog.setMessage("Saving HarZindagi Child data... " + index + " of " + childInfo.size());
             } else {
                 onUploadListner.onUpload(true, "");
                 pDialog.dismiss();
@@ -155,8 +157,9 @@ public class ChildInfoSyncHandler {
 
                     @Override
                     public void onResponse(JSONObject response) {
-
-                        if (response.optString("book_id").equals(kid.optString("book_id"))) {
+                         int book_id = Integer.parseInt(kid.optString("book_id"));
+                         String local_bookId = book_id+"";
+                        if (response.optString("book_id","0").equals(local_bookId)) {
 
                             List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
                             child.get(0).record_update_flag = true;
@@ -171,14 +174,17 @@ public class ChildInfoSyncHandler {
                                 kidVaccines.get(i).kid_id = kidID;
                                 kidVaccines.get(i).save();
                             }
-                            List<Books> book = Books.getByBookId(Long.parseLong(child.get(0).book_id));
+                            List<Books> book = Books.getByBookId(book_id);
                             if (book.size() > 0) {
                                 book.get(0).kid_id = kidID;
+                                book.get(0).book_number = book_id;
                                 book.get(0).save();
                                 nextUpload(true);
                             }
 
                         } else {
+                            Toast.makeText(context,
+                                    "book ID "+kid.optString("book_id")+"Response:"+response.optString("book_id"),Toast.LENGTH_LONG).show();
                             nextUpload(false);
                         }
 

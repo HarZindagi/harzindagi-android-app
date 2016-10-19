@@ -40,7 +40,90 @@ public class KidVaccinationDao {
                 .orderBy("created_timestamp ASC")
                 .execute();
     }
+    public static Bundle get_visit_details_db(long kid,boolean isSync) {
 
+
+        Bundle bnd = new Bundle();
+        From query = new Select()
+                .from(Vaccinations.class)
+                .innerJoin(KidVaccinations.class)
+                .on(" Vaccinations._id=KidVaccinations.vaccination_id")
+                .where("KidVaccinations.kid_id =?", kid).and("KidVaccinations.is_sync=?",isSync)
+                .orderBy("Vaccinations.visit_id DESC");
+
+
+        Cursor cursor = Cache.openDatabase().rawQuery(query.toSql(), query.getArguments());
+        int max_visit = 0;
+        if (cursor.moveToFirst()) {
+
+            max_visit = cursor.getInt(cursor.getColumnIndex("visit_id"));
+        }
+
+        bnd.putString("visit_num", max_visit + "");
+
+   /*     From query2 = new Select()
+                .from(Injections.class)
+                .leftJoin(Vaccinations.class)
+                .on(" Injections._id=Vaccinations.injection_id")
+                .leftJoin(KidVaccinations.class)
+                .on(" Vaccinations._id=KidVaccinations.vaccination_id")
+                .where("KidVaccinations.kid_id =?", kid).and("Vaccinations.visit_id =?", max_visit)
+                .orderBy("Injections._id");*/
+
+
+        List<Injections> inj = new Select()
+                .from(Injections.class)
+                .innerJoin(Vaccinations.class)
+                .on(" Injections._id=Vaccinations.injection_id")
+                .where("Vaccinations.visit_id =?", max_visit)
+                .orderBy("Vaccinations._id")
+                .execute();
+
+        List<Vaccinations> vacs = new Select().distinct()
+                .from(Vaccinations.class)
+                .innerJoin(KidVaccinations.class)
+                .on(" Vaccinations._id=KidVaccinations.vaccination_id")
+                .where("KidVaccinations.kid_id =?", kid)
+                .and("Vaccinations.visit_id =?", max_visit)
+                .orderBy("Vaccinations._id")
+                .execute();
+
+
+        String str = "";
+
+        for (int i = 0; i < inj.size(); i++) {
+            boolean isFound=false;
+            for (int j = 0; j <vacs.size() ; j++) {
+                if (inj.get(i).id == vacs.get(j).injection_id) {
+                    isFound =true;
+                    break;
+                }
+            }
+            if(isFound){
+                if(i==0){
+                    str = str + "1";
+                }else{
+                    str = str + ",1";
+                }
+            }else{
+                if(i==0){
+                    str = str + "0";
+                }else{
+                    str = str + ",0";
+                }
+            }
+
+        }
+        ArrayList<GVaccination> gVaccinations = new ArrayList<>();
+        for (int i = 0; i <vacs.size() ; i++) {
+            GVaccination gVaccination = new GVaccination();
+            gVaccination.injection_id = vacs.get(i).injection_id;
+            gVaccinations.add(gVaccination);
+        }
+        bnd.putSerializable("vacs",gVaccinations);
+        bnd.putString("vacc_details", str);
+        return bnd;
+    }
     public static Bundle get_visit_details_db(long kid) {
 
 

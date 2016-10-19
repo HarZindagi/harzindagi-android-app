@@ -3,6 +3,7 @@ package com.ipal.itu.harzindagi.Utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -56,7 +57,7 @@ public class UpdateChildInfoSyncHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Saving Child data...");
+        pDialog.setMessage("Update HarZindagi Child data...");
         pDialog.setCancelable(false);
         pDialog.show();
         if (childInfo.size() != 0) {
@@ -73,7 +74,7 @@ public class UpdateChildInfoSyncHandler {
             index++;
             if (index < childInfo.size()) {
                 sendChildData(childInfo.get(index));
-                pDialog.setMessage("Uploading data... " + index + " of " + childInfo.size());
+                pDialog.setMessage("Update HarZindagi Child data... " + index + " of " + childInfo.size());
             } else {
                 onUploadListner.onUpload(true, "");
                 pDialog.dismiss();
@@ -145,13 +146,19 @@ public class UpdateChildInfoSyncHandler {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        if (response.optString("book_id").equals(kid.optString("book_id"))) {
+
+                        int book_id = Integer.parseInt(kid.optString("book_id"));
+                        String local_bookId = book_id+"";
+                        if (response.optString("book_id","0").equals(local_bookId)) {
+
 
                             List<UpdateChildInfo> child = UpdateChildInfo.getByKId(kid_id);
 
                             child.get(0).delete();
                             nextUpload(true);
                         } else {
+                            Toast.makeText(context,
+                                    "book ID "+kid.optString("book_id")+"Response:"+response.optString("book_id"),Toast.LENGTH_LONG).show();
                             nextUpload(false);
                         }
 

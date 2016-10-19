@@ -40,7 +40,7 @@ public class Books extends TruncatableModel {
     public Books() {
         super();
     }
-    public  static  List<Books> getByBookId(long id) {
+    public  static  List<Books> getByBookId(int id) {
         return new Select()
                 .from(Books.class)
                 .where("book_number = ?", id)

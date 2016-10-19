@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.android.gms.analytics.internal.zzy.m;
+
 /**
  * Created by Ali on 2/28/2016.
  */
@@ -44,7 +47,7 @@ public class KidVaccinatioHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Saving Child data...");
+        pDialog.setMessage("Saving vaccination Child data...");
         pDialog.setCancelable(false);
         pDialog.show();
         if (kidVaccinations.size() != 0) {
@@ -61,7 +64,7 @@ public class KidVaccinatioHandler {
             index++;
             if (index < kidVaccinations.size()) {
                 sendVaccinationsData(kidVaccinations.get(index));
-                pDialog.setMessage("Uploading data... " + index + " of " + kidVaccinations.size());
+                pDialog.setMessage("Uploading vaccination data... " + index + " of " + kidVaccinations.size());
             } else {
                 onUploadListner.onUpload(true, "");
                 pDialog.dismiss();
@@ -120,6 +123,9 @@ public class KidVaccinatioHandler {
                             kidVaccinations.save();
                             nextUpload(true);
 
+                        }else{
+                            Toast.makeText(context,"Response"+ response,Toast.LENGTH_LONG).show();
+                            nextUpload(false);
                         }
                         if (response.optBoolean("success")) {
                             // JSONObject json = response.optJSONObject("data");
@@ -132,6 +138,7 @@ public class KidVaccinatioHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Response"+ error.toString(),Toast.LENGTH_LONG).show();
                 nextUpload(false);
                 pDialog.dismiss();
             }

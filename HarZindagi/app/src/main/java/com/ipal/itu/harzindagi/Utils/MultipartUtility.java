@@ -20,12 +20,23 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.android.gms.analytics.internal.zzy.e;
 import static com.google.android.gms.analytics.internal.zzy.h;
 
 public class MultipartUtility extends AsyncTask<String, Void, String> {
     private static final String LINE_FEED = "\r\n";
     private final String boundary;
     private final String requestURL;
+    String exception;
+    /**
+     * Completes the request and receives response from the server.
+     *
+     * @return a list of Strings as response in case the server returned
+     * status OK, otherwise an exception is thrown.
+     * @throws IOException
+     */
+    String serverStatus;
+    boolean success = true;
     private HttpURLConnection httpConn;
     private String charset;
     private OutputStream outputStream;
@@ -40,10 +51,10 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
      * @param charset
      * @throws IOException
      */
-    public MultipartUtility(String requestURL, String charset,OnUploadListner onUploadListner) {
+    public MultipartUtility(String requestURL, String charset, OnUploadListner onUploadListner) {
         this.charset = charset;
         this.requestURL = requestURL;
-        this.onUploadListner =onUploadListner;
+        this.onUploadListner = onUploadListner;
         // creates a unique boundary based on time stamp
         boundary = "----" + System.currentTimeMillis() + "----";
 
@@ -76,7 +87,6 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
 
 
     }
-    String exception;
 
     /**
      * Adds a form field to the request
@@ -142,14 +152,6 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
         writer.flush();
     }
 
-    /**
-     * Completes the request and receives response from the server.
-     *
-     * @return a list of Strings as response in case the server returned
-     * status OK, otherwise an exception is thrown.
-     * @throws IOException
-     */
-    String serverStatus;
     public List<String> finish() throws IOException {
         List<String> response = new ArrayList<String>();
 
@@ -169,38 +171,44 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
             reader.close();
             httpConn.disconnect();
         } else {
-            serverStatus = status+"";
+            serverStatus = status + "";
             throw new IOException("Server returned non-OK status: " + status);
         }
 
         return response;
     }
-     boolean success = true;
+
     @Override
     protected String doInBackground(String... params) {
         success = true;
-        List<String> response= new ArrayList<>();
+        List<String> response = new ArrayList<>();
         init();
         try {
-            if(params[0]!=null) {
+            if (params[0] != null) {
                 File f = new File(params[0]);
+                f.exists();
                 if (f != null) {
-                    addFilePart("image", f);
-                    addHeaderField("Accept", "application/json");
-                    // multipart.addHeaderField("Content-Type", "application/json");
-                    // multipart.addFormField("name", "image");
-                    // multipart.addFormField("filename","Hh22.jpg");
-                    response = finish();
+                    if (f.exists()) {
+                        addFilePart("image", f);
+                        addHeaderField("Accept", "application/json");
+                        // multipart.addHeaderField("Content-Type", "application/json");
+                        // multipart.addFormField("name", "image");
+                        // multipart.addFormField("filename","Hh22.jpg");
+                        response = finish();
+                    } else {
+                        success = false;
+                        exception = exception +" "+ "java.io.FileNotFoundException";
+                    }
                 } else {
                     success = false;
                 }
-            }else{
+            } else {
                 success = false;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             success = false;
             e.printStackTrace();
-            exception = exception + " " + e.toString();
+            exception = "java.io.FileNotFoundException";
         }
 
 
@@ -209,7 +217,7 @@ public class MultipartUtility extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        onUploadListner.onUpload(success,s + "Exception : " + exception );
+        onUploadListner.onUpload(success, s + "Exception : " + exception);
         super.onPostExecute(s);
     }
 }

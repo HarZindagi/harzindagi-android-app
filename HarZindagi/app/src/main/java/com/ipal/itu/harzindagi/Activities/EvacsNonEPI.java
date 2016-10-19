@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.ipal.itu.harzindagi.R.id.img_cam;
+
 public class EvacsNonEPI extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
@@ -97,7 +99,7 @@ public class EvacsNonEPI extends BaseActivity {
         context = this;
         Non_Epi_reg_num_txt = (EditText) findViewById(R.id.Non_Epi_reg_num_txt);
         non_Epi_name = (EditText) findViewById(R.id.non_ep_txt_view);
-
+        app_name  = getString(R.string.app_name);
         Non_Epi_reg_cnic_txt = (EditText) findViewById(R.id.Non_Epi_reg_cnic_txt);
         Non_Epi_phone_num_txt = (EditText) findViewById(R.id.Non_Epi_phone_num_txt);
         Non_Epi_number_txt = (EditText) findViewById(R.id.Non_Epi_number_txt);
@@ -222,16 +224,28 @@ public class EvacsNonEPI extends BaseActivity {
             if (CustomCamerEvacNonEPI.progress != null) {
                 CustomCamerEvacNonEPI.progress.dismiss();
             }
-            Bitmap photo, resizedImage;
+            final Bitmap photo, resizedImage;
             readEditTexts();
             Fpath = data.getStringExtra("fpath");
             String path = data.getStringExtra("path");
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
-            ImageView img_cam = (ImageView) findViewById(R.id.non_img_cam);
-            img_cam.setImageBitmap(photo);
-            isPictureTaken = true;
+            final File f = new File("/sdcard/" + app_name + "/" + evaccsNonEpiFolder + "/" + Fpath + ".jpg");
+
+            non_bx_BCG.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(f.exists()) {
+                        ImageView img_cam = (ImageView) findViewById(R.id.non_img_cam);
+                        img_cam.setImageBitmap(photo);
+                        isPictureTaken = true;
+                    }else{
+                        Toast.makeText(EvacsNonEPI.this,"Take Picture again",Toast.LENGTH_LONG).show();
+                    }
+                }
+            },500);
+
         }
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
             String year = data.getStringExtra("year");

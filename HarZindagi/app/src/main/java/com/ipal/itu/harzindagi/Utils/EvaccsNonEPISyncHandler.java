@@ -45,7 +45,7 @@ public class EvaccsNonEPISyncHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Saving Child data...");
+        pDialog.setMessage("Saving Evaccs Non EPI Child data...");
         pDialog.setCancelable(false);
         pDialog.show();
         if(childInfo.size()!=0){
@@ -62,7 +62,7 @@ public class EvaccsNonEPISyncHandler {
             index++;
             if (index < childInfo.size()) {
                 sendChildData(childInfo.get(index));
-                pDialog.setMessage("Uploading data... " + index+ " of "+ childInfo.size());
+                pDialog.setMessage("Saving Evaccs Non EPI data... " + index+ " of "+ childInfo.size());
             } else {
                 onUploadListner.onUpload(true,"");
                 pDialog.dismiss();

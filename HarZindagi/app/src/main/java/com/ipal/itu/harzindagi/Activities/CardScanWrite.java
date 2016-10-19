@@ -213,7 +213,7 @@ public class CardScanWrite extends BaseActivity {
             }
         }
         item = ChildInfoDao.getByKId(mkid_id);
-        Bundle bnd = KidVaccinationDao.get_visit_details_db(mkid_id);
+        Bundle bnd = KidVaccinationDao.get_visit_details_db(mkid_id,item.get(0).record_update_flag);
         if (bnd != null) {
             visitNum = bnd.getString("visit_num", "1");
             vaccsDetails = bnd.getString("vacc_details", "0,0,0");

@@ -37,7 +37,7 @@ public class EvacsEPI extends BaseActivity {
     FileOutputStream fo;
     String Fpath;
     String app_name;
-    String Evac = "evaccsNonEpiFolder";
+    String Evac = "Evac";
     TextView ep_txt_view;
     String epiNumber;
     Context context;
@@ -92,7 +92,7 @@ public class EvacsEPI extends BaseActivity {
         toolbar_title.setText("Evaccs-II");
         context = this;
         ep_txt_view = (TextView) findViewById(R.id.ep_txt_view);
-
+        app_name  = getString(R.string.app_name);
         bx_BCG = (CheckBox) findViewById(R.id.bx_BCG);
         bx_OPV = (CheckBox) findViewById(R.id.bx_OPV);
         bx_OPV1 = (CheckBox) findViewById(R.id.bx_OPV1);
@@ -168,7 +168,7 @@ public class EvacsEPI extends BaseActivity {
             if (CustomCamerEvacEPI.progress != null) {
                 CustomCamerEvacEPI.progress.dismiss();
             }
-            Bitmap photo, resizedImage;
+            final Bitmap photo, resizedImage;
             readEditTexts();
 
             Fpath = data.getStringExtra("fpath");
@@ -176,9 +176,20 @@ public class EvacsEPI extends BaseActivity {
             photo = BitmapFactory.decodeFile(path);
             resizedImage = getResizedBitmap(photo, 256);
             saveBitmap(resizedImage);
-            ImageView img_cam = (ImageView) findViewById(R.id.img_cam);
-            img_cam.setImageBitmap(photo);
-            isPictureTaken = true;
+            bx_OPV2.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    File f = new File("/sdcard/" + app_name + "/" + Evac + "/" + Fpath + ".jpg");
+                    if(f.exists()) {
+                        ImageView img_cam = (ImageView) findViewById(R.id.img_cam);
+                        img_cam.setImageBitmap(photo);
+                        isPictureTaken = true;
+                    }else{
+                        Toast.makeText(EvacsEPI.this,"Take Picture again",Toast.LENGTH_LONG).show();
+                    }
+                }
+            },500);
+
 
         }
     }

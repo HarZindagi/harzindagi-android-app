@@ -27,7 +27,7 @@ public class ImageUploadHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Uploading Images...");
+        pDialog.setMessage("Har Zindagi Uploading Images...");
         pDialog.setCancelable(false);
         pDialog.show();
         if (childInfo.size() != 0) {
@@ -64,19 +64,15 @@ public class ImageUploadHandler {
 
                 if (success == false) {
                     Toast.makeText(context, "HarZindagi Images : " + " status :" + success + " Response : " + reponse, Toast.LENGTH_LONG).show();
-                } else {
                     if (reponse.contains("java.io.FileNotFoundException")) {
                         childInfo.image_update_flag = true;
                         childInfo.save();
                         nextUpload(true);
-                    } else {
-                        if (success) {
-                            childInfo.image_update_flag = true;
-                            childInfo.save();
-                            nextUpload(success);
-                        }
                     }
-
+                } else {
+                    childInfo.image_update_flag = true;
+                    childInfo.save();
+                    nextUpload(success);
 
                 }
 

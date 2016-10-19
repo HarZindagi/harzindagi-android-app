@@ -123,7 +123,7 @@ public class RegisteredChildActivity extends BaseActivity {
                     finish();
                     return;
                 }
-                Bundle bnd = KidVaccinationDao.get_visit_details_db(kid);
+                Bundle bnd = KidVaccinationDao.get_visit_details_db(kid,data.get(0).record_update_flag);
                 intent.putExtra("childid", data.get(0).kid_id);
                 intent.putExtra("imei", data.get(0).imei_number);
                 intent.putExtra("isSync", data.get(0).record_update_flag);

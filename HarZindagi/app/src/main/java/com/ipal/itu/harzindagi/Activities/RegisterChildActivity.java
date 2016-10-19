@@ -63,7 +63,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static android.R.attr.path;
 import static com.androidquery.util.AQUtility.post;
+import static com.google.android.gms.analytics.internal.zzy.f;
 import static com.google.android.gms.analytics.internal.zzy.s;
 import static com.google.android.gms.analytics.internal.zzy.t;
 
@@ -690,32 +692,38 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             Bitmap photo, resizedImage;
             readEditTexts();
             Fpath = data.getStringExtra("fpath");
-            String path = data.getStringExtra("path");
-            photo = BitmapFactory.decodeFile(path);
-            resizedImage = getResizedBitmap(photo, 256);
-            saveBitmap(resizedImage);
 
 
-            DateOfBirth = DOBText.getText().toString();
-            Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
-            intent.putExtra("ID", epiNumber);
-            intent.putExtra("kid_id", -1L);
-            intent.putExtra("Name", ChildName);
-            intent.putExtra("Gender", Gender);
-            intent.putExtra("DOB", DateOfBirth);
-            intent.putExtra("mName", MotherName);
-            intent.putExtra("gName", GuardianName);
-            intent.putExtra("cnic", GuardianCNIC);
-            intent.putExtra("pnum", GuardianMobileNumber);
-            intent.putExtra("img", Fpath);
-            intent.putExtra("EPIname", EPICenterName);
-            intent.putExtra("bookid", registerBookId.getText().toString());
-            intent.putExtra("address", houseAddress.getText().toString());
+                String path = data.getStringExtra("path");
+                photo = BitmapFactory.decodeFile(path);
+                resizedImage = getResizedBitmap(photo, 256);
+                saveBitmap(resizedImage);
+                File f = new File("/sdcard/" + app_name + "/" + Fpath + ".jpg");
 
-            this.finish();
-            activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
-            Constants.logTime(RegisterChildActivity.this,activityTime,Constants.GaEvent.REGISTER_TOTAL_TIME);
-            startActivity(intent);
+                if(f.exists()) {
+                DateOfBirth = DOBText.getText().toString();
+                Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
+                intent.putExtra("ID", epiNumber);
+                intent.putExtra("kid_id", -1L);
+                intent.putExtra("Name", ChildName);
+                intent.putExtra("Gender", Gender);
+                intent.putExtra("DOB", DateOfBirth);
+                intent.putExtra("mName", MotherName);
+                intent.putExtra("gName", GuardianName);
+                intent.putExtra("cnic", GuardianCNIC);
+                intent.putExtra("pnum", GuardianMobileNumber);
+                intent.putExtra("img", Fpath);
+                intent.putExtra("EPIname", EPICenterName);
+                intent.putExtra("bookid", registerBookId.getText().toString());
+                intent.putExtra("address", houseAddress.getText().toString());
+
+                this.finish();
+                activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
+                Constants.logTime(RegisterChildActivity.this, activityTime, Constants.GaEvent.REGISTER_TOTAL_TIME);
+                startActivity(intent);
+            }else{
+                Toast.makeText(this,"Take Picture again",Toast.LENGTH_LONG).show();
+            }
             //imageView.setImageBitmap(photo);
         }
         if (requestCode == CALENDAR_CODE && resultCode == 100) {
