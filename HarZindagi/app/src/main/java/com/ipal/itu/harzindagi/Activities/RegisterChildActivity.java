@@ -1,6 +1,7 @@
 package com.ipal.itu.harzindagi.Activities;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -209,7 +212,32 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         registerBookId = (EditText) findViewById(R.id.registerboodid);
         registerBookId.setOnFocusChangeListener(this);
         registerBookId.setTag(Constants.GaEvent.BOOK_TIME);
+        registerBookId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                String enteredString = s.toString();
+                if (enteredString.startsWith("0")) {
+                    Toast.makeText(RegisterChildActivity.this,
+                            "should not starts with zero(0)",
+                            Toast.LENGTH_SHORT).show();
+                    if (enteredString.length() > 0) {
+                        registerBookId.setText(enteredString.substring(1));
+                    } else {
+                        registerBookId.setText("");
+                    }
+                }
+            }
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
         childName = (MultiAutoCompleteTextView) findViewById(R.id.registerChildName);
         childName.setTokenizer(new SpaceTokenizer());
         childName.setOnFocusChangeListener(this);

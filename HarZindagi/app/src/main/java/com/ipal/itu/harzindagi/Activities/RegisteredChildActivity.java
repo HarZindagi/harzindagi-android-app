@@ -75,7 +75,7 @@ public class RegisteredChildActivity extends BaseActivity {
         editChild = (Button) findViewById(R.id.edit_child);
 
 
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         childID = bundle.getLong("childid");
         final String imei = bundle.getString("imei");
         if (getIntent().hasExtra("bookid")) {
@@ -110,10 +110,15 @@ public class RegisteredChildActivity extends BaseActivity {
                 myintent.putExtra("childid", childID);
                 startActivity(myintent);*/
                 final List<ChildInfo> data = ChildInfoDao.getByKIdAndIMEI(childID, imei);
+
                 Intent intent = new Intent(curr, VaccinationActivity.class);
                 long kid = 0;
                 if (data.get(0).kid_id != null) {
                     kid = data.get(0).kid_id;
+                    if(data.get(0).mobile_id==null && data.get(0).record_update_flag==false){
+                        data.get(0).mobile_id=data.get(0).kid_id;
+                        data.get(0).save();
+                    }
                 } else {
                     finish();
                     return;
@@ -133,8 +138,13 @@ public class RegisteredChildActivity extends BaseActivity {
             }
         });
 
-        List<ChildInfo> data = ChildInfoDao.getByKId(childID);
-
+        final List<ChildInfo> data = ChildInfoDao.getByKId(childID);
+        childPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(RegisteredChildActivity.this, "No Record Found, Child ID"+data.get(0).kid_id +"Bundle Id :"+childID+"mobile_id"+data.get(0).mobile_id, Toast.LENGTH_LONG).show();
+            }
+        });
         if (data != null) {
             ChildEPINumber.setText("" + data.get(0).epi_number);
             ChildBookNumberText.setText("" + data.get(0).book_id);

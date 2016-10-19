@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.google.android.gms.analytics.internal.zzy.i;
+import static com.google.android.gms.analytics.internal.zzy.r;
 
 public class VaccinationActivity extends BaseActivity {
 
@@ -137,7 +138,7 @@ public class VaccinationActivity extends BaseActivity {
             phone =  bundle.getString("phone");
           
         } catch (Exception e) {
-            Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error: "+e.getMessage()+" Cause:"+e.getCause(), Toast.LENGTH_LONG).show();
             finish();
             e.printStackTrace();
         }
@@ -156,17 +157,24 @@ public class VaccinationActivity extends BaseActivity {
 
                 vaccs_done = bundle.getString("vacc_details").toString();
             } catch (Exception e) {
-                Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Error: "+e.getMessage()+" Cause:"+e.getCause(), Toast.LENGTH_LONG).show();
                 finish();
             }
 
         }
          record_sync = bundle.getBoolean("isSync",false);
+        long child_id = -100;
+        try {
+            child_id = bundle.getLong("childid");
+        }catch (Exception e){
+            Toast.makeText(this, "No child id sent!", Toast.LENGTH_LONG).show();
+        }
+
         if (record_sync) {
-            data = ChildInfoDao.getByKIdAndIMEI(bundle.getLong("childid"),bundle.getString("imei"));
+            data = ChildInfoDao.getByKIdAndIMEI(child_id,bundle.getString("imei"));
 
         } else {
-            data = ChildInfoDao.getByLocalKIdandIMEI(bundle.getLong("childid"),bundle.getString("imei"));
+            data = ChildInfoDao.getByLocalKIdandIMEI(child_id,bundle.getString("imei"));
         }
 
 
@@ -175,7 +183,7 @@ public class VaccinationActivity extends BaseActivity {
         }
         if (data.size() == 0) {
             finish();
-            Toast.makeText(this, "Try again!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Record Found, Child ID"+child_id  + " imei: "+bundle.getString("imei")+ "sync:" +record_sync, Toast.LENGTH_LONG).show();
             return;
         }
         //setTitleImage(toolbar,fpath);
