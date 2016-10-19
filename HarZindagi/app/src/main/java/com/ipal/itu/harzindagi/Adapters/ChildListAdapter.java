@@ -1,8 +1,10 @@
 package com.ipal.itu.harzindagi.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ipal.itu.harzindagi.Activities.RegisterChildActivity;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.R;
+import com.ipal.itu.harzindagi.Utils.Constants;
 
 import java.io.File;
 import java.util.List;
@@ -53,7 +59,7 @@ public class ChildListAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(xmlRowID, null);
@@ -63,6 +69,45 @@ public class ChildListAdapter extends BaseAdapter {
         TextView guardianName = (TextView) convertView.findViewById(R.id.listActivityRowGuardianName);
         TextView address = (TextView) convertView.findViewById(R.id.listActivityRowAddress);
         CircleImageView pic = (CircleImageView) convertView.findViewById(R.id.listActivityRowImage);
+        ImageView delte_child=(ImageView)convertView.findViewById(R.id.delte_child);
+        delte_child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(context);
+
+                adb.setTitle("Want To Delete User");
+
+
+                adb.setIcon(R.drawable.info_circle);
+
+
+                adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        List<KidVaccinations> items=KidVaccinationDao.getById(data.get(position).kid_id);
+                        for (int i = 0; i < items.size(); i++) {
+                            items.get(i).delete();
+                        }
+                        data.get(position).delete();
+                        data.remove(position);
+
+                        notifyDataSetChanged();
+
+
+                    }
+                });
+
+
+                adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+                adb.show();
+
+            }
+        });
 
         childName.setText(data.get(position).kid_name);
         guardianName.setText(data.get(position).guardian_name);
