@@ -35,7 +35,7 @@ import java.util.Locale;
 public class Constants {
     //http://103.226.216.18/
     //http://10.52.96.4/
-    public static final String baseURL = "http://10.52.96.4/";
+    public static final String baseURL = "http://103.226.216.18/";
     public static final String get_device_info = baseURL + "get_device_info.json";
     public static final String visits = baseURL + "admin/visits.json";
     public static final String vaccinationsItems = baseURL + "/admin/kid_vaccinations/";
@@ -277,7 +277,6 @@ public class Constants {
 
     public static String getNextDueDate(int visit, String vaccs, String date_birth) {
         DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-        ;
         Date dateOfBirth = null;
         try {
             dateOfBirth = df.parse(date_birth);
@@ -286,11 +285,44 @@ public class Constants {
         }
 
         int[] Arry = {0, 42, 28, 28, 154, 168, 36000};  // should better be made dynamic input through Database.
+        Calendar current = Calendar.getInstance();
+        long differance = current.getTimeInMillis() - dateOfBirth.getTime();
+        long days = differance / (24 * 60 * 60 * 1000);
         if (visit == 1) {
-            Calendar current = Calendar.getInstance();
-            long differance = current.getTimeInMillis() - dateOfBirth.getTime();
-            long days = differance / (24 * 60 * 60 * 1000);
-            Arry[1] = (int) (Arry[1] - days);
+
+            int aa=(int) (Arry[1] - days);
+            if(aa>=0)
+            {
+                Arry[1] = aa;
+
+            }
+            else {
+                Arry[1]=0;
+            }
+
+        }
+        if (visit == 4) {
+
+            int aa=(int) (Arry[4] - days);
+            if(aa>=0)
+            {
+                Arry[4] = aa;
+
+            }
+            else {
+                Arry[4]=0;
+            }
+        }
+        if (visit == 5) {
+            int aa=(int) (Arry[5] - days);
+            if(aa>=0)
+            {
+                Arry[5] = aa;
+
+            }
+            else {
+                Arry[5]=0;
+            }
         }
 
         Calendar c = Calendar.getInstance();

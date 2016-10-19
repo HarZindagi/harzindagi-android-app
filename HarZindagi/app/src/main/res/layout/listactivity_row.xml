@@ -5,12 +5,23 @@
     android:orientation="horizontal"
     android:padding="5dp"
     android:weightSum="1">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/xx"
+        android:id="@+id/delte_child"/>
 
+</LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight=".65"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginLeft="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/listActivityRowImage"
@@ -29,8 +40,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="3dp">
+            android:layout_marginBottom="3dp"
+            android:orientation="horizontal">
 
 
             <TextView
@@ -41,8 +52,8 @@
                 android:background="@drawable/border_black"
                 android:gravity="center"
                 android:maxLength="25"
-                android:textColor="@color/black"
-                android:text="House No. 1486" />
+                android:text="House No. 1486"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/houseAddressTv"
@@ -56,7 +67,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-android:layout_marginBottom="3dp"
+            android:layout_marginBottom="3dp"
             android:orientation="horizontal">
 
 
@@ -67,15 +78,15 @@ android:layout_marginBottom="3dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/border_black"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:text="Amjad Islam Amjad"
 
-                android:text="Amjad Islam Amjad" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="بچے کا نام"
                 android:layout_marginLeft="23dp"
+                android:text="بچے کا نام"
                 android:textColor="@color/black"
                 android:textStyle="italic" />
         </LinearLayout>
@@ -94,9 +105,9 @@ android:layout_marginBottom="3dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/border_black"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:text="Ikram Islam"
 
-                android:text="Ikram Islam" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,6 +120,5 @@ android:layout_marginBottom="3dp"
 
 
     </LinearLayout>
-
 
 </LinearLayout>
