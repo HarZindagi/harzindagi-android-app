@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.ChildInfoDelete;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
 
@@ -48,6 +49,7 @@ public class RegisteredChildActivity extends BaseActivity {
     private int bookid;
     TextView toolbar_title;
     long activityTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class RegisteredChildActivity extends BaseActivity {
         editChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imei.equals( Constants.getIMEI(RegisteredChildActivity.this))) {
+                if (imei.equals(Constants.getIMEI(RegisteredChildActivity.this))) {
                     Intent intent = new Intent(RegisteredChildActivity.this, EditRegisterChildActivity.class);
                     intent.putExtra("childid", childID);
                     startActivity(intent);
@@ -95,10 +97,37 @@ public class RegisteredChildActivity extends BaseActivity {
                     Constants.logTime(RegisteredChildActivity.this, activityTime, Constants.GaEvent.REGISTERED_TOTAL_TIME);
 
                 } else {
+
                     Toast.makeText(RegisteredChildActivity.this, "Child From Other UC Not Editable", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+        /*    new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                final List<ChildInfoDelete> childInfoDelete = dao.getAlll();
+                                if (childInfoDelete.size() > 0) {
+                                    Toast.makeText(RegisteredChildActivity.this, childInfoDelete.get(0).date_of_birth, Toast.LENGTH_LONG).show();
+                                }
+                            }catch (Exception c)
+                            {
+                                Toast.makeText(RegisteredChildActivity.this, c.toString(), Toast.LENGTH_LONG).show();
+
+                            }
+
+                        }
+                    });
+
+                }
+            }).start();*/
+
+
         vaccination_btn = (Button) findViewById(R.id.NFCWrite);
         vaccination_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,15 +144,15 @@ public class RegisteredChildActivity extends BaseActivity {
                 long kid = 0;
                 if (data.get(0).kid_id != null) {
                     kid = data.get(0).kid_id;
-                    if(data.get(0).mobile_id==null && data.get(0).record_update_flag==false){
-                        data.get(0).mobile_id=data.get(0).kid_id;
+                    if (data.get(0).mobile_id == null && data.get(0).record_update_flag == false) {
+                        data.get(0).mobile_id = data.get(0).kid_id;
                         data.get(0).save();
                     }
                 } else {
                     finish();
                     return;
                 }
-                Bundle bnd = KidVaccinationDao.get_visit_details_db(kid,data.get(0).record_update_flag);
+                Bundle bnd = KidVaccinationDao.get_visit_details_db(kid, data.get(0).record_update_flag);
                 intent.putExtra("childid", data.get(0).kid_id);
                 intent.putExtra("imei", data.get(0).imei_number);
                 intent.putExtra("isSync", data.get(0).record_update_flag);
@@ -142,7 +171,7 @@ public class RegisteredChildActivity extends BaseActivity {
         childPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RegisteredChildActivity.this, "No Record Found, Child ID"+data.get(0).kid_id +"Bundle Id :"+childID+"mobile_id"+data.get(0).mobile_id, Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisteredChildActivity.this, "No Record Found, Child ID" + data.get(0).kid_id + "Bundle Id :" + childID + "mobile_id" + data.get(0).mobile_id, Toast.LENGTH_LONG).show();
             }
         });
         if (data != null) {

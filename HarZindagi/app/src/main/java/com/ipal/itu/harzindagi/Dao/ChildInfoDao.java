@@ -4,6 +4,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.ChildInfoDelete;
 
 import java.util.List;
 
@@ -91,6 +92,13 @@ public class ChildInfoDao {
         return new Select()
                 .from(ChildInfo.class)
                         //.where("ChildInfo = ?", childInfo.getId())
+                .orderBy("kid_name ASC")
+                .execute();
+    }
+    public  List<ChildInfoDelete> getAlll() {
+        return new Select()
+                .from(ChildInfoDelete.class)
+                //.where("ChildInfo = ?", childInfo.getId())
                 .orderBy("kid_name ASC")
                 .execute();
     }

@@ -11,6 +11,7 @@ import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.CheckIn;
 import com.ipal.itu.harzindagi.Entity.CheckOut;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.ChildInfoDelete;
 import com.ipal.itu.harzindagi.Entity.Evaccs;
 import com.ipal.itu.harzindagi.Entity.EvaccsNonEPI;
 import com.ipal.itu.harzindagi.Entity.FemaleName;
@@ -63,6 +64,7 @@ public class HarZindagiApp extends android.app.Application {
         Configuration.Builder configurationBuilder = new Configuration.Builder(this);
         configurationBuilder.addModelClass(ChildInfo.class);
         configurationBuilder.addModelClass(UserInfo.class);
+        configurationBuilder.addModelClass(ChildInfoDelete.class);
         configurationBuilder.addModelClass(Visit.class);
         configurationBuilder.addModelClass(Injections.class);
         configurationBuilder.addModelClass(Vaccinations.class);
