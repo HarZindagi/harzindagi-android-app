@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ipal.itu.harzindagi.Activities.RegisterChildActivity;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.ChildInfoDelete;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -88,6 +89,9 @@ public class ChildListAdapter extends BaseAdapter {
                         for (int i = 0; i < items.size(); i++) {
                             items.get(i).delete();
                         }
+                        ChildInfoDelete childInfoDelete=new ChildInfoDelete();
+                        /*childInfoDelete.setChildInfoDelete(data.get(position).book_id,data.get(position).epi_number,data.get(position).kid_name,data.get(position).gender,data.get(position).date_of_birth,data.get(position).mother_name,data.get(position).guardian_name,data.get(position).guardian_cnic,data.get(position).phone_number,data.get(position).created_timestamp,data.get(position).location,data.get(position).epi_name,data.get(position).kids_station,data.get(position).image_path,data.get(position).nfc_number,data.get(position).image_update_flag,true,data.get(position).child_address,data.get(position).imei_number,data.get(position).next_due_date,data.get(position).next_visit_date);
+                        childInfoDelete.save();*/
                         data.get(position).delete();
                         data.remove(position);
 

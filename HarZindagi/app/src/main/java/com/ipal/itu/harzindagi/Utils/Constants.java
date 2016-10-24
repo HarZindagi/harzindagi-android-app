@@ -177,7 +177,10 @@ public class Constants {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         return prefs.getString(Constants.checkOut, "");
     }
-
+    public static void setCheckOut(Context c, String checkin) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        prefs.edit().putString(Constants.checkOut, checkin).apply();
+    }
     public static void setkitTime(Context c, long time) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         prefs.edit().putLong(Constants.kitTime, time).apply();
@@ -188,10 +191,7 @@ public class Constants {
         return prefs.getLong(Constants.kitTime, 0);
     }
 
-    public static void setCheckOut(Context c, String checkin) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        prefs.edit().putString(Constants.checkOut, checkin).apply();
-    }
+
 
     public static String getLocation(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);

@@ -90,6 +90,9 @@
         <meta-data
             android:name="UpdateChildInfo"
             android:value="com.ipal.itu.harzindagi.Entity.UpdateChildInfo" />
+        <meta-data
+            android:name="ChildInfoDelete"
+            android:value="com.ipal.itu.harzindagi.Entity.UpdateChildInfo" />
 
         <activity
             android:name=".Activities.SplashActivity"
