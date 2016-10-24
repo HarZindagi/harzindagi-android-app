@@ -603,11 +603,11 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             showError(registerChildTown_ET, error);
             return error;
         }
-        if (houseAddress.getText().length() < 1) {
+      /*  if (houseAddress.getText().length() < 1) {
             error = "خالی گھر کا ایڈریس";
             showError(houseAddress, error);
             return error;
-        }
+        }*/
         if (EPINumber.getText().length() < 1) {
             error = "برائے مہربانی ای پی آئی نمبر درج کریں۔";
             showError(EPINumber, error);
