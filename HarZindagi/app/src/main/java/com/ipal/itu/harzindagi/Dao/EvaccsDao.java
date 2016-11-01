@@ -32,11 +32,19 @@ public class EvaccsDao {
 
                 .execute();
     }
+    public static List<Evaccs> getByFlag() {
+        return new Select()
+                .from(Evaccs.class)
+                .where("record_update_flag = ?",false)
+
+                .execute();
+    }
     public static List<Evaccs> getAll() {
         return new Select()
                 .from(Evaccs.class)
                 .execute();
     }
+
     public static List<Evaccs> getNoSync() {
         return new Select()
                 .from(Evaccs.class).where("record_update_flag = ?", false)

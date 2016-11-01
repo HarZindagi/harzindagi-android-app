@@ -122,7 +122,7 @@ public class ChildInfoSyncHandler {
             kid.put("mother_cnic", "");
             kid.put("phone_number", childInfo.phone_number);
             kid.put("created_timestamp", childInfo.created_timestamp);
-            kid.put("location_source","gps" );
+            kid.put("location_source", "gps");
             kid.put("time_source", "network");
             Long tsLong = calendar.getTimeInMillis() / 1000;
             kid.put("upload_timestamp", tsLong);
@@ -139,9 +139,9 @@ public class ChildInfoSyncHandler {
             kid.put("epi_number", childInfo.epi_number);
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");
             kid.put("image_path", childInfo.image_path);
-            kid.put("next_due_date", childInfo.next_due_date/1000);
-            kid.put("next_visit_date", childInfo.next_visit_date/1000);
-            kid.put("vaccination_date", childInfo.vaccination_date/1000);
+            kid.put("next_due_date", childInfo.next_due_date / 1000);
+            kid.put("next_visit_date", childInfo.next_visit_date / 1000);
+            kid.put("vaccination_date", childInfo.vaccination_date / 1000);
 
             kid.put("book_id", childInfo.book_id);
 
@@ -157,9 +157,9 @@ public class ChildInfoSyncHandler {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                         int book_id = Integer.parseInt(kid.optString("book_id"));
-                         String local_bookId = book_id+"";
-                        if (response.optString("book_id","0").equals(local_bookId)) {
+                        int book_id = Integer.parseInt(kid.optString("book_id"));
+                        String local_bookId = book_id + "";
+                        if (response.optString("book_id", "0").equals(local_bookId)) {
 
                             List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
                             child.get(0).record_update_flag = true;
@@ -179,12 +179,17 @@ public class ChildInfoSyncHandler {
                                 book.get(0).kid_id = kidID;
                                 book.get(0).book_number = book_id;
                                 book.get(0).save();
-                                nextUpload(true);
-                            }
 
+                            } else {
+                                Books books = new Books();
+                                books.kid_id = kidID;
+                                books.book_number = book_id;
+                                books.save();
+                            }
+                            nextUpload(true);
                         } else {
                             Toast.makeText(context,
-                                    "book ID "+kid.optString("book_id")+"Response:"+response.optString("book_id"),Toast.LENGTH_LONG).show();
+                                    "book ID " + kid.optString("book_id") + "Response:" + response.optString("book_id"), Toast.LENGTH_LONG).show();
                             nextUpload(false);
                         }
 

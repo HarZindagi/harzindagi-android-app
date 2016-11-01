@@ -118,12 +118,31 @@ public class BooksSyncHandler {
                         if (response.optString("book_number").equals(book.optString("book_number"))) {
 
                             List<Books> child = Books.getByBookId(books.book_number);
-                            child.get(0).is_sync = true;
-                            child.get(0).save();
-                            nextUpload(true);
+                            if(child.size()!=0) {
+                                child.get(0).is_sync = true;
+                                child.get(0).save();
+                                nextUpload(true);
+                            }else{
+                                Books books = new Books();
+                                books.kid_id = Integer.parseInt(response.optString("kid_id"));
+                                books.book_number = Integer.parseInt(response.optString("book_number"));
+                                books.save();
+                                nextUpload(true);
+                            }
 
                         } else {
-                            nextUpload(false);
+                            List<Books> child = Books.getByBookId(books.book_number);
+                            if(child.size()!=0)
+                            {
+                                child.get(0).delete();
+                            }
+
+                            Books books = new Books();
+                            books.kid_id = Integer.parseInt(response.optString("kid_id"));
+                            books.book_number = Integer.parseInt(response.optString("book_number"));
+                            books.is_sync=true;
+                            books.save();
+                            nextUpload(true);
                         }
 
                     }

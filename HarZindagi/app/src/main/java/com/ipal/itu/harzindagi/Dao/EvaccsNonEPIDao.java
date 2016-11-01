@@ -53,4 +53,11 @@ public class EvaccsNonEPIDao {
                 .orderBy("name ASC")
                 .execute();
     }
+    public static List<EvaccsNonEPI> getByflag() {
+        return new Select()
+                .from(EvaccsNonEPI.class)
+                .where("record_update_flag = ?", false)
+                .orderBy("name ASC")
+                .execute();
+    }
 }

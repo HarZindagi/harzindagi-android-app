@@ -471,12 +471,12 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 if (!msg.equals("")) {
                     return;
                 }
-               /* List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(), Constants.getIMEI(RegisterChildActivity.this));
+                List<ChildInfo> childInfo = ChildInfoDao.getByEpiNumAndIMEI(EPINumber.getText().toString(), Constants.getIMEI(RegisterChildActivity.this));
                 if (childInfo.size() > 0) {
                     showError(EPINumber, "نیا ای پی ای نمبر درج کریں");
 
                     return;
-                }*/
+                }
 
                 Intent cameraIntent = new Intent(RegisterChildActivity.this, CustomCamera.class);
 

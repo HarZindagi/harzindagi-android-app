@@ -153,13 +153,13 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
                     params = mCamera.getParameters();
                     params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
                     mCamera.setParameters(params);
-                    mCamera.startPreview();
+                   // mCamera.startPreview();
 
                 } else {
                     params = mCamera.getParameters();
                     params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
                     mCamera.setParameters(params);
-                    mCamera.stopPreview();
+                   // mCamera.stopPreview();
                 }
 
             }

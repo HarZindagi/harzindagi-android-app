@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -79,7 +80,14 @@ public class Evaccs extends BaseActivity {
             }
         });
 
-
+        Button evac_recored =(Button)findViewById(R.id.evac_recored);
+        evac_recored.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(ctx,EvaccsRecords.class);
+                startActivity(i);
+            }
+        });
     }
 
 
