@@ -7,19 +7,13 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
-import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.Injections;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
-import com.ipal.itu.harzindagi.Entity.Transaction;
 import com.ipal.itu.harzindagi.Entity.Vaccinations;
-import com.ipal.itu.harzindagi.GJson.GKidTransaction;
 import com.ipal.itu.harzindagi.GJson.GVaccination;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static com.google.android.gms.analytics.internal.zzy.c;
 
 /**
  * Created by Ali on 1/14/2016.

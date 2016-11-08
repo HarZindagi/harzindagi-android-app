@@ -9,9 +9,6 @@ import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import java.util.List;
 
-import static com.google.android.gms.analytics.internal.zzy.c;
-import static com.google.android.gms.analytics.internal.zzy.g;
-
 /**
  * Created by Ali on 2/28/2016.
  */

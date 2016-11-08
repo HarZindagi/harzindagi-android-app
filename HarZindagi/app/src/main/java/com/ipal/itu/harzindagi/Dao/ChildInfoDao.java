@@ -8,8 +8,6 @@ import com.ipal.itu.harzindagi.Entity.ChildInfoDelete;
 
 import java.util.List;
 
-import static com.google.android.gms.analytics.internal.zzy.c;
-
 /**
  * Created by Ali on 1/14/2016.
  */

@@ -30,7 +30,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static com.google.android.gms.analytics.internal.zzy.i;
 
 public class EvacsEPI extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;

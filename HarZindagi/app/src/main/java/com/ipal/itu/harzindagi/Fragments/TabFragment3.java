@@ -11,12 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.ListView;
 
 import com.ipal.itu.harzindagi.Activities.ChildInfoToday;
-import com.ipal.itu.harzindagi.Activities.RegisteredChildActivity;
-import com.ipal.itu.harzindagi.Activities.VaccinationActivity;
 import com.ipal.itu.harzindagi.Adapters.ChildListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
@@ -31,9 +28,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static com.google.android.gms.analytics.internal.zzy.b;
-import static com.ipal.itu.harzindagi.Dao.KidVaccinationDao.getVacByIdAndVacId;
 
 public class TabFragment3 extends Fragment {
 

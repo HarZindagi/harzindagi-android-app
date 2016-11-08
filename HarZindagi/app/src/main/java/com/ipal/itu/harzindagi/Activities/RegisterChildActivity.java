@@ -1,7 +1,6 @@
 package com.ipal.itu.harzindagi.Activities;
 
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,7 +28,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -62,12 +59,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
-import static android.R.attr.path;
-import static com.androidquery.util.AQUtility.post;
-import static com.google.android.gms.analytics.internal.zzy.f;
-import static com.google.android.gms.analytics.internal.zzy.s;
-import static com.google.android.gms.analytics.internal.zzy.t;
 
 public class RegisterChildActivity extends BaseActivity implements View.OnFocusChangeListener {
     private static final int CAMERA_REQUEST = 1888;

@@ -30,9 +30,6 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.google.android.gms.analytics.internal.zzy.i;
-import static com.google.android.gms.analytics.internal.zzy.r;
-
 public class VaccinationActivity extends BaseActivity {
 
     public static final int CAMERA_REQUEST = 1888;

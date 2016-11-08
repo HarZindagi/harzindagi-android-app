@@ -7,12 +7,9 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +47,7 @@ import com.ipal.itu.harzindagi.Utils.EvaccsNonEPISyncHandler;
 import com.ipal.itu.harzindagi.Utils.EvaccsSyncHandler;
 import com.ipal.itu.harzindagi.Utils.EvacssImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.EvacssNonEPIImageUploadHandler;
+import com.ipal.itu.harzindagi.Utils.GetCurrentLocation;
 import com.ipal.itu.harzindagi.Utils.ImageUploadHandler;
 import com.ipal.itu.harzindagi.Utils.KidVaccinatioHandler;
 import com.ipal.itu.harzindagi.Utils.MultipartUtility;
@@ -63,8 +61,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.google.android.gms.analytics.internal.zzy.o;
 
 
 public class DashboardActivity extends BaseActivity {
@@ -486,7 +482,8 @@ public class DashboardActivity extends BaseActivity {
                     uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
                     Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
                     if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
-                        checkIn();
+                        getCurrentLocation();
+
                     } else {
                         showCompletDialog("اپ لوڈ مکمل ہو گیا ہے");
                     }
@@ -500,6 +497,22 @@ public class DashboardActivity extends BaseActivity {
         });
         imageUploadHandler.execute();
 
+    }
+    private void getCurrentLocation(){
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setMessage("getting location ...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        GetCurrentLocation.LocationResult locationResult = new GetCurrentLocation.LocationResult(){
+            @Override
+            public void gotLocation(Location location){
+                Constants.setLocationSync(DashboardActivity.this,location.getLatitude()+","+location.getLatitude());
+                checkIn();
+                pDialog.dismiss();
+            }
+        };
+        GetCurrentLocation myLocation = new GetCurrentLocation();
+        myLocation.getLocation(this, locationResult);
     }
 
     private void showCompletDialog(String title) {
