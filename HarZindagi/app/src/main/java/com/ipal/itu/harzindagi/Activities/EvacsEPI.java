@@ -47,7 +47,7 @@ public class EvacsEPI extends BaseActivity {
     /*String[] chkBox_txt = new String[]{"BCG", "OPV-O(Polio)","OPV-1","Pentavalent-1","Pneumococcal-1","OPV-2","Pentavalent-2"
     ,"Pneumococcal-2","OPV-3","Pentavalent-3","Pneumococcal-3","Measles-1","Measles-2"};*/
     Button mahfooz_Karain;
-    String location = "0.00000,0.00000";
+    String location = Constants.default_location;
     boolean isPictureTaken = false;
     private long activityTime;
 

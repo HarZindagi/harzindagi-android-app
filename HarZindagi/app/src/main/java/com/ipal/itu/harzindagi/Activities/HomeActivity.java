@@ -38,7 +38,7 @@ import static com.ipal.itu.harzindagi.R.id.homeActivityHarZindagiButtonR;
 
 public class HomeActivity extends BaseActivity {
     private static final int CAMERA_REQUEST = 1887;
-    String location = "0.0000,0.0000";
+    String location = Constants.default_location;
     FileOutputStream fo;
 
     @Override

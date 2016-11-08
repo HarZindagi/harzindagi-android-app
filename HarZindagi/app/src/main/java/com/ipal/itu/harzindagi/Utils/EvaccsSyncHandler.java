@@ -101,7 +101,13 @@ public class EvaccsSyncHandler {
 
 
             kid.put("imei_number",Constants.getIMEI(context));
-            kid.put("location", childInfo.location);
+
+            if(childInfo.location.equals(Constants.default_location)){
+                kid.put("location", Constants.getLocationSync(context));
+            }else{
+                kid.put("location", childInfo.location);
+            }
+
             kid.put("created_timestamp",childInfo.created_timestamp);
             kid.put("upload_timestamp",tsLong);
             kid.put("epi_no", childInfo.epi_number);

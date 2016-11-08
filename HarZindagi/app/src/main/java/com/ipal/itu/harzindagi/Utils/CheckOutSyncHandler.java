@@ -91,7 +91,12 @@ public class CheckOutSyncHandler {
             obj.put("user", user);
 
             obj.put("imei_number", Constants.getIMEI(context));
-            obj.put("location", checkOut.location);
+            if(checkOut.location.equals(Constants.default_location)){
+                obj.put("location", Constants.getLocationSync(context));
+            }else{
+                obj.put("location", checkOut.location);
+            }
+
             obj.put("location_source","gps" );
             obj.put("time_source", "network");
             obj.put("location_sync", Constants.getLocationSync(context));

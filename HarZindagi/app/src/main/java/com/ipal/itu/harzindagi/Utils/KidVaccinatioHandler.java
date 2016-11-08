@@ -95,7 +95,13 @@ public class KidVaccinatioHandler {
 
             vaccination.put("imei_number", kidVaccinations.imei_number);
             vaccination.put("guest_imei_number", kidVaccinations.guest_imei_number);
-            vaccination.put("location", kidVaccinations.location);
+
+            if(kidVaccinations.location.equals(Constants.default_location)){
+                vaccination.put("location", Constants.getLocationSync(context));
+            }else{
+                vaccination.put("location", kidVaccinations.location);
+            }
+
             vaccination.put("kid_id", kidVaccinations.kid_id);
             vaccination.put("vaccination_id", kidVaccinations.vaccination_id);
             vaccination.put("version_name", "");

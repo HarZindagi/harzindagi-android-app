@@ -120,7 +120,12 @@ public class UpdateChildInfoSyncHandler {
                 // date.getTime();
                 kid.put("date_of_birth", (date.getTime() / 1000) + "");
             }
-            kid.put("location", childInfo.location);
+            if(childInfo.location.equals(Constants.default_location)){
+                kid.put("location", Constants.getLocationSync(context));
+            }else{
+                kid.put("location", childInfo.location);
+            }
+
             kid.put("child_address", childInfo.child_address);
             kid.put("gender", childInfo.gender);
             kid.put("epi_number", childInfo.epi_number);

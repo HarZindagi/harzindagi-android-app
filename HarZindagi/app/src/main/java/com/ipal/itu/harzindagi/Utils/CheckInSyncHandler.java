@@ -92,7 +92,12 @@ public class CheckInSyncHandler {
 
 
             obj.put("imei_number", Constants.getIMEI(context));
-            obj.put("location", checkIns.location);
+            if(checkIns.location.equals(Constants.default_location)){
+                obj.put("location", Constants.getLocationSync(context));
+            }else{
+                obj.put("location", checkIns.location);
+            }
+
 
             obj.put("location_sync", Constants.getLocationSync(context));
 

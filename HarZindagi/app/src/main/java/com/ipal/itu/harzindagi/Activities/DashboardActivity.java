@@ -170,8 +170,8 @@ public class DashboardActivity extends BaseActivity {
         if (id == R.id.action_sync) {
             if (Constants.isOnline(this)) {
                 uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
+                getCurrentLocation();
 
-                syncData();
             } else {
                 Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();
             }
@@ -482,7 +482,8 @@ public class DashboardActivity extends BaseActivity {
                     uploadTime = (Calendar.getInstance().getTimeInMillis() / 1000) - uploadTime;
                     Constants.sendGAEvent(DashboardActivity.this, "Data Upload", Constants.getUserName(DashboardActivity.this), "Time", uploadTime);
                     if (!Constants.getCheckOut(DashboardActivity.this).equals("")) {
-                        getCurrentLocation();
+                        checkIn();
+
 
                     } else {
                         showCompletDialog("اپ لوڈ مکمل ہو گیا ہے");
@@ -507,7 +508,7 @@ public class DashboardActivity extends BaseActivity {
             @Override
             public void gotLocation(Location location){
                 Constants.setLocationSync(DashboardActivity.this,location.getLatitude()+","+location.getLatitude());
-                checkIn();
+                syncData();
                 pDialog.dismiss();
             }
         };
@@ -550,7 +551,7 @@ public class DashboardActivity extends BaseActivity {
                 if (Constants.isOnline(DashboardActivity.this)) {
                     uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
 
-                    syncData();
+                   getCurrentLocation();
                 } else {
                     Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();
                 }

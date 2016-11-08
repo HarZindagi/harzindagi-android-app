@@ -36,7 +36,7 @@ public class Constants {
     //http://103.226.216.18/
     //http://10.52.96.4/
 
-    public static final String baseURL = "http://10.52.96.4/";
+    public static final String baseURL = "http://103.226.216.18/";
     public static final String get_device_info = baseURL + "get_device_info.json";
     public static final String visits = baseURL + "admin/visits.json";
     public static final String vaccinationsItems = baseURL + "/admin/kid_vaccinations/";
@@ -69,6 +69,8 @@ public class Constants {
     public static final String checkOut = "checkOut";
     public static final String location = "location";
     public static final String day = "cDay";
+
+    public static final String default_location = "0.0000,0.0000";
 
     public static final String kitTime = "kitTine";
     private static final boolean isTracking = true;
@@ -173,7 +175,7 @@ public class Constants {
     public static String getLocationInPref(Context c) {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        return prefs.getString(Constants.Pref_location, "0.0000,0.0000");
+        return prefs.getString(Constants.Pref_location, default_location);
 
     }
     public static String getCheckIn(Context c) {
@@ -208,7 +210,7 @@ public class Constants {
 
     public static String getLocation(Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-        return prefs.getString(Constants.location, "0.0000,0.0000");
+        return prefs.getString(Constants.location, default_location);
     }
 
     public static void setLocation(Context c, String location) {

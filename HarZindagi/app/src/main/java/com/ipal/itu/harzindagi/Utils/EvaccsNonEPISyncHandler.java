@@ -100,7 +100,13 @@ public class EvaccsNonEPISyncHandler {
             obj.put("user", user);
 
             kid.put("imei_number", Constants.getIMEI(context));
-            kid.put("location", childInfo.location);
+
+            if(childInfo.location.equals(Constants.default_location)){
+                kid.put("location", Constants.getLocationSync(context));
+            }else{
+                kid.put("location", childInfo.location);
+            }
+
 
             kid.put("created_timestamp",childInfo.created_timestamp);
             kid.put("upload_timestamp",tsLong);
