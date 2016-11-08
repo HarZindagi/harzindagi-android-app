@@ -47,7 +47,7 @@ public class KidVaccinatioHandler {
 
     public void execute() {
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Saving vaccination Child data...");
+        pDialog.setMessage("Saving HR vaccination ."+kidVaccinations.size());
         pDialog.setCancelable(false);
         pDialog.show();
         if (kidVaccinations.size() != 0) {
@@ -81,6 +81,7 @@ public class KidVaccinatioHandler {
 
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Constants.kid_vaccinations;
+        pDialog.setMessage(url);
         // final ProgressDialog pDialog = new ProgressDialog(this);
         //  pDialog.setMessage("Saving Vaccination data...");
         //  pDialog.show();
@@ -118,6 +119,7 @@ public class KidVaccinatioHandler {
                         //  Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
                         // Log.d(TAG, response.toString());
                         // pDialog.hide();
+                        pDialog.setMessage(response.toString());
                         if (!response.equals("")) {
                             kidVaccinations.is_sync= true;
                             kidVaccinations.save();
