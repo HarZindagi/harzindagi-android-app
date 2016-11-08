@@ -17,8 +17,10 @@ import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
@@ -38,18 +40,19 @@ import java.util.List;
  * Created by Wahab on 2/3/2016.
  */
 public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback {
-    public  ProgressDialog progress;
+    public ProgressDialog progress;
     SurfaceHolder surfaceHolder;
     File mediaFile;
     String Path, app_name;
     DisplayMetrics metrics;
     int Height, Width;
+    private Camera.Parameters params;
     Bitmap camera_bitmap;
     Canvas camera_canvas;
     Paint p;
     String fpath;
     ImageView CropImageView, captureButton;
-
+    ToggleButton torch_light;
     Context ctx;
     Bundle bundle;
     FaceDetector detector;
@@ -73,35 +76,40 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
                 Toast t = Toast.makeText(getApplicationContext(), "بچے کی تصویردوبارہ کھینچیں", Toast.LENGTH_LONG);
                 t.setGravity(Gravity.CENTER, 0, 0);
                 t.show();
-                Constants.sendGAEvent(CustomCamera.this,Constants.getUserName(CustomCamera.this), Constants.GaEvent.TAKE_PICTURE_ERROR, "بچے کی تصویردوبارہ کھینچیں", 0);
+                Constants.sendGAEvent(CustomCamera.this, Constants.getUserName(CustomCamera.this), Constants.GaEvent.TAKE_PICTURE_ERROR, "بچے کی تصویردوبارہ کھینچیں", 0);
 
             }
 
         }
     };
     private long activityTime;
+
     @Override
     public void onBackPressed() {
-        Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION,Constants.GaEvent.TAKE_PICTURE_BACK, 0);
+        Constants.sendGAEvent(this, Constants.getUserName(this), Constants.GaEvent.BACK_NAVIGATION, Constants.GaEvent.TAKE_PICTURE_BACK, 0);
         super.onBackPressed();
     }
+
     @Override
     protected void onDestroy() {
-        if(progress!=null)
-        progress.dismiss();
+        if (progress != null)
+            progress.dismiss();
         super.onDestroy();
     }
-    private void logTime(){
+
+    private void logTime() {
         activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
         //Constants.sendGAEvent(this,Constants.getUserName(this), Constants.GaEvent.TAKE_PICTURE_TIME, activityTime + " S", 0);
-        Constants.logTime(this,activityTime,Constants.GaEvent.TAKE_PICTURE_TIME);
+        Constants.logTime(this, activityTime, Constants.GaEvent.TAKE_PICTURE_TIME);
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         setContentView(R.layout.custom_camera_layout);
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
+        torch_light=(ToggleButton) findViewById(R.id.torch_light);
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
@@ -138,7 +146,24 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
         });
 
         CropImageView = (ImageView) findViewById(R.id.CropImageView);
+        torch_light.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    params = mCamera.getParameters();
+                    params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
+                    mCamera.setParameters(params);
+                   // mCamera.startPreview();
 
+                } else {
+                    params = mCamera.getParameters();
+                    params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
+                    mCamera.setParameters(params);
+                   // mCamera.stopPreview();
+                }
+
+            }
+        });
     }
 
     private void getCameraInstance() {
@@ -151,7 +176,7 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
             int index = 0;
             for (Camera.Size size : sizes) {
 
-                if( size.height==720 ){
+                if (size.height == 720) {
                     params.setPictureSize(size.width, size.height);
                     break;
                 }
@@ -161,9 +186,7 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
 
             mCamera.setParameters(params);
             mCamera.setDisplayOrientation(90);
-        }
-
-         catch (Exception e) {
+        } catch (Exception e) {
             // cannot get camera or does not exist
         }
     }
@@ -241,6 +264,7 @@ public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback
         logTime();
         finishActivity();
     }
+
     private File getOutputMediaFile() {
         Path = "/sdcard/" + app_name + "/"
                 + fpath + ".jpg";

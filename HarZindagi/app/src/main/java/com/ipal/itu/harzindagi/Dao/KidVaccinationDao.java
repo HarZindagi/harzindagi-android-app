@@ -40,6 +40,13 @@ public class KidVaccinationDao {
                 .orderBy("created_timestamp ASC")
                 .execute();
     }
+    public static List<KidVaccinations> getAllVacByKidId(long id) {
+        return new Select()
+                .from(KidVaccinations.class)
+                .where("kid_id = ?", id)
+                .orderBy("created_timestamp ASC")
+                .execute();
+    }
     public static Bundle get_visit_details_db(long kid,boolean isSync) {
 
 

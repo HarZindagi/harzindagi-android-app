@@ -39,7 +39,7 @@ public class VaccinationActivity extends BaseActivity {
 
     public String fpath;
     public long childID;
-    public int load_frag;
+    public int current_visit_number;
     public String vaccs_done;
     public TextView sixthTabTickMark;
     public boolean isVaccCompleted = false;
@@ -125,7 +125,7 @@ public class VaccinationActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getLocation();
         toolbar_title=(TextView)findViewById(R.id.toolbar_title);
-        load_frag = 0;
+        current_visit_number = 0;
         vaccs_done = "0,0,0";
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -144,12 +144,12 @@ public class VaccinationActivity extends BaseActivity {
         }
         if (bundle.size() >= 3) {
             try {
-                load_frag = Integer.parseInt(bundle.getString("visit_num").toString()) - 1;
+                current_visit_number = Integer.parseInt(bundle.getString("visit_num").toString()) - 1;
 
                 if (Constants.isVaccOfVisitCompleted(bundle.getString("vacc_details").toString())) {
 
-                    load_frag = Integer.parseInt(bundle.getString("visit_num").toString());
-                    if (load_frag == 6) {
+                    current_visit_number = Integer.parseInt(bundle.getString("visit_num").toString());
+                    if (current_visit_number == 6) {
                         isVaccCompleted = true;
                     }
 
@@ -206,19 +206,19 @@ public class VaccinationActivity extends BaseActivity {
         tabText = new TextView[]{firstTabTickMark, secondTabTickMark, thirdTabTickMark, fourthTabTickMark, fifthTabTickMark, sixthTabTickMark};
         mViewPager = (CustomViewPager) findViewById(R.id.vaccinationActivityVaccinationsPager);
         if (Constants.isVaccOfVisitCompleted(vaccs_done)) {
-            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag) + "");
+            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (current_visit_number) + "",data.get(0).kid_id);
 
         } else {
-            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (load_frag + 1) + "");
+            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, VaccinationActivity.this, vaccs_done, (current_visit_number + 1) + "",data.get(0).kid_id);
 
         }
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(viewPagerAdapter);
 
 
-        mViewPager.setCurrentItem(load_frag);
+        mViewPager.setCurrentItem(current_visit_number);
         mViewPager.setOffscreenPageLimit(5);
-        int index = load_frag - 1;
+        int index = current_visit_number - 1;
         if (index < 0) {
             tabBg[0].setBackgroundResource(R.drawable.text_filled_green);
 
@@ -292,11 +292,11 @@ public class VaccinationActivity extends BaseActivity {
 
         }
         if (!isVaccCompleted) {
-           // tabBg[load_frag].setBackgroundResource(array[load_frag]);
-            tabBg[load_frag].setBackgroundResource(R.drawable.text_filled_green);
+           // tabBg[current_visit_number].setBackgroundResource(array[current_visit_number]);
+            tabBg[current_visit_number].setBackgroundResource(R.drawable.text_filled_green);
             //tabText[i].setBackgroundResource(R.drawable.ic_action_tick);
             // tabBg[i].setVisibility(View.VISIBLE);
-            tabText[load_frag].setTextColor(Color.WHITE);
+            tabText[current_visit_number].setTextColor(Color.WHITE);
         } else {
             tabBg[5].setBackgroundResource(R.drawable.text_filled_green);
             tabText[5].setTextColor(Color.WHITE);
@@ -343,7 +343,7 @@ public class VaccinationActivity extends BaseActivity {
             }
 
             String date_String = Constants.getNextDueDate(Integer.parseInt(bndl.getString("visit_num")), bndl.getString("vacc_details").toString(),this.data.get(0).date_of_birth); // index wise it is correct
-            intent.putExtra("curr_visit_num", load_frag);
+            intent.putExtra("curr_visit_num", Integer.parseInt(bndl.getString("visit_num"))-1);
             intent.putExtra("next_date", date_String);
             this.finish();
             startActivity(intent);

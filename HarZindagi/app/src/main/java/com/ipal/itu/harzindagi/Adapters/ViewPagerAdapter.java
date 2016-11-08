@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.ipal.itu.harzindagi.Dao.InjectionsDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.Injections;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Fragments.*;
 
 import android.support.v4.app.FragmentManager;
@@ -26,59 +28,72 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public static VaccinationActivity vaccinationActivity;
     ArrayList<ArrayList<GInjection>> injections = new ArrayList<>();
     public int curr_visit;
-
+    long kid_id;
     private String tabTitles[] = new String[]{"After Birth", "After 6 Weeks", "After 10 Weeks", "After 14 Weeks", "After 16 Weeks", "After 9 Months"};
 
-    public ViewPagerAdapter(FragmentManager fm, Context context, VaccinationActivity activity, String Vaccs_done, String Curr_visit) {
+    public ViewPagerAdapter(FragmentManager fm, Context context, VaccinationActivity activity, String Vaccs_done, String Curr_visit, long kid_id) {
         super(fm);
         this.context = context;
         instance = this;
         vaccinationActivity = activity;
         String[] done_list = Vaccs_done.split(",");
-
+        this.kid_id = kid_id;
 
         curr_visit = Integer.parseInt(Curr_visit);
         ArrayList<GInjection> _injections = new ArrayList<>();
-        List<Injections>  arr_inj= InjectionsDao.getInjectionsByVisit(curr_visit);
+        List<Injections> arr_inj = InjectionsDao.getInjectionsByVisit(curr_visit);
+        List<KidVaccinations> aa = KidVaccinationDao.getAllVacByKidId(kid_id);
 
         for (int i = 0; i < arr_inj.size(); i++) {
             GInjection inj = new GInjection();
-            inj.name=arr_inj.get(i).name;
+            inj.name = arr_inj.get(i).name;
             inj.is_done = Integer.parseInt(done_list[i]);
             inj.is_drop = arr_inj.get(i).is_drop;
-
+            inj.is_done = 0;
+            for (int k = 0; k <aa.size() ; k++) {
+                if(aa.get(k).vaccination_id==arr_inj.get(i).id){
+                    inj.is_done = 1;
+                }
+            }
             _injections.add(inj);
         }
         for (int i = 0; i < 6; i++) {
-            if (curr_visit == i+1) {
+            if (curr_visit == i + 1) {
                 injections.add(_injections);
             } else {
-                if(i<curr_visit-1) {
+             /*   if (i < curr_visit - 1) {
                     ArrayList<GInjection> _inj = new ArrayList<>();
-                    List<Injections>  arry_inj= InjectionsDao.getInjectionsByVisit(i+1);
-                    for (int j = 0; j <arry_inj.size(); j++) {
+                    List<Injections> arry_inj = InjectionsDao.getInjectionsByVisit(i + 1);
+                    for (int j = 0; j < arry_inj.size(); j++) {
                         GInjection inj = new GInjection();
-                        inj.name=arry_inj.get(j).name;
-                        inj.is_done = 1;
+                        inj.name = arry_inj.get(j).name;
+
+
+
                         inj.is_drop = arry_inj.get(j).is_drop;
                         _inj.add(inj);
 
                     }
                     injections.add(_inj);
-                }else{
+                } else {*/
                     ArrayList<GInjection> _inj = new ArrayList<>();
-                    List<Injections>  arry_inj= InjectionsDao.getInjectionsByVisit(i+1);
+                    List<Injections> arry_inj = InjectionsDao.getInjectionsByVisit(i + 1);
 
-                    for (int j = 0; j <arry_inj.size(); j++) {
+                    for (int j = 0; j < arry_inj.size(); j++) {
                         GInjection inj = new GInjection();
-                        inj.name=arry_inj.get(j).name;
+                        inj.name = arry_inj.get(j).name;
                         inj.is_done = 0;
+                        for (int k = 0; k <aa.size() ; k++) {
+                            if(aa.get(k).vaccination_id==arry_inj.get(j).id){
+                                inj.is_done = 1;
+                            }
+                        }
                         inj.is_drop = arry_inj.get(j).is_drop;
                         _inj.add(inj);
 
                     }
                     injections.add(_inj);
-                }
+               // }
             }
         }
     }
@@ -93,7 +108,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return VaccinationOneFragment.newInstance(position, injections.get(position),curr_visit);
+        return VaccinationOneFragment.newInstance(position, injections.get(position), curr_visit);
 
     }
 

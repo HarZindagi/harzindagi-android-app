@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -12,7 +13,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ipal.itu.harzindagi.Activities.LoginActivity;
+import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.Books;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Handlers.OnUploadListner;
 
 import org.json.JSONException;
@@ -97,9 +100,10 @@ public class BooksSyncHandler {
             user.put("auth_token", Constants.getToken(context));
             obj.put("user", user);
 
-
-            book.put("kid_id", books.kid_id);
+            book.put("kid_id",books.kid_id);
             book.put("book_number",books.book_number);
+
+
             book.put("nfc_chip_id","00000000");
 
 
@@ -118,12 +122,31 @@ public class BooksSyncHandler {
                         if (response.optString("book_number").equals(book.optString("book_number"))) {
 
                             List<Books> child = Books.getByBookId(books.book_number);
-                            child.get(0).is_sync = true;
-                            child.get(0).save();
-                            nextUpload(true);
+                            if(child.size()!=0) {
+                                child.get(0).is_sync = true;
+                                child.get(0).save();
+                                nextUpload(true);
+                            }else{
+                                Books books = new Books();
+                                books.kid_id = Integer.parseInt(response.optString("kid_id"));
+                                books.book_number = Integer.parseInt(response.optString("book_number"));
+                                books.save();
+                                nextUpload(true);
+                            }
 
                         } else {
-                            nextUpload(false);
+                            List<Books> child = Books.getByBookId(books.book_number);
+                            if(child.size()!=0)
+                            {
+                                child.get(0).delete();
+                            }
+
+                            Books books = new Books();
+                            books.kid_id = Integer.parseInt(response.optString("kid_id"));
+                            books.book_number = Integer.parseInt(response.optString("book_number"));
+                            books.is_sync=true;
+                            books.save();
+                            nextUpload(true);
                         }
 
                     }
