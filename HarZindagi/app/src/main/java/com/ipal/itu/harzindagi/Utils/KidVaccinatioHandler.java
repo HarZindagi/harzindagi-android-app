@@ -104,8 +104,8 @@ public class KidVaccinatioHandler {
 
             vaccination.put("kid_id", kidVaccinations.kid_id);
             vaccination.put("vaccination_id", kidVaccinations.vaccination_id);
-            vaccination.put("version_name", "");
-            vaccination.put("location_source", "00.00");
+            vaccination.put("version_name", Constants.getVersionName(context));
+            vaccination.put("location_source", "gps");
             vaccination.put("upload_timestamp", Calendar.getInstance().getTimeInMillis()/1000);
             vaccination.put("created_timestamp",kidVaccinations.created_timestamp);
 

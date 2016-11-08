@@ -507,9 +507,10 @@ public class DashboardActivity extends BaseActivity {
         GetCurrentLocation.LocationResult locationResult = new GetCurrentLocation.LocationResult(){
             @Override
             public void gotLocation(Location location){
+                pDialog.dismiss();
                 Constants.setLocationSync(DashboardActivity.this,location.getLatitude()+","+location.getLatitude());
                 syncData();
-                pDialog.dismiss();
+
             }
         };
         GetCurrentLocation myLocation = new GetCurrentLocation();
