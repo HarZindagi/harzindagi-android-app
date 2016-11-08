@@ -16,7 +16,7 @@ import com.ipal.itu.harzindagi.Adapters.PagerAdapter;
 import com.ipal.itu.harzindagi.R;
 
 public class EvaccsRecords extends BaseActivity {
-
+    Button[] tabbg;
     TextView toolbar_title;
     ViewPager viewPager;
     Button thirdTab, fourthTab;
@@ -64,11 +64,39 @@ public class EvaccsRecords extends BaseActivity {
                 setpage(1);
             }
         });
-
+        tabbg = new Button[]{ thirdTab, fourthTab};
         final EvaccPagerAdapter adapter = new EvaccPagerAdapter
                 (getSupportFragmentManager(), 2);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i=0;i<2;i++)
+                {
+                    if (i==position)
+                    {
+                        tabbg[i].setBackgroundResource(R.color.colorPrimary);
+                        tabbg[i].setTextColor(getResources().getColor(R.color.white));
+
+                    }
+                    else {
+                        tabbg[i].setBackgroundResource(R.color.white);
+                        tabbg[i].setTextColor(getResources().getColor(R.color.colorPrimary));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
     public void setpage(int a)
     {

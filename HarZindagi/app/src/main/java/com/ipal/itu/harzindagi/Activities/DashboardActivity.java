@@ -205,12 +205,14 @@ public class DashboardActivity extends BaseActivity {
                 double log = loc.getLongitude();
                 location = lat + "," + log;
                 Constants.setLocationSync(this, location);
+                Constants.setLocationInPref(this,location);
                 checkOut.location = location;
                 checkOut.save();
 
             } else {
-                Constants.setLocationSync(this, "0.0000,0.0000");
-                checkOut.location = "0.0000,0.0000";
+               String loca= Constants.getLocationInPref(this);
+                Constants.setLocationSync(this, loca);
+                checkOut.location = loca;
                 checkOut.save();
                 //sendCheckIn();
 
