@@ -37,8 +37,9 @@ public class BooksSyncHandler {
     List<Books> books;
     ProgressDialog pDialog;
     OnUploadListner onUploadListner;
-    int index=0;
+    int index = 0;
     Calendar calendar;
+
     public BooksSyncHandler(Context context, List<Books> books, OnUploadListner onUploadListner) {
         this.books = books;
         this.context = context;
@@ -50,11 +51,11 @@ public class BooksSyncHandler {
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Saving Books data...");
         pDialog.show();
-        if(books.size()!=0){
+        if (books.size() != 0) {
             sendChildData(books.get(index));
-        }else{
+        } else {
             pDialog.dismiss();
-            onUploadListner.onUpload(true,"");
+            onUploadListner.onUpload(true, "");
         }
 
     }
@@ -64,9 +65,9 @@ public class BooksSyncHandler {
             index++;
             if (index < books.size()) {
                 sendChildData(books.get(index));
-                pDialog.setMessage("Uploading books... " + index+ " of "+ books.size());
+                pDialog.setMessage("Uploading books... " + index + " of " + books.size());
             } else {
-                onUploadListner.onUpload(true,"");
+                onUploadListner.onUpload(true, "");
                 pDialog.dismiss();
             }
         } else {
@@ -74,7 +75,8 @@ public class BooksSyncHandler {
             pDialog.dismiss();
         }
     }
-  public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
+
+    public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
@@ -87,92 +89,100 @@ public class BooksSyncHandler {
 
         return c.getTimeInMillis();
     }
+
     private void sendChildData(final Books books) {
-        final long oldKidID = books.kid_id;
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Constants.books;
 
-        JSONObject obj = null;
-        final JSONObject book = new JSONObject();
-        try {
-            obj = new JSONObject();
-            JSONObject user = new JSONObject();
-            user.put("auth_token", Constants.getToken(context));
-            obj.put("user", user);
+        final List<ChildInfo> data = ChildInfoDao.getByKId(books.kid_id);
+        if (data.size() > 0) {
+            RequestQueue queue = Volley.newRequestQueue(context);
+            String url = Constants.books;
 
-            book.put("kid_id",books.kid_id);
-            book.put("book_number",books.book_number);
+            JSONObject obj = null;
+            final JSONObject book = new JSONObject();
+            try {
+                obj = new JSONObject();
+                JSONObject user = new JSONObject();
+                user.put("auth_token", Constants.getToken(context));
+                obj.put("user", user);
+
+                book.put("kid_id", books.kid_id);
+                book.put("book_number", books.book_number);
 
 
-            book.put("nfc_chip_id","00000000");
+                book.put("nfc_chip_id", "00000000");
 
 
-            obj.put("book", book);
+                obj.put("book", book);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, obj,
-                new Response.Listener<JSONObject>() {
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    url, obj,
+                    new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                       // Log.d("response",response.toString());
-                        if (response.optString("book_number").equals(book.optString("book_number"))) {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Log.d("response",response.toString());
+                            if (response.optString("book_number").equals(book.optString("book_number"))) {
 
-                            List<Books> child = Books.getByBookId(books.book_number);
-                            if(child.size()!=0) {
-                                child.get(0).is_sync = true;
-                                child.get(0).save();
-                                nextUpload(true);
-                            }else{
+                                List<Books> child = Books.getByBookId(books.book_number);
+                                if (child.size() != 0) {
+                                    child.get(0).is_sync = true;
+                                    child.get(0).save();
+                                    nextUpload(true);
+                                } else {
+                                    Books books = new Books();
+                                    books.kid_id = Integer.parseInt(response.optString("kid_id"));
+                                    books.book_number = Integer.parseInt(response.optString("book_number"));
+                                    books.save();
+                                    nextUpload(true);
+                                }
+
+                            } else {
+                                List<Books> child = Books.getByBookId(books.book_number);
+                                if (child.size() != 0) {
+                                    child.get(0).delete();
+                                }
+
                                 Books books = new Books();
                                 books.kid_id = Integer.parseInt(response.optString("kid_id"));
                                 books.book_number = Integer.parseInt(response.optString("book_number"));
+                                books.is_sync = true;
                                 books.save();
                                 nextUpload(true);
                             }
 
-                        } else {
-                            List<Books> child = Books.getByBookId(books.book_number);
-                            if(child.size()!=0)
-                            {
-                                child.get(0).delete();
-                            }
-
-                            Books books = new Books();
-                            books.kid_id = Integer.parseInt(response.optString("kid_id"));
-                            books.book_number = Integer.parseInt(response.optString("book_number"));
-                            books.is_sync=true;
-                            books.save();
-                            nextUpload(true);
                         }
+                    }, new Response.ErrorListener() {
 
-                    }
-                }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                    nextUpload(false);
+                    pDialog.hide();
+                }
+            }) {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                nextUpload(false);
-                pDialog.hide();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Accept", "application/json");
+                    return headers;
+                }
 
 
-        };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
-                LoginActivity.MAX_RETRY,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(jsonObjReq);
+            };
+            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+                    LoginActivity.MAX_RETRY,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            queue.add(jsonObjReq);
+        } else {
+            books.delete();
+            nextUpload(true);
+        }
+
     }
 
 }

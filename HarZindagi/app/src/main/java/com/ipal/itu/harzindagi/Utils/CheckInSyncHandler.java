@@ -2,6 +2,7 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -138,6 +139,7 @@ public class CheckInSyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
                 pDialog.dismiss();
             }
         }) {

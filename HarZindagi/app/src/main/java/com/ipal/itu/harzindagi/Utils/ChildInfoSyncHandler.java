@@ -205,6 +205,7 @@ public class ChildInfoSyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
                 nextUpload(false);
                 pDialog.hide();
             }

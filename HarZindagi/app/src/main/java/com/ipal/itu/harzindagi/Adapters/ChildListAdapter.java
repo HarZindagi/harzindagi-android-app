@@ -70,48 +70,7 @@ public class ChildListAdapter extends BaseAdapter {
         TextView guardianName = (TextView) convertView.findViewById(R.id.listActivityRowGuardianName);
         TextView address = (TextView) convertView.findViewById(R.id.listActivityRowAddress);
         CircleImageView pic = (CircleImageView) convertView.findViewById(R.id.listActivityRowImage);
-        ImageView delte_child=(ImageView)convertView.findViewById(R.id.delte_child);
-        delte_child.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                AlertDialog.Builder adb = new AlertDialog.Builder(context);
-
-                adb.setTitle("Want To Delete User");
-
-
-                adb.setIcon(R.drawable.info_circle);
-
-
-                adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        List<KidVaccinations> items=KidVaccinationDao.getById(data.get(position).kid_id);
-                        for (int i = 0; i < items.size(); i++) {
-                            items.get(i).delete();
-                        }
-                        ChildInfoDelete childInfoDelete=new ChildInfoDelete();
-                        /*childInfoDelete.setChildInfoDelete(data.get(position).book_id,data.get(position).epi_number,data.get(position).kid_name,data.get(position).gender,data.get(position).date_of_birth,data.get(position).mother_name,data.get(position).guardian_name,data.get(position).guardian_cnic,data.get(position).phone_number,data.get(position).created_timestamp,data.get(position).location,data.get(position).epi_name,data.get(position).kids_station,data.get(position).image_path,data.get(position).nfc_number,data.get(position).image_update_flag,true,data.get(position).child_address,data.get(position).imei_number,data.get(position).next_due_date,data.get(position).next_visit_date);
-                        childInfoDelete.save();*/
-                        data.get(position).delete();
-                        data.remove(position);
-
-                        notifyDataSetChanged();
-
-
-                    }
-                });
-
-
-                adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-                    }
-                });
-                adb.show();
-
-            }
-        });
 
         childName.setText(data.get(position).kid_name);
         guardianName.setText(data.get(position).guardian_name);

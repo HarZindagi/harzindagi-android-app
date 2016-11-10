@@ -1,24 +1,30 @@
 package com.ipal.itu.harzindagi.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipal.itu.harzindagi.Adapters.CustomListAdapter;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
+import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
+import com.ipal.itu.harzindagi.Entity.Books;
 import com.ipal.itu.harzindagi.Entity.ChildInfo;
+import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.Entity.VaccInfoList;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -127,6 +133,54 @@ public class ChildInfoToday extends BaseActivity {
                 else {
                     Toast.makeText(ChildInfoToday.this, "Child From Other UC Not Editable", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        ImageView delte_child=(ImageView)findViewById(R.id.delte_child);
+        delte_child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(ChildInfoToday.this);
+
+                adb.setTitle("Want To Delete User");
+
+
+                adb.setIcon(R.drawable.info_circle);
+
+
+                adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        final List<ChildInfo> data = ChildInfoDao.getByKIdAndIMEI(childID, imei);
+                        List<KidVaccinations> items= KidVaccinationDao.getById(data.get(0).kid_id);
+                        List<Books>bookses=Books.getByBookId(Integer.parseInt(data.get(0).book_id));
+                        for (int i = 0; i < items.size(); i++) {
+                            items.get(i).delete();
+                        }
+
+                        if (data.size()>0)
+                        {
+                            bookses.get(0).delete();
+                            data.get(0).delete();
+
+                            Intent in=new Intent(ChildInfoToday.this,DashboardActivity.class);
+                            startActivity(in);
+                            finish();
+
+                        }
+
+
+                    }
+                });
+
+
+                adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+                adb.show();
+
             }
         });
         List<ChildInfo> data = ChildInfoDao.getByKId(childID);
