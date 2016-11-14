@@ -27,7 +27,7 @@ public class CheckIn extends TruncatableModel {
     public String created_timestamp;
 
 
-    public List<CheckIn> getAll() {
+    public static List<CheckIn> getAll() {
         return new Select()
                 .from(CheckIn.class)
                 .execute();

@@ -509,7 +509,13 @@ public class DashboardActivity extends BaseActivity {
             public void gotLocation(Location location){
                 pDialog.dismiss();
                 Constants.setLocationSync(DashboardActivity.this,location.getLatitude()+","+location.getLatitude());
-                syncData();
+                DashboardActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        syncData();
+                    }
+                });
+
 
             }
         };
