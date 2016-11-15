@@ -135,7 +135,7 @@ public class ChildInfoToday extends BaseActivity {
                 }
             }
         });
-        ImageView delte_child=(ImageView)findViewById(R.id.delte_child);
+        Button delte_child=(Button) findViewById(R.id.delte_child);
         delte_child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

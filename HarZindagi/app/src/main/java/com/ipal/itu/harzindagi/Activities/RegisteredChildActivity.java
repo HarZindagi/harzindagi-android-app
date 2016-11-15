@@ -131,7 +131,7 @@ public class RegisteredChildActivity extends BaseActivity {
                 }
             }).start();*/
 
-        ImageView delte_child=(ImageView)findViewById(R.id.delte_child);
+        Button delte_child=(Button) findViewById(R.id.delte_child);
         boolean visii = bundle.getBoolean("visibility");
         if(visii)
         {

@@ -36,7 +36,7 @@ public class Constants {
     //http://103.226.216.18/
     //http://10.52.96.4/
 
-    public static final String baseURL = "http://103.226.216.18/";
+    public static final String baseURL = "http://10.52.96.4/";
     public static final String get_device_info = baseURL + "get_device_info.json";
     public static final String visits = baseURL + "admin/visits.json";
     public static final String vaccinationsItems = baseURL + "/admin/kid_vaccinations/";

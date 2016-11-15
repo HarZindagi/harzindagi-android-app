@@ -170,7 +170,21 @@ public class DashboardActivity extends BaseActivity {
         if (id == R.id.action_sync) {
             if (Constants.isOnline(this)) {
                 uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
-                getCurrentLocation();
+                if(Constants.getCheckIn(this).equals(""))
+                {
+                    Toast.makeText(DashboardActivity.this,"Take Kit Station Picture",Toast.LENGTH_LONG).show();
+                    return super.onOptionsItemSelected(item);
+                }
+                if (Constants.getCheckOut(this).equals(""))
+                {
+                    Toast.makeText(DashboardActivity.this,"Checkout First",Toast.LENGTH_LONG).show();
+                    return super.onOptionsItemSelected(item);
+
+                }
+                else {
+                    getCurrentLocation();
+                }
+
 
             } else {
                 Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();
