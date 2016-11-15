@@ -22,7 +22,7 @@ public class CheckOut extends TruncatableModel {
     @Column(name = "created_timestamp")
     public String created_timestamp;
 
-    public List<CheckOut> getAll() {
+    public static List<CheckOut> getAll() {
         return new Select()
                 .from(CheckOut.class)
                 .execute();
