@@ -142,13 +142,13 @@ public class ChildInfoToday extends BaseActivity {
 
                 AlertDialog.Builder adb = new AlertDialog.Builder(ChildInfoToday.this);
 
-                adb.setTitle("Want To Delete User");
+                adb.setTitle("کیاآپ بچے کاڈیٹا ختم کرناچاہتے ہیں؟");
 
 
                 adb.setIcon(R.drawable.info_circle);
 
 
-                adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         final List<ChildInfo> data = ChildInfoDao.getByKIdAndIMEI(childID, imei);
                         List<KidVaccinations> items= KidVaccinationDao.getById(data.get(0).kid_id);
@@ -159,7 +159,10 @@ public class ChildInfoToday extends BaseActivity {
 
                         if (data.size()>0)
                         {
-                            bookses.get(0).delete();
+                            if(bookses.size()>0)
+                            {
+                                bookses.get(0).delete();
+                            }
                             data.get(0).delete();
 
                             Intent in=new Intent(ChildInfoToday.this,DashboardActivity.class);
@@ -173,7 +176,7 @@ public class ChildInfoToday extends BaseActivity {
                 });
 
 
-                adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                adb.setNegativeButton("نہیں", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
                         dialog.dismiss();
