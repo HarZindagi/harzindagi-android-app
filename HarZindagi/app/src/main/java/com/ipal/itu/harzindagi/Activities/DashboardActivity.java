@@ -170,18 +170,15 @@ public class DashboardActivity extends BaseActivity {
         if (id == R.id.action_sync) {
             if (Constants.isOnline(this)) {
                 uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
-                if(Constants.getCheckIn(this).equals(""))
-                {
-                    Toast.makeText(DashboardActivity.this,"Take Kit Station Picture",Toast.LENGTH_LONG).show();
+                if (Constants.getCheckIn(this).equals("")) {
+                    Toast.makeText(DashboardActivity.this, "Take Kit Station Picture", Toast.LENGTH_LONG).show();
                     return super.onOptionsItemSelected(item);
                 }
-                if (Constants.getCheckOut(this).equals(""))
-                {
-                    Toast.makeText(DashboardActivity.this,"Checkout First",Toast.LENGTH_LONG).show();
+                if (Constants.getCheckOut(this).equals("")) {
+                    Toast.makeText(DashboardActivity.this, "Checkout First", Toast.LENGTH_LONG).show();
                     return super.onOptionsItemSelected(item);
 
-                }
-                else {
+                } else {
                     getCurrentLocation();
                 }
 
@@ -215,12 +212,12 @@ public class DashboardActivity extends BaseActivity {
                 double log = loc.getLongitude();
                 location = lat + "," + log;
                 Constants.setLocationSync(this, location);
-                Constants.setLocationInPref(this,location);
+                Constants.setLocationInPref(this, location);
                 checkOut.location = location;
                 checkOut.save();
 
             } else {
-               String loca= Constants.getLocationInPref(this);
+                String loca = Constants.getLocationInPref(this);
                 Constants.setLocationSync(this, loca);
                 checkOut.location = loca;
                 checkOut.save();
@@ -281,6 +278,7 @@ public class DashboardActivity extends BaseActivity {
         });
         childInfoSyncHandler.execute();
     }
+
     public void updateChildInfo() {
 
         List<UpdateChildInfo> childInfo = UpdateChildInfo.getNotSync();
@@ -513,24 +511,30 @@ public class DashboardActivity extends BaseActivity {
         imageUploadHandler.execute();
 
     }
-    private void getCurrentLocation(){
+
+    private void getCurrentLocation() {
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("getting location ...");
         pDialog.setCancelable(false);
         pDialog.show();
-        GetCurrentLocation.LocationResult locationResult = new GetCurrentLocation.LocationResult(){
+        GetCurrentLocation.LocationResult locationResult = new GetCurrentLocation.LocationResult() {
             @Override
-            public void gotLocation(Location location){
-                pDialog.dismiss();
-                Constants.setLocationSync(DashboardActivity.this,location.getLatitude()+","+location.getLatitude());
-                DashboardActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        syncData();
-                    }
-                });
+            public void gotLocation(Location location) {
+                if (location != null) {
+                    pDialog.dismiss();
+                    Constants.setLocationSync(DashboardActivity.this, location.getLatitude() + "," + location.getLatitude());
+                    DashboardActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            syncData();
+                        }
+                    });
 
-
+                } else {
+                    pDialog.dismiss();
+                    Toast.makeText(DashboardActivity.this, "Location Not Found!", Toast.LENGTH_LONG).show();
+                    showErrorDialog();
+                }
             }
         };
         GetCurrentLocation myLocation = new GetCurrentLocation();
@@ -572,7 +576,7 @@ public class DashboardActivity extends BaseActivity {
                 if (Constants.isOnline(DashboardActivity.this)) {
                     uploadTime = Calendar.getInstance().getTimeInMillis() / (1000);
 
-                   getCurrentLocation();
+                    getCurrentLocation();
                 } else {
                     Toast.makeText(DashboardActivity.this, "No Internet!", Toast.LENGTH_LONG).show();
                 }
