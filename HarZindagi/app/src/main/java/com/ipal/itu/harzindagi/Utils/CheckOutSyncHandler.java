@@ -119,7 +119,7 @@ public class CheckOutSyncHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Log.d("response",response.toString());
-                        if (!response.toString().equals("")) {
+                        if (response.optString("created_timestamp").equals(checkOut.created_timestamp)) {
                             pDialog.dismiss();
 
 

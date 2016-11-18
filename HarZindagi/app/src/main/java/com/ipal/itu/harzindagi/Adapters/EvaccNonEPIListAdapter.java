@@ -71,7 +71,7 @@ public class EvaccNonEPIListAdapter extends BaseAdapter {
         TextView guardianName = (TextView) convertView.findViewById(R.id.listActivityRowGuardianName);
         TextView address = (TextView) convertView.findViewById(R.id.listActivityRowAddress);
         CircleImageView pic = (CircleImageView) convertView.findViewById(R.id.listActivityRowImage);
-        ImageView delte_child=(ImageView)convertView.findViewById(R.id.delte_child);
+
        /* delte_child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

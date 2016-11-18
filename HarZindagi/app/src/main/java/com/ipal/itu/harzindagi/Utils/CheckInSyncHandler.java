@@ -121,7 +121,7 @@ public class CheckInSyncHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Log.d("response",response.toString());
-                        if (!response.toString().equals("")) {
+                        if (response.optString("created_timestamp").equals(checkIns.created_timestamp)) {
                             pDialog.dismiss();
 
 
