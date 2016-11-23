@@ -542,7 +542,7 @@ public class DashboardActivity extends BaseActivity {
     }
 
     private void showCompletDialog(String title) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        AlertDialog.Builder adb = new AlertDialog.Builder(DashboardActivity.this);
 
         adb.setTitle(title);
 

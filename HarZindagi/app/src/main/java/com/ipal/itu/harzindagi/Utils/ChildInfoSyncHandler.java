@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.ipal.itu.harzindagi.Utils.Constants.books;
 import static com.ipal.itu.harzindagi.Utils.Constants.checkOut;
 
 /**
@@ -166,6 +167,7 @@ public class ChildInfoSyncHandler {
                     public void onResponse(JSONObject response) {
                         int book_id = Integer.parseInt(kid.optString("book_id"));
                         String local_bookId = book_id + "";
+                        long kidID = 0;
                         if (response.optString("book_id", "0").equals(local_bookId)) {
 
                             List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
@@ -173,7 +175,7 @@ public class ChildInfoSyncHandler {
                             child.get(0).kid_id = response.optLong("id");
                             child.get(0).image_path = "image_" + child.get(0).kid_id;
                             child.get(0).save();
-                            long kidID = child.get(0).kid_id;
+                             kidID = child.get(0).kid_id;
 
                             renameFile(child.get(0).kid_name + child.get(0).epi_number, "image_" + kidID);
                             List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
@@ -195,9 +197,22 @@ public class ChildInfoSyncHandler {
                             }
                             nextUpload(true);
                         } else {
-                            Toast.makeText(context,
-                                    "book ID " + kid.optString("book_id") + "Response:" + response.optString("book_id"), Toast.LENGTH_LONG).show();
-                            nextUpload(false);
+                            List<Books> book = Books.getByBookId(book_id);
+                            if (book.size()>0){
+
+                                book.get(0).kid_id = kidID;
+                                book.get(0).book_number = book_id;
+                                book.get(0).save();
+                                nextUpload(true);
+                            }else{
+
+                                Toast.makeText(context,
+                                        "book ID " + kid.optString("book_id") + "Response:" + response.optString("book_id"), Toast.LENGTH_LONG).show();
+
+                                nextUpload(false);
+                            }
+
+
                         }
 
                     }
