@@ -136,9 +136,9 @@ public class ChildInfoSyncHandler {
                 // date.getTime();
                 kid.put("date_of_birth", (date.getTime() / 1000) + "");
             }
-            if(childInfo.location.equals(Constants.default_location)){
+            if (childInfo.location.equals(Constants.default_location)) {
                 kid.put("location", Constants.getLocationSync(context));
-            }else{
+            } else {
                 kid.put("location", childInfo.location);
             }
 
@@ -175,7 +175,7 @@ public class ChildInfoSyncHandler {
                             child.get(0).kid_id = response.optLong("id");
                             child.get(0).image_path = "image_" + child.get(0).kid_id;
                             child.get(0).save();
-                             kidID = child.get(0).kid_id;
+                            kidID = child.get(0).kid_id;
 
                             renameFile(child.get(0).kid_name + child.get(0).epi_number, "image_" + kidID);
                             List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
@@ -198,18 +198,21 @@ public class ChildInfoSyncHandler {
                             nextUpload(true);
                         } else {
                             List<Books> book = Books.getByBookId(book_id);
-                            if (book.size()>0){
+                            if (book.size() > 0) {
 
                                 book.get(0).kid_id = kidID;
                                 book.get(0).book_number = book_id;
                                 book.get(0).save();
                                 nextUpload(true);
-                            }else{
-
+                            } else {
+                                Books b = new Books();
+                                b.kid_id = kidID;
+                                b.book_number =book_id;
+                                b.save();
                                 Toast.makeText(context,
-                                        "book ID " + kid.optString("book_id") + "Response:" + response.optString("book_id"), Toast.LENGTH_LONG).show();
+                                        "book created ID: " + b.book_number, Toast.LENGTH_LONG).show();
 
-                                nextUpload(false);
+                                nextUpload(true);
                             }
 
 
@@ -220,7 +223,7 @@ public class ChildInfoSyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
                 nextUpload(false);
                 pDialog.hide();
             }
