@@ -21,76 +21,6 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="5dp">
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:visibility="gone">
-
-
-            <TextView
-                android:id="@+id/registerChildUCNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/registerChildUCNumber_TV"
-                android:gravity="center"
-                android:inputType="number"
-                android:nextFocusDown="@+id/registerChildEPICenterName"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-
-            <TextView
-                android:id="@+id/registerChildUCNumber_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="ای پی آئی نمبر"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/registerChildEPICenterName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/registerChildEPICenterName_TV"
-                android:layout_weight=".10"
-                android:gravity="center"
-                android:hint=""
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <TextView
-
-                android:id="@+id/registerChildEPICenterName_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="سینٹر کا نام"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-        </RelativeLayout>
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"
@@ -98,8 +28,8 @@
             >
 
             <EditText
-                android:id="@+id/registerChildName"
-                android:layout_width="@dimen/text_wed"
+                android:id="@+id/book_number_et"
+                android:layout_width="150dp"
                 android:layout_height="@dimen/text_he"
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="5dp"
@@ -108,10 +38,8 @@
                 android:layout_weight=".10"
                 android:background="@drawable/edit_text_border"
                 android:gravity="left|center"
-
                 android:hint=""
-
-                android:inputType="textCapWords"
+                android:inputType="number"
                 android:singleLine="true" />
 
             <TextView
@@ -127,216 +55,6 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-            android:visibility="gone"
-
-            >
-
-            <TextView
-                android:id="@+id/ChildGender"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/ChildGenderText"
-                android:layout_weight=".10"
-                android:gravity="center"
-                android:hint=""
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/ChildGenderText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="جنس"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-            android:visibility="gone"
-
-            >
-
-            <TextView
-                android:id="@+id/registerChildDOB"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_horizontal"
-                android:background="@android:color/transparent"
-                android:gravity="center|right"
-                android:paddingLeft="16dp"
-                android:singleLine="true"
-                android:text="تاریخ پیدائش"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <TextView
-
-                android:id="@+id/registerChildDOBText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="DD/MM/YYYY"
-                android:textColor="@android:color/black"
-                android:textSize="16dp" />
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-            android:visibility="gone"
-
-            >
-
-            <TextView
-                android:id="@+id/registerChildGuardianName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/registerChildGuardianName_TV"
-                android:layout_weight=".10"
-                android:gravity="center"
-
-                android:hint=""
-
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                android:textSize="20dp" />
-
-
-            <TextView
-
-                android:id="@+id/registerChildGuardianName_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="سرپرست کا نام"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-
-        </RelativeLayout>
-
-
-
-
-
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-            android:visibility="gone"
-
-            >
-
-            <TextView
-                android:id="@+id/registerChildMotherName"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/registerChildMotherName_TV"
-                android:layout_weight=".10"
-                android:gravity="center"
-                android:hint=""
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                android:textSize="20dp" />
-
-            <TextView
-
-                android:id="@+id/registerChildMotherName_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="والدہ کا نام"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-            android:visibility="gone"
-
-            >
-
-
-            <TextView
-                android:id="@+id/registerChildTown"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="علاقہ کانام"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/registerChildTown_ET"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/registerChildTown"
-                android:layout_toStartOf="@+id/registerChildTown"
-                android:gravity="center"
-                android:hint=""
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:textSize="20sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/textview_height"
-            android:visibility="gone">
-
-
-            <TextView
-                android:id="@+id/registerChildAddressTV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right|center_horizontal"
-                android:gravity="right|center"
-                android:text="گھر کا پتہ"
-                android:textColor="@android:color/black"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/registerChildAddress"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@+id/registerChildAddressTV"
-                android:layout_toStartOf="@+id/registerChildAddressTV"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-        </RelativeLayout>
 
         <Button
             android:id="@+id/registerEditChildRecord"

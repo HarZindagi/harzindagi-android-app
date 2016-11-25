@@ -2,6 +2,8 @@ package com.ipal.itu.harzindagi.Utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -12,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ipal.itu.harzindagi.Activities.EditBookActivity;
 import com.ipal.itu.harzindagi.Activities.LoginActivity;
 import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Entity.Books;
@@ -140,6 +143,13 @@ public class BooksSyncHandler {
                                         nextUpload(true);
                                     }
                                 }else {
+
+
+                                    Intent ii=new Intent(context,EditBookActivity.class);
+                                    ii.putExtra("kid_id",books.kid_id);
+                                    ii.putExtra("book_numr",books.book_number);
+                                    context.startActivity(ii);
+
                                  /*   List<Books> child = Books.getByBookId(books.book_number);
                                     if (child.size() != 0) {
                                         child.get(0).delete();

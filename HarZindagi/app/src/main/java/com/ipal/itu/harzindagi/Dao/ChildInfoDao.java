@@ -120,7 +120,7 @@ public class ChildInfoDao {
                 .orderBy("kid_name ASC")
                 .execute();
     }
-    public  List<ChildInfo> getByBookNum(String id) {
+    public static   List<ChildInfo> getByBookNum(String id) {
         return new Select()
                 .from(ChildInfo.class)
                 .where("book_id = ?", id)

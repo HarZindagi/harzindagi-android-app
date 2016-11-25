@@ -117,6 +117,10 @@
             android:label="معلومات تبدیل کریں"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Activities.EditBookActivity"
+            android:label="معلومات تبدیل کریں"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Activities.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
