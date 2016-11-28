@@ -12,6 +12,7 @@
     tools:context="com.ipal.itu.harzindagi.Activities.DashboardActivity"
     tools:showIn="@layout/activity_dashboard"
     android:orientation="vertical">
+
     <com.andexert.library.RippleView
         android:id="@+id/dashBoardActivityRegisterChildButtonR"
         rv_centered="true"

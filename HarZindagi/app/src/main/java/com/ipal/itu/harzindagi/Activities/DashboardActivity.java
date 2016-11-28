@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,6 +88,7 @@ public class DashboardActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText(getResources().getString(R.string.title_activity_dashboard));
+
         ((RippleView) findViewById(R.id.dashBoardActivityRegisterChildButtonR)).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
 
             @Override
@@ -564,7 +567,7 @@ public class DashboardActivity extends BaseActivity {
     private void showErrorDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
 
-        adb.setTitle("دوبارہ کوشش کریں");
+        adb.setTitle(Constants.getVersionName(DashboardActivity.this)+"v دوبارہ کوشش کریں ");
 
 
         adb.setIcon(R.drawable.info_circle);
