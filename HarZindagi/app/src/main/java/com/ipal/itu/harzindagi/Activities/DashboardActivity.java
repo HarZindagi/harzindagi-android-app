@@ -526,6 +526,10 @@ public class DashboardActivity extends BaseActivity {
                 if (location != null) {
                     pDialog.dismiss();
                     Constants.setLocationSync(DashboardActivity.this, location.getLatitude() + "," + location.getLatitude());
+                    if(Constants.getLocation(DashboardActivity.this).equals(Constants.default_location))
+                    {
+                        Constants.setLocation(DashboardActivity.this,location.getLatitude() + "," + location.getLatitude());
+                    }
                     DashboardActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -637,7 +641,9 @@ public class DashboardActivity extends BaseActivity {
             obj.put("user", user);
 
             kitStation.put("imei_number", Constants.getIMEI(this));
+
             kitStation.put("location", Constants.getLocation(this));
+
             kitStation.put("location_source", "gps");
             obj.put("time_source", "network");
             kitStation.put("image_path ", imagePath);
