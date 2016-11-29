@@ -164,7 +164,14 @@ public class UpdateChildInfoSyncHandler {
                         } else {
                             Toast.makeText(context,
                                     "book ID "+kid.optString("book_id")+"Response:"+response.optString("book_id"),Toast.LENGTH_LONG).show();
-                            nextUpload(false);
+
+                            List<ChildInfo> child = ChildInfoDao.getByKId(kid_id);
+                            if(child.size()>0) {
+                                child.get(0).book_id = response.optString("book_id");
+                                child.get(0).save();
+
+                            }
+                            nextUpload(true);
                         }
 
                     }
