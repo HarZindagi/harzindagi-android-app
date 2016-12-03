@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.ipal.itu.harzindagi.R.raw.error;
+
 /**
  * Created by Ali on 2/25/2016.
  */
@@ -109,7 +111,7 @@ public class UpdateChildInfoSyncHandler {
             kid.put("mother_cnic", "");
             kid.put("phone_number", childInfo.phone_number);
             kid.put("created_timestamp", childInfo.created_timestamp);
-            kid.put("location_source","gps" );
+            kid.put("location_source", "gps");
             kid.put("time_source", "network");
             Long tsLong = calendar.getTimeInMillis() / 1000;
             kid.put("upload_timestamp", tsLong);
@@ -120,9 +122,9 @@ public class UpdateChildInfoSyncHandler {
                 // date.getTime();
                 kid.put("date_of_birth", (date.getTime() / 1000) + "");
             }
-            if(childInfo.location.equals(Constants.default_location)){
+            if (childInfo.location.equals(Constants.default_location)) {
                 kid.put("location", Constants.getLocationSync(context));
-            }else{
+            } else {
                 kid.put("location", childInfo.location);
             }
 
@@ -131,9 +133,9 @@ public class UpdateChildInfoSyncHandler {
             kid.put("epi_number", childInfo.epi_number);
             kid.put("itu_epi_number", childInfo.epi_number + "_itu");
             kid.put("image_path", childInfo.image_path);
-            kid.put("next_due_date", childInfo.next_due_date/1000);
-            kid.put("next_visit_date", childInfo.next_visit_date/1000);
-            kid.put("vaccination_date", childInfo.vaccination_date/1000);
+            kid.put("next_due_date", childInfo.next_due_date / 1000);
+            kid.put("next_visit_date", childInfo.next_visit_date / 1000);
+            kid.put("vaccination_date", childInfo.vaccination_date / 1000);
 
             kid.put("book_id", childInfo.book_id);
 
@@ -143,7 +145,7 @@ public class UpdateChildInfoSyncHandler {
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
-       final long kid_id = childInfo.kid_id;
+        final long kid_id = childInfo.kid_id;
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, obj,
                 new Response.Listener<JSONObject>() {
@@ -153,23 +155,29 @@ public class UpdateChildInfoSyncHandler {
 
 
                         int book_id = Integer.parseInt(kid.optString("book_id"));
-                        String local_bookId = book_id+"";
-                        if (response.optString("book_id","0").equals(local_bookId)) {
+                        String local_bookId = book_id + "";
+                        if (response.optString("book_id", "0").equals(local_bookId)) {
 
 
                             List<UpdateChildInfo> child = UpdateChildInfo.getByKId(kid_id);
 
-                            child.get(0).delete();
+                            if (child.size() > 0) {
+                                child.get(0).delete();
+                            }
                             nextUpload(true);
                         } else {
                             Toast.makeText(context,
-                                    "book ID "+kid.optString("book_id")+"Response:"+response.optString("book_id"),Toast.LENGTH_LONG).show();
+                                    "book ID " + kid.optString("book_id") + "Response:" + response.optString("book_id"), Toast.LENGTH_LONG).show();
 
                             List<ChildInfo> child = ChildInfoDao.getByKId(kid_id);
-                            if(child.size()>0) {
+                            if (child.size() > 0) {
                                 child.get(0).book_id = response.optString("book_id");
                                 child.get(0).save();
+                            }
 
+                            List<UpdateChildInfo> childU = UpdateChildInfo.getByKId(kid_id);
+                            if (childU.size() > 0) {
+                                childU.get(0).delete();
                             }
                             nextUpload(true);
                         }
@@ -179,7 +187,7 @@ public class UpdateChildInfoSyncHandler {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,error.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
                 nextUpload(false);
                 pDialog.hide();
             }

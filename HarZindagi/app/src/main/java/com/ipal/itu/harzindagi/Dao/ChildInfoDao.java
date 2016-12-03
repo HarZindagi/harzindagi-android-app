@@ -99,7 +99,7 @@ public class ChildInfoDao {
         item.delete(ChildInfo.class, CID);
     }
 
-    public  List<ChildInfo> getAll() {
+    public static List<ChildInfo> getAll() {
         return new Select()
                 .from(ChildInfo.class)
                         //.where("ChildInfo = ?", childInfo.getId())

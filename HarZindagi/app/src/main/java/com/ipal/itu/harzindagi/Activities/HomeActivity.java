@@ -23,8 +23,10 @@ import com.androidquery.callback.LocationAjaxCallback;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.ipal.itu.harzindagi.Application.HarZindagiApp;
+import com.ipal.itu.harzindagi.Dao.ChildInfoDao;
 import com.ipal.itu.harzindagi.Dao.KidVaccinationDao;
 import com.ipal.itu.harzindagi.Entity.CheckIn;
+import com.ipal.itu.harzindagi.Entity.ChildInfo;
 import com.ipal.itu.harzindagi.Entity.KidVaccinations;
 import com.ipal.itu.harzindagi.R;
 import com.ipal.itu.harzindagi.Utils.Constants;
@@ -33,6 +35,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.ipal.itu.harzindagi.R.id.homeActivityHarZindagiButtonR;
 
@@ -85,6 +89,17 @@ public class HomeActivity extends BaseActivity {
             }
 
         });
+
+     /*   List<ChildInfo> list = ChildInfoDao.getAll();
+        HashMap<String,String> mHashMap = new HashMap<>();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i <list.size() ; i++) {
+             if( mHashMap.get(list.get(i).kid_id+"")!=null){
+                 stringBuilder.append(","+list.get(i).kid_id+":"+list.get(i).book_id);
+             }
+            mHashMap.put(list.get(i).kid_id+"",list.get(i).kid_id+"");
+        }
+        Toast.makeText(this,"Duplicate IDs: "+stringBuilder.toString(),Toast.LENGTH_LONG).show();*/
     }
 
     private void getLocation() {
