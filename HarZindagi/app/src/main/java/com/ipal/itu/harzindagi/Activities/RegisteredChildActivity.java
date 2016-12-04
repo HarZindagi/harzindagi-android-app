@@ -221,20 +221,21 @@ public class RegisteredChildActivity extends BaseActivity {
                 intent.putExtra("phone", data.get(0).phone_number);
                 intent.putExtras(bnd);
                 startActivity(intent);
-                finish();
                 activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
                 Constants.logTime(RegisteredChildActivity.this, activityTime, Constants.GaEvent.REGISTERED_TOTAL_TIME);
+                finish();
             }
         });
 
         final List<ChildInfo> data = ChildInfoDao.getByKId(childID);
-        childPic.setOnClickListener(new View.OnClickListener() {
+   /*     childPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(data.size()>0)
                 Toast.makeText(RegisteredChildActivity.this, "No Record Found, Child ID" + data.get(0).kid_id + "Bundle Id :" + childID + "mobile_id" + data.get(0).mobile_id, Toast.LENGTH_LONG).show();
             }
-        });
-        if (data != null) {
+        });*/
+        if (data != null && data.size()>0) {
             ChildEPINumber.setText("" + data.get(0).epi_number);
             ChildBookNumberText.setText("" + data.get(0).book_id);
             childName.setText("" + data.get(0).kid_name);
@@ -256,7 +257,8 @@ public class RegisteredChildActivity extends BaseActivity {
             childPic.setImageBitmap(bmp_read);
         } else {
 
-            Toast.makeText(this, "No Record Found", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Record Found! Kid ID:"+childID, Toast.LENGTH_LONG).show();
+            finish();
 
         }
 
