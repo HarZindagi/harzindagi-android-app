@@ -1,8 +1,5 @@
 package com.ipal.itu.harzindagi.Adapters;
 
-/**
- * Created by Wahab on 2/17/2016.
- */
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
