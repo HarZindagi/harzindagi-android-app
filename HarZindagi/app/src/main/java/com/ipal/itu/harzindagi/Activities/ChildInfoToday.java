@@ -103,7 +103,7 @@ public class ChildInfoToday extends BaseActivity {
         list.setLayoutParams(params);
         list.requestLayout();
         if(visitNumber<6) {
-            adapter = new CustomListAdapter(this, obj.vaccinfo, visitNumber);
+            adapter = new CustomListAdapter(this, obj.vaccinfo, visitNumber,false);
             list.setAdapter(adapter);
 
         }else{

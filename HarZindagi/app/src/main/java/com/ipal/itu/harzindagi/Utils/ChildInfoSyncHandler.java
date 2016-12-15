@@ -103,146 +103,167 @@ public class ChildInfoSyncHandler {
     }
 
     private void sendChildData(final ChildInfo childInfo) {
-        final long oldKidID = childInfo.kid_id;
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Constants.kids;
+        if(childInfo.kid_id!=null) {
+            final long oldKidID = childInfo.kid_id;
+            RequestQueue queue = Volley.newRequestQueue(context);
+            String url = Constants.kids;
 
-        JSONObject obj = null;
-        final JSONObject kid = new JSONObject();
-        try {
-            obj = new JSONObject();
-            JSONObject user = new JSONObject();
-            user.put("auth_token", Constants.getToken(context));
-            obj.put("user", user);
+            JSONObject obj = null;
+            final JSONObject kid = new JSONObject();
+            try {
+                obj = new JSONObject();
+                JSONObject user = new JSONObject();
+                user.put("auth_token", Constants.getToken(context));
+                obj.put("user", user);
 
 
-            kid.put("mobile_id", childInfo.kid_id);
-            kid.put("imei_number", childInfo.imei_number);
-            kid.put("kid_name", childInfo.kid_name);
-            kid.put("father_name", childInfo.guardian_name);
-            kid.put("mother_name", childInfo.mother_name);
-            kid.put("father_cnic", childInfo.guardian_cnic);
-            kid.put("mother_cnic", "");
-            kid.put("phone_number", childInfo.phone_number);
-            kid.put("created_timestamp", childInfo.created_timestamp);
-            kid.put("location_source", "gps");
-            kid.put("time_source", "network");
-            Long tsLong = calendar.getTimeInMillis() / 1000;
-            kid.put("upload_timestamp", tsLong);
-            DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-            if (childInfo.date_of_birth != null) {
-                Date date = dfm.parse(childInfo.date_of_birth);
-                dfm.getCalendar().setTime(date);
-                // date.getTime();
-                kid.put("date_of_birth", (date.getTime() / 1000) + "");
+                kid.put("mobile_id", childInfo.kid_id);
+                kid.put("imei_number", childInfo.imei_number);
+                kid.put("kid_name", childInfo.kid_name);
+                kid.put("father_name", childInfo.guardian_name);
+                kid.put("mother_name", childInfo.mother_name);
+                kid.put("father_cnic", childInfo.guardian_cnic);
+                kid.put("mother_cnic", "");
+                kid.put("phone_number", childInfo.phone_number);
+                kid.put("created_timestamp", childInfo.created_timestamp);
+                kid.put("location_source", "gps");
+                kid.put("time_source", "network");
+                Long tsLong = calendar.getTimeInMillis() / 1000;
+                kid.put("upload_timestamp", tsLong);
+                DateFormat dfm = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+                if (childInfo.date_of_birth != null) {
+                    Date date = dfm.parse(childInfo.date_of_birth);
+                    dfm.getCalendar().setTime(date);
+                    // date.getTime();
+                    kid.put("date_of_birth", (date.getTime() / 1000) + "");
+                }
+                if (childInfo.location.equals(Constants.default_location)) {
+                    kid.put("location", Constants.getLocationSync(context));
+                } else {
+                    kid.put("location", childInfo.location);
+                }
+
+                kid.put("child_address", childInfo.child_address);
+                kid.put("gender", childInfo.gender);
+                kid.put("epi_number", childInfo.epi_number);
+                kid.put("itu_epi_number", childInfo.epi_number + "_itu");
+                kid.put("image_path", childInfo.image_path);
+                kid.put("next_due_date", childInfo.next_due_date / 1000);
+                kid.put("next_visit_date", childInfo.next_visit_date / 1000);
+                kid.put("vaccination_date", childInfo.vaccination_date / 1000);
+
+                kid.put("book_id", childInfo.book_id);
+
+
+                obj.put("kid", kid);
+
+            } catch (JSONException | ParseException e) {
+                e.printStackTrace();
             }
-            if (childInfo.location.equals(Constants.default_location)) {
-                kid.put("location", Constants.getLocationSync(context));
-            } else {
-                kid.put("location", childInfo.location);
-            }
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    url, obj,
+                    new Response.Listener<JSONObject>() {
 
-            kid.put("child_address", childInfo.child_address);
-            kid.put("gender", childInfo.gender);
-            kid.put("epi_number", childInfo.epi_number);
-            kid.put("itu_epi_number", childInfo.epi_number + "_itu");
-            kid.put("image_path", childInfo.image_path);
-            kid.put("next_due_date", childInfo.next_due_date / 1000);
-            kid.put("next_visit_date", childInfo.next_visit_date / 1000);
-            kid.put("vaccination_date", childInfo.vaccination_date / 1000);
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            int book_id = Integer.parseInt(kid.optString("book_id"));
+                            String local_bookId = book_id + "";
+                            long kidID = 0;
+                            if (response.optString("book_id", "0").equals(local_bookId)) {
 
-            kid.put("book_id", childInfo.book_id);
+                                List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
+                                child.get(0).record_update_flag = true;
+                                child.get(0).kid_id = response.optLong("id");
+                                child.get(0).image_path = "image_" + child.get(0).kid_id;
+                                child.get(0).save();
+                                kidID = child.get(0).kid_id;
 
+                                renameFile(child.get(0).kid_name + child.get(0).epi_number, "image_" + kidID);
+                                List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
+                                for (int i = 0; i < kidVaccines.size(); i++) {
+                                    kidVaccines.get(i).kid_id = kidID;
+                                    kidVaccines.get(i).save();
+                                }
+                                List<Books> book = Books.getByBookId(book_id);
+                                if (book.size() > 0) {
+                                    book.get(0).kid_id = kidID;
+                                    book.get(0).book_number = book_id;
+                                    book.get(0).save();
 
-            obj.put("kid", kid);
-
-        } catch (JSONException | ParseException e) {
-            e.printStackTrace();
-        }
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, obj,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        int book_id = Integer.parseInt(kid.optString("book_id"));
-                        String local_bookId = book_id + "";
-                        long kidID = 0;
-                        if (response.optString("book_id", "0").equals(local_bookId)) {
-
-                            List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
-                            child.get(0).record_update_flag = true;
-                            child.get(0).kid_id = response.optLong("id");
-                            child.get(0).image_path = "image_" + child.get(0).kid_id;
-                            child.get(0).save();
-                            kidID = child.get(0).kid_id;
-
-                            renameFile(child.get(0).kid_name + child.get(0).epi_number, "image_" + kidID);
-                            List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
-                            for (int i = 0; i < kidVaccines.size(); i++) {
-                                kidVaccines.get(i).kid_id = kidID;
-                                kidVaccines.get(i).save();
-                            }
-                            List<Books> book = Books.getByBookId(book_id);
-                            if (book.size() > 0) {
-                                book.get(0).kid_id = kidID;
-                                book.get(0).book_number = book_id;
-                                book.get(0).save();
-
-                            } else {
-                                Books books = new Books();
-                                books.kid_id = kidID;
-                                books.book_number = book_id;
-                                books.save();
-                            }
-                            nextUpload(true);
-                        } else {
-                            List<Books> book = Books.getByBookId(book_id);
-                            if (book.size() > 0) {
-
-                                book.get(0).kid_id = kidID;
-                                book.get(0).book_number = book_id;
-                                book.get(0).save();
+                                } else {
+                                    Books books = new Books();
+                                    books.kid_id = kidID;
+                                    books.book_number = book_id;
+                                    books.save();
+                                }
                                 nextUpload(true);
                             } else {
-                                Books b = new Books();
-                                b.kid_id = kidID;
-                                b.book_number =book_id;
-                                b.save();
-                                Toast.makeText(context,
-                                        "book created ID: " + b.book_number, Toast.LENGTH_LONG).show();
+                                kidID  = response.optLong("id");
+                                List<Books> book = Books.getByBookId(book_id);
+                                if (book.size() > 0) {
 
-                                nextUpload(true);
+                                    book.get(0).kid_id = kidID;
+                                    book.get(0).book_number = book_id;
+                                    book.get(0).save();
+                                    nextUpload(true);
+                                } else {
+                                    Books b = new Books();
+                                    b.kid_id = kidID;
+                                    b.book_number = book_id;
+                                    b.save();
+                                    Toast.makeText(context,
+                                            "book created ID: " + b.book_number, Toast.LENGTH_LONG).show();
+
+                                    nextUpload(true);
+                                }
+
+                                List<ChildInfo> child = ChildInfoDao.getByKId(childInfo.kid_id);
+
+                                if(child.size()>0) {
+                                    child.get(0).record_update_flag = true;
+                                    child.get(0).kid_id = kidID;
+                                    child.get(0).image_path = "image_" + child.get(0).kid_id;
+                                    child.get(0).save();
+                                    renameFile(child.get(0).kid_name + child.get(0).epi_number, "image_" +kidID);
+                                }
+
+
+                                List<KidVaccinations> kidVaccines = KidVaccinationDao.getById(oldKidID);
+                                for (int i = 0; i < kidVaccines.size(); i++) {
+                                    kidVaccines.get(i).kid_id = kidID;
+                                    kidVaccines.get(i).save();
+                                }
                             }
-
 
                         }
+                    }, new Response.ErrorListener() {
 
-                    }
-                }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                    nextUpload(false);
+                    pDialog.hide();
+                }
+            }) {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
-                nextUpload(false);
-                pDialog.hide();
-            }
-        }) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
-            }
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Accept", "application/json");
+                    return headers;
+                }
 
 
-        };
-        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
-                LoginActivity.MAX_RETRY,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        queue.add(jsonObjReq);
+            };
+            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(10000,
+                    LoginActivity.MAX_RETRY,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            queue.add(jsonObjReq);
+        }else{
+            Toast.makeText(context, "Kid ID noy Found : Name "+childInfo.kid_name , Toast.LENGTH_LONG).show();
+            nextUpload(true);
+        }
     }
 
     public void renameFile(String oldName, String newName) {

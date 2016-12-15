@@ -20,7 +20,65 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="5dp">
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ChildPic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height">
 
+            <TextView
+                android:id="@+id/ChildEPINumber"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:text="ای پی ائی نمبر"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/ChildEpiNumberText"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:background="@drawable/border_black"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="103"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height">
+
+            <TextView
+                android:id="@+id/ChildNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:text="بچے کا نام"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/ChildName"
+                android:layout_width="@dimen/text_wed"
+                android:layout_height="@dimen/text_he"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+
+                android:text="Asad"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+        </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/textview_height"

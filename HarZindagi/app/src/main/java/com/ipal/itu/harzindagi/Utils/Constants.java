@@ -300,7 +300,7 @@ public class Constants {
             e.printStackTrace();
         }
 
-        int[] Arry = {0, 42, 28, 28, 154, 168, 36000};  // should better be made dynamic input through Database.
+        int[] Arry = {0, 42, 28, 28, 270, 450, 36000};  // should better be made dynamic input through Database.
         Calendar current = Calendar.getInstance();
         long differance = current.getTimeInMillis() - dateOfBirth.getTime();
         long days = differance / (24 * 60 * 60 * 1000);
