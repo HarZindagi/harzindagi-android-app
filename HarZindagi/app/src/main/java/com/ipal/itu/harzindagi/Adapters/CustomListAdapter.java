@@ -29,10 +29,15 @@ public class CustomListAdapter extends BaseAdapter {
             R.color.e_color,R.color.f_color},{ R.color.b_color, R.color.d_color, R.color.b_color, R.color.g_color},{ R.color.h_color},{ R.color.h_color}};
 
     int visit_numbr;
-    public CustomListAdapter(Activity context, ArrayList<VaccineInfo> vaccinfo,int visit_numbr) {
+    boolean from_visit_list;
+    public CustomListAdapter(Activity context, ArrayList<VaccineInfo> vaccinfo,int visit_numbr,boolean from_visit_list) {
         mcontext = context;
         this.vaccinfo= vaccinfo;
         this.visit_numbr=visit_numbr;
+       if(!from_visit_list){
+           this.visit_numbr = visit_numbr-1;
+       }
+
     }
 
     @Override
@@ -56,6 +61,7 @@ public class CustomListAdapter extends BaseAdapter {
         ViewHolder holder = null;
 
         if (row == null) {
+
             LayoutInflater inflater = (LayoutInflater) mcontext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.listview_item_layout, parent, false);

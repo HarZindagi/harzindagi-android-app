@@ -18,9 +18,28 @@ public class ChildInfoDao {
         item.setChildInfo(book_id,childID, name, gender, dob, motherName, guardianName, CNIC, phoneNum, createdTime, Location, EpiName, kidStation, imageName, nfcNumber, bookFlag, recordFlag, address, imei,due_date,next_visit_date);
         item.save(); // to get system generated id we have to save it first
         List<ChildInfo> items = getAllDesc();
-        if(items.size()>0) {
-            item.kid_id = items.get(0).kid_id + 10000000;
-            item.mobile_id = item.kid_id;
+        if(items.size()>1) {
+            try {
+                item.kid_id = items.get(0).kid_id + 10000000;
+                item.mobile_id = item.kid_id;
+            }catch (NullPointerException e){
+                if(items.size()>1) {
+                    item.kid_id = items.get(1).kid_id + 11000000;
+                    item.mobile_id = item.kid_id;
+                }
+            }
+
+        }
+        else if(items.size()==1 && items.get(0).kid_id==null){
+            try {
+                item.kid_id =  10000000l;
+                item.mobile_id = item.kid_id;
+            }catch (NullPointerException e){
+                if(items.size()>1) {
+                    item.kid_id = items.get(1).kid_id + 11000000;
+                    item.mobile_id = item.kid_id;
+                }
+            }
         }else{
             item.kid_id =  10000000l;
             item.mobile_id = item.kid_id;

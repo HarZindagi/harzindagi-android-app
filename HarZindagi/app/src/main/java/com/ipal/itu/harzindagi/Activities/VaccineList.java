@@ -104,7 +104,7 @@ public class VaccineList extends BaseActivity {
 
 
         list = (ListView) findViewById(R.id.vacc_list);
-        adapter = new CustomListAdapter(this, obj.vaccinfo,visitNumber);
+        adapter = new CustomListAdapter(this, obj.vaccinfo,visitNumber,true);
         list.setAdapter(adapter);
     }
 }

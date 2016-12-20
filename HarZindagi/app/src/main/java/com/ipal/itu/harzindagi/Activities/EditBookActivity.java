@@ -3,6 +3,8 @@ package com.ipal.itu.harzindagi.Activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -31,6 +33,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.media.CamcorderProfile.get;
+import static com.ipal.itu.harzindagi.R.id.ChildEPINumber;
+
 /**
  * Created by IPAL on 4/7/2016.
  */
@@ -52,6 +59,9 @@ public class EditBookActivity extends BaseActivity {
     private View popUpView;
     TextView toolbar_title;
     long activityTime;
+    private CircleImageView childPic;
+    private TextView childName;
+    private TextView  ChildEPINumber;
 
     private void createContexMenu() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -74,14 +84,25 @@ public class EditBookActivity extends BaseActivity {
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("معلومات تبدیل کریں");
         app_name = getResources().getString(R.string.app_name);
-
-
+        childPic = (CircleImageView) findViewById(R.id.ChildPic);
+        childName = (TextView) findViewById(R.id.ChildName);
+        ChildEPINumber = (TextView) findViewById(R.id.ChildEpiNumberText);
         final Bundle bundle = getIntent().getExtras();
         old_book_numbr = bundle.getInt("book_numr");
         kid_id=bundle.getLong("kid_id");
         book_number_ed = (EditText) findViewById(R.id.book_number_et);
 
         registerEditChildRecord = (Button) findViewById(R.id.registerEditChildRecord);
+
+        List<ChildInfo> childInfo = ChildInfoDao.getByKIdAndIMEI(kid_id, Constants.getIMEI(EditBookActivity.this));
+        if(childInfo.size()>0){
+            childName.setText( childInfo.get(0).kid_name);
+            ChildEPINumber.setText(childInfo.get(0).epi_number);
+            String imagePath = "/sdcard/" + app_name + "/" + childInfo.get(0).image_path + ".jpg";
+            Bitmap bmp_read = BitmapFactory.decodeFile(imagePath);
+            childPic.setImageBitmap(bmp_read);
+        }
+
         registerEditChildRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
