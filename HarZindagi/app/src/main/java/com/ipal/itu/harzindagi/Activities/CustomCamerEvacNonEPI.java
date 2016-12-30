@@ -22,8 +22,10 @@ import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
@@ -50,7 +52,8 @@ public class CustomCamerEvacNonEPI extends BaseActivity implements SurfaceHolder
     Paint p;
     String fpath;
     ImageView CropImageView, captureButton;
-
+    private Camera.Parameters params;
+    ToggleButton torch_light;
     Context ctx;
     Bundle bundle;
     FaceDetector detector;
@@ -85,6 +88,8 @@ public class CustomCamerEvacNonEPI extends BaseActivity implements SurfaceHolder
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_camera_layout);
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
+        torch_light=(ToggleButton) findViewById(R.id.torch_light);
+
         surfaceHolder = preview.getHolder();
         surfaceHolder.addCallback(this);
         app_name = getResources().getString(R.string.app_name);
@@ -121,7 +126,24 @@ public class CustomCamerEvacNonEPI extends BaseActivity implements SurfaceHolder
         });
 
         CropImageView = (ImageView) findViewById(R.id.CropImageView);
+        torch_light.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    params = mCamera.getParameters();
+                    params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
+                    mCamera.setParameters(params);
+                    // mCamera.startPreview();
 
+                } else {
+                    params = mCamera.getParameters();
+                    params.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
+                    mCamera.setParameters(params);
+                    // mCamera.stopPreview();
+                }
+
+            }
+        });
     }
 
     private void getCameraInstance() {
