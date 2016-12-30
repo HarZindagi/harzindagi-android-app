@@ -23,8 +23,8 @@ android {
         applicationId "com.itu.ipal.harzindagi"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 72
-        versionName "7.2"
+        versionCode 73
+        versionName "7.3"
     }
     buildTypes {
         release {

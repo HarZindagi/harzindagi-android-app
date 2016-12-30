@@ -224,6 +224,7 @@ public class CardScanWriteVaccine extends BaseActivity {
             childInfo.get(0).next_due_date = date.getTime();
             childInfo.get(0).vaccination_date =getTodayDate();
             childInfo.get(0).next_visit_date = date.getTime()+((long)(86400000)*28);
+            childInfo.get(0).record_update_flag = false;
             childInfo.get(0).save();
         } catch (ParseException e) {
             e.printStackTrace();
