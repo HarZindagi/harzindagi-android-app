@@ -538,9 +538,17 @@ public class DashboardActivity extends BaseActivity {
                     });
 
                 } else {
-                    pDialog.dismiss();
-                    Toast.makeText(DashboardActivity.this, "Location Not Found!", Toast.LENGTH_LONG).show();
-                    showErrorDialog();
+
+
+                    DashboardActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pDialog.dismiss();
+                            Toast.makeText(DashboardActivity.this, "Location Not Found! - Set GPS to High Accuracy", Toast.LENGTH_LONG).show();
+                            showErrorDialog();
+                        }
+                    });
+
                 }
             }
         };

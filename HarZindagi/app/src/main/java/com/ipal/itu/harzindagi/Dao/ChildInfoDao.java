@@ -8,6 +8,8 @@ import com.ipal.itu.harzindagi.Entity.ChildInfoDelete;
 
 import java.util.List;
 
+import static com.ipal.itu.harzindagi.R.id.item;
+
 /**
  * Created by Ali on 1/14/2016.
  */
@@ -23,10 +25,10 @@ public class ChildInfoDao {
                 item.kid_id = items.get(0).kid_id + 10000000;
                 item.mobile_id = item.kid_id;
             }catch (NullPointerException e){
-                if(items.size()>1) {
-                    item.kid_id = items.get(1).kid_id + 11000000;
+
+                    item.kid_id =  11000000l;
                     item.mobile_id = item.kid_id;
-                }
+
             }
 
         }
@@ -35,10 +37,10 @@ public class ChildInfoDao {
                 item.kid_id =  10000000l;
                 item.mobile_id = item.kid_id;
             }catch (NullPointerException e){
-                if(items.size()>1) {
-                    item.kid_id = items.get(1).kid_id + 11000000;
+
+                    item.kid_id = 11000000l;
                     item.mobile_id = item.kid_id;
-                }
+
             }
         }else{
             item.kid_id =  10000000l;
