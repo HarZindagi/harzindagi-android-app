@@ -1,0 +1,13 @@
+<resources>
+  <string name="action_settings">Instellings</string>
+  <string name="action_reset_card">Terugstel kaart</string>
+  <string name="action_share">Deel</string>
+  <string name="action_reply">Antwoord</string>
+  <string name="selectModule">Kies jou verlangde Module</string>
+  <string name="title_activity_register_child">Kind registreer</string>
+  <string name="ok">Oukei</string>
+  <string-array name="non_epi_array">
+    <item>بچے کا مقام منتخب کریں</item>
+    <item>مہمان کانام</item>
+  </string-array>
+</resources>

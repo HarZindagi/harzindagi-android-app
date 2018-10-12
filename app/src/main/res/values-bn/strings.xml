@@ -1,0 +1,16 @@
+<resources>
+  <string name="action_settings">সেটিংস</string>
+  <string name="action_reset_card">কার্ড রিসেট করুন</string>
+  <string name="title_activity_splash">হর জিন্দেগী</string>
+  <string name="no_record">ان معلومات کےمطابق ریکارڈ موجود نہیں ہے</string>
+  <string name="evac">আমাদের ইভ্যাকুয়েশন</string>
+  <string name="action_share">শেয়ার</string>
+  <string name="action_reply">উত্তর</string>
+  <string name="selectModule">বেছে নিন আপনার কাঙ্খিত মডিউল</string>
+  <string name="title_activity_register_child">শিশু রেজিস্টার করুন</string>
+  <string name="ok">ঠিক আছে</string>
+  <string-array name="non_epi_array">
+    <item>بچے کا مقام منتخب کریں</item>
+    <item>مہمان کانام</item>
+  </string-array>
+</resources>

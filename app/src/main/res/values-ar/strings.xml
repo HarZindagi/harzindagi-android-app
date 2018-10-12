@@ -1,0 +1,27 @@
+<resources>
+  <string name="action_settings">إعدادات</string>
+  <string name="action_app_refresh">أپ ڈیٹ کریں</string>
+  <string name="action_reset_card">إعادة تعيين البطاقة</string>
+  <string name="action_sync_text">أپ لوڈکریں</string>
+  <string name="title_activity_splash">زينداجي هار</string>
+  <string name="no_record">"أن مجلة کےمطابق ریکارڈ موجود نہیں ہے"</string>
+  <string name="evacnonepi">افاكنونيبي</string>
+  <string name="action_share">حصة</string>
+  <string name="action_reply">الرد</string>
+  <string name="loginValidation">براہ مہربانی درست یوزر کا نام أور پاسورڈ کا انتخاب کریں۔</string>
+  <string name="selectModule">حدد الوحدة النمطية الخاصة بك المرجوة</string>
+  <string name="title_activity_register_child">تسجيل الأطفال</string>
+  <string name="ok">موافق</string>
+  <string-array name="non_epi_array">
+    <item>بچے کا مقام منتخب کریں</item>
+    <item>مہمان کانام</item>
+  </string-array>
+  <string name="six_huftay">بعد 6 ہفتے</string>
+  <string name="ten_huftay">بعد 10 ہفتے</string>
+  <string name="fourtheen_huftay">بعد 14 ہفتے</string>
+  <string name="nine_month_baad">بعد 9 ماہ</string>
+  <string name="fifteen_month_baad">بعد 15 ماہ</string>
+  <string name="title_activity_custom_camer_evac">كوستومكاميريفاك</string>
+  <string name="title_activity_custom_camer_evac_non_epi">كوستومكاميريفاكنونيبي</string>
+  <string name="title_activity_base">باسيكتيفيتي</string>
+</resources>

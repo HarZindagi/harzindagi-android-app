@@ -1,0 +1,14 @@
+<resources>
+  <string name="action_settings">Configuració</string>
+  <string name="action_reset_card">Restablir la targeta</string>
+  <string name="action_share">Compartir</string>
+  <string name="action_reply">Resposta</string>
+  <string name="selectModule">Seleccioneu el mòdul desitjat</string>
+  <string name="title_activity_register_child">Registrar el nen</string>
+  <string name="ok">Correcte</string>
+  <string-array name="non_epi_array">
+    <item>بچے کا مقام منتخب کریں</item>
+    <item>مہمان کانام</item>
+  </string-array>
+  <string name="six_huftay">بعد 6 ہفتے</string>
+</resources>

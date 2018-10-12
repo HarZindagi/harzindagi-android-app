@@ -1,0 +1,14 @@
+<resources>
+  <string name="action_settings">Настройки</string>
+  <string name="action_reset_card">Проучване карта</string>
+  <string name="title_activity_splash">Хар Zindagi</string>
+  <string name="evac">Изтегляй</string>
+  <string name="action_share">Дял</string>
+  <string name="action_reply">Отговор</string>
+  <string name="selectModule">Изберете желания модул</string>
+  <string name="title_activity_register_child">Регистър дете</string>
+  <string-array name="non_epi_array">
+    <item>بچے کا مقام منتخب کریں</item>
+    <item>مہمان کانام</item>
+  </string-array>
+</resources>

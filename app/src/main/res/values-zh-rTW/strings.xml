@@ -1,0 +1,33 @@
+<resources>
+  <string name="action_settings">設置</string>
+  <string name="action_logout">چیکآؤٹ</string>
+  <string name="edid_data">ترمیمڈیٹا</string>
+  <string name="action_app_refresh">اپڈیٹکریں</string>
+  <string name="action_reset_card">重置卡</string>
+  <string name="action_sync_text">اپلوڈکریں</string>
+  <string name="action_download_text">ڈاونلوڈڈیٹا</string>
+  <string name="title_activity_splash">Zindagi</string>
+  <string name="no_record">"انمعلوماتکےمطابقریکارڈموجودنہیںہے"</string>
+  <string name="evac">撤離</string>
+  <string name="action_share">共用</string>
+  <string name="action_reply">答覆</string>
+  <string name="unionCouncil">یونینکونسل</string>
+  <string name="loginValidation">براہمہربانیدرستیوزرکاناماورپاسورڈکاانتخابکریں۔</string>
+  <string name="selectModule">選擇所需的模組</string>
+  <string name="title_activity_dashboard">ڈیشبورڈ</string>
+  <string name="title_activity_search">گمشدہکارڈ</string>
+  <string name="title_activity_register_child">註冊子項</string>
+  <string name="ok">還行</string>
+  <string-array name="non_epi_array">
+    <item>بچے کا مقام منتخب کریں</item>
+    <item>مہمان کانام</item>
+  </string-array>
+  <string name="padaish_forun_baad">پیدائشکےفوراًبعد</string>
+  <string name="six_huftay">6ہفتےبعد</string>
+  <string name="ten_huftay">10ہفتےبعد</string>
+  <string name="fourtheen_huftay">14ہفتےبعد</string>
+  <string name="nine_month_baad">9ماہبعد</string>
+  <string name="fifteen_month_baad">15ماہبعد</string>
+  <string name="search_two">تلاشکادوسراطریقہ</string>
+  <string name="search_one">تلاشکاپہلاطریقہ</string>
+</resources>
