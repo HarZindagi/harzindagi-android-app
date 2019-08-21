@@ -16,6 +16,9 @@ import com.ipal.itu.harzindagi.R;
 import java.io.File;
 
 public class Evaccs extends BaseActivity {
+
+    //This is EVACC dashboard
+
     String app_name;
     String Evac;
     String EvacNonEpi;
@@ -43,6 +46,10 @@ public class Evaccs extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evacss_layout);
+
+        //This is Evacc Home
+        // Two option EvacsEPI , EvacsNonEPI , Evaccs all kids Records
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

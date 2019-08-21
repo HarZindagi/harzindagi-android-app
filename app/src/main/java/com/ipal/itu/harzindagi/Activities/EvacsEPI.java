@@ -32,6 +32,9 @@ import java.util.Calendar;
 
 
 public class EvacsEPI extends BaseActivity {
+
+    //This is EvacsEPI registration screen
+
     private static final int CAMERA_REQUEST = 1888;
     FileOutputStream fo;
     String Fpath;

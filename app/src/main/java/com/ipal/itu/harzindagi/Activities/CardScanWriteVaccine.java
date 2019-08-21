@@ -55,6 +55,7 @@ import java.util.Map;
 
 public class CardScanWriteVaccine extends BaseActivity {
 
+    // This screen is to save Vaccination info on nfc card.
 
     Tag mytag;
     String push_NFC;

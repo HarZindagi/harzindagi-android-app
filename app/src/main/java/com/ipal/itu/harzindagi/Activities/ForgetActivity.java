@@ -15,6 +15,8 @@ import com.ipal.itu.harzindagi.R;
 
 public class ForgetActivity extends BaseActivity {
 
+    // Forgot password activity
+
     Button evaccsButton;
     Button harZindagiButton;
 

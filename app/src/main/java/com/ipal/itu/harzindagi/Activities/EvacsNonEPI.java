@@ -35,6 +35,9 @@ import java.util.Date;
 import static com.ipal.itu.harzindagi.R.id.img_cam;
 
 public class EvacsNonEPI extends BaseActivity {
+
+    //This is EvacsNonEPI registration screen
+
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
     EditText Non_Epi_reg_num_txt, Non_Epi_reg_cnic_txt, Non_Epi_phone_num_txt, Non_Epi_number_txt, Non_Epi_adress_txt, Non_Epi_birth_place_txt;

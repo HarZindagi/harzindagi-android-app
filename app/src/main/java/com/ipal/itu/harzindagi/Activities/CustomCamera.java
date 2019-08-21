@@ -40,6 +40,11 @@ import java.util.List;
  * Created by Wahab on 2/3/2016.
  */
 public class CustomCamera extends BaseActivity implements SurfaceHolder.Callback {
+
+    // This is custom camera screen to take kid picture.
+    // The purpose of making custom camera is to detect face , otherwise picture not accept
+    // Or after taking pic 2 options given retake pic aur save.
+
     public ProgressDialog progress;
     SurfaceHolder surfaceHolder;
     File mediaFile;

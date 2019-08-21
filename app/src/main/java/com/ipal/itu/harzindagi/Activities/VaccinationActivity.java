@@ -32,6 +32,16 @@ import java.util.List;
 
 public class VaccinationActivity extends BaseActivity {
 
+    // This is vaccination screen
+    // Vaccination course are divided into 6 sections, Every section has some vaccine.
+    // Vaccinator click vaccine which vaccinate to kid , take pic of kid again and again scan the NFC card to write data on NFC card.
+    // Every time when kid came back for vaccination , vaccinator scan card it take to that screen vaccination the kid take pic of kid write data on NFC card that it.
+    // When card scan it take vaccinator to specific section of vaccination which is vaccinate this time.
+    // After this there is a screen VaccineList ..which tell about detail of kid vaccination which is vaccinate and next visit date.
+
+
+
+
     public static final int CAMERA_REQUEST = 1888;
 
     public String fpath;

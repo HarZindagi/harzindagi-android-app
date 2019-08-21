@@ -61,6 +61,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class RegisterChildActivity extends BaseActivity implements View.OnFocusChangeListener {
+
+    // Enter All the basic info about kid, like name ,  father name , Guardians phone Number , Date of Birth , EPI number etc
+    // After entering all save data take kid picture
+    // card screen open after taking kid pic.
+    // we have a nfc chip which save all the record of kid
+    // On card screen take NFC chip near to mobile (be sure your mobile is nfc supported)
+    // NFC chip are in kid record book which is given to parent , it help when parents came back next time jxt scan that NFC book all information about kid infront of us.
+    // There is a option scan card On HarZindagi Home is basically for this purpose
+    // After all this goes to registered Screen to confirm kid are now register.
+
+
     private static final int CAMERA_REQUEST = 1888;
     private static final int CALENDAR_CODE = 100;
     public static String location = "0.0000,0.0000";
@@ -144,7 +155,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             fieldTime = (Calendar.getInstance().getTimeInMillis() / 1000) - fieldTime;
 
             // Log.d("time",previousViewName +" : "+ fieldTime+ " Seconds");
-            logFieldTime(previousViewName,fieldTime);
+            logFieldTime(previousViewName, fieldTime);
             fieldTime = (Calendar.getInstance().getTimeInMillis() / 1000);
             previousViewName = view.getTag().toString();
         }
@@ -168,10 +179,10 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             time = 30;
         } else if (time <= 40) {
             time = 40;
-        }else{
+        } else {
             time = 60;
         }
-        Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this) +"_"+ Constants.GaEvent.REGISTER_FIELD_TIME, name, time+"", 0);
+        Constants.sendGAEvent(RegisterChildActivity.this, Constants.getUserName(RegisterChildActivity.this) + "_" + Constants.GaEvent.REGISTER_FIELD_TIME, name, time + "", 0);
     }
 
     @Override
@@ -185,7 +196,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title=(TextView)findViewById(R.id.toolbar_title);
+        toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText("بچے کے کوائف");
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -260,12 +271,12 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         houseAddress = (EditText) findViewById(R.id.registerChildAddress);
         houseAddress.setOnFocusChangeListener(this);
         houseAddress.setTag(Constants.GaEvent.REGISTER_ADDRESS_TIME);
-         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId) {
+                switch (checkedId) {
                     case R.id.boy:
 
                         Gender = 1;
@@ -528,7 +539,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         Effects.getInstance().playSound(Effects.SOUND_1);
         (findViewById(R.id.scrollViewR)).post(new Runnable() {
             public void run() {
-                ((ScrollView)findViewById(R.id.scrollViewR)).fullScroll(ScrollView.FOCUS_UP);
+                ((ScrollView) findViewById(R.id.scrollViewR)).fullScroll(ScrollView.FOCUS_UP);
             }
         });
         (findViewById(R.id.scrollViewR)).postDelayed(new Runnable() {
@@ -541,7 +552,7 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 Animation shake = AnimationUtils.loadAnimation(RegisterChildActivity.this, R.anim.shake);
                 v.startAnimation(shake);
             }
-        },500);
+        }, 500);
 
     }
 
@@ -667,7 +678,6 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
         }*/
 
 
-
         return error;
     }
 
@@ -685,13 +695,13 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
             Fpath = data.getStringExtra("fpath");
 
 
-                String path = data.getStringExtra("path");
-                photo = BitmapFactory.decodeFile(path);
-                resizedImage = getResizedBitmap(photo, 256);
-                saveBitmap(resizedImage);
-                File f = new File("/sdcard/" + app_name + "/" + Fpath + ".jpg");
+            String path = data.getStringExtra("path");
+            photo = BitmapFactory.decodeFile(path);
+            resizedImage = getResizedBitmap(photo, 256);
+            saveBitmap(resizedImage);
+            File f = new File("/sdcard/" + app_name + "/" + Fpath + ".jpg");
 
-                if(f.exists()) {
+            if (f.exists()) {
                 DateOfBirth = DOBText.getText().toString();
                 Intent intent = new Intent(RegisterChildActivity.this, CardScanWrite.class);
                 intent.putExtra("ID", epiNumber);
@@ -712,8 +722,8 @@ public class RegisterChildActivity extends BaseActivity implements View.OnFocusC
                 activityTime = (Calendar.getInstance().getTimeInMillis() / 1000) - activityTime;
                 Constants.logTime(RegisterChildActivity.this, activityTime, Constants.GaEvent.REGISTER_TOTAL_TIME);
                 startActivity(intent);
-            }else{
-                Toast.makeText(this,"Take Picture again",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Take Picture again", Toast.LENGTH_LONG).show();
             }
             //imageView.setImageBitmap(photo);
         }

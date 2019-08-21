@@ -38,6 +38,8 @@ import static com.ipal.itu.harzindagi.R.id.date;
 
 public class CardScanWrite extends BaseActivity {
 
+    // This screen is to save info on nfc card.
+    // To write data on NFC phoneNo or cnic are important.
 
     Tag mytag;
     String push_NFC;

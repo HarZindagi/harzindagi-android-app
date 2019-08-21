@@ -32,6 +32,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegisteredChildActivity extends BaseActivity {
 
+    // After Getting all the info about kid there is a screen to recheck kid data that data is correct or not.
+    // You can also edit or delete kid infoon this screen
+    // After confirm that kid info is correct go to Vaccination screen
+
     final Context curr = this;
     TextView ChildEPINumber;
     TextView ChildBookNumberText;
@@ -131,10 +135,9 @@ public class RegisteredChildActivity extends BaseActivity {
                 }
             }).start();*/
 
-        Button delte_child=(Button) findViewById(R.id.delte_child);
+        Button delte_child = (Button) findViewById(R.id.delte_child);
         boolean visii = bundle.getBoolean("visibility");
-        if(visii)
-        {
+        if (visii) {
             delte_child.setVisibility(View.VISIBLE);
         }
         delte_child.setOnClickListener(new View.OnClickListener() {
@@ -152,22 +155,20 @@ public class RegisteredChildActivity extends BaseActivity {
                 adb.setPositiveButton("ہاں", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         final List<ChildInfo> data = ChildInfoDao.getByKIdAndIMEI(childID, imei);
-                        List<KidVaccinations> items=KidVaccinationDao.getById(data.get(0).kid_id);
-                        List<Books>bookses=Books.getByBookId(Integer.parseInt(data.get(0).book_id));
+                        List<KidVaccinations> items = KidVaccinationDao.getById(data.get(0).kid_id);
+                        List<Books> bookses = Books.getByBookId(Integer.parseInt(data.get(0).book_id));
 
                         for (int i = 0; i < items.size(); i++) {
                             items.get(i).delete();
                         }
 
-                        if (data.size()>0)
-                        {
-                            if(bookses.size()>0)
-                            {
+                        if (data.size() > 0) {
+                            if (bookses.size() > 0) {
                                 bookses.get(0).delete();
                             }
 
                             data.get(0).delete();
-                            Intent in=new Intent(RegisteredChildActivity.this,DashboardActivity.class);
+                            Intent in = new Intent(RegisteredChildActivity.this, DashboardActivity.class);
                             startActivity(in);
                             finish();
 
@@ -235,7 +236,7 @@ public class RegisteredChildActivity extends BaseActivity {
                 Toast.makeText(RegisteredChildActivity.this, "No Record Found, Child ID" + data.get(0).kid_id + "Bundle Id :" + childID + "mobile_id" + data.get(0).mobile_id, Toast.LENGTH_LONG).show();
             }
         });*/
-        if (data != null && data.size()>0) {
+        if (data != null && data.size() > 0) {
             ChildEPINumber.setText("" + data.get(0).epi_number);
             ChildBookNumberText.setText("" + data.get(0).book_id);
             childName.setText("" + data.get(0).kid_name);
@@ -257,7 +258,7 @@ public class RegisteredChildActivity extends BaseActivity {
             childPic.setImageBitmap(bmp_read);
         } else {
 
-            Toast.makeText(this, "No Record Found! Kid ID:"+childID, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Record Found! Kid ID:" + childID, Toast.LENGTH_LONG).show();
             finish();
 
         }

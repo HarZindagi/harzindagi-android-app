@@ -21,6 +21,9 @@ import java.util.List;
  */
 
 public class AfterScanCard extends BaseActivity {
+
+    // On this screen show data of kid after scan card(if already kid data write on NFC)
+
     TextView toolbar_title;
     String app_name;
     List<ChildInfo> data;

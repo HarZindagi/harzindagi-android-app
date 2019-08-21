@@ -43,6 +43,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ChildrenListActivity extends BaseActivity {
+
+    //This screen show list of kids , searching against cnic or phoneNumber
+    // The searching method are two type --> either sms or server search
+
     private static final int REQUEST_SMS = 1;
     private static String[] PERMISSIONS_SMS = {Manifest.permission.READ_SMS,
             Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS};

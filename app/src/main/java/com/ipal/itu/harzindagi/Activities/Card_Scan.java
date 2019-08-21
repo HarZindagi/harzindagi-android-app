@@ -29,6 +29,10 @@ import java.util.List;
 
 public class Card_Scan extends BaseActivity {
 
+    // On this screen Scan NFC card .
+    // If data available it take into AfterScanCard screen
+    // In case data on available after scan card its take into search Activity
+
     TextView Scan_txt;
     Tag mytag;
     Context ctx;

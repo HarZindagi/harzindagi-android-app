@@ -41,6 +41,11 @@ import java.util.List;
 import static com.ipal.itu.harzindagi.R.id.homeActivityHarZindagiButtonR;
 
 public class HomeActivity extends BaseActivity {
+
+    // Home Screen
+    // 3 Options Given --> EVACCC or HarZindagi or Take KidStation Picture
+
+
     private static final int CAMERA_REQUEST = 1887;
     String location = Constants.default_location;
     FileOutputStream fo;
@@ -49,6 +54,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         Constants.sendGAScrenn(this, this.getClass().getName() + "Opened");
 
 

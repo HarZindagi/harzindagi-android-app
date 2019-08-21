@@ -66,6 +66,16 @@ import java.util.Map;
 
 
 public class DashboardActivity extends BaseActivity {
+
+    // This is HarZindagi Home Screen
+    // 4 options are given
+    // Register New Child
+    // Scan card to get kid information
+    // Search kid how's card not given
+    // Show all the kids data of that user
+    // Another main option on this screen is to sync data ,  it is basically user today all the activity its attendance are sync to server.
+
+
     TextView toolbar_title;
     String location = "0.0000,0.0000";
     /**

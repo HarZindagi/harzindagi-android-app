@@ -1,9 +1,5 @@
 package com.ipal.itu.harzindagi.Activities;
 
-/**
- * Created by Wahab on 2/17/2016.
- */
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -57,6 +53,13 @@ import java.util.Map;
 
 
 public class ViewPagerWithTabs extends BaseActivity {
+
+    // This Screen show all the record of HarZindagi kids.
+    // 4 type of tabs are given on this screen --> under consideration , Defaulter , Completed , Today Work
+    // Every tab has separate listing ok kids.
+    // On clicking every kid you can show further detail
+    // There is a option to download data which refresh latest listing
+
     // TabLayout tabLayout;
     TextView toolbar_title;
     ViewPager viewPager;

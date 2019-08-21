@@ -21,6 +21,9 @@ import java.util.Locale;
  */
 public class CalenderActivity extends BaseActivity {
 
+    // This is calender screen
+    // Design in custom way to easy understand the user how to set kid Date of Birth in registering process.
+
     TextView yearText = null, monthText = null, dayText = null, currentYear, previousYear, lastYear;
     Calendar myCalendar = Calendar.getInstance();
     int[] daysIds = {R.id.one, R.id.two, R.id.three, R.id.four, R.id.five, R.id.six, R.id.seven, R.id.eight, R.id.nine, R.id.ten, R.id.eleven, R.id.twelve, R.id.thirteen, R.id.fourteen, R.id.fifteen,

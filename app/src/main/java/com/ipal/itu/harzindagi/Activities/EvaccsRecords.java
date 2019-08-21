@@ -16,6 +16,10 @@ import com.ipal.itu.harzindagi.Adapters.PagerAdapter;
 import com.ipal.itu.harzindagi.R;
 
 public class EvaccsRecords extends BaseActivity {
+
+    //This is EVACC Record screen.
+    //All the kid listing show on this screen
+
     Button[] tabbg;
     TextView toolbar_title;
     ViewPager viewPager;

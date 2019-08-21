@@ -83,6 +83,12 @@ import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends BaseActivity {
+
+    //All User already register on server
+    //No Other user can login, To Get User Info request getUserInfo(),its return userInfo to confirm that user register on server
+    //UserName Not Editable
+    //Enter password , after successful login download all the data against that user e.g kids data ,vaccination detail etc
+
     public static final int MAX_RETRY = 2;
     private static final String TAG = "Volly";
     private static final int MY_SOCKET_TIMEOUT_MS = 10000;
@@ -251,7 +257,8 @@ public class LoginActivity extends BaseActivity {
 
         if (Constants.getToken(this).length() == 0) {
             downoadTime = Calendar.getInstance().getTimeInMillis() / (1000);
-           getUserInfo();
+
+            getUserInfo();
         } else {
             EngUC.setText(Constants.getUC(this));
             userName.setText(Constants.getUserName(this));
@@ -559,7 +566,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void loadVisits() {
-
+//Load Visits Detail
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.visits + "?" + "user[auth_token]=" + Constants.getToken(this);
@@ -630,7 +637,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void loadInjections() {
-
+//Load Injections
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.injections + "?" + "user[auth_token]=" + Constants.getToken(this);
@@ -701,7 +708,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void loadVaccinations() {
-
+// Load Vaccination
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.vaccinations + "?" + "user[auth_token]=" + Constants.getToken(this);
@@ -777,7 +784,7 @@ public class LoginActivity extends BaseActivity {
 
     private void loadAreas() {
         // Instantiate the RequestQueue.
-
+//Load Areas
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = Constants.areas + "?" + "user[auth_token]=" + Constants.getToken(this);
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -857,6 +864,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loadChildData() {
+        //Load Child Data
         // Instantiate the RequestQueue.
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -927,7 +935,7 @@ public class LoginActivity extends BaseActivity {
 
             c.kid_name = obj.childInfoArrayList.get(i).kid_name;
             c.guardian_name = obj.childInfoArrayList.get(i).father_name;
-            c.vaccination_date = obj.childInfoArrayList.get(i).vaccination_date*1000;
+            c.vaccination_date = obj.childInfoArrayList.get(i).vaccination_date * 1000;
             c.guardian_cnic = obj.childInfoArrayList.get(i).father_cnic;
 
             c.phone_number = obj.childInfoArrayList.get(i).phone_number;

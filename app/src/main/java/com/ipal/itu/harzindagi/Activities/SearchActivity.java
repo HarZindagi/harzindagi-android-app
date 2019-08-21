@@ -55,6 +55,8 @@ import java.util.Map;
 
 public class SearchActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
+    // This screen is to search kid against book No , PhoneNumber , CNIC
+
     /**/
     TextView toolbar_title;
     public static final String TAG = "MainActivity";

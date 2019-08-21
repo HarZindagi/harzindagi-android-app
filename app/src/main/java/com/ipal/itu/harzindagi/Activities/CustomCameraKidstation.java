@@ -41,6 +41,9 @@ import static com.ipal.itu.harzindagi.R.id.CropImageView;
  * Created by Wahab on 2/3/2016.
  */
 public class CustomCameraKidstation extends BaseActivity implements SurfaceHolder.Callback {
+
+    // This is custom camera screen to take Kidstation picture.
+
     private Camera mCamera;
     SurfaceHolder surfaceHolder;
     File mediaFile;
@@ -60,6 +63,10 @@ public class CustomCameraKidstation extends BaseActivity implements SurfaceHolde
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_camera_kidstation_layout);
+
+        //We make a custom Camera to take picture of kid station
+        //If picture not perfect it retake it otherwise confirm and save
+
         activityTime = Calendar.getInstance().getTimeInMillis() / (1000);
         SurfaceView preview = (SurfaceView) findViewById(R.id.camera_preview);
         surfaceHolder = preview.getHolder();
